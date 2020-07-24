@@ -2,11 +2,11 @@
 #' @export
 #' @importFrom MazamaCoreUtils logger.trace logger.debug logger.warn logger.error
 #'
-#' @title Identify WRCC monitor type
+#' @title Identify RAWS monitor type
 #'
-#' @param fileString character string containing WRCC data
+#' @param fileString character string containing RAWS data
 #' @description Examine the column names of the incoming character vector
-#' to identify different types of monitor data provided by WRCC.
+#' to identify different types of monitor data provided by RAWS.
 #'
 #' The return is a list includes everything needed to identify and parse the raw
 #' data using \code{readr::read_tsv()}:
@@ -26,10 +26,10 @@
 #' }
 #'
 #' @return List including \code{monitorType}, \code{rawNames}, \code{columnNames} and \code{columnTypes}.
-#' @references \href{https://wrcc.dri.edu/cgi-bin/smoke.pl}{WRCC Fire Cache Smoke Monitor Archive}
+#' @references \href{https://raws.dri.edu/}{RAWS USA Climate Archive}
 #' @examples
 #' \dontrun{
-#' fileString <- wrcc_downloadData(20160701, 20160930, unitID='1307')
+#' fileString <- wrcc_downloadData(20160701, 20160930, unitID='WENU')
 #' monitorTypeList <- wrcc_identifyMonitorType(fileString)
 #' }
 
@@ -103,9 +103,6 @@ wrcc_identifyMonitorType <- function(fileString) {
     rawNames <- type2_rawNames
     columnNames <- type2_names
     columnTypes <- type2_types
-  } else {
-    logger.error("Unknown monitor type")
-    return(NULL)
   }
   
   monitorTypeList <- list(monitorType=monitorType,
