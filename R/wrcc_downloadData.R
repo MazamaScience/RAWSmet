@@ -2,21 +2,21 @@
 #' @export
 #' @import MazamaCoreUtils
 #'
-#' @title Download WRCC data
+#' @title Download RAWS data
 #'
 #' @param startdate desired start date (integer or character representing YYYYMMDD[HH])
 #' @param enddate desired end date (integer or character representing YYYYMMDD[HH])
 #' @param unitID station identifier (will be upcased)
 #' @param baseUrl base URL for data queries
 #' @description Request data from a particular station for the desired time period.
-#' Data are returned as a single character string containing the WRCC output.
+#' Data are returned as a single character string containing the RAWS output.
 #'
-#' Monitor unitIDs can be found at https://wrcc.dri.edu/cgi-bin/smoke.pl.
+#' Monitor unitIDs can be found at https://raws.dri.edu/.
 #' @return String containing WRCC output.
-#' @references \href{https://wrcc.dri.edu/cgi-bin/smoke.pl}{Fire Cache Smoke Monitoring Archive}
+#' @references \href{https://raws.dri.edu/}{RAWS USA Climate Archive}
 #' @examples
 #' \dontrun{
-#' fileString <- wrcc_downloadData(20150701, 20150930, unitID = 'SM16')
+#' fileString <- wrcc_downloadData(20150701, 20150930, unitID = 'WENU')
 #' df <- wrcc_parseData(fileString)
 #' }
 
