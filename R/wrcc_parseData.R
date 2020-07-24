@@ -2,9 +2,9 @@
 #' @export
 #' @importFrom MazamaCoreUtils logger.trace logger.debug logger.warn logger.error
 #'
-#' @title Parse WRCC RAWS data string
+#' @title Parse RAWS data string
 #'
-#' @param fileString character string containing WRCC RAWS data
+#' @param fileString character string containing RAWS data
 #' @description Raw character data from WRCC are parsed into a tibble.
 #' The incoming \code{fileString}
 #' can be read in directly from WRCC using \code{wrcc_downloadData()} or from a local
