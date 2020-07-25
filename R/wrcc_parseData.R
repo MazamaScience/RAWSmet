@@ -53,18 +53,18 @@ wrcc_parseData <- function(fileString) {
   # NOTE:  [4] ":YYMMDDhhmm	       	  Speed	 Direc 	  Temp 	  Temp 	Humidty	Voltage	 Moistr	 MxGust	 Speed 	  Rad. "
   
   # Strip spaces from the beginning and end but retain "\t" (This is why we can't use stringr::str_trim)
-  lines <- stringr::str_replace(lines,'^ *','')
-  lines <- stringr::str_replace(lines,' *$','')
+  lines <- stringr::str_replace(lines, '^ *', '')
+  lines <- stringr::str_replace(lines, ' *$', '')
   
   # Get monitorName from first line and then remove that line
   monitorName <- lines[1]
   lines <- lines[-1]
   
   # Remove header lines beginning with ":", leaving only data
-  goodLines <- !is.na(lines) & !stringr::str_detect(lines,'^:')
+  goodLines <- !is.na(lines) & !stringr::str_detect(lines, '^:')
   
   # Read the data into a tibble
-  fakeFile <- paste0(lines[goodLines], collapse='\n')
+  fakeFile <- paste0(lines[goodLines], collapse = '\n')
   columnPositions <- readr::fwf_empty(fakeFile, col_names = columnNames)
   tbl <- readr::read_tsv(fakeFile, col_names = columnNames, col_types = columnTypes)
   

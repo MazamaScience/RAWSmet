@@ -47,8 +47,8 @@ wrcc_identifyMonitorType <- function(fileString) {
   type1_header[1] <- ":       LST	 mm  	 m/s 	 Deg 	Deg C	Deg C	  %  	volts	  %  	 Deg 	 m/s 	 W/m2"
   type1_header[2] <- ": Date/Time	 Precip	  Wind 	 Wind  	 Av Air	  Fuel 	  Rel  	Battery	Av Fuel	   Dir 	Mx Gust	 Solar "
   type1_header[3] <- ":YYMMDDhhmm	       	  Speed	 Direc 	  Temp 	  Temp 	Humidty	Voltage	 Moistr	 MxGust	 Speed 	  Rad. "
-  type1_rawNames <- c('DateTime','Percip','WindSpeed','WindDirec','AvAirTemp','FuelTemp','RelHumidty',
-                      'BatteryVoltage','AvFuelMoistr','DirMxGust','MxGustSpeed','SolarRad')
+  type1_rawNames <- c('DateTime', 'Percip', 'WindSpeed', 'WindDirec', 'AvAirTemp', 'FuelTemp', 'RelHumidty',
+                      'BatteryVoltage', 'AvFuelMoistr', 'DirMxGust', 'MxGustSpeed', 'SolarRad')
   type1_names <- type1_rawNames
   type1_types <- 'cddddddddddd'
   
@@ -57,10 +57,10 @@ wrcc_identifyMonitorType <- function(fileString) {
   type2_header[1] <- ":       LST	 mm  	 m/s 	 Deg 	Deg C	  %  	volts	 Deg 	 m/s 	 W/m2"
   type2_header[2] <- ": Date/Time	 Precip	  Wind 	 Wind  	 Av Air	  Rel  	Battery	   Dir 	Mx Gust	 Solar "
   type2_header[3] <- ":YYMMDDhhmm	       	  Speed	 Direc 	  Temp 	Humidty	Voltage	 MxGust	 Speed 	  Rad. "
-  type2_rawNames <- c('DateTime','Percip','WindSpeed','WindDirec','AvAirTemp','RelHumidty',
-                      'BatteryVoltage','DirMxGust','MxGustSpeed','SolarRad')
+  type2_rawNames <- c('DateTime', 'Percip', 'WindSpeed', 'WindDirec', 'AvAirTemp', 'RelHumidty',
+                      'BatteryVoltage', 'DirMxGust', 'MxGustSpeed', 'SolarRad')
   type2_names <- type2_rawNames
-  type2_types <- 'cddddddddddd'
+  type2_types <- 'cddddddddd'
   
   #      Extract  header lines from the incoming fileString     ---------------
   
@@ -79,7 +79,7 @@ wrcc_identifyMonitorType <- function(fileString) {
   lines <- readr::read_lines(fileString)
   
   # Strip spaces from the beginning and end but retain "\t" (This is why we can't use stringr::str_trim)
-  lines <- stringr::str_replace(lines,'^ *','')
+  lines <- stringr::str_replace(lines, '^ *', '')
 
   # Extract the header
   header <- lines[2:4]

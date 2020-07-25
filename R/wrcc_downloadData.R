@@ -21,8 +21,8 @@
 #' }
 
 wrcc_downloadData <- function(
-  startdate = strftime(lubridate::now(tzone = "UTC"),"%Y010101",tz = "UTC"),
-  enddate = strftime(lubridate::now(tzone = "UTC"),"%Y%m%d23",tz = "UTC"),
+  startdate = strftime(lubridate::now(tzone = "UTC"),"%Y010101", tz = "UTC"),
+  enddate = strftime(lubridate::now(tzone = "UTC"),"%Y%m%d23", tz = "UTC"),
   unitID = NULL,
   baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl"
 ) {
@@ -42,12 +42,12 @@ wrcc_downloadData <- function(
   
   # Create CGI parameters
   .params <- list(stn = toupper(unitID),
-                  smon = strftime(starttime,"%m",tz = "UTC"),
-                  sday = strftime(starttime,"%d",tz = "UTC"),
-                  syea = strftime(starttime,"%y",tz = "UTC"),
-                  emon = strftime(endtime,"%m",tz = "UTC"),
-                  eday = strftime(endtime,"%d",tz = "UTC"),
-                  eyea = strftime(endtime,"%y",tz = "UTC"),
+                  smon = strftime(starttime,"%m", tz = "UTC"),
+                  sday = strftime(starttime,"%d", tz = "UTC"),
+                  syea = strftime(starttime,"%y", tz = "UTC"),
+                  emon = strftime(endtime,"%m", tz = "UTC"),
+                  eday = strftime(endtime,"%d", tz = "UTC"),
+                  eyea = strftime(endtime,"%y", tz = "UTC"),
                   'Submit Info' = 'Submit Info',
                   dfor = '04',
                   src = 'W',
@@ -64,7 +64,7 @@ wrcc_downloadData <- function(
                   WeDay = '12',
                   WsHou = '00',
                   WeHou = '24',
-                  .cgifields = c('unit','flag','srce'))
+                  .cgifields = c('unit', 'flag', 'srce'))
   
   # ----- Download data --------------------------------------------------------
   
