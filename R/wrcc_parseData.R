@@ -65,7 +65,6 @@ wrcc_parseData <- function(fileString) {
   
   # Read the data into a tibble
   fakeFile <- paste0(lines[goodLines], collapse = '\n')
-  columnPositions <- readr::fwf_empty(fakeFile, col_names = columnNames)
   tbl <- readr::read_tsv(fakeFile, col_names = columnNames, col_types = columnTypes)
   
   return(tbl)
