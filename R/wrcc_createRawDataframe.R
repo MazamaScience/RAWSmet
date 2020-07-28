@@ -7,10 +7,7 @@
 #' @param startdate Desired start date (integer or character representing YYYYMMDD[HH]).
 #' @param enddate Desired end date (integer or character representing YYYYMMDD[HH]).
 #' @param unitID Station identifier (will be upcased).
-#' @param clusterDiameter Diameter in meters used to determine the number of clusters (see \code{addClustering}).
 #' @param baseUrl Base URL for data queries.
-#' @param saveFile Optional filename where raw CSV will be written.
-#' @param flagAndKeep Flag, rather then remove, bad data during the QC process.
 #'
 #' @return Raw tibble of RAWS data.
 #'
