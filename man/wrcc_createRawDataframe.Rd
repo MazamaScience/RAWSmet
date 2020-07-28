@@ -39,7 +39,7 @@ Steps involved include:
 \dontrun{
 library(RAWSmet)
 
-tbl <- wrcc_createRawDataframe(20150701, 20150930, unitID = 'WENU')
+tbl <- wrcc_createRawDataframe(unitID = 'WENU')
 dplyr::glimpse(tbl)
 }
 
@@ -48,7 +48,7 @@ dplyr::glimpse(tbl)
 \href{https://raws.dri.edu/}{RAWS USA Climate Archive}
 }
 \seealso{
-\code{\link{wrcc_downloadData}}
+\code{\link{raws_downloadData}}
 
 \code{\link{wrcc_parseData}}
 }

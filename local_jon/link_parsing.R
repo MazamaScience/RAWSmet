@@ -1,5 +1,8 @@
 # Example of how to extract RAWS ids
 
+library(MazamaCoreUtils)
+library(dplyr)
+
 url <- "https://raws.dri.edu/orlst.html"
 
 orIDs <- 

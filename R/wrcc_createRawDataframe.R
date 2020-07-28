@@ -26,11 +26,11 @@
 #' \dontrun{
 #' library(RAWSmet)
 #'
-#' tbl <- wrcc_createRawDataframe(20150701, 20150930, unitID = 'WENU')
+#' tbl <- wrcc_createRawDataframe(unitID = 'WENU')
 #' dplyr::glimpse(tbl)
 #' }
 #'
-#' @seealso \code{\link{wrcc_downloadData}}
+#' @seealso \code{\link{raws_downloadData}}
 #' @seealso \code{\link{wrcc_parseData}}
 #'
 #' @references \href{https://raws.dri.edu/}{RAWS USA Climate Archive}
@@ -52,11 +52,14 @@ wrcc_createRawDataframe <- function(
   }
   
   # Read in RAWS data
-  logger.trace("Downloading WRCC data ...")
-  fileString <- wrcc_downloadData(startdate, enddate, unitID, baseUrl)
+  ###logger.trace("Downloading WRCC data ...")
+  fileString <- raws_downloadData(unitID, startdate, enddate, baseUrl)
+  
+  # TODO:  Need error handling here in case we get back an HTML error message.
+  # TODO:  To generate one, just ask for a time range from last year.
   
   # Read fwf raw data into a tibble
-  logger.trace("Parsing data ...")
+  ###logger.trace("Parsing data ...")
   tbl <- wrcc_parseData(fileString)
   
   # Add source of raw data
