@@ -1,8 +1,7 @@
-#' @keywords WRCC
 #' @export
 #' @importFrom MazamaCoreUtils logger.trace logger.debug logger.warn logger.error
 #'
-#' @title Identify RAWS monitor type
+#' @title Identify RAWS station type
 #'
 #' @param fileString character string containing RAWS data
 #' @description Examine the column names of the incoming character vector
@@ -29,13 +28,13 @@
 #' @references \href{https://raws.dri.edu/}{RAWS USA Climate Archive}
 #' @examples
 #' \dontrun{
-#' fileString <- wrcc_downloadData(20160701, 20160930, unitID='WENU')
-#' monitorTypeList <- wrcc_identifyMonitorType(fileString)
+#' fileString <- raws_downloadData(unitID='WENU')
+#' monitorTypeList <- raws_identifyMonitorType(fileString)
 #' }
 
 wrcc_identifyMonitorType <- function(fileString) {
   
-  if ( class(fileString)[1] != "character" ) {
+  if ( class(fileString)[1] != "character" && MazamaCoreUtils::logger.isInitialized() ) {
     logger.error('WRCC fileString is of type %s', class(fileString)[1])
     stop(paste0('WRCC fileString is of type %s', class(fileString)[1]))
   }
@@ -47,7 +46,7 @@ wrcc_identifyMonitorType <- function(fileString) {
   type1_header[1] <- ":       LST	 mm  	 m/s 	 Deg 	Deg C	Deg C	  %  	volts	  %  	 Deg 	 m/s 	 W/m2"
   type1_header[2] <- ": Date/Time	 Precip	  Wind 	 Wind  	 Av Air	  Fuel 	  Rel  	Battery	Av Fuel	   Dir 	Mx Gust	 Solar "
   type1_header[3] <- ":YYMMDDhhmm	       	  Speed	 Direc 	  Temp 	  Temp 	Humidty	Voltage	 Moistr	 MxGust	 Speed 	  Rad. "
-  type1_rawNames <- c('DateTime', 'Percip', 'WindSpeed', 'WindDirec', 'AvAirTemp', 'FuelTemp', 'RelHumidty',
+  type1_rawNames <- c('LST_datestamp', 'Percip', 'WindSpeed', 'WindDirec', 'AvAirTemp', 'FuelTemp', 'RelHumidty',
                       'BatteryVoltage', 'AvFuelMoistr', 'DirMxGust', 'MxGustSpeed', 'SolarRad')
   type1_names <- type1_rawNames
   type1_types <- 'cddddddddddd'
@@ -57,7 +56,7 @@ wrcc_identifyMonitorType <- function(fileString) {
   type2_header[1] <- ":       LST	 mm  	 m/s 	 Deg 	Deg C	  %  	volts	 Deg 	 m/s 	 W/m2"
   type2_header[2] <- ": Date/Time	 Precip	  Wind 	 Wind  	 Av Air	  Rel  	Battery	   Dir 	Mx Gust	 Solar "
   type2_header[3] <- ":YYMMDDhhmm	       	  Speed	 Direc 	  Temp 	Humidty	Voltage	 MxGust	 Speed 	  Rad. "
-  type2_rawNames <- c('DateTime', 'Percip', 'WindSpeed', 'WindDirec', 'AvAirTemp', 'RelHumidty',
+  type2_rawNames <- c('LST_datestamp', 'Percip', 'WindSpeed', 'WindDirec', 'AvAirTemp', 'RelHumidty',
                       'BatteryVoltage', 'DirMxGust', 'MxGustSpeed', 'SolarRad')
   type2_names <- type2_rawNames
   type2_types <- 'cddddddddd'

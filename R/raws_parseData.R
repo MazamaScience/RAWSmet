@@ -1,4 +1,3 @@
-#' @keywords WRCC
 #' @export
 #' @importFrom MazamaCoreUtils logger.trace logger.debug logger.warn logger.error
 #'
@@ -7,28 +6,29 @@
 #' @param fileString character string containing RAWS data
 #' @description Raw character data from WRCC are parsed into a tibble.
 #' The incoming \code{fileString}
-#' can be read in directly from WRCC using \code{wrcc_downloadData()} or from a local
+#' can be read in directly from WRCC using \code{raws_downloadData()} or from a local
 #' file using \code{readr::read_file()}.
 #'
 #' The type of monitor represented by this fileString is inferred from the column names
-#' using \code{wrcc_identifyMonitorType()} and appropriate column types are assigned.
+#' using \code{raws_identifyMonitorType()} and appropriate column types are assigned.
 #' The character data are then processed, read into a tibble and augmented in the following ways:
 #' \enumerate{
 #' \item{Spaces at the beginning and end of each line are moved.}
 #' \item{All header lines beginning with ':' are removed.}
 #' }
-#' @return Dataframe of WRCC raw monitor data.
+#' @return Dataframe of RAWS raw station data.
 #' @references \href{https://raws.dri.edu/}{RAWS USA Climate Archive}
 #' @examples
 #' \dontrun{
-#' fileString <- wrcc_downloadData(20150701, 20150930, unitID = 'WENU')
-#' tbl <- wrcc_parseData(fileString)
+#' fileString <- raws_downloadData(unitID = 'WENU')
+#' tbl <- raws_parseData(fileString)
 #' }
 
 wrcc_parseData <- function(fileString) {
-  
-  logger.debug(" ----- wrcc_parseData() ----- ")
-  
+
+  if( MazamaCoreUtils::logger.isInitialized() )
+    logger.debug(" ----- wrcc_parseData() ----- ")
+
   # Identify monitor type
   monitorTypeList <- wrcc_identifyMonitorType(fileString)
   
@@ -40,7 +40,7 @@ wrcc_parseData <- function(fileString) {
   # Convert the fileString into individual lines
   lines <- readr::read_lines(fileString)
   
-  if ( length(lines) <= 4 ) {
+  if ( length(lines) <= 4 && MazamaCoreUtils::logger.isInitialized() ) {
     logger.warn("No valid PM2.5 data")
     stop(paste0("No valid PM2.5 data"))
   }
@@ -67,6 +67,9 @@ wrcc_parseData <- function(fileString) {
   fakeFile <- paste0(lines[goodLines], collapse = '\n')
   tbl <- readr::read_tsv(fakeFile, col_names = columnNames, col_types = columnTypes)
   
+  # Convert -9999 to NA
+  tbl <- tbl %>% replace(-9999, NA)
+
   return(tbl)
   
 }
