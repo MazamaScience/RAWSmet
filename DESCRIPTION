@@ -23,6 +23,7 @@ Imports:
     lubridate,
     magrittr,
     MazamaCoreUtils,
+    MazamaSpatialUtils,
     readr,
     rlang,
     stringr
