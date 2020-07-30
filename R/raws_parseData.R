@@ -24,13 +24,13 @@
 #' tbl <- raws_parseData(fileString)
 #' }
 
-wrcc_parseData <- function(fileString) {
+raws_parseData <- function(fileString) {
 
   if( MazamaCoreUtils::logger.isInitialized() )
     logger.debug(" ----- wrcc_parseData() ----- ")
 
   # Identify monitor type
-  monitorTypeList <- wrcc_identifyMonitorType(fileString)
+  monitorTypeList <- raws_identifyMonitorType(fileString)
   
   monitorType <- monitorTypeList$monitorType
   rawNames <- monitorTypeList$rawNames
@@ -68,7 +68,7 @@ wrcc_parseData <- function(fileString) {
   tbl <- readr::read_tsv(fakeFile, col_names = columnNames, col_types = columnTypes)
   
   # Convert -9999 to NA
-  tbl <- tbl %>% replace(-9999, NA)
+  tbl[] <- tbl %>% lapply(gsub, pattern = -9999, replacement = NA)
 
   return(tbl)
   

@@ -34,7 +34,7 @@
 #'
 #' @references \href{https://raws.dri.edu/}{RAWS USA Climate Archive}
 
-wrcc_createRawDataframe <- function(
+raws_createRawDataframe <- function(
   unitID = NULL,
   startdate = strftime(lubridate::now(tzone = "UTC"),"%Y%m0101", tz = "UTC"),
   enddate = strftime(lubridate::now(tzone = "UTC"),"%Y%m%d23", tz = "UTC"),
@@ -64,7 +64,7 @@ wrcc_createRawDataframe <- function(
     logger.trace("Parsing data ...")
 
   # Read fwf raw data into a tibble
-  tbl <- wrcc_parseData(fileString)
+  tbl <- raws_parseData(fileString)
   
   # Add source of raw data
   tbl$rawSource <- "WRCC"

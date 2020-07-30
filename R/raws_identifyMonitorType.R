@@ -32,7 +32,7 @@
 #' monitorTypeList <- raws_identifyMonitorType(fileString)
 #' }
 
-wrcc_identifyMonitorType <- function(fileString) {
+raws_identifyMonitorType <- function(fileString) {
   
   if ( class(fileString)[1] != "character" && MazamaCoreUtils::logger.isInitialized() ) {
     logger.error('WRCC fileString is of type %s', class(fileString)[1])
