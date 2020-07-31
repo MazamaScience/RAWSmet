@@ -12,7 +12,7 @@ raws_getStationMetadata(stationID = NULL, stateCode = NULL)
 \arguments{
 \item{stateCode}{Two character state code (will be downcased).}
 
-\item{stationID}{Four character station ID (will be upcased)}
+\item{stationID}{Four character station ID or six character combination of state code and station ID (e.g. waWASH).}
 }
 \value{
 Dataframe of station metadata.
