@@ -20,6 +20,7 @@ Imports:
     dplyr,
     httr,
     jsonlite,
+    leaflet,
     lubridate,
     magrittr,
     MazamaCoreUtils,
