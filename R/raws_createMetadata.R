@@ -41,13 +41,29 @@ raws_createMetadata <- function(
   
   stateCode <- tolower(stateCode)
   
-  url <- paste0("https://raws.dri.edu/", tolower(stateCode), "lst.html")
-  
-  monitorIDs <- 
-    MazamaCoreUtils::html_getLinkUrls(url) %>%  # get links 
-    stringr::str_subset("rawMAIN.pl\\?") %>%    # only keep those with "rawMAIN.pl?"
-    stringr::str_match(".+MAIN.pl\\?(.+)") %>%  # pull out everything after "MAIN.pl?"
-    magrittr::extract(, 2)                      # keep the second column of the matrix
+  # NOTE: California is separated into north and south. We have to get these
+  #       two lists separately. 
+  if( stateCode == 'ca' ) {
+    
+    northUrl <- paste0("https://raws.dri.edu/ncalst.html")
+    southUrl <- paste0("https://raws.dri.edu/scalst.html")
+    
+    monitorIDs <- 
+      MazamaCoreUtils::html_getLinkUrls(northUrl) %>%        # get links 
+      append(MazamaCoreUtils::html_getLinkUrls(southUrl)) %>%
+      stringr::str_subset("rawMAIN.pl\\?") %>%              # only keep those with "rawMAIN.pl?"
+      stringr::str_match(".+MAIN.pl\\?(.+)") %>%            # pull out everything after "MAIN.pl?"
+      magrittr::extract(, 2)                                # keep the second column of the matrix
+  } else {
+    
+    url <- paste0("https://raws.dri.edu/", tolower(stateCode), "lst.html")
+    
+    monitorIDs <- 
+      MazamaCoreUtils::html_getLinkUrls(url) %>%  # get links 
+      stringr::str_subset("rawMAIN.pl\\?") %>%    # only keep those with "rawMAIN.pl?"
+      stringr::str_match(".+MAIN.pl\\?(.+)") %>%  # pull out everything after "MAIN.pl?"
+      magrittr::extract(, 2)                      # keep the second column of the matrix    
+  }
   
   # ----- Get station metadata ------------------------------------------------------
   
