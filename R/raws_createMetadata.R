@@ -77,7 +77,7 @@ raws_createMetadata <- function(
 }
 
 #' @rdname raws_createMetadata
-#' @param stationID Four character station ID (will be upcased)
+#' @param stationID Four character station ID or six character combination of state code and station ID (e.g. waWASH).
 #' @export
 raws_getStationMetadata <- function(
   stationID = NULL,
@@ -96,7 +96,7 @@ raws_getStationMetadata <- function(
     stateCode <- stringr::str_sub(stationID, 0, 2)
     stationID <- stringr::str_sub(stationID, -4)
   } else {
-    stop("Could not get state code from station ID.")
+    stopIfNull(stateCode)
   }
   
   # TODO: Check if stateCode is in list of state codes.
