@@ -44,16 +44,19 @@ raws_createMetadata <- function(
   url <- paste0("https://raws.dri.edu/", tolower(stateCode), "lst.html")
   
   monitorIDs <- 
-    MazamaCoreUtils::html_getLinkUrls(url) %>%                        # get links 
-    stringr::str_subset(paste0("rawMAIN.pl\\?", stateCode)) %>%       # only keep those with "rawMAIN.pl?[stateCode]"
-    stringr::str_match(paste0(".+MAIN.pl\\?", stateCode, "(.+)")) %>% # pull out everything after "MAIN.pl?[stateCode]"
-    magrittr::extract(, 2)                                            # keep the second column of the matrix
+    MazamaCoreUtils::html_getLinkUrls(url) %>%  # get links 
+    stringr::str_subset("rawMAIN.pl\\?") %>%    # only keep those with "rawMAIN.pl?"
+    stringr::str_match(".+MAIN.pl\\?(.+)") %>%  # pull out everything after "MAIN.pl?"
+    magrittr::extract(, 2)                      # keep the second column of the matrix
   
   # ----- Get station metadata ------------------------------------------------------
   
-  metadataList <- lapply(monitorIDs, raws_getStationMetadata, stateCode = stateCode)
+  metadataList <- lapply(monitorIDs, raws_getStationMetadata)
   metadata <- dplyr::bind_rows(metadataList)
   
+  # Filter off stations not in the given state
+  givenStateCode <- stateCode
+  metadata <- metadata %>% dplyr::filter(metadata$stateCode == toupper(givenStateCode))
   return(metadata)
 }
 
@@ -72,7 +75,13 @@ raws_getStationMetadata <- function(
   # ----- Validate parameters --------------------------------------------------
   
   stopIfNull(stationID)
-  stopIfNull(stateCode)
+  
+  if (is.null(stateCode) && nchar(stationID) == 6) {
+    stateCode <- stringr::str_sub(stationID, 0, 2)
+    stationID <- stringr::str_sub(stationID, -4)
+  } else {
+    stop("Could not get state code from station ID.")
+  }
   
   # TODO: Check if stateCode is in list of state codes.
   
@@ -82,6 +91,7 @@ raws_getStationMetadata <- function(
   
   tables <- MazamaCoreUtils::html_getTables(metaUrl)
   
+  # NOTE: If a station has photos, the first table on the site will contain the photos.
   if( length(tables) > 1) {
     metaTable <- tables[[2]]
   } else {
@@ -95,7 +105,8 @@ raws_getStationMetadata <- function(
   
   # ----- Organize the data ----------------------------------------------------
   
-  # Covert degrees/minutes/seconds coordinates to decimal degrees
+  # Scrape the coordinate data
+  # NOTE: Coordinate data comes in like 48° 44' 35"
   latitudeSplit <- stringr::str_split(latitudeDMS, " ", simplify = TRUE)
   longitudeSplit <- stringr::str_split(longitudeDMS, " ", simplify = TRUE)
   
@@ -107,6 +118,7 @@ raws_getStationMetadata <- function(
   longitudeMinutes <- as.integer(stringr::str_sub(longitudeSplit[2], end = -2))
   longitudeSeconds <- as.integer(stringr::str_sub(longitudeSplit[3], end = -6))
   
+  # Covert degrees/minutes/seconds coordinates to decimal degrees
   latitude <- latitudeDegrees + latitudeMinutes/60 + latitudeSeconds/3600
   # NOTE: The longitude is in degrees west. Negate to get it in degrees east.
   longitude <- -(longitudeDegrees + longitudeMinutes/60 + longitudeSeconds/3600)
