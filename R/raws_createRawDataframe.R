@@ -56,10 +56,13 @@ raws_createRawDataframe <- function(
     logger.trace("Downloading WRCC data ...")
 
   fileString <- raws_downloadData(unitID, startdate, enddate, baseUrl)
-  
-  # TODO:  Need error handling here in case we get back an HTML error message.
-  # TODO:  To generate one, just ask for a time range from last year.
 
+  # Catch HTML errors
+  if( stringr::str_detect(fileString, "Access to WRCC historical raws data is limited") ||
+      stringr::str_detect(fileString, stringr::regex("^\\s+.\\w.+\\w.+(\\n\\n)")) ) {
+    stop("Could not access data for that time range or unit ID")
+  }
+  
   if( MazamaCoreUtils::logger.isInitialized() )
     logger.trace("Parsing data ...")
 
