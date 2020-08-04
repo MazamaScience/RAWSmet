@@ -2,17 +2,20 @@
 % Please edit documentation in R/raws_createMetadata.R
 \name{raws_createMetadata}
 \alias{raws_createMetadata}
-\alias{raws_getStationMetadata}
 \title{Obtain metadata for each station in a state.}
 \usage{
-raws_createMetadata(stateCode = NULL)
-
-raws_getStationMetadata(stationID = NULL, stateCode = NULL)
+raws_createMetadata(
+  stateCode = NULL,
+  baseUrl = "https://raws.dri.edu/",
+  verbose = FALSE
+)
 }
 \arguments{
 \item{stateCode}{Two character state code (will be downcased).}
 
-\item{stationID}{Four character station ID or six character combination of state code and station ID (e.g. waWASH).}
+\item{baseUrl}{Base URL for data queries.}
+
+\item{verbose}{Logical flag controlling detailed progress statements.}
 }
 \value{
 Dataframe of station metadata.

@@ -3,7 +3,6 @@
 export(raws_createMetadata)
 export(raws_createRawDataframe)
 export(raws_downloadData)
-export(raws_getStationMetadata)
 export(raws_identifyMonitorType)
 export(raws_leaflet)
 export(raws_parseData)
