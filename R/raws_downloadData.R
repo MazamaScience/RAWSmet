@@ -3,14 +3,15 @@
 #'
 #' @title Download RAWS data
 #'
-#' @param unitID station identifier (will be upcased)
-#' @param startdate desired start date (integer or character representing YYYYMMDD[HH])
-#' @param enddate desired end date (integer or character representing YYYYMMDD[HH])
-#' @param baseUrl base URL for data queries
+#' @param stationID Station identifier (will be upcased).
+#' @param startdate Desired start date (integer or character representing YYYYMMDD[HH]).
+#' @param enddate Desired end date (integer or character representing YYYYMMDD[HH]).
+#' @param baseUrl Base URL for data queries.
+#' 
 #' @description Request data from a particular station for the desired time period.
 #' Data are returned as a single character string containing the RAWS output.
 #'
-#' Monitor unitIDs can be found at https://raws.dri.edu/.
+#' Station identifiers can be found at https://raws.dri.edu/.
 #' 
 #' @return String containing RAWS data.
 #' 
@@ -19,27 +20,28 @@
 #' \dontrun{
 #' library(RAWSmet)
 #' 
-#' fileString <- raws_downloadData(unitID = 'WENU')
+#' fileString <- raws_downloadData(stationID = 'waWENU')
 #' print(readr::read_lines(fileString)[1:10])
 #' }
 
 raws_downloadData <- function(
-  unitID = NULL,
+  stationID = NULL,
   startdate = strftime(lubridate::now(tzone = "UTC"),"%Y%m0101", tz = "UTC"),
   enddate = strftime(lubridate::now(tzone = "UTC"),"%Y%m%d23", tz = "UTC"),
   baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl"
 ) {
   
-  if ( MazamaCoreUtils::logger.isInitialized() )
-    logger.debug(" ----- wrcc_downloadData() ----- ")
-  
   # ----- Validate parameters --------------------------------------------------
   
-  if ( is.null(unitID) ) {
-    if ( MazamaCoreUtils::logger.isInitialized() )
-      logger.error("Required parameter 'unitID' is missing")
-    stop(paste0("Required parameter 'unitID' is missing"))
-  }
+  stopIfNull(stationID)
+
+  wrccID <- stationID
+  
+  # Strip off the stateCode portion
+  if ( stringr::str_count(wrccID) == 6 )
+    wrccID <- stringr::str_sub(wrccID, 3, 6)
+  
+  # ----- Request parameters ---------------------------------------------------
   
   # Get UTC times
   starttime <- MazamaCoreUtils::parseDatetime(startdate, timezone = "UTC")
@@ -47,7 +49,7 @@ raws_downloadData <- function(
   
   # Create CGI parameters
   .params <- list(
-    stn = toupper(unitID),
+    stn = toupper(wrccID),
     smon = strftime(starttime,"%m", tz = "UTC"),
     sday = strftime(starttime,"%d", tz = "UTC"),
     syea = strftime(starttime,"%y", tz = "UTC"),
@@ -76,7 +78,7 @@ raws_downloadData <- function(
   # ----- Download data --------------------------------------------------------
   
   if ( MazamaCoreUtils::logger.isInitialized() )
-    logger.trace("Downloading WRCC data for unitID %s", unitID)
+    logger.trace("Downloading WRCC data for stationID %s", stationID)
   
   suppressWarnings({
     r <- httr::POST(baseUrl, body = .params)
@@ -86,7 +88,7 @@ raws_downloadData <- function(
   # NOTE:  for downstream processing.
   if ( httr::http_error(r) ) {
     if ( MazamaCoreUtils::logger.isInitialized() ) {
-      logger.error("WRCC data service failed for unitID: %s", unitID)
+      logger.error("WRCC data service failed for stationID: %s", stationID)
       logger.error("WRCC data service failed with: %s", httr::content(r))
     }
     return("")

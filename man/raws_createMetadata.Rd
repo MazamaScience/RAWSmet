@@ -6,12 +6,15 @@
 \usage{
 raws_createMetadata(
   stateCode = NULL,
+  stationIDs = NULL,
   baseUrl = "https://raws.dri.edu/",
   verbose = FALSE
 )
 }
 \arguments{
 \item{stateCode}{Two character state code (will be downcased).}
+
+\item{stationIDs}{Vector of stationIDs to be used instead of \code{stateCode}.}
 
 \item{baseUrl}{Base URL for data queries.}
 
@@ -21,20 +24,29 @@ raws_createMetadata(
 Dataframe of station metadata.
 }
 \description{
-Obtains station metadata from a WRCC webservice and displays
-it in a human-readable dataframe. The metadata includes station IDs, station
-names, longitude, latitude, elevation, country codes, state codes, and 
-timezones.
+Assembles individual station metadata from a WRCC webservice 
+into a standardized dataframe. Metdata columns include:
 
-Passing a station ID in addition to the state code to \code{raws_getStationMetadata()}
-will get a list of metadata for that specific station.
+\itemize{
+\item{\code{countryCode} -- ISO 3166-1 alpha-2 country code}
+\item{\code{stateCode} -- ISO 3166-2 alpha-2 state code}
+\item{\code{stationID} -- WRCC RAWS station identifier}
+\item{\code{siteName} -- human readable site name}
+\item{\code{longitude} -- decimal degrees East}
+\item{\code{latitude} -- decimal degrees North}
+\item{\code{elevation} -- in meters}
+\item{\code{timezone} -- Olson timezone}
+}
+
+Because of the large number of web requests required to assemble this 
+metadata, it is recommended that the file be saved and reused.
 }
 \examples{
 \dontrun{
 library(RAWSmet)
 
-meta <- raws_createMetadata(stateCode = 'WA')
-dplyr::glimpse(meta)
+wa_meta <- raws_createMetadata(stateCode = 'WA', verbose = TRUE)
+dplyr::glimpse(wa_meta)
 }
 
 }

@@ -28,7 +28,9 @@ The character data are then processed, read into a tibble and augmented in the f
 }
 \examples{
 \dontrun{
-fileString <- raws_downloadData(unitID = 'WENU')
+library(RAWSmet)
+
+fileString <- raws_downloadData(stationID = 'WENU')
 tbl <- raws_parseData(fileString)
 }
 }

@@ -35,7 +35,9 @@ The \code{monitorType} will be one of:
 }
 \examples{
 \dontrun{
-fileString <- raws_downloadData(unitID='WENU')
+library(RAWSmet)
+
+fileString <- raws_downloadData(stationID = 'WENU')
 monitorTypeList <- raws_identifyMonitorType(fileString)
 }
 }

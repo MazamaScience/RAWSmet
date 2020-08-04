@@ -20,7 +20,9 @@
 #' @references \href{https://raws.dri.edu/}{RAWS USA Climate Archive}
 #' @examples
 #' \dontrun{
-#' fileString <- raws_downloadData(unitID = 'WENU')
+#' library(RAWSmet)
+#' 
+#' fileString <- raws_downloadData(stationID = 'WENU')
 #' tbl <- raws_parseData(fileString)
 #' }
 
@@ -65,10 +67,13 @@ raws_parseData <- function(fileString) {
   
   # Read the data into a tibble
   fakeFile <- paste0(lines[goodLines], collapse = '\n')
-  tbl <- readr::read_tsv(fakeFile, col_names = columnNames, col_types = columnTypes)
   
-  # Convert -9999 to NA
-  tbl[] <- tbl %>% lapply(gsub, pattern = -9999, replacement = NA)
+  tbl <- 
+    readr::read_tsv(fakeFile, col_names = columnNames, col_types = columnTypes) %>%
+    # Convert -9999 to NA
+    dplyr::na_if(-9999)
+  
+  tbl$monitorType <- monitorType
 
   return(tbl)
   

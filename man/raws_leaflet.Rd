@@ -5,7 +5,7 @@
 \title{Create a map of RAWS stations}
 \usage{
 raws_leaflet(
-  metadata = NULL,
+  meta = NULL,
   radius = 3.5,
   stroke = TRUE,
   color = "blue",
@@ -16,21 +16,21 @@ raws_leaflet(
 )
 }
 \arguments{
-\item{metadata}{Station metadata created by \code{raws_createMetadata}}
+\item{meta}{Station metadata created by \code{raws_createMetadata()}.}
 
-\item{radius}{Circle radius}
+\item{radius}{Circle radius.}
 
-\item{stroke}{Logical. whether to draw stroke along the path}
+\item{stroke}{Logical specifying whether to draw stroke along the path.}
 
-\item{color}{Stroke color}
+\item{color}{Stroke color.}
 
-\item{opacity}{Stroke opacity}
+\item{opacity}{Stroke opacity.}
 
-\item{fillColor}{Fill color}
+\item{fillColor}{Fill color.}
 
-\item{fillOpacity}{Fill opacity}
+\item{fillOpacity}{Fill opacity.}
 
-\item{weight}{Stroke width in pixels}
+\item{weight}{Stroke width in pixels.}
 }
 \value{
 Leaflet map of stations.
@@ -46,10 +46,8 @@ the map.
 \dontrun{
 library(RAWSmet)
 
-metadata <- raws_createMetadata("WA")
-map <- raws_leaflet(metadata)
-
-map
+wa_meta <- raws_createMetadata("WA")
+raws_leaflet(wa_meta)
 }
 
 }

@@ -5,20 +5,20 @@
 \title{Download RAWS data}
 \usage{
 raws_downloadData(
-  unitID = NULL,
+  stationID = NULL,
   startdate = strftime(lubridate::now(tzone = "UTC"), "\%Y\%m0101", tz = "UTC"),
   enddate = strftime(lubridate::now(tzone = "UTC"), "\%Y\%m\%d23", tz = "UTC"),
   baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl"
 )
 }
 \arguments{
-\item{unitID}{station identifier (will be upcased)}
+\item{stationID}{Station identifier (will be upcased).}
 
-\item{startdate}{desired start date (integer or character representing YYYYMMDD[HH])}
+\item{startdate}{Desired start date (integer or character representing YYYYMMDD[HH]).}
 
-\item{enddate}{desired end date (integer or character representing YYYYMMDD[HH])}
+\item{enddate}{Desired end date (integer or character representing YYYYMMDD[HH]).}
 
-\item{baseUrl}{base URL for data queries}
+\item{baseUrl}{Base URL for data queries.}
 }
 \value{
 String containing RAWS data.
@@ -27,13 +27,13 @@ String containing RAWS data.
 Request data from a particular station for the desired time period.
 Data are returned as a single character string containing the RAWS output.
 
-Monitor unitIDs can be found at https://raws.dri.edu/.
+Station identifiers can be found at https://raws.dri.edu/.
 }
 \examples{
 \dontrun{
 library(RAWSmet)
 
-fileString <- raws_downloadData(unitID = 'WENU')
+fileString <- raws_downloadData(stationID = 'waWENU')
 print(readr::read_lines(fileString)[1:10])
 }
 }

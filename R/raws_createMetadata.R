@@ -5,25 +5,35 @@
 #' @title Obtain metadata for each station in a state.
 #'
 #' @param stateCode Two character state code (will be downcased).
+#' @param stationIDs Vector of stationIDs to be used instead of \code{stateCode}.
 #' @param baseUrl Base URL for data queries.
 #' @param verbose Logical flag controlling detailed progress statements.
 #'
 #' @return Dataframe of station metadata.
 #'
-#' @description Obtains station metadata from a WRCC webservice and displays
-#' it in a human-readable dataframe. The metadata includes station IDs, station
-#' names, longitude, latitude, elevation, country codes, state codes, and 
-#' timezones.
+#' @description Assembles individual station metadata from a WRCC webservice 
+#' into a standardized dataframe. Metdata columns include:
 #' 
-#' Passing a station ID in addition to the state code to \code{raws_getStationMetadata()}
-#' will get a list of metadata for that specific station.
-#'
+#' \itemize{
+#' \item{\code{countryCode} -- ISO 3166-1 alpha-2 country code}
+#' \item{\code{stateCode} -- ISO 3166-2 alpha-2 state code}
+#' \item{\code{stationID} -- WRCC RAWS station identifier}
+#' \item{\code{siteName} -- human readable site name}
+#' \item{\code{longitude} -- decimal degrees East}
+#' \item{\code{latitude} -- decimal degrees North}
+#' \item{\code{elevation} -- in meters}
+#' \item{\code{timezone} -- Olson timezone}
+#' }
+#' 
+#' Because of the large number of web requests required to assemble this 
+#' metadata, it is recommended that the file be saved and reused.
+#' 
 #' @examples
 #' \dontrun{
 #' library(RAWSmet)
 #'
-#' meta <- raws_createMetadata(stateCode = 'WA')
-#' dplyr::glimpse(meta)
+#' wa_meta <- raws_createMetadata(stateCode = 'WA', verbose = TRUE)
+#' dplyr::glimpse(wa_meta)
 #' }
 #'
 #' @rdname raws_createMetadata
@@ -31,59 +41,65 @@
 
 raws_createMetadata <- function(
   stateCode = NULL,
+  stationIDs = NULL,
   baseUrl = "https://raws.dri.edu/",
   verbose = FALSE
 ) {
-
+  
   # ----- Validate parameters --------------------------------------------------
   
-  stopIfNull(stateCode)
+  if ( is.null(stateCode) && is.null(stationIDs) ) 
+    stop("Either 'stateCode' or 'stationIDs' must be specified.")
   
   # TODO: Check if stateCode is in list of state codes.
   
   # ----- Get station IDs ------------------------------------------------------
   
-  stateCode <- tolower(stateCode)
-  
-  # NOTE: California is separated into north and south. We have to get these
-  #       two lists separately. 
-  if ( stateCode == 'ca' ) {
+  if ( is.null(stationIDs) ) {
     
-    northUrl <- paste0(baseUrl, "ncalst.html")
-    southUrl <- paste0(baseUrl, "scalst.html")
+    stateCode <- tolower(stateCode)
     
-    stationIDs <- 
-      MazamaCoreUtils::html_getLinkUrls(northUrl) %>%        # get links 
-      append(MazamaCoreUtils::html_getLinkUrls(southUrl)) %>%
-      stringr::str_subset("rawMAIN.pl\\?") %>%              # only keep those with "rawMAIN.pl?"
-      stringr::str_match(".+MAIN.pl\\?(.+)") %>%            # pull out everything after "MAIN.pl?"
-      magrittr::extract(, 2)                                # keep the second column of the matrix
+    # NOTE: California is separated into north and south. We have to get these
+    #       two lists separately. 
+    if ( stateCode == 'ca' ) {
+      
+      northUrl <- paste0(baseUrl, "ncalst.html")
+      southUrl <- paste0(baseUrl, "scalst.html")
+      
+      stationIDs <- 
+        MazamaCoreUtils::html_getLinkUrls(northUrl) %>%        # get links 
+        append(MazamaCoreUtils::html_getLinkUrls(southUrl)) %>%
+        stringr::str_subset("rawMAIN.pl\\?") %>%              # only keep those with "rawMAIN.pl?"
+        stringr::str_match(".+MAIN.pl\\?(.+)") %>%            # pull out everything after "MAIN.pl?"
+        magrittr::extract(, 2)                                # keep the second column of the matrix
+      
+    } else {
+      
+      url <- paste0(baseUrl, tolower(stateCode), "lst.html")
+      
+      stationIDs <- 
+        MazamaCoreUtils::html_getLinkUrls(url) %>%  # get links 
+        stringr::str_subset("rawMAIN.pl\\?") %>%    # only keep those with "rawMAIN.pl?"
+        stringr::str_match(".+MAIN.pl\\?(.+)") %>%  # pull out everything after "MAIN.pl?"
+        magrittr::extract(, 2)                      # keep the second column of the matrix   
+      
+    }
     
-  } else {
+    # Filter for stations not in the requested state
+    stationIDs <- stringr::str_subset(stationIDs, paste0("^", stateCode) )
     
-    url <- paste0(baseUrl, tolower(stateCode), "lst.html")
-    
-    stationIDs <- 
-      MazamaCoreUtils::html_getLinkUrls(url) %>%  # get links 
-      stringr::str_subset("rawMAIN.pl\\?") %>%    # only keep those with "rawMAIN.pl?"
-      stringr::str_match(".+MAIN.pl\\?(.+)") %>%  # pull out everything after "MAIN.pl?"
-      magrittr::extract(, 2)                      # keep the second column of the matrix   
-    
-  }
-  
-  # Filter for stations not in the requested state
-  stationIDs <- stringr::str_subset(stationIDs, paste0("^", stateCode) )
+  } #END of stationIDs from stateCode
   
   # ----- Loop over stationIDs -------------------------------------------------
   
   recordList <- list()
   i <- 0
   for ( stationID in stationIDs ) {
-   
+    
     i <- i + 1
     if ( verbose )
       message(sprintf("Working on %03d/%03d: %s...", i, length(stationIDs), stationID))
-      
+    
     # * Get the data -----
     
     metaUrl <- paste0("https://raws.dri.edu/cgi-bin/wea_info.pl?", stationID)
@@ -123,15 +139,18 @@ raws_createMetadata <- function(
     longitude <- -(longitudeDegrees + longitudeMinutes/60 + longitudeSeconds/3600)
     
     # Convert elevation in feet to meters
-    elevation <- as.integer(stringr::str_sub(elevation, end = -5)) * 0.3048
+    elevation <- round(as.integer(stringr::str_sub(elevation, end = -5)) * 0.3048)
     
     # Remove extra whitespace in siteName
     siteName <- gsub("\\s+", " ", siteName)
     
+    # Get stateCode from stationID
+    stateCode <- toupper(stringr::str_sub(stationID, 1, 2))
+    
     recordList[[stationID]] <-
       dplyr::tibble(
         "countryCode" = "US", 
-        "stateCode" = toupper(stateCode), 
+        "stateCode" = stateCode, 
         "stationID" = stationID, 
         "siteName" = siteName, 
         "longitude" = longitude, 
@@ -145,9 +164,13 @@ raws_createMetadata <- function(
   
   meta <- dplyr::bind_rows(recordList)
   
-  # Now add the timezeon
+  # Make sure the timezone dataset is loaded
+  if ( !exists("SimpleTimezones") )
+    utils::data("SimpleTimezones", package = "MazamaSpatialUtils")
+  
+  # Now add the timezone
   meta$timezone <- MazamaSpatialUtils::getTimezone(meta$longitude, meta$latitude)
-
+  
   return(meta)
   
 }

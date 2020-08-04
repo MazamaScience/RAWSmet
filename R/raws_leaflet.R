@@ -3,14 +3,14 @@
 #' 
 #' @title Create a map of RAWS stations
 #' 
-#' @param metadata Station metadata created by \code{raws_createMetadata}
-#' @param radius Circle radius
-#' @param stroke Logical. whether to draw stroke along the path
-#' @param color Stroke color
-#' @param opacity Stroke opacity
-#' @param fillColor Fill color
-#' @param fillOpacity Fill opacity
-#' @param weight Stroke width in pixels
+#' @param meta Station metadata created by \code{raws_createMetadata()}.
+#' @param radius Circle radius.
+#' @param stroke Logical specifying whether to draw stroke along the path.
+#' @param color Stroke color.
+#' @param opacity Stroke opacity.
+#' @param fillColor Fill color.
+#' @param fillOpacity Fill opacity.
+#' @param weight Stroke width in pixels.
 #' 
 #' @return Leaflet map of stations.
 #' 
@@ -24,10 +24,9 @@
 #' \dontrun{
 #' library(RAWSmet)
 #' 
-#' metadata <- raws_createMetadata("WA")
-#' map <- raws_leaflet(metadata)
-#' 
-#' map
+#' wa_meta <- raws_createMetadata("WA")
+#' raws_leaflet(wa_meta)
+
 #' }
 #' 
 #' @rdname raws_leaflet
@@ -35,7 +34,7 @@
 #' @references \href{https://raws.dri.edu/}{RAWS USA Climate Archive}
 
 raws_leaflet <- function(
-  metadata = NULL,
+  meta = NULL,
   radius = 3.5,
   stroke = TRUE,
   color = 'blue',
@@ -47,27 +46,38 @@ raws_leaflet <- function(
   
   # ----- Validate parameters --------------------------------------------------
   
-  MazamaCoreUtils::stopIfNull(metadata)
+  MazamaCoreUtils::stopIfNull(meta)
   
   requiredNames <- c('stationID', 'siteName', 'longitude', 'latitude', 
                      'elevation', 'countryCode', 'stateCode', 'timezone')
-  if( length(names(metadata)) != length(requiredNames) || names(metadata) != requiredNames ) {
-    stop("Metadata is not in the format generated raws_createMetadata().")
+  
+  missingNames <- setdiff(requiredNames, names(meta))
+  
+  if ( length(missingNames) > 0 ) {
+    stop(sprintf(
+      "Parameter 'meta' is missing the following columns: %s.",
+      paste0(missingNames, collapse = ", ")
+    ))
   }
   
   # ----- Create map  ----------------------------------------------------------
   
   # Create popup text
-  metadata$popupText <- paste("<strong>", metadata$siteName, "</strong><br>Station ID:", metadata$stationID, 
-                              "<br>Elevation:", metadata$elevation, "m<br>Country Code:", metadata$countryCode, 
-                              "<br>State Code:", metadata$stateCode, "<br>Timezone:", metadata$timezone)
+  meta$popupText <- paste(
+    "<strong>", meta$siteName, "</strong><br>",
+    "Station ID:", meta$stationID, "<br>",
+    "Elevation:", round(meta$elevation), "m<br>",
+    "Country Code:", meta$countryCode, "<br>",
+    "State Code:", meta$stateCode, "<br>",
+    "Timezone:", meta$timezone
+  )
   
-  map <- leaflet::leaflet(metadata) %>%
+  map <- leaflet::leaflet(meta) %>%
     leaflet::addProviderTiles("Esri.WorldTopoMap") %>%
     leaflet::addCircleMarkers(
-      lat = ~metadata$latitude,
-      lng = ~metadata$longitude,
-      popup = ~metadata$popupText,
+      lat = ~meta$latitude,
+      lng = ~meta$longitude,
+      popup = ~meta$popupText,
       radius = ~radius,
       stroke = ~stroke,
       color = ~color,
