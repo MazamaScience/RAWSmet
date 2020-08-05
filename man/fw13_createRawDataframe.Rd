@@ -6,8 +6,10 @@
 \usage{
 fw13_createRawDataframe(
   stationID = NULL,
-  startdate = strftime(lubridate::now(tzone = "UTC"), "\%Y\%m0101", tz = "UTC"),
-  enddate = strftime(lubridate::now(tzone = "UTC"), "\%Y\%m\%d23", tz = "UTC"),
+  startdate = strftime(lubridate::now(tzone = "UTC"), "\%Y-\%m-01 01:00:00 \%Z", tz =
+    "UTC"),
+  enddate = strftime(lubridate::now(tzone = "UTC"), "\%Y-\%m-\%d 23:00:00 \%Z", tz =
+    "UTC"),
   baseUrl = "https://cefa.dri.edu/raws/fw13/"
 )
 }
@@ -45,7 +47,7 @@ dplyr::glimpse(tbl)
 
 }
 \references{
-\href{https://raws.dri.edu/}{RAWS USA Climate Archive}
+\href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 }
 \seealso{
 \code{\link{raws_downloadData}}
