@@ -1,7 +1,7 @@
 #' @export
 #' @import MazamaCoreUtils
 #'
-#' @title Download fw13 data
+#' @title Download RAWS FW13 data
 #'
 #' @param stationID Station identifier.
 #' @param baseUrl Base URL for data queries.
@@ -18,7 +18,7 @@
 #' \dontrun{
 #' library(RAWSmet)
 #' 
-#' fileString <- fw13_downloadData(stationID = '500742')
+#' fileString <- fw13_downloadData(stationID = 500742)
 #' print(readr::read_lines(fileString)[1:10])
 #' }
 
@@ -29,10 +29,14 @@ fw13_downloadData <- function(
   
   # ----- Validate parameters --------------------------------------------------
   
-  stopIfNull(stationID)
+  MazamaCoreUtils::stopIfNull(stationID)
   
-  if ( !is.numeric(stationID) )
-    stop("Station ID is not numeric.")
+  suppressWarnings({
+    stationID <- as.numeric(stationID)
+  })
+  
+  if ( is.na(stationID) )
+    stop("Could not coerce station ID to numeric")
   
   # ----- Request parameters ---------------------------------------------------
   
