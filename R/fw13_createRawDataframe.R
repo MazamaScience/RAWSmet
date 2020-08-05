@@ -33,12 +33,12 @@
 #' @seealso \code{\link{raws_downloadData}}
 #' @seealso \code{\link{raws_parseData}}
 #'
-#' @references \href{https://raws.dri.edu/}{RAWS USA Climate Archive}
+#' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 
 fw13_createRawDataframe <- function(
   stationID = NULL,
-  startdate = strftime(lubridate::now(tzone = "UTC"), "%Y%m0101", tz = "UTC"),
-  enddate = strftime(lubridate::now(tzone = "UTC"), "%Y%m%d23", tz = "UTC"),
+  startdate = strftime(lubridate::now(tzone = "UTC"), "%Y-%m-01 01:00:00 %Z", tz = "UTC"),
+  enddate = strftime(lubridate::now(tzone = "UTC"), "%Y-%m-%d 23:00:00 %Z", tz = "UTC"),
   baseUrl = "https://cefa.dri.edu/raws/fw13/"
 ) {
   
@@ -53,6 +53,8 @@ fw13_createRawDataframe <- function(
   
   if ( is.na(stationID) )
     stop("Could not coerce station ID to numeric")
+  
+  # TODO: check if start/end dates are valid datetimes
   
   # ----- Download/parse data --------------------------------------------------
   
@@ -81,6 +83,7 @@ fw13_createRawDataframe <- function(
     col_positions = col_positions, 
     col_types = col_types
   )
+  
   # Make observation times machine readable
   df <- df %>%
     dplyr::mutate(d = replace(.data$d, nchar(.data$d) == 3, paste0("0", .data$d[nchar(.data$d) == 3]))) %>%
@@ -90,6 +93,10 @@ fw13_createRawDataframe <- function(
   datestamp <- paste0(df$c, df$d)
   
   df$datetime <- MazamaCoreUtils::parseDatetime(datestamp, timezone = "UTC")
+  
+  # Get observations in specified time range
+  df <- df %>%
+    dplyr::filter(strftime(.data$datetime, tz = 'UTC') >= startdate & strftime(.data$datetime, tz = 'UTC') <= enddate)
   
   # ----- Return ---------------------------------------------------------------
   
