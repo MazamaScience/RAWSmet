@@ -5,8 +5,6 @@
 #' @title Obtain RAWS FW13 data and parse into a tibble
 #'
 #' @param stationID Station identifier.
-#' @param startdate Desired start date (integer or character representing YYYYMMDD[HH]).
-#' @param enddate Desired end date (integer or character representing YYYYMMDD[HH]).
 #' @param baseUrl Base URL for data queries.
 #'
 #' @return Raw tibble of RAWS data.
@@ -37,8 +35,6 @@
 
 fw13_createRawDataframe <- function(
   stationID = NULL,
-  startdate = strftime(lubridate::now(tzone = "UTC"), "%Y-%m-01 01:00:00 %Z", tz = "UTC"),
-  enddate = strftime(lubridate::now(tzone = "UTC"), "%Y-%m-%d 23:00:00 %Z", tz = "UTC"),
   baseUrl = "https://cefa.dri.edu/raws/fw13/"
 ) {
   
@@ -102,10 +98,6 @@ fw13_createRawDataframe <- function(
   datestamp <- paste0(df$observationDate, df$observationTime)
   
   df$datetime <- MazamaCoreUtils::parseDatetime(datestamp, timezone = "UTC")
-  
-  # Get observations in specified time range
-  df <- df %>%
-    dplyr::filter(strftime(.data$datetime, tz = 'UTC') >= startdate & strftime(.data$datetime, tz = 'UTC') <= enddate)
   
   # ----- Return ---------------------------------------------------------------
   

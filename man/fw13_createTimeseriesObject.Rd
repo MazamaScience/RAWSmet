@@ -7,10 +7,6 @@
 fw13_createTimeseriesObject(
   fw13ID = NULL,
   meta = NULL,
-  startdate = strftime(lubridate::now(tzone = "UTC"), "\%Y-\%m-01 01:00:00 \%Z", tz =
-    "UTC"),
-  enddate = strftime(lubridate::now(tzone = "UTC"), "\%Y-\%m-\%d 23:00:00 \%Z", tz =
-    "UTC"),
   baseUrl = "https://cefa.dri.edu/raws/fw13/"
 )
 }
@@ -18,10 +14,6 @@ fw13_createTimeseriesObject(
 \item{fw13ID}{Station identifier found in 'meta'.}
 
 \item{meta}{Tibble of RAWS metadata containing \code{fw13ID}.}
-
-\item{startdate}{Desired start date (integer or character representing YYYYMMDD[HH]).}
-
-\item{enddate}{Desired end date (integer or character representing YYYYMMDD[HH]).}
 
 \item{baseUrl}{Base URL for data queries.}
 }

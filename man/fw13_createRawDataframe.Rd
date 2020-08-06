@@ -6,19 +6,11 @@
 \usage{
 fw13_createRawDataframe(
   stationID = NULL,
-  startdate = strftime(lubridate::now(tzone = "UTC"), "\%Y-\%m-01 01:00:00 \%Z", tz =
-    "UTC"),
-  enddate = strftime(lubridate::now(tzone = "UTC"), "\%Y-\%m-\%d 23:00:00 \%Z", tz =
-    "UTC"),
   baseUrl = "https://cefa.dri.edu/raws/fw13/"
 )
 }
 \arguments{
 \item{stationID}{Station identifier.}
-
-\item{startdate}{Desired start date (integer or character representing YYYYMMDD[HH]).}
-
-\item{enddate}{Desired end date (integer or character representing YYYYMMDD[HH]).}
 
 \item{baseUrl}{Base URL for data queries.}
 }

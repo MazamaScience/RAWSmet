@@ -7,8 +7,6 @@
 #'
 #' @param fw13ID Station identifier found in 'meta'.
 #' @param meta Tibble of RAWS metadata containing \code{fw13ID}.
-#' @param startdate Desired start date (integer or character representing YYYYMMDD[HH]).
-#' @param enddate Desired end date (integer or character representing YYYYMMDD[HH]).
 #' @param baseUrl Base URL for data queries.
 #'
 #' @return Timeseries object with 'meta' and 'data'.
@@ -42,8 +40,6 @@
 fw13_createTimeseriesObject <- function(
   fw13ID = NULL,
   meta = NULL,
-  startdate = strftime(lubridate::now(tzone = "UTC"), "%Y-%m-01 01:00:00 %Z", tz = "UTC"),
-  enddate = strftime(lubridate::now(tzone = "UTC"), "%Y-%m-%d 23:00:00 %Z", tz = "UTC"),
   baseUrl = "https://cefa.dri.edu/raws/fw13/"
 ) {
   
@@ -76,8 +72,6 @@ fw13_createTimeseriesObject <- function(
   
   tbl <- fw13_createRawDataframe(
     stationID = fw13ID,
-    startdate = startdate,
-    enddate = enddate,
     baseUrl = baseUrl
   )
   

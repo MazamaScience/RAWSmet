@@ -6,8 +6,8 @@
 #' @param stationID Station identifier.
 #' @param baseUrl Base URL for data queries.
 #' 
-#' @description Request data from a particular station for the desired time period.
-#' Data are returned as a single character string containing the RAWS output.
+#' @description Request data from a particular station. Data are returned as a 
+#' single character string containing the RAWS output.
 #'
 #' Station identifiers can be found at https://cefa.dri.edu/raws/RAWSfw13list.xlsx.
 #' 
@@ -36,7 +36,7 @@ fw13_downloadData <- function(
   })
   
   if ( is.na(stationID) )
-    stop("Could not coerce station ID to numeric")
+    stop("Station ID must be numeric or able to be coereced to numeric.")
   
   # ----- Request parameters ---------------------------------------------------
   

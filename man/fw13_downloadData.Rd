@@ -18,8 +18,8 @@ fw13_downloadData(
 String containing RAWS data.
 }
 \description{
-Request data from a particular station for the desired time period.
-Data are returned as a single character string containing the RAWS output.
+Request data from a particular station. Data are returned as a 
+single character string containing the RAWS output.
 
 Station identifiers can be found at https://cefa.dri.edu/raws/RAWSfw13list.xlsx.
 }
