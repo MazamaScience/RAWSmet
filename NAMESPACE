@@ -2,6 +2,7 @@
 
 export(fw13_createMetadata)
 export(fw13_createRawDataframe)
+export(fw13_createTimeseriesObject)
 export(fw13_downloadData)
 export(raws_createMetadata)
 export(raws_createRawDataframe)
