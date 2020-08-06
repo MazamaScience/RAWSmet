@@ -64,6 +64,7 @@ fw13_createRawDataframe <- function(
   # Read fwf raw data into a tibble
   
   # Set these manually. The website that stores this information times out often.
+  # This information originally came from https://fam.nwcg.gov/fam-web/weatherfirecd/13.htm
   widths = c(3, 6, 8, 4, 1, 1, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 5, 1, 2, 2, 1, 1 , 1, 4, 3, 3, 1)
   col_types <- "cnnncnnnnnnnnnnnncnnnnnnnnc"
   col_names <- c("recordType", "stationID", "observationDate", "observationTime",
@@ -88,16 +89,22 @@ fw13_createRawDataframe <- function(
   
   # Make observation times machine readable
   df <- df %>%
+    
+    # Prepend all observation times of length 3 with one zero. 
+    # (E.g, "300" will be replaced with "0300")
     dplyr::mutate(observationTime = 
                     replace(.data$observationTime, nchar(.data$observationTime) == 3, paste0("0", .data$observationTime[nchar(.data$observationTime) == 3]))) %>%
     
+    # Replace all observation times with length 1 with four zeros.
+    # NOTE: All observation times with length 1 are "0"
     dplyr::mutate(observationTime = 
                     replace(.data$observationTime, nchar(.data$observationTime) == 1, "0000"))
+  
   
   # Add simpler datestamp column
   datestamp <- paste0(df$observationDate, df$observationTime)
   
-  df$datetime <- MazamaCoreUtils::parseDatetime(datestamp, timezone = "UTC")
+  df$LST_datestamp <- datestamp
   
   # ----- Return ---------------------------------------------------------------
   

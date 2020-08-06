@@ -78,7 +78,7 @@ fw13_createTimeseriesObject <- function(
   # * Harmonize ----
   
   # Define the set of standard columns that will always be returned
-  standardColumns <- c("datetime", "recordType", "stationID", "observationDate", "observationTime",
+  standardColumns <- c("LST_datestamp", "recordType", "stationID", "observationDate", "observationTime",
                        "observationType", "weatherCode", "dryBulbTemp", "atmosMoisture",
                        "windDirection", "avWindSpeed", "fuelMoisture", "maxTemp", "minTemp",
                        "maxRelHumidity", "minRelHumidity", "percipDuration", "percipAmount",
@@ -93,20 +93,20 @@ fw13_createTimeseriesObject <- function(
   
   # * Convert datetime to UTC ----
   
-  # UTC_offset <-
-  # MazamaSpatialUtils::SimpleTimezones@data %>%
-  # dplyr::filter(.data$timezone == meta$timezone) %>%
-  # dplyr::pull("UTC_offset")
+  UTC_offset <-
+    MazamaSpatialUtils::SimpleTimezones@data %>%
+    dplyr::filter(.data$timezone == meta$timezone) %>%
+    dplyr::pull("UTC_offset")
   
   # NOTE:  The 'datetime' column is "local standard time all-year-round" for
   # NOTE:  which no timezone exists. So we have to convert it first to UTC
   # NOTE:  and then shift it by the UTC offset.
   
-  # UTC_time <-
-  #  MazamaCoreUtils::parseDatetime(data$datetime, timezone = "UTC") +
-  #  lubridate::dhours(UTC_offset)
+  UTC_time <-
+    MazamaCoreUtils::parseDatetime(data$LST_datestamp, timezone = "UTC") +
+    lubridate::dhours(UTC_offset)
   
-  # data$datetime <- UTC_time
+  data$datetime <- UTC_time
   
   # ----- Return ---------------------------------------------------------------
   
