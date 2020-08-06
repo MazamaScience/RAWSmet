@@ -76,8 +76,9 @@ fw13_createMetadata <- function(
       timezone = meta$timezone
   )
   
-  # ----- Return ---------------------------------------------------------------
+  # ----- Clean up and Return --------------------------------------------------
   
+  unlink(filePath, force = TRUE)
   return(meta)
   
 }
