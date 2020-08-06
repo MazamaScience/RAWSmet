@@ -52,7 +52,7 @@ fw13_createRawDataframe <- function(
   })
   
   if ( is.na(stationID) )
-    stop("Could not coerce station ID to numeric")
+    stop("Station ID must be numeric or able to be coereced to numeric.")
   
   # TODO: check if start/end dates are valid datetimes
   
@@ -70,7 +70,13 @@ fw13_createRawDataframe <- function(
   # Set these manually. The website that stores this information times out often.
   widths = c(3, 6, 8, 4, 1, 1, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 5, 1, 2, 2, 1, 1 , 1, 4, 3, 3, 1)
   col_types <- "cnnncnnnnnnnnnnnncnnnnnnnnc"
-  col_names = c(letters, "aa")
+  col_names <- c("recordType", "stationID", "observationDate", "observationTime",
+                       "observationType", "weatherCode", "dryBulbTemp", "atmosMoisture",
+                       "windDirection", "avWindSpeed", "fuelMoisture", "maxTemp", "minTemp",
+                       "maxRelHumidity", "minRelHumidity", "percipDuration", "percipAmount",
+                       "wetFlag", "herbaceousGreenness", "shrubGreenness", "moistureType",
+                       "measurementType", "seasonCode", "soilarRadiation", "maxGustDirection",
+                       "maxGustSpeed", "snowFlag")
   
   col_positions <- readr::fwf_widths(
     widths = widths,
@@ -86,11 +92,14 @@ fw13_createRawDataframe <- function(
   
   # Make observation times machine readable
   df <- df %>%
-    dplyr::mutate(d = replace(.data$d, nchar(.data$d) == 3, paste0("0", .data$d[nchar(.data$d) == 3]))) %>%
-    dplyr::mutate(d = replace(.data$d, nchar(.data$d) == 1, "0000"))
+    dplyr::mutate(observationTime = 
+                    replace(.data$observationTime, nchar(.data$observationTime) == 3, paste0("0", .data$observationTime[nchar(.data$observationTime) == 3]))) %>%
+    
+    dplyr::mutate(observationTime = 
+                    replace(.data$observationTime, nchar(.data$observationTime) == 1, "0000"))
   
   # Add simpler datestamp column
-  datestamp <- paste0(df$c, df$d)
+  datestamp <- paste0(df$observationDate, df$observationTime)
   
   df$datetime <- MazamaCoreUtils::parseDatetime(datestamp, timezone = "UTC")
   
