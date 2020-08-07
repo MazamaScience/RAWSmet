@@ -4,8 +4,9 @@
 #'
 #' @title Obtain RAWS FW13 data and parse into a tibble
 #'
-#' @param stationID Station identifier.
+#' @param nwsID Station identifier.
 #' @param baseUrl Base URL for data queries.
+#' @param verbose Logical flag controlling detailed progress statements.
 #'
 #' @return Raw tibble of RAWS data.
 #'
@@ -24,7 +25,7 @@
 #' \dontrun{
 #' library(RAWSmet)
 #'
-#' tbl <- fw13_createRawDataframe(stationID = 500742)
+#' tbl <- fw13_createRawDataframe(nwsID = 500742)
 #' dplyr::glimpse(tbl)
 #' }
 #'
@@ -34,46 +35,54 @@
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 
 fw13_createRawDataframe <- function(
-  stationID = NULL,
-  baseUrl = "https://cefa.dri.edu/raws/fw13/"
+  nwsID = NULL,
+  baseUrl = "https://cefa.dri.edu/raws/fw13/",
+  verbose = FALSE
 ) {
   
   
   # ----- Validate parameters --------------------------------------------------
   
-  MazamaCoreUtils::stopIfNull(stationID)
+  MazamaCoreUtils::stopIfNull(nwsID)
   
-  suppressWarnings({
-    stationID <- as.numeric(stationID)
-  })
-  
-  if ( is.na(stationID) )
-    stop("Station ID must be numeric or able to be coereced to numeric.")
-  
-  # TODO: check if start/end dates are valid datetimes
+  # Guarantee it is zero padded six characters
+  nwsID <- sprintf("%06s", as.character(nwsID))
   
   # ----- Download/parse data --------------------------------------------------
   
   # Read in FW13 data
-  fileString <- fw13_downloadData(stationID, baseUrl)
+  fileString <- fw13_downloadData(nwsID, baseUrl)
   
-  # TODO: Catch HTML errors
-  if( fileString == "" )
-    stop("Could not find data for the given station ID.")
+  returnEmptyTibble <- FALSE
+  
+  if ( fileString == "" ) {
+    
+    if ( MazamaCoreUtils::logger.isInitialized() ) {
+      logger.warn("RAWS data service failed for nwsID: '%s'", nwsID)
+    }
+    
+    # NOTE:  HACK solution to return an empty tibble
+    returnEmptyTibble <- TRUE
+    fileString <- "W13500742200507131500R  72 36261  4   72 48100 34 1   20     213 713200 10 "
+
+  }
   
   # Read fwf raw data into a tibble
   
   # Set these manually. The website that stores this information times out often.
   # This information originally came from https://fam.nwcg.gov/fam-web/weatherfirecd/13.htm
+  
   widths = c(3, 6, 8, 4, 1, 1, 3, 3, 3, 3, 2, 3, 3, 3, 3, 2, 5, 1, 2, 2, 1, 1 , 1, 4, 3, 3, 1)
-  col_types <- "cnnncnnnnnnnnnnnncnnnnnnnnc"
-  col_names <- c("recordType", "stationID", "observationDate", "observationTime",
-                       "observationType", "weatherCode", "dryBulbTemp", "atmosMoisture",
-                       "windDirection", "avWindSpeed", "fuelMoisture", "maxTemp", "minTemp",
-                       "maxRelHumidity", "minRelHumidity", "percipDuration", "percipAmount",
-                       "wetFlag", "herbaceousGreenness", "shrubGreenness", "moistureType",
-                       "measurementType", "seasonCode", "soilarRadiation", "maxGustDirection",
-                       "maxGustSpeed", "snowFlag")
+  col_types <- "cccc ccnn nnnnn nnnn cnnc ccnn nc" %>% stringr::str_replace_all(" ","")
+  col_names <- c(
+    "recordType", "nwsID", "observationDate", "observationTime",
+    "observationType", "weatherCode", "dryBulbTemp", "atmosMoisture",
+    "windDirection", "avWindSpeed", "fuelMoisture", "maxTemp", "minTemp",
+    "maxRelHumidity", "minRelHumidity", "percipDuration", "percipAmount",
+    "wetFlag", "herbaceousGreenness", "shrubGreenness", "moistureType",
+    "measurementType", "seasonCode", "solarRadiation", "maxGustDirection",
+    "maxGustSpeed", "snowFlag"
+  )
   
   col_positions <- readr::fwf_widths(
     widths = widths,
@@ -81,30 +90,17 @@ fw13_createRawDataframe <- function(
   )
   
   # Read in raw data
-  df <- readr::read_fwf(
-    file = fileString, 
-    col_positions = col_positions, 
-    col_types = col_types
-  )
-  
-  # Make observation times machine readable
-  df <- df %>%
+  df <- 
+    readr::read_fwf(
+      file = fileString, 
+      col_positions = col_positions, 
+      col_types = col_types,
+      progress = verbose
+    )
     
-    # Prepend all observation times of length 3 with one zero. 
-    # (E.g, "300" will be replaced with "0300")
-    dplyr::mutate(observationTime = 
-                    replace(.data$observationTime, nchar(.data$observationTime) == 3, paste0("0", .data$observationTime[nchar(.data$observationTime) == 3]))) %>%
-    
-    # Replace all observation times with length 1 with four zeros.
-    # NOTE: All observation times with length 1 are "0"
-    dplyr::mutate(observationTime = 
-                    replace(.data$observationTime, nchar(.data$observationTime) == 1, "0000"))
-  
-  
-  # Add simpler datestamp column
-  datestamp <- paste0(df$observationDate, df$observationTime)
-  
-  df$LST_datestamp <- datestamp
+  # NOTE:  HACK solution to return an empty tibble
+  if ( exists("returnEmptyTibble") && returnEmptyTibble )
+    df <- df %>% dplyr::filter(nwsID == "Rumplestiltskin")
   
   # ----- Return ---------------------------------------------------------------
   

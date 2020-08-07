@@ -5,14 +5,17 @@
 \title{Obtain RAWS FW13 data and parse into a tibble}
 \usage{
 fw13_createRawDataframe(
-  stationID = NULL,
-  baseUrl = "https://cefa.dri.edu/raws/fw13/"
+  nwsID = NULL,
+  baseUrl = "https://cefa.dri.edu/raws/fw13/",
+  verbose = FALSE
 )
 }
 \arguments{
-\item{stationID}{Station identifier.}
+\item{nwsID}{Station identifier.}
 
 \item{baseUrl}{Base URL for data queries.}
+
+\item{verbose}{Logical flag controlling detailed progress statements.}
 }
 \value{
 Raw tibble of RAWS data.
@@ -33,7 +36,7 @@ Steps involved include:
 \dontrun{
 library(RAWSmet)
 
-tbl <- fw13_createRawDataframe(stationID = 500742)
+tbl <- fw13_createRawDataframe(nwsID = 500742)
 dplyr::glimpse(tbl)
 }
 

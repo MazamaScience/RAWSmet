@@ -5,15 +5,15 @@
 \title{Obtain RAWS data and create a timeseries object.}
 \usage{
 fw13_createTimeseriesObject(
-  fw13ID = NULL,
+  nwsID = NULL,
   meta = NULL,
   baseUrl = "https://cefa.dri.edu/raws/fw13/"
 )
 }
 \arguments{
-\item{fw13ID}{Station identifier found in 'meta'.}
+\item{nwsID}{Station identifier found in 'meta'.}
 
-\item{meta}{Tibble of RAWS metadata containing \code{fw13ID}.}
+\item{meta}{Tibble of RAWS metadata containing \code{nwsID}.}
 
 \item{baseUrl}{Base URL for data queries.}
 }
@@ -37,7 +37,7 @@ Steps involved include:
 \dontrun{
 library(RAWSmet)
 
-meta500726 <- fw13_createTimeseriesObject(fw13ID = '500726')
+meta500726 <- fw13_createTimeseriesObject(nwsID = '500726')
 
 
 }

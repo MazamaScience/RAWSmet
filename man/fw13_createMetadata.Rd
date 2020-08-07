@@ -2,17 +2,17 @@
 % Please edit documentation in R/fw13_createMetadata.R
 \name{fw13_createMetadata}
 \alias{fw13_createMetadata}
-\title{Obtain metadata for each station.}
+\title{Obtain metadata for every station.}
 \usage{
 fw13_createMetadata(
-  stationIDs = NULL,
-  metadataUrl = "https://cefa.dri.edu/raws/RAWSfw13list.xlsx"
+  metadataUrl = "https://cefa.dri.edu/raws/RAWSfw13list.xlsx",
+  verbose = FALSE
 )
 }
 \arguments{
-\item{stationIDs}{Vector of stationIDs to be used instead of \code{stateCode}.}
+\item{metadataUrl}{URL for station metadata.}
 
-\item{metadataUrl}{Base URL for station metadata.}
+\item{verbose}{Logical flag controlling detailed progress statements.}
 }
 \value{
 Dataframe of station metadata.
@@ -22,13 +22,13 @@ Assembles individual station metadata from a CEFA webservice
 into a standardized dataframe. Metdata columns include:
 
 \itemize{
-\item{\code{countryCode} -- ISO 3166-1 alpha-2 country code}
-\item{\code{stateCode} -- ISO 3166-2 alpha-2 state code}
-\item{\code{stationID} -- WRCC RAWS station identifier}
-\item{\code{siteName} -- human readable site name}
+\item{\code{nwsID} -- NWS RAWS station identifier}
 \item{\code{longitude} -- decimal degrees East}
 \item{\code{latitude} -- decimal degrees North}
 \item{\code{elevation} -- in meters}
+\item{\code{siteName} -- human readable site name}
+\item{\code{countryCode} -- ISO 3166-1 alpha-2 country code}
+\item{\code{stateCode} -- ISO 3166-2 alpha-2 state code}
 \item{\code{timezone} -- Olson timezone}
 }
 }
@@ -36,7 +36,10 @@ into a standardized dataframe. Metdata columns include:
 \dontrun{
 library(RAWSmet)
 
-meta <- fw13_createMetadata()
+library(MazamaSpatialUtils)
+setSpatialDataDir("~/Data/Spatial")
+
+meta <- fw13_createMetadata(verbose = TRUE)
 dplyr::glimpse(meta)
 }
 

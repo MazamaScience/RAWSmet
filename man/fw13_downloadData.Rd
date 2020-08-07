@@ -4,13 +4,10 @@
 \alias{fw13_downloadData}
 \title{Download RAWS FW13 data}
 \usage{
-fw13_downloadData(
-  stationID = NULL,
-  baseUrl = "https://cefa.dri.edu/raws/fw13/"
-)
+fw13_downloadData(nwsID = NULL, baseUrl = "https://cefa.dri.edu/raws/fw13/")
 }
 \arguments{
-\item{stationID}{Station identifier.}
+\item{nwsID}{NWS RAWS station identifier.}
 
 \item{baseUrl}{Base URL for data queries.}
 }
@@ -18,16 +15,17 @@ fw13_downloadData(
 String containing RAWS data.
 }
 \description{
-Request data from a particular station. Data are returned as a 
+Request data for a particular station. Data are returned as a 
 single character string containing the RAWS output.
 
-Station identifiers can be found at https://cefa.dri.edu/raws/RAWSfw13list.xlsx.
+Station identifiers can be found at https://cefa.dri.edu/raws/RAWSfw13list.xlsx
+and can be downloaded with \code{\link{fw13_createMetadata}}.
 }
 \examples{
 \dontrun{
 library(RAWSmet)
 
-fileString <- fw13_downloadData(stationID = 500742)
+fileString <- fw13_downloadData(nwsID = 500742)
 print(readr::read_lines(fileString)[1:10])
 }
 }

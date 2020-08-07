@@ -5,8 +5,8 @@
 #'
 #' @title Obtain RAWS data and create a timeseries object.
 #'
-#' @param fw13ID Station identifier found in 'meta'.
-#' @param meta Tibble of RAWS metadata containing \code{fw13ID}.
+#' @param nwsID Station identifier found in 'meta'.
+#' @param meta Tibble of RAWS metadata containing \code{nwsID}.
 #' @param baseUrl Base URL for data queries.
 #'
 #' @return Timeseries object with 'meta' and 'data'.
@@ -27,8 +27,10 @@
 #' \dontrun{
 #' library(RAWSmet)
 #'
-#' meta500726 <- fw13_createTimeseriesObject(fw13ID = '500726')
+#' library(MazamaSpatialUtils)
+#' setSpatialDataDir("~/Data/Spatial")
 #' 
+#' nws_500726 <- fw13_createTimeseriesObject(nwsID = 500726)
 #' 
 #' }
 #'
@@ -38,58 +40,91 @@
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 
 fw13_createTimeseriesObject <- function(
-  fw13ID = NULL,
+  nwsID = NULL,
   meta = NULL,
   baseUrl = "https://cefa.dri.edu/raws/fw13/"
 ) {
   
   # ----- Validate parameters --------------------------------------------------
   
-  stopIfNull(fw13ID)
+  MazamaCoreUtils::stopIfNull(nwsID)
   
-  suppressWarnings({
-    fw13ID <- as.numeric(fw13ID)
-  })
-  
-  if ( is.na(fw13ID) )
-    stop("FW13 ID must be numeric or able to be coereced to numeric.")
+  # Guarantee it is zero padded six characters
+  nwsID <- sprintf("%06s", as.character(nwsID))
   
   # ----- Create 'meta' --------------------------------------------------------
   
-  if ( is.null(meta) ) {
-    
-    meta <- fw13_createMetadata(stationIDs = fw13ID)
-    
-  } else {
-    
-    meta <- dplyr::filter(meta, fw13ID == !!fw13ID)
-    
-  }
+  if ( is.null(meta) )
+    meta <- fw13_createMetadata()
+  
+  # Subset to a single record
+  meta <- dplyr::filter(meta, nwsID == !!nwsID)
   
   # ----- Create 'data' --------------------------------------------------------
   
   # * Download/parse -----
   
   tbl <- fw13_createRawDataframe(
-    stationID = fw13ID,
+    nwsID = nwsID,
     baseUrl = baseUrl
   )
   
   # * Harmonize ----
   
+  # Station can only have one 'monitorType'
+  monitorType <- "FW13"
+  
   # Define the set of standard columns that will always be returned
-  standardColumns <- c("LST_datestamp", "recordType", "stationID", "observationDate", "observationTime",
-                       "observationType", "weatherCode", "dryBulbTemp", "atmosMoisture",
-                       "windDirection", "avWindSpeed", "fuelMoisture", "maxTemp", "minTemp",
-                       "maxRelHumidity", "minRelHumidity", "percipDuration", "percipAmount",
-                       "wetFlag", "herbaceousGreenness", "shrubGreenness", "moistureType",
-                       "measurementType", "seasonCode", "soilarRadiation", "maxGustDirection",
-                       "maxGustSpeed", "snowFlag")
+  standardColumns <- c(
+    "datetime", "temperature", "humidity",
+    "windSpeed", "windDirection", "maxGustSpeed", "maxGustDirection",
+    "precipitation", "solarRadiation",
+    "batteryVoltage"
+  )
   
   data <-
     tbl %>%
+    dplyr::mutate(
+      "datetime" = paste0(.data$observationDate, .data$observationTime),
+      
+      
+      # TODO:  FINISH THIS
+      
+      "temperature" = .data$AvAirTemp,
+      "humidity" = .data$RelHumidty,
+      "windSpeed" = .data$WindSpeed,
+      "windDirection" = .data$WindDirec,
+      "maxGustSpeed" = .data$MxGustSpeed,
+      "maxGustDirection" = .data$DirMxGust,
+      "precipitation" = .data$Precip,
+      "solarRadiation" = .data$SolarRad,
+      "batteryVoltage" = .data$BatteryVoltage,
+      "fuelTemperature" = .data$FuelTemp,
+      "fuelMoisture" = .data$AvFuelMoistr,
+      "monitorType" = .data$monitorType
+    ) %>%
     dplyr::select(all_of(standardColumns))
-    
+  
+  
+  
+  
+  
+  
+  # # Define the set of standard columns that will always be returned
+  # standardColumns <- c(
+  #   "LST_datestamp", "recordType", "nwsID", "observationDate", "observationTime",
+  #   "observationType", "weatherCode", "dryBulbTemp", "atmosMoisture",
+  #   "windDirection", "avWindSpeed", "fuelMoisture", "maxTemp", "minTemp",
+  #   "maxRelHumidity", "minRelHumidity", "percipDuration", "percipAmount",
+  #   "wetFlag", "herbaceousGreenness", "shrubGreenness", "moistureType",
+  #   "measurementType", "seasonCode", "solarRadiation", "maxGustDirection",
+  #   "maxGustSpeed", "snowFlag"
+  # )
+  # 
+  # data <-
+  #   tbl %>%
+  #   dplyr::select(all_of(standardColumns))
+  
   
   # * Convert datetime to UTC ----
   
