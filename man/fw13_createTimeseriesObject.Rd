@@ -37,8 +37,10 @@ Steps involved include:
 \dontrun{
 library(RAWSmet)
 
-meta500726 <- fw13_createTimeseriesObject(nwsID = '500726')
+library(MazamaSpatialUtils)
+setSpatialDataDir("~/Data/Spatial")
 
+nws_500726 <- fw13_createTimeseriesObject(nwsID = 500726)
 
 }
 

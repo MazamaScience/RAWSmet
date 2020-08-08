@@ -78,7 +78,7 @@ fw13_createRawDataframe <- function(
     "recordType", "nwsID", "observationDate", "observationTime",
     "observationType", "weatherCode", "dryBulbTemp", "atmosMoisture",
     "windDirection", "avWindSpeed", "fuelMoisture", "maxTemp", "minTemp",
-    "maxRelHumidity", "minRelHumidity", "percipDuration", "percipAmount",
+    "maxRelHumidity", "minRelHumidity", "precipDuration", "precipAmount",
     "wetFlag", "herbaceousGreenness", "shrubGreenness", "moistureType",
     "measurementType", "seasonCode", "solarRadiation", "maxGustDirection",
     "maxGustSpeed", "snowFlag"

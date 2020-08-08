@@ -86,8 +86,7 @@ raws_createTimeseriesObject <- function(
   standardColumns <- c(
     "datetime", "temperature", "humidity",
     "windSpeed", "windDirection", "maxGustSpeed", "maxGustDirection",
-    "precipitation", "solarRadiation",
-    "batteryVoltage"
+    "precipitation", "solarRadiation"
   )
   
   if ( monitorType == "WRCC_TYPE1") {
