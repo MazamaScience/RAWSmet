@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • RAWSmet</title>
+<title>Obtain RAWS FW13 data and parse into a tibble — fw13_createRawDataframe • RAWSmet</title>
 
 
 <!-- jquery -->
@@ -35,7 +35,17 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Obtain RAWS FW13 data and parse into a tibble — fw13_createRawDataframe" />
+<meta property="og:description" content="Obtains station data from a webservice and converts
+it into a quality controlled, metadata enhanced &quot;raw&quot; tibble
+ready for use with all raw_~ functions.
+Steps involved include:
+
+download data text
+parse data text
+
+" />
+<meta name="twitter:card" content="summary" />
 
 
 
@@ -54,7 +64,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -104,102 +114,77 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Obtain RAWS FW13 data and parse into a tibble</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/fw13_createRawDataframe.R'><code>R/fw13_createRawDataframe.R</code></a></small>
+    <div class="hidden name"><code>fw13_createRawDataframe.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Obtains station data from a webservice and converts
+it into a quality controlled, metadata enhanced "raw" tibble
+ready for use with all <code>raw_~</code> functions.</p>
+<p>Steps involved include:</p>
+<ol>
+<li><p>download data text</p></li>
+<li><p>parse data text</p></li>
+</ol>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    </div>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      <tr>
-        
-        <td>
-          <p><code><a href="fw13_createMetadata.html">fw13_createMetadata()</a></code> </p>
-        </td>
-        <td><p>Obtain metadata for every station.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="fw13_createRawDataframe.html">fw13_createRawDataframe()</a></code> </p>
-        </td>
-        <td><p>Obtain RAWS FW13 data and parse into a tibble</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="fw13_createTimeseriesObject.html">fw13_createTimeseriesObject()</a></code> </p>
-        </td>
-        <td><p>Obtain RAWS data and create a timeseries object.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="fw13_downloadData.html">fw13_downloadData()</a></code> </p>
-        </td>
-        <td><p>Download RAWS FW13 data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="raws_createMetadata.html">raws_createMetadata()</a></code> </p>
-        </td>
-        <td><p>Obtain metadata for each station in a state.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="raws_createRawDataframe.html">raws_createRawDataframe()</a></code> </p>
-        </td>
-        <td><p>Obtain RAWS data and parse into a tibble</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="raws_createTimeseriesObject.html">raws_createTimeseriesObject()</a></code> </p>
-        </td>
-        <td><p>Obtain RAWS data and create a timeseries object.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="raws_downloadData.html">raws_downloadData()</a></code> </p>
-        </td>
-        <td><p>Download RAWS data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="raws_identifyMonitorType.html">raws_identifyMonitorType()</a></code> </p>
-        </td>
-        <td><p>Identify RAWS station type</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="raws_leaflet.html">raws_leaflet()</a></code> </p>
-        </td>
-        <td><p>Create a map of RAWS stations</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="raws_parseData.html">raws_parseData()</a></code> </p>
-        </td>
-        <td><p>Parse RAWS data string</p></td>
-      </tr>
-    </tbody>
+    <pre class="usage"><span class='fu'>fw13_createRawDataframe</span>(
+  <span class='kw'>nwsID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>baseUrl</span> <span class='kw'>=</span> <span class='st'>"https://cefa.dri.edu/raws/fw13/"</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>nwsID</th>
+      <td><p>Station identifier.</p></td>
+    </tr>
+    <tr>
+      <th>baseUrl</th>
+      <td><p>Base URL for data queries.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Logical flag controlling detailed progress statements.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Raw tibble of RAWS data.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://cefa.dri.edu/raws/'>Program for Climate, Ecosystem and Fire Applications</a></p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='raws_downloadData.html'>raws_downloadData</a></code></p>
+<p><code><a href='raws_parseData.html'>raws_parseData</a></code></p></div>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>RAWSmet</span>)
+
+<span class='no'>tbl</span> <span class='kw'>&lt;-</span> <span class='fu'>fw13_createRawDataframe</span>(<span class='kw'>nwsID</span> <span class='kw'>=</span> <span class='fl'>500742</span>)
+<span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>glimpse</a></span>(<span class='no'>tbl</span>)
+}</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#references">References</a></li>
+      <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
+
   </div>
 </div>
 
