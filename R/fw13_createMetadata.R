@@ -72,7 +72,7 @@ fw13_createMetadata <- function(
       skip = 1
     ) %>%
     dplyr::mutate(
-      nwsID = sprintf("%06s", .data$nwsID),
+      nwsID = stringr::str_pad(.data$nwsID, 6, pad = "0"),
       countryCode = "US"
     ) %>%
     dplyr::select(all_of(desiredColumns))

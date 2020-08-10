@@ -46,7 +46,7 @@ fw13_createRawDataframe <- function(
   MazamaCoreUtils::stopIfNull(nwsID)
   
   # Guarantee it is zero padded six characters
-  nwsID <- sprintf("%06s", as.character(nwsID))
+  nwsID <- stringr::str_pad(nwsID, 6, pad = "0")
   
   # ----- Download/parse data --------------------------------------------------
   
@@ -63,7 +63,7 @@ fw13_createRawDataframe <- function(
     
     # NOTE:  HACK solution to return an empty tibble
     returnEmptyTibble <- TRUE
-    fileString <- "W13500742200507131500R  72 36261  4   72 48100 34 1   20     213 713200 10 "
+    fileString <- "W13500742200507131500R  72 36261  4   72 48100 34 1   20     213 713200 10 \n"
 
   }
   
