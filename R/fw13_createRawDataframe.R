@@ -29,8 +29,7 @@
 #' dplyr::glimpse(tbl)
 #' }
 #'
-#' @seealso \code{\link{raws_downloadData}}
-#' @seealso \code{\link{raws_parseData}}
+#' @seealso \code{\link{fw13_downloadData}}
 #'
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 

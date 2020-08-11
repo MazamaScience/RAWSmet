@@ -32,14 +32,13 @@
 #' \dontrun{
 #' library(RAWSmet)
 #'
-#' wa_meta <- raws_createMetadata(stateCode = 'WA', verbose = TRUE)
+#' wa_meta <- wrcc_createMetadata(stateCode = 'WA', verbose = TRUE)
 #' dplyr::glimpse(wa_meta)
 #' }
 #'
-#' @rdname raws_createMetadata
 #' @references \href{https://raws.dri.edu/}{RAWS USA Climate Archive}
 
-raws_createMetadata <- function(
+wrcc_createMetadata <- function(
   stateCode = NULL,
   stationIDs = NULL,
   baseUrl = "https://raws.dri.edu/",

@@ -29,17 +29,16 @@
 #' \dontrun{
 #' library(RAWSmet)
 #'
-#' waWALD <- raws_createTimeseriesObject(stationID = 'waWALD')
-#' 
+#' waWALD <- wrcc_createTimeseriesObject(stationID = 'waWALD')
 #' 
 #' }
 #'
-#' @seealso \code{\link{raws_downloadData}}
-#' @seealso \code{\link{raws_parseData}}
+#' @seealso \code{\link{wrcc_downloadData}}
+#' @seealso \code{\link{wrcc_parseData}}
 #'
 #' @references \href{https://raws.dri.edu/}{RAWS USA Climate Archive}
 
-raws_createTimeseriesObject <- function(
+wrcc_createTimeseriesObject <- function(
   stationID = NULL,
   meta = NULL,
   startdate = strftime(lubridate::now(tzone = "UTC"), "%Y%m0101", tz = "UTC"),
@@ -58,7 +57,7 @@ raws_createTimeseriesObject <- function(
   
   if ( is.null(meta) ) {
     
-    meta <- raws_createMetadata(stationIDs = stationID)
+    meta <- wrcc_createMetadata(stationIDs = stationID)
     
   } else {
     
@@ -70,7 +69,7 @@ raws_createTimeseriesObject <- function(
   
   # * Download/parse -----
   
-  tbl <- raws_createRawDataframe(
+  tbl <- wrcc_createRawDataframe(
     stationID = stationID,
     startdate = startdate,
     enddate = enddate,

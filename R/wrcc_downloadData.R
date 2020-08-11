@@ -20,11 +20,11 @@
 #' \dontrun{
 #' library(RAWSmet)
 #' 
-#' fileString <- raws_downloadData(stationID = 'waWENU')
+#' fileString <- wrcc_downloadData(stationID = 'waWENU')
 #' print(readr::read_lines(fileString)[1:10])
 #' }
 
-raws_downloadData <- function(
+wrcc_downloadData <- function(
   stationID = NULL,
   startdate = strftime(lubridate::now(tzone = "UTC"),"%Y%m0101", tz = "UTC"),
   enddate = strftime(lubridate::now(tzone = "UTC"),"%Y%m%d23", tz = "UTC"),

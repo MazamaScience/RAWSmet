@@ -45,7 +45,5 @@ dplyr::glimpse(tbl)
 \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 }
 \seealso{
-\code{\link{raws_downloadData}}
-
-\code{\link{raws_parseData}}
+\code{\link{fw13_downloadData}}
 }

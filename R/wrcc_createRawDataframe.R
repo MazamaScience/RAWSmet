@@ -25,16 +25,16 @@
 #' \dontrun{
 #' library(RAWSmet)
 #'
-#' tbl <- raws_createRawDataframe(stationID = 'waWENU')
+#' tbl <- wrcc_createRawDataframe(stationID = 'waWENU')
 #' dplyr::glimpse(tbl)
 #' }
 #'
-#' @seealso \code{\link{raws_downloadData}}
-#' @seealso \code{\link{raws_parseData}}
+#' @seealso \code{\link{wrcc_downloadData}}
+#' @seealso \code{\link{wrcc_parseData}}
 #'
 #' @references \href{https://raws.dri.edu/}{RAWS USA Climate Archive}
 
-raws_createRawDataframe <- function(
+wrcc_createRawDataframe <- function(
   stationID = NULL,
   startdate = strftime(lubridate::now(tzone = "UTC"), "%Y%m0101", tz = "UTC"),
   enddate = strftime(lubridate::now(tzone = "UTC"), "%Y%m%d23", tz = "UTC"),
@@ -51,7 +51,7 @@ raws_createRawDataframe <- function(
   # ----- Download/parse data --------------------------------------------------
   
   # Read in RAWS data
-  fileString <- raws_downloadData(stationID, startdate, enddate, baseUrl)
+  fileString <- wrcc_downloadData(stationID, startdate, enddate, baseUrl)
   
   # Catch HTML errors
   if ( stringr::str_detect(fileString, "Access to WRCC historical raws data is limited") ||
@@ -60,7 +60,7 @@ raws_createRawDataframe <- function(
   }
   
   # Read fwf raw data into a tibble
-  tbl <- raws_parseData(fileString)
+  tbl <- wrcc_parseData(fileString)
 
   # ----- Return ---------------------------------------------------------------
   

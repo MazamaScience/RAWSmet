@@ -6,11 +6,11 @@
 #' @param fileString character string containing RAWS data
 #' @description Raw character data from WRCC are parsed into a tibble.
 #' The incoming \code{fileString}
-#' can be read in directly from WRCC using \code{raws_downloadData()} or from a local
+#' can be read in directly from WRCC using \code{wrcc_downloadData()} or from a local
 #' file using \code{readr::read_file()}.
 #'
 #' The type of monitor represented by this fileString is inferred from the column names
-#' using \code{raws_identifyMonitorType()} and appropriate column types are assigned.
+#' using \code{wrcc_identifyMonitorType()} and appropriate column types are assigned.
 #' The character data are then processed, read into a tibble and augmented in the following ways:
 #' \enumerate{
 #' \item{Spaces at the beginning and end of each line are moved.}
@@ -22,17 +22,17 @@
 #' \dontrun{
 #' library(RAWSmet)
 #' 
-#' fileString <- raws_downloadData(stationID = 'WENU')
-#' tbl <- raws_parseData(fileString)
+#' fileString <- wrcc_downloadData(stationID = 'WENU')
+#' tbl <- wrcc_parseData(fileString)
 #' }
 
-raws_parseData <- function(fileString) {
+wrcc_parseData <- function(fileString) {
 
   if( MazamaCoreUtils::logger.isInitialized() )
     logger.debug(" ----- wrcc_parseData() ----- ")
 
   # Identify monitor type
-  monitorTypeList <- raws_identifyMonitorType(fileString)
+  monitorTypeList <- wrcc_identifyMonitorType(fileString)
   
   monitorType <- monitorTypeList$monitorType
   rawNames <- monitorTypeList$rawNames

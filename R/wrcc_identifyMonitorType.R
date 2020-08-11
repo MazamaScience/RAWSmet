@@ -29,11 +29,11 @@
 #' \dontrun{
 #' library(RAWSmet)
 #' 
-#' fileString <- raws_downloadData(stationID = 'WENU')
-#' monitorTypeList <- raws_identifyMonitorType(fileString)
+#' fileString <- wrcc_downloadData(stationID = 'WENU')
+#' monitorTypeList <- wrcc_identifyMonitorType(fileString)
 #' }
 
-raws_identifyMonitorType <- function(fileString) {
+wrcc_identifyMonitorType <- function(fileString) {
   
   # ----- Validate parameters --------------------------------------------------
   
