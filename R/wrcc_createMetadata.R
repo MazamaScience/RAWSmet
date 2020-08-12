@@ -116,6 +116,9 @@ wrcc_createMetadata <- function(
     latitudeDMS <- metaTable$X2[metaTable$X1 == "Latitude"]
     longitudeDMS <- metaTable$X2[metaTable$X1 == "Longitude"]
     elevation <- metaTable$X2[metaTable$X1 == "Elevation"]
+    nessID <- metaTable$X4[metaTable$X3 == "NESS ID" & !is.na(metaTable$X3)]
+    nwsID <- metaTable$X4[metaTable$X3 == "NWS ID" & !is.na(metaTable$X3)]
+    agency <- metaTable$X4[metaTable$X3 == "Agency" & !is.na(metaTable$X3)]
     
     # * Convert to internal standard -----
     
@@ -146,6 +149,17 @@ wrcc_createMetadata <- function(
     # Get stateCode from stationID
     stateCode <- toupper(stringr::str_sub(stationID, 1, 2))
     
+    # Check if identifies are valid
+    # NOTE: identifiers will not be a character if the table is missing.
+    # NOTE: identifiers will be empty strings ("") if the table exists but the
+    #       value is empty.
+    if ( !is.character(nessID) || nessID == "")
+      nessID = NA
+    if ( !is.character(nwsID) || nwsID == "")
+      nwsID = NA
+    if ( !is.character(agency) || agency == "")
+      agency = NA
+    
     recordList[[stationID]] <-
       dplyr::tibble(
         "countryCode" = "US", 
@@ -154,7 +168,10 @@ wrcc_createMetadata <- function(
         "siteName" = siteName, 
         "longitude" = longitude, 
         "latitude" = latitude, 
-        "elevation" = elevation      
+        "elevation" = elevation,
+        "nessID" = nessID,
+        "nwsID" = nwsID,
+        "agency" = agency
       )
     
   }
