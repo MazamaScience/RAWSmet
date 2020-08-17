@@ -2,39 +2,66 @@ library(RAWSmet)
 library(openair)
 library(dplyr)
 
-allStationMetaData <- fw13_createMetadata()
-waStations <- allStationMetaData %>% dplyr::filter(stateCode == "WA")
-
-head(waStations)
-# A tibble: 6 x 8
-# nwsID  longitude latitude elevation siteName    countryCode stateCode timezone           
-# <chr>      <dbl>    <dbl>     <dbl> <chr>       <chr>       <chr>     <chr>              
-# 1 451209     -123.     46.3      2000 ABERNATHY   US          WA        America/Los_Angeles
-# 2 452001     -120.     48.7      5161 AENEAS LO   US          WA        America/Los_Angeles
-# 3 450131     -123.     48.0      1630 BUCK KNOLL  US          WA        America/Los_Angeles
-# 4 450321     -124.     47.4       650 BLACK KNOB  US          WA        America/Los_Angeles
-# 5 452132     -120.     48.0      3156 CAMP 4      US          WA        America/Los_Angeles
-# 6 451207     -123.     46.3       213 CASTLE ROCK US          WA        America/Los_Angeles
-
-start <- MazamaCoreUtils::parseDatetime(20170801, timezone = "America/Los_Angeles")
-end <- MazamaCoreUtils::parseDatetime(20170808, timezone = "America/Los_Angeles")
-
-startRAWS <- MazamaCoreUtils::parseDatetime(20200801, timezone = "America/Los_Angeles")
-endRAWS <- MazamaCoreUtils::parseDatetime(20200808, timezone = "America/Los_Angeles")
+fw13Meta <- fw13_createMetadata()
 
 enumclawFW13 <- fw13_createTimeseriesObject(nwsID = 451702)
-enumclawFW13$data <- dplyr::filter(enumclawFW13$data, datetime >= start & datetime < end)
+quilceneFW13 <- fw13_createTimeseriesObject(nwsID = 450207)
 
-enumclawRAWS <- raws_createTimeseriesObject(stationID = "waWENU", startdate = 20200801, enddate = 20200808)
-
-# Lets compare data from august 2020 (from RAWS) to august 2017 (from FW13)
+augustData <- filter(enumclawFW13$data, stringr::str_sub(datetime, 6, 7) == "08")
+novembData <- filter(enumclawFW13$data, stringr::str_sub(datetime, 6, 7) == "11")
+allData2005 <- filter(enumclawFW13$data, stringr::str_sub(datetime, 0, 4) == "2005")
 
 enumclawFW13$data$date <- enumclawFW13$data$datetime
-enumclawRAWS$data$date <- enumclawRAWS$data$datetime
+quilceneFW13$data$date <- quilceneFW13$data$datetime
 
-openair::timePlot(enumclawFW13$data, pollutant = "temperature")
-openair::timePlot(enumclawRAWS$data, pollutant = "temperature")
+augustData$date <- augustData$datetime
+novembData$date <- novembData$datetime
+augustData$wd = augustData$windDirection
+augustData$ws = augustData$windSpeed
+allData2005$wd = allData2005$windDirection
+allData2005$ws = allData2005$windSpeed
 
-openair::windRose(enumclawFW13$data, ws = "windSpeed", wd = "windDirection")
-openair::windRose(enumclawRAWS$data, ws = "windSpeed", wd = "windDirection")
+start <- MazamaCoreUtils::parseDatetime(20050801, timezone = "UTC")
+end <- MazamaCoreUtils::parseDatetime(20050901, timezone = "UTC")
 
+august2005 <- filter(augustData, datetime >= start & datetime < end)
+
+# Enumclaw and Mill Creek
+overallTempTrendEnum <- smoothTrend(enumclawFW13$data, pollutant = "temperature", type = "season")
+overallTempTrendQuil <- smoothTrend(quilceneFW13$data, pollutant = "temperature", type = "season")
+
+enumMonthlyTemp <- smoothTrend(enumclawFW13$data, pollutant = "temperature", type = "month")
+
+# 2005
+tempPolarFreq2005 <- polarFreq(allData2005, pollutant = "temperature", 
+                               type = "month", statistic = "mean")
+      
+summary2005 <- summaryPlot(select(allData2005, c("date", "temperature", "humidity")), type = "month")
+
+tempHumRadScatter <- scatterPlot(allData2005, x = "temperature", y = "humidity", z = "solarRadiation", type = "season")
+
+all2005TimeVariation <- timeVariation(allData2005, pollutant = "temperature")
+
+tempTrend2005 <- smoothTrend(allData2005, pollutant = "temperature")
+
+# August (2005-2017)
+augustWindPlot <- openair::windRose(augustData, type = "year")
+
+solarRadPolarFreq <- polarFreq(augustData, pollutant = "solarRadiation", type = "year", statistic = "mean")
+
+augustTimeVariation <- timeVariation(augustData, pollutant = "temperature")
+
+augustTempTrend <- smoothTrend(augustData, pollutant = "temperature")
+# August 2005
+humidPercentile <- percentileRose(august2005, pollutant = "humidity", type = "year", 
+                                  percentile = c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100),
+                                  key.position = "right", smooth = T)
+
+tempPercentile <- percentileRose(august2005, pollutant = "temperature", type = "year", 
+                                 percentile = c(0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100),
+                                 key.position = "right", smooth = T)
+
+tempAugust2005 <- timePlot(august2005, pollutant = "temperature")
+
+# November(2005-2017)
+tempCalPlot <- calendarPlot(novembData, pollutant = "precipitation")
