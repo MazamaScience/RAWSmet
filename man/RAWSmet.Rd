@@ -5,6 +5,10 @@
 \alias{RAWSmet}
 \title{Utilities for working with RAWS data.}
 \description{
-This package provides many functions for downloading, parsing,
-and working with Remote Automatic Weather Station (RAWS) data.
+This package provides functions for downloading, parsing,
+and working with Remote Automatic Weather Station (RAWS) data obtained from
+the Western Regional Climate Center.
+}
+\references{
+https://wrcc.dri.edu
 }

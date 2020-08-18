@@ -1,3 +1,8 @@
+# RAWSmet 0.1.3
+
+* Added `README.md`.
+* Added "Identifying Unique Locations" article.
+
 # RAWSmet 0.1.2
 
 Reading data in FW13 format from https://cefa.dri.edu/raws/

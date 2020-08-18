@@ -1,5 +1,7 @@
 pandoc: 2.3.1
 pkgdown: 1.4.1
 pkgdown_sha: ~
-articles: []
+articles:
+  RAWSmet: RAWSmet.html
+  Identifying_Unique_Locations: articles/Identifying_Unique_Locations.html
 

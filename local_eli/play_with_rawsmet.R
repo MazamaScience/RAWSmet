@@ -4,8 +4,8 @@ library(dplyr)
 
 fw13Meta <- fw13_createMetadata()
 
-enumclawFW13 <- fw13_createTimeseriesObject(nwsID = 451702)
-quilceneFW13 <- fw13_createTimeseriesObject(nwsID = 450207)
+enumclawFW13 <- fw13_createTimeseriesObject(nwsID = 451702, meta)
+quilceneFW13 <- fw13_createTimeseriesObject(nwsID = 450207, meta)
 
 augustData <- filter(enumclawFW13$data, stringr::str_sub(datetime, 6, 7) == "08")
 novembData <- filter(enumclawFW13$data, stringr::str_sub(datetime, 6, 7) == "11")

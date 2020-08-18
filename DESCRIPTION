@@ -1,6 +1,6 @@
 Type: Package
 Package: RAWSmet
-Version: 0.1.2
+Version: 0.1.3
 Title: Download and Process data from Remote Automatic Weather Stations
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")),
@@ -31,6 +31,7 @@ Imports:
 Suggests:
     knitr,
     markdown,
+    MazamaLocationUtils (>= 0.1.11),
     testthat (>= 2.1.0),
     rmarkdown,
     roxygen2

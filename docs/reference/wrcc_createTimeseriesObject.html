@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Obtain metadata for every station. — fw13_createMetadata • RAWSmet</title>
+<title>Obtain RAWS data and create a timeseries object. — wrcc_createTimeseriesObject • RAWSmet</title>
 
 
 <!-- jquery -->
@@ -35,18 +35,15 @@
 
 
 
-<meta property="og:title" content="Obtain metadata for every station. — fw13_createMetadata" />
-<meta property="og:description" content="Assembles individual station metadata from a CEFA webservice 
-into a standardized dataframe. Metdata columns include:
+<meta property="og:title" content="Obtain RAWS data and create a timeseries object. — wrcc_createTimeseriesObject" />
+<meta property="og:description" content="Obtains station data from a WRCC webservice and converts
+it into a quality controlled, metadata enhanced &quot;raw&quot; tibble
+ready for use with all raw_~ functions.
+Steps involved include:
 
-nwsID -- NWS RAWS station identifier
-longitude -- decimal degrees East
-latitude -- decimal degrees North
-elevation -- in meters
-siteName -- human readable site name
-countryCode -- ISO 3166-1 alpha-2 country code
-stateCode -- ISO 3166-2 alpha-2 state code
-timezone -- Olson timezone
+download data text
+parse data text
+standardized names
 
 " />
 <meta name="twitter:card" content="summary" />
@@ -135,61 +132,74 @@ timezone -- Olson timezone
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Obtain metadata for every station.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/fw13_createMetadata.R'><code>R/fw13_createMetadata.R</code></a></small>
-    <div class="hidden name"><code>fw13_createMetadata.Rd</code></div>
+    <h1>Obtain RAWS data and create a timeseries object.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/wrcc_createTimeseriesObject.R'><code>R/wrcc_createTimeseriesObject.R</code></a></small>
+    <div class="hidden name"><code>wrcc_createTimeseriesObject.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Assembles individual station metadata from a CEFA webservice 
-into a standardized dataframe. Metdata columns include:</p>
-<ul>
-<li><p><code>nwsID</code> -- NWS RAWS station identifier</p></li>
-<li><p><code>longitude</code> -- decimal degrees East</p></li>
-<li><p><code>latitude</code> -- decimal degrees North</p></li>
-<li><p><code>elevation</code> -- in meters</p></li>
-<li><p><code>siteName</code> -- human readable site name</p></li>
-<li><p><code>countryCode</code> -- ISO 3166-1 alpha-2 country code</p></li>
-<li><p><code>stateCode</code> -- ISO 3166-2 alpha-2 state code</p></li>
-<li><p><code>timezone</code> -- Olson timezone</p></li>
-</ul>
+    <p>Obtains station data from a WRCC webservice and converts
+it into a quality controlled, metadata enhanced "raw" tibble
+ready for use with all <code>raw_~</code> functions.</p>
+<p>Steps involved include:</p>
+<ol>
+<li><p>download data text</p></li>
+<li><p>parse data text</p></li>
+<li><p>standardized names</p></li>
+</ol>
 
     </div>
 
-    <pre class="usage"><span class='fu'>fw13_createMetadata</span>(
-  <span class='kw'>metadataUrl</span> <span class='kw'>=</span> <span class='st'>"https://cefa.dri.edu/raws/RAWSfw13list.xlsx"</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+    <pre class="usage"><span class='fu'>wrcc_createTimeseriesObject</span>(
+  <span class='kw'>stationID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>meta</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/strptime.html'>strftime</a></span>(<span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/now.html'>now</a></span>(<span class='kw'>tzone</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>), <span class='st'>"%Y%m0101"</span>, <span class='kw'>tz</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>),
+  <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/strptime.html'>strftime</a></span>(<span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/now.html'>now</a></span>(<span class='kw'>tzone</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>), <span class='st'>"%Y%m%d23"</span>, <span class='kw'>tz</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>),
+  <span class='kw'>baseUrl</span> <span class='kw'>=</span> <span class='st'>"https://wrcc.dri.edu/cgi-bin/wea_list2.pl"</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>metadataUrl</th>
-      <td><p>URL for station metadata.</p></td>
+      <th>stationID</th>
+      <td><p>Station identifier found in 'meta'.</p></td>
     </tr>
     <tr>
-      <th>verbose</th>
-      <td><p>Logical flag controlling detailed progress statements.</p></td>
+      <th>meta</th>
+      <td><p>Tibble of RAWS metadata containing <code>stationID</code>.</p></td>
+    </tr>
+    <tr>
+      <th>startdate</th>
+      <td><p>Desired start date (integer or character representing YYYYMMDD[HH]).</p></td>
+    </tr>
+    <tr>
+      <th>enddate</th>
+      <td><p>Desired end date (integer or character representing YYYYMMDD[HH]).</p></td>
+    </tr>
+    <tr>
+      <th>baseUrl</th>
+      <td><p>Base URL for data queries.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Dataframe of station metadata.</p>
+    <p>Timeseries object with 'meta' and 'data'.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p><a href='https://cefa.dri.edu/raws/'>Program for Climate, Ecosystem and Fire Applications</a></p>
+    <p><a href='https://raws.dri.edu/'>RAWS USA Climate Archive</a></p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='wrcc_downloadData.html'>wrcc_downloadData</a></code></p>
+<p><code><a href='wrcc_parseData.html'>wrcc_parseData</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>RAWSmet</span>)
 
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>MazamaSpatialUtils</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/MazamaSpatialUtils/man/setSpatialDataDir.html'>setSpatialDataDir</a></span>(<span class='st'>"~/Data/Spatial"</span>)
+<span class='no'>waWALD</span> <span class='kw'>&lt;-</span> <span class='fu'>wrcc_createTimeseriesObject</span>(<span class='kw'>stationID</span> <span class='kw'>=</span> <span class='st'>'waWALD'</span>)
 
-<span class='no'>meta</span> <span class='kw'>&lt;-</span> <span class='fu'>fw13_createMetadata</span>(<span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>glimpse</a></span>(<span class='no'>meta</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -198,6 +208,7 @@ into a standardized dataframe. Metdata columns include:</p>
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
       <li><a href="#references">References</a></li>
+      <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
