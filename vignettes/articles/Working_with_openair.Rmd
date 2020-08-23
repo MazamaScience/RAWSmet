@@ -1,5 +1,5 @@
 ---
-title: "Working with openair"
+title: "Working With openair"
 author: "Eli Grosman"
 date: "August 18, 2020"
 output: rmarkdown::html_document
@@ -19,12 +19,12 @@ The goal of this document is to introduce the use of **RAWSmet** and **openair**
 
 ## Setting up RAWSmet
 
-Follow these instructions to set up **RAWSmet** correctly. To follow along with the rest of this document you may also install **openair** by running the following in the RStudio console:
+Follow these instructions to set up **RAWSmet** correctly. These instruction may also be found on the package’s website: https://mazamascience.github.io/RAWSmet/.
+
+To follow along with the rest of this document you may also install **openair** by running the following in the RStudio console:
 ```
 install.packages("openair")
 ```
-These instruction may also be found on the package’s website: https://mazamascience.github.io/RAWSmet/.
-
 This package is designed to be used with [R](https://cran.r-project.org) 
 (>= 3.3) and [RStudio](https://www.rstudio.com) so make sure you have those 
 installed first.
@@ -134,7 +134,7 @@ The RAWS timeseries object contains data for temperature, humidity, wind speed, 
 ### Wind rose plots
 
 Let us first create some wind rose plots. **Openair**'s `windRose()` function requires 3 arguments: the data to create the plot for, and the names of the wind speed and wind direction columns. By default `windRose()` looks for columns named `ws` and `wd` for wind speed and direction respectively so it is important to specify these names when calling the function. Again, **openair** requires that dates and times of observations are stored in a column named `date`. 
-```{r windrose1, message = FALSE}
+```{r windRose, message = FALSE}
 library(openair)
 
 openair::windRose(enumclawAug2005, ws = "windSpeed", wd = "windDirection",
@@ -143,7 +143,7 @@ openair::windRose(enumclawAug2005, ws = "windSpeed", wd = "windDirection",
 ```
 
 `windRose()` can also group data and plot it by different periods. Lets look at the wind speed and directions by season in Enumclaw:
-```{r windRose_season}
+```{r windRose_seasons}
 openair::windRose(enumclaw2005, ws = "windSpeed", wd = "windDirection",
                   main = "Wind speed and direction in Enumclaw, 2005", 
                   type = "season", key.footer = "(mph)")
@@ -152,28 +152,28 @@ openair::windRose(enumclaw2005, ws = "windSpeed", wd = "windDirection",
 ### Time-series plotting
 
 **Openair** can also be used to create time-series plots and trends. Lets first take a look at the function `timePlot()`. This function requires 2 arguments: the data to create the plot for, and `pollutant`, the name of the column to plot with respect to time.  Again, `timePlot()` requires that dates and times of observations are stored in a column named `date`. 
-```{r ts_plots}
+```{r temp_timePlot}
 openair::timePlot(enumclawAug2005, pollutant = "temperature",
                   main = "Temperature in Enumclaw, August 2005", key = F, 
                   ylab = "temperature (°F)", xlab = "time")
 ```
 
 `timePlot()` can also plot multiple columns so they can be compared against each other. Lets compare temperature and humidity in Enumclaw in August 2005:
-```{r ts_multiplot}
+```{r temp_humid_timePlot}
 openair::timePlot(enumclawAug2005, pollutant = c("temperature", "humidity"),
                   main = "Temperature and Humidity in Enumclaw, August 2005", key = T,
                   name.pol = c("temperature (°F)", "humidity (%)"), ylab = "")
 ```
 
 Plotting trends in data is also very easy using **openair.** The `smoothTrend()` function plots monthly averages against the trend in the variable of interest. Lets look at the trend of solar radiation in Enumclaw in 2005:
-```{r smooth_trend}
+```{r smoothTrend_months}
 openair::smoothTrend(enumclaw2005, pollutant = "solarRadiation",
                      main = "Solar Radiation trend in Enumclaw, 2005", statistic = "mean",
                      ylab = expression('solar radiation (W/m'^2*')'), xlab = "time")
 ```
 
 Instead of comparing monthly averages to the trend of the data, **openair** can also compare different averages.
-```{r smooth_trend2}
+```{r smoothTrend_years}
 openair::smoothTrend(enumclawTSObj$data, pollutant = "solarRadiation",
                      main = "Solar Radiation trend in Enumclaw", statistic = "mean",
                      ylab = expression('solar radiation (W/m'^2*')'), xlab = "time", avg.time = "year")

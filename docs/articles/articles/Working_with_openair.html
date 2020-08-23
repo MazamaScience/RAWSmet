@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Working with openair • RAWSmet</title>
+<title>Working With openair • RAWSmet</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../../bootstrap-toc.css">
 <script src="../../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../../pkgdown.css" rel="stylesheet">
-<script src="../../pkgdown.js"></script><meta property="og:title" content="Working with openair">
+<script src="../../pkgdown.js"></script><meta property="og:title" content="Working With openair">
 <meta property="og:description" content="RAWSmet">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -60,7 +60,7 @@
       <a href="../../articles/articles/Identifying_Unique_Locations.html">Identifying Unique Locations</a>
     </li>
     <li>
-      <a href="../../articles/articles/Working_with_openair.html">Working with openair</a>
+      <a href="../../articles/articles/Working_with_openair.html">Working With openair</a>
     </li>
   </ul>
 </li>
@@ -88,7 +88,7 @@
       </header><script src="Working_with_openair_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Working with openair</h1>
+      <h1 data-toc-skip>Working With openair</h1>
                         <h4 class="author">Eli Grosman</h4>
             
             <h4 class="date">August 18, 2020</h4>
@@ -110,9 +110,9 @@
 <div id="setting-up-rawsmet" class="section level2">
 <h2 class="hasAnchor">
 <a href="#setting-up-rawsmet" class="anchor"></a>Setting up RAWSmet</h2>
-<p>Follow these instructions to set up <strong>RAWSmet</strong> correctly. To follow along with the rest of this document you may also install <strong>openair</strong> by running the following in the RStudio console:</p>
+<p>Follow these instructions to set up <strong>RAWSmet</strong> correctly. These instruction may also be found on the package’s website: <a href="https://mazamascience.github.io/RAWSmet/" class="uri">https://mazamascience.github.io/RAWSmet/</a>.</p>
+<p>To follow along with the rest of this document you may also install <strong>openair</strong> by running the following in the RStudio console:</p>
 <pre><code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("openair")</a></code></pre>
-<p>These instruction may also be found on the package’s website: <a href="https://mazamascience.github.io/RAWSmet/" class="uri">https://mazamascience.github.io/RAWSmet/</a>.</p>
 <p>This package is designed to be used with <a href="https://cran.r-project.org">R</a> (&gt;= 3.3) and <a href="https://www.rstudio.com">RStudio</a> so make sure you have those installed first.</p>
 <p>Users will want to install the <strong>remotes</strong> package to have access to the latest version of the package from GitHub.</p>
 <p>The following packages should be installed by typing the following at the RStudio console:</p>
@@ -217,12 +217,12 @@ setRawsDataDir('~/Data/RAWS')</a></code></pre>
 <span class="kw pkg">openair</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/openair/man/windRose.html">windRose</a></span>(<span class="no">enumclawAug2005</span>, <span class="kw">ws</span> <span class="kw">=</span> <span class="st">"windSpeed"</span>, <span class="kw">wd</span> <span class="kw">=</span> <span class="st">"windDirection"</span>,
                   <span class="kw">main</span> <span class="kw">=</span> <span class="st">"Wind speed and direction in Enumclaw, August 2005"</span>,
                   <span class="kw">key.footer</span> <span class="kw">=</span> <span class="st">"(mph)"</span>)</pre></body></html></div>
-<p><img src="Working_with_openair_files/figure-html/windrose1-1.png" width="700"></p>
+<p><img src="Working_with_openair_files/figure-html/windRose-1.png" width="700"></p>
 <p><code><a href="https://rdrr.io/pkg/openair/man/windRose.html">windRose()</a></code> can also group data and plot it by different periods. Lets look at the wind speed and directions by season in Enumclaw:</p>
 <div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="kw pkg">openair</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/openair/man/windRose.html">windRose</a></span>(<span class="no">enumclaw2005</span>, <span class="kw">ws</span> <span class="kw">=</span> <span class="st">"windSpeed"</span>, <span class="kw">wd</span> <span class="kw">=</span> <span class="st">"windDirection"</span>,
                   <span class="kw">main</span> <span class="kw">=</span> <span class="st">"Wind speed and direction in Enumclaw, 2005"</span>,
                   <span class="kw">type</span> <span class="kw">=</span> <span class="st">"season"</span>, <span class="kw">key.footer</span> <span class="kw">=</span> <span class="st">"(mph)"</span>)</pre></body></html></div>
-<p><img src="Working_with_openair_files/figure-html/windRose_season-1.png" width="700"></p>
+<p><img src="Working_with_openair_files/figure-html/windRose_seasons-1.png" width="700"></p>
 </div>
 <div id="time-series-plotting" class="section level3">
 <h3 class="hasAnchor">
@@ -231,22 +231,22 @@ setRawsDataDir('~/Data/RAWS')</a></code></pre>
 <div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="kw pkg">openair</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/openair/man/timePlot.html">timePlot</a></span>(<span class="no">enumclawAug2005</span>, <span class="kw">pollutant</span> <span class="kw">=</span> <span class="st">"temperature"</span>,
                   <span class="kw">main</span> <span class="kw">=</span> <span class="st">"Temperature in Enumclaw, August 2005"</span>, <span class="kw">key</span> <span class="kw">=</span> <span class="no">F</span>,
                   <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">"temperature (°F)"</span>, <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">"time"</span>)</pre></body></html></div>
-<p><img src="Working_with_openair_files/figure-html/ts_plots-1.png" width="700"></p>
+<p><img src="Working_with_openair_files/figure-html/temp_timePlot-1.png" width="700"></p>
 <p><code><a href="https://rdrr.io/pkg/openair/man/timePlot.html">timePlot()</a></code> can also plot multiple columns so they can be compared against each other. Lets compare temperature and humidity in Enumclaw in August 2005:</p>
 <div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="kw pkg">openair</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/openair/man/timePlot.html">timePlot</a></span>(<span class="no">enumclawAug2005</span>, <span class="kw">pollutant</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"temperature"</span>, <span class="st">"humidity"</span>),
                   <span class="kw">main</span> <span class="kw">=</span> <span class="st">"Temperature and Humidity in Enumclaw, August 2005"</span>, <span class="kw">key</span> <span class="kw">=</span> <span class="no">T</span>,
                   <span class="kw">name.pol</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"temperature (°F)"</span>, <span class="st">"humidity (%)"</span>), <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">""</span>)</pre></body></html></div>
-<p><img src="Working_with_openair_files/figure-html/ts_multiplot-1.png" width="700"></p>
+<p><img src="Working_with_openair_files/figure-html/temp_humid_timePlot-1.png" width="700"></p>
 <p>Plotting trends in data is also very easy using <strong>openair.</strong> The <code><a href="https://rdrr.io/pkg/openair/man/smoothTrend.html">smoothTrend()</a></code> function plots monthly averages against the trend in the variable of interest. Lets look at the trend of solar radiation in Enumclaw in 2005:</p>
 <div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="kw pkg">openair</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/openair/man/smoothTrend.html">smoothTrend</a></span>(<span class="no">enumclaw2005</span>, <span class="kw">pollutant</span> <span class="kw">=</span> <span class="st">"solarRadiation"</span>,
                      <span class="kw">main</span> <span class="kw">=</span> <span class="st">"Solar Radiation trend in Enumclaw, 2005"</span>, <span class="kw">statistic</span> <span class="kw">=</span> <span class="st">"mean"</span>,
                      <span class="kw">ylab</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(<span class="st">'solar radiation (W/m'</span>^<span class="fl">2</span>*<span class="st">')'</span>), <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">"time"</span>)</pre></body></html></div>
-<p><img src="Working_with_openair_files/figure-html/smooth_trend-1.png" width="700"></p>
+<p><img src="Working_with_openair_files/figure-html/smoothTrend_months-1.png" width="700"></p>
 <p>Instead of comparing monthly averages to the trend of the data, <strong>openair</strong> can also compare different averages.</p>
 <div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="kw pkg">openair</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/openair/man/smoothTrend.html">smoothTrend</a></span>(<span class="no">enumclawTSObj</span>$<span class="no">data</span>, <span class="kw">pollutant</span> <span class="kw">=</span> <span class="st">"solarRadiation"</span>,
                      <span class="kw">main</span> <span class="kw">=</span> <span class="st">"Solar Radiation trend in Enumclaw"</span>, <span class="kw">statistic</span> <span class="kw">=</span> <span class="st">"mean"</span>,
                      <span class="kw">ylab</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html">expression</a></span>(<span class="st">'solar radiation (W/m'</span>^<span class="fl">2</span>*<span class="st">')'</span>), <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">"time"</span>, <span class="kw">avg.time</span> <span class="kw">=</span> <span class="st">"year"</span>)</pre></body></html></div>
-<p><img src="Working_with_openair_files/figure-html/smooth_trend2-1.png" width="700"></p>
+<p><img src="Working_with_openair_files/figure-html/smoothTrend_years-1.png" width="700"></p>
 </div>
 </div>
   </div>
