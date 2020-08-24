@@ -47,6 +47,8 @@ nws_500726 <- fw13_createTimeseriesObject(nwsID = 500726)
 }
 \references{
 \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
+
+\href{https://fam.nwcg.gov/fam-web/weatherfirecd/13.htm}{FW13 Data Format}
 }
 \seealso{
 \code{\link{fw13_createMetadata}}

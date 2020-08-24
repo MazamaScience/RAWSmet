@@ -39,7 +39,7 @@ considered “unique” locations
 ## Installation
 
 This package is designed to be used with [R](https://cran.r-project.org) 
-(>= 3.3) and [RStudio](https://www.rstudio.com) so make sure you have those 
+(>= 3.5) and [RStudio](https://www.rstudio.com) so make sure you have those 
 installed first.
 
 Users will want to install the **remotes** package to have access to the latest 

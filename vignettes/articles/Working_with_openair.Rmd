@@ -1,6 +1,6 @@
 ---
 title: "Working With openair"
-author: "Eli Grosman"
+author: "Eli Grosman, Mazama Science"
 date: "August 18, 2020"
 output: rmarkdown::html_document
 ---
@@ -11,22 +11,36 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Background
 
-The **RAWSmet** package was developed with the intent to make downloading and working with weather data gathered by RAWS stations simpler. Using this package in conjunction with the **openair** package can make some beautiful and informative visualizations of RAWS data.
+The **RAWSmet** package was developed to make downloading and 
+working with weather data gathered by RAWS stations simpler. Using this package 
+in conjunction with the **openair** package can make some beautiful and 
+informative visualizations of RAWS data.
 
-[**Openair**](https://davidcarslaw.github.io/openair/) is an R package designed specifically for modeling air quality data. The package provides many different tools for plotting wind and pollution roses, flexible time series plots, and more. Additionally, **openair** can easily group data and plot it by different periods such as by the hour, day, day of the week, season, and year. More information and documentation for **openair** may be found on its website: https://davidcarslaw.github.io/openair/.
+[**Openair**](https://davidcarslaw.github.io/openair/) is an R package designed 
+specifically for modeling air quality data. The package provides many different 
+tools for plotting wind and pollution roses, flexible time series plots, and more. 
+Additionally, **openair** can easily group data and plot it by different periods 
+such as by the hour, day, day of the week, season, and year. More information 
+and documentation for **openair** may be found on its website: 
+https://davidcarslaw.github.io/openair/.
 
-The goal of this document is to introduce the use of **RAWSmet** and **openair** to create visualizations of weather data. Additionally, this document may be used as a reference for using **RAWSmet** effectively for analyzing RAWS data. 
+The goal of this document is to introduce the use of **RAWSmet** and **openair** 
+to create visualizations of weather data.. 
 
 ## Setting up RAWSmet
 
-Follow these instructions to set up **RAWSmet** correctly. These instruction may also be found on the package’s website: https://mazamascience.github.io/RAWSmet/.
+Follow these instructions to set up **RAWSmet** correctly. These instruction may 
+also be found on the package’s website: https://mazamascience.github.io/RAWSmet/.
 
-To follow along with the rest of this document you may also install **openair** by running the following in the RStudio console:
+To follow along with the rest of this document you may also install **openair** 
+by running the following in the RStudio console:
+
 ```
 install.packages("openair")
 ```
-This package is designed to be used with [R](https://cran.r-project.org) 
-(>= 3.3) and [RStudio](https://www.rstudio.com) so make sure you have those 
+
+The **RAWSmet** package is designed to be used with [R](https://cran.r-project.org) 
+(>= 3.5) and [RStudio](https://www.rstudio.com) so make sure you have those 
 installed first.
 
 Users will want to install the **remotes** package to have access to the latest 
@@ -41,7 +55,7 @@ install.packages('knitr')
 install.packages('rmarkdown')
 install.packages('MazamaSpatialUtils')
 remotes::install_github('MazamaScience/MazamaLocationUtils')
-devtools::install_github('MazamaScience/RAWSmet')
+remotes::install_github('MazamaScience/RAWSmet')
 ```
 Any work with spatial data, *e.g.* assigning states, counties and timezones, 
 will require installation of required spatial datasets. To get these datasets 
@@ -54,48 +68,68 @@ setSpatialDataDir('~/Data/Spatial')
 installSpatialData()
 ```
 
-Data generated with package functions can be be saved and reloaded in a
-dedicated directory much the same as the `spatialDataDir` used above:
+<!-- Data generated with package functions can be be saved to and reloaded from a -->
+<!-- dedicated directory much the same as the `spatialDataDir` used above. Set up -->
+<!-- a directory for RAWS data with: -->
 
-```
-library(RAWSmet)
-dir.create('~/Data/RAWS', recursive = TRUE)
-setRawsDataDir('~/Data/RAWS')
-```
+<!-- ``` -->
+<!-- library(RAWSmet) -->
+<!-- dir.create('~/Data/RAWS', recursive = TRUE) -->
+<!-- setRawsDataDir('~/Data/RAWS') -->
+<!-- ``` -->
 
-The `rawsDataDir` must be set up correctly to use its functionality. RAWS data takes a long time to download so data may be saved to this directory so it does not need to be downloaded again in the future.
-
+<!-- The `rawsDataDir` must be set up correctly to use its functionality. RAWS data  -->
+<!-- takes a long time to download so data may be saved to this directory so it does  -->
+<!-- not need to be downloaded again in the future. -->
 
 ## Preparing data for openair
 
-Before using RAWS data with **openair**, we must ensure that the data is downloaded correctly and is in the correct format. 
+Before using RAWS data with **openair**, we must ensure that the data is 
+downloaded correctly and is in the correct format. 
 
-First, create a RAWS timeseries object using **RAWSmet**’s `fw13_createTimeseriesObject()` function (or `wrcc_createTimeseriesObject()` for current RAWS data from the WRCC). 
+First, create a RAWS timeseries object using **RAWSmet**’s 
+`fw13_createTimeseriesObject()` function (or `wrcc_createTimeseriesObject()` for 
+current RAWS data from the WRCC). 
 
 ```{r fw13_createTimeseriesObject, message = FALSE}
 library(RAWSmet)
 library(MazamaSpatialUtils)
 
-setRawsDataDir("~/Data/RAWS")
 setSpatialDataDir("~/Data/Spatial")
 
 meta <- fw13_createMetadata()
 head(meta)
-
-# nwsID 451702 is Enumclaw, WA
-enumclawTSObj <- fw13_createTimeseriesObject(nwsID = 451702, meta = meta)
 ```
 
-This timeseries object contains two dataframes, one of station metadata and another of cleaned weather data.
+The `wrcc_leaflet()` function provides an interactive map to help find the ID 
+associated with a particular location. Just click on a dot to find the associated
+ID:
+
+```{r wrcc_leaflet}
+# NOTE:  wrcc_leaflet() expects 'stationID' rather than 'nwsID'
+meta$stationID <- meta$nwsID
+wrcc_leaflet(meta)
+```
+
+We will shoose the station in Enumclaw, Washington (451702) and create a 
+"timeseries object". This timeseries object contains two dataframes, one of 
+station metadata and another of cleaned weather data.
 
 ```{r view_ts_object}
+# nwsID 451702 is Enumclaw, WA
+enumclawTSObj <- fw13_createTimeseriesObject(nwsID = 451702, meta = meta)
+
 names(enumclawTSObj)
 # View station metadata
 enumclawTSObj$meta
 # View sample of raw data
 head(enumclawTSObj$data)
 ```
-**Openair** requires that dates and times of observations are stored in a column called `date`. However, **RAWSmet** names this column `datetime`. Create the correct date column by running:
+
+**Openair** requires that dates and times of observations are stored in a column 
+called `date`. However, **RAWSmet** names this column `datetime`. Create the 
+correct date column by running:
+
 ```{r rename_datetime, message = FALSE}
 library(dplyr)
 
@@ -106,7 +140,16 @@ enumclawTSObj$data$date <- enumclawTSObj$data$datetime
 # enumclawTSObj$data <- dplyr::rename(enumclawTSObj$data, date = datetime)
 ```
 
-Note that this RAWS timeseries object contains *all* of the data gathered by the specified station in its lifetime. We can filter the data to look at periods of interest. It is also important to note that the datetimes stored in these RAWS timeseries objects are in UTC. 
+Note that this RAWS timeseries object contains *all* of the data gathered by the 
+specified station in its lifetime. We can filter the data to look at periods of 
+interest. It is also important to note that the datetimes stored in these RAWS 
+timeseries objects are of class `POSIXct` and are in the UTC timezone. 
+
+The `MazamaCoreUtils::parseDatetime()` function provides a robust datetime
+parser that enforces use of an explicit timezone. We can use this function to
+provide some start and end dates and then use normal **dplyr** filtering to subset
+the dataframe:
+
 ```{r filter_dates, message = FALSE}
 library(MazamaCoreUtils)
 # 20050101 will be parsed as Jan. 1st, 2005
@@ -120,61 +163,120 @@ startAug2005 <- MazamaCoreUtils::parseDatetime(20050801, timezone = "UTC")
 endAug2005 <- MazamaCoreUtils::parseDatetime(20050901, timezone = "UTC")
 
 # Get all observations between these dates
-enumclaw2005 <- dplyr::filter(enumclawTSObj$data, date >= start2005 & date < end2005)
-enumclawAug2005 <- dplyr::filter(enumclawTSObj$data, date >= startAug2005 & date < endAug2005)
+enumclawData_2005 <- dplyr::filter(enumclawTSObj$data, date >= start2005 & date < end2005)
+range(enumclawData_2005$date)
+
+enumclawData_200508 <- dplyr::filter(enumclawTSObj$data, date >= startAug2005 & date < endAug2005)
+range(enumclawData_200508$datetime)
 ```
 
-After renaming the datetime column and filtering by dates of interest, we are now ready to create visualizations using **openair.** 
-
+After renaming the datetime column and filtering by dates of interest, we are 
+now ready to create visualizations using **openair.** 
 
 ## Using openair
 
-The RAWS timeseries object contains data for temperature, humidity, wind speed, wind direction, max gust speed, max gust direction, precipitation, and solar radiation. We can utilize various **openair** plots to gain useful information from each of these columns.
+The RAWS timeseries data contains measurements for temperature, humidity, wind speed, 
+wind direction, max gust speed, max gust direction, precipitation, and solar 
+radiation. We can utilize various **openair** plots to gain insight from each 
+of these parameters.
 
 ### Wind rose plots
 
-Let us first create some wind rose plots. **Openair**'s `windRose()` function requires 3 arguments: the data to create the plot for, and the names of the wind speed and wind direction columns. By default `windRose()` looks for columns named `ws` and `wd` for wind speed and direction respectively so it is important to specify these names when calling the function. Again, **openair** requires that dates and times of observations are stored in a column named `date`. 
+Let us first create some wind rose plots. **Openair**'s `windRose()` function 
+requires 3 arguments: the data to create the plot for, and the names of the wind 
+speed and wind direction columns. By default, `windRose()` looks for columns 
+named `ws` and `wd` for wind speed and direction respectively so it is important 
+to specify these names when calling the function. (_Remember that **openair** 
+requires that dates and times of observations be stored in a column named `date`._)
+
 ```{r windRose, message = FALSE}
 library(openair)
 
-openair::windRose(enumclawAug2005, ws = "windSpeed", wd = "windDirection",
-                  main = "Wind speed and direction in Enumclaw, August 2005", 
-                  key.footer = "(mph)")
+openair::windRose(
+  enumclawData_200508, 
+  ws = "windSpeed", 
+  wd = "windDirection",
+  main = "Wind speed and direction in Enumclaw, August 2005", 
+  key.footer = "(mph)"
+)
 ```
 
-`windRose()` can also group data and plot it by different periods. Lets look at the wind speed and directions by season in Enumclaw:
+`windRose()` can also group data and plot it by different periods. Lets look at 
+the wind speed and directions by season in Enumclaw:
+
 ```{r windRose_seasons}
-openair::windRose(enumclaw2005, ws = "windSpeed", wd = "windDirection",
-                  main = "Wind speed and direction in Enumclaw, 2005", 
-                  type = "season", key.footer = "(mph)")
+openair::windRose(
+  enumclawData_2005, 
+  ws = "windSpeed", 
+  wd = "windDirection",
+  main = "Wind speed and direction in Enumclaw, 2005", 
+  type = "season", 
+  key.footer = "(mph)"
+)
 ```
 
 ### Time-series plotting
 
-**Openair** can also be used to create time-series plots and trends. Lets first take a look at the function `timePlot()`. This function requires 2 arguments: the data to create the plot for, and `pollutant`, the name of the column to plot with respect to time.  Again, `timePlot()` requires that dates and times of observations are stored in a column named `date`. 
+**Openair** can also be used to create time-series plots and trends. Lets first 
+take a look at the function `timePlot()`. This function requires 2 arguments: 
+the data to create the plot for, and `pollutant`, the name of the column to plot 
+with respect to time.  (_Again, `timePlot()` requires that dates and times of 
+observations are stored in a column named `date`._)
+
 ```{r temp_timePlot}
-openair::timePlot(enumclawAug2005, pollutant = "temperature",
-                  main = "Temperature in Enumclaw, August 2005", key = F, 
-                  ylab = "temperature (°F)", xlab = "time")
+openair::timePlot(
+  enumclawData_200508, 
+  pollutant = "temperature",
+  avg.time = "hour",
+  main = "Temperature in Enumclaw, August 2005", 
+  key = FALSE, 
+  xlab = "time",
+  ylab = "temperature (°F)"
+)
 ```
 
-`timePlot()` can also plot multiple columns so they can be compared against each other. Lets compare temperature and humidity in Enumclaw in August 2005:
+`timePlot()` can also plot multiple columns so they can be compared against each 
+other. Lets compare temperature and humidity in Enumclaw in August 2005:
+
 ```{r temp_humid_timePlot}
-openair::timePlot(enumclawAug2005, pollutant = c("temperature", "humidity"),
-                  main = "Temperature and Humidity in Enumclaw, August 2005", key = T,
-                  name.pol = c("temperature (°F)", "humidity (%)"), ylab = "")
+openair::timePlot(
+  enumclawData_200508, 
+  pollutant = c("temperature", "humidity"),
+  avg.time = "hour",
+  main = "Temperature and Humidity in Enumclaw, August 2005", 
+  key = TRUE,
+  name.pol = c("temperature (°F)", "humidity (%)"), 
+  ylab = ""
+)
 ```
 
-Plotting trends in data is also very easy using **openair.** The `smoothTrend()` function plots monthly averages against the trend in the variable of interest. Lets look at the trend of solar radiation in Enumclaw in 2005:
+Plotting trends in data is also very easy using **openair.** The `smoothTrend()` 
+function plots monthly averages against the trend in the variable of interest. 
+Lets look at the trend of solar radiation in Enumclaw in 2005:
+
 ```{r smoothTrend_months}
-openair::smoothTrend(enumclaw2005, pollutant = "solarRadiation",
-                     main = "Solar Radiation trend in Enumclaw, 2005", statistic = "mean",
-                     ylab = expression('solar radiation (W/m'^2*')'), xlab = "time")
+openair::smoothTrend(
+  enumclawData_2005, 
+  pollutant = "solarRadiation",
+  avg.time = "month",
+  main = "Solar Radiation trend in Enumclaw, 2005", 
+  statistic = "mean",
+  xlab = "time",
+  ylab = expression('solar radiation (W/m'^2*')')
+)
 ```
 
-Instead of comparing monthly averages to the trend of the data, **openair** can also compare different averages.
+Instead of comparing monthly averages to the trend of the data, **openair** can 
+also compare different averages.
+
 ```{r smoothTrend_years}
-openair::smoothTrend(enumclawTSObj$data, pollutant = "solarRadiation",
-                     main = "Solar Radiation trend in Enumclaw", statistic = "mean",
-                     ylab = expression('solar radiation (W/m'^2*')'), xlab = "time", avg.time = "year")
+openair::smoothTrend(
+  enumclawTSObj$data, 
+  pollutant = "solarRadiation",
+  main = "Solar Radiation trend in Enumclaw", 
+  statistic = "mean",
+  xlab = "time", 
+  ylab = expression('solar radiation (W/m'^2*')'), 
+  avg.time = "year"
+)
 ```

@@ -38,6 +38,7 @@
 #' @seealso \code{\link{fw13_createRawDataframe}}
 #'
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
+#' @references \href{https://fam.nwcg.gov/fam-web/weatherfirecd/13.htm}{FW13 Data Format}
 
 fw13_createTimeseriesObject <- function(
   nwsID = NULL,
@@ -68,28 +69,60 @@ fw13_createTimeseriesObject <- function(
     nwsID = nwsID,
     baseUrl = baseUrl
   )
+
+  # * Conversion to metric -----
+  
+  # measurementType: 1 = US, 2 = metric
+  
+  # Convert temperature from deg F to deg C
+  tempConvert <- function(type, temp) { 
+    if (type == 1) 
+      return(5/9 * (temp - 32)) 
+    else 
+      return(temp)
+  }
+  
+  temperature <- mapply(tempConvert, tbl$measurementType, tbl$dryBulbTemp)
+  
+  # Convert wind speeds from miles-per-hour to meters-per-second
+  speedConvert <- function(type, speed) {
+    if (type == 1)
+      return(1609.344 * speed * 1/3600)
+    else
+      return(speed)
+  }
+  # TODO:  Change all wind speeds to meters per second
+  # speed <- mapply(speedConvert, tbl$measurementType, tbl$avWindSpeed)
+  
+  # TODO:  Change precipitation to millimeters per hour
+  
   
   # * Harmonize ----
   
   # Define the set of standard columns that will always be returned
   standardColumns <- c(
-    "datetime", "temperature", "humidity",
+    "datetime", "temperature", "humidity", "fuelMoisture",
     "windSpeed", "windDirection", "maxGustSpeed", "maxGustDirection",
-    "precipitation", "solarRadiation"
+    "precipitation", "solarRadiation",
+    "minHumidity", "maxHumidity"
   )
   
+  # TODO:  Use metric versions of data
   data <-
     tbl %>%
     dplyr::mutate(
       "datetime" = paste0(.data$observationDate, .data$observationTime),
-      "temperature" = (.data$minTemp + .data$maxTemp)/2,
+      "temperature" = temperature,
       "humidity" = (.data$minRelHumidity + .data$maxRelHumidity)/2,
+      "fuelMoisture" = .data$fuelMoisture,
       "windSpeed" = .data$avWindSpeed,
       "windDirection" = .data$windDirection,
       "maxGustSpeed" = .data$maxGustSpeed,
       "maxGustDirection" = .data$maxGustDirection,
       "precipitation" = .data$precipAmount,
       "solarRadiation" = .data$solarRadiation,
+      "minHumidity" = .data$minRelHumidity,
+      "maxHumidity" = .data$maxRelHumidity,
       "monitorType" = "FW13"
     ) %>%
     dplyr::select(all_of(standardColumns))

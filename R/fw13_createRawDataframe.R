@@ -32,6 +32,7 @@
 #' @seealso \code{\link{fw13_downloadData}}
 #'
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
+#' @references \href{https://fam.nwcg.gov/fam-web/weatherfirecd/13.htm}{FW13 Data Format}
 
 fw13_createRawDataframe <- function(
   nwsID = NULL,
@@ -89,7 +90,7 @@ fw13_createRawDataframe <- function(
   )
   
   # Read in raw data
-  df <- 
+  tbl <- 
     readr::read_fwf(
       file = fileString, 
       col_positions = col_positions, 
@@ -99,10 +100,10 @@ fw13_createRawDataframe <- function(
     
   # NOTE:  HACK solution to return an empty tibble
   if ( exists("returnEmptyTibble") && returnEmptyTibble )
-    df <- df %>% dplyr::filter(nwsID == "Rumplestiltskin")
+    tbl <- tbl %>% dplyr::filter(nwsID == "Rumplestiltskin")
   
   # ----- Return ---------------------------------------------------------------
   
-  return(df)
+  return(tbl)
   
 }
