@@ -45,7 +45,7 @@ The columns of the 'data' dataframe include:
  \item{windDirection: average wind direction (°)}
  \item{maxGustSpeed: max gust speed (m/s)}
  \item{maxGustDirection: max gust direction (°)}
- \item{precipitation: precipitation (mm/h)}
+ \item{precipitation: precipitation}
  \item{solarRadiation: solar radiation (W/m^2)}
  \item{minHumidity: minimum relative humidity (\%)}
  \item{maxHumidity: maximum relative humidity (\%)}

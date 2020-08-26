@@ -35,7 +35,7 @@
 #'  \item{windDirection: average wind direction (°)}
 #'  \item{maxGustSpeed: max gust speed (m/s)}
 #'  \item{maxGustDirection: max gust direction (°)}
-#'  \item{precipitation: precipitation (mm/h)}
+#'  \item{precipitation: precipitation}
 #'  \item{solarRadiation: solar radiation (W/m^2)}
 #'  \item{minHumidity: minimum relative humidity (\%)}
 #'  \item{maxHumidity: maximum relative humidity (\%)}
@@ -114,15 +114,15 @@ fw13_createTimeseriesObject <- function(
   mxGustSpeed <- mapply(speedConvert, tbl$measurementType, tbl$maxGustSpeed)
   
   # Convert precipitation to millimeters per hour
-  precipConvert <- function(type, amount, duration) {
-    if (type == 1)
-      return((25.4 * amount) / duration)
-    else
-      return(amount / duration)
-  }
+  # precipConvert <- function(type, amount, duration) {
+  #   if (type == 1)
+  #     return((25.4 * amount))
+  #   else
+  #     return(amount)
+  # }
   
-  precipitation <- mapply(precipConvert, tbl$measurementType, tbl$precipAmount, tbl$precipDuration)
-  precipitation[is.nan(precipitation)] <- 0
+  # precipitation <- mapply(precipConvert, tbl$measurementType, tbl$precipAmount, tbl$precipDuration)
+  # precipitation[is.nan(precipitation)] <- 0
   
   # * Harmonize ----
   
@@ -131,7 +131,7 @@ fw13_createTimeseriesObject <- function(
     "datetime", "temperature", "humidity", "fuelMoisture",
     "windSpeed", "windDirection", "maxGustSpeed", "maxGustDirection",
     "precipitation", "solarRadiation",
-    "minHumidity", "maxHumidity"
+    "minHumidity", "maxHumidity", "precipDuration"
   )
   
   # TODO:  Use metric versions of data
@@ -146,7 +146,7 @@ fw13_createTimeseriesObject <- function(
       "windDirection" = .data$windDirection,
       "maxGustSpeed" = mxGustSpeed,
       "maxGustDirection" = .data$maxGustDirection,
-      "precipitation" = precipitation,
+      "precipitation" = .data$precipAmount,
       "solarRadiation" = .data$solarRadiation,
       "minHumidity" = .data$minRelHumidity,
       "maxHumidity" = .data$maxRelHumidity,
