@@ -22,6 +22,24 @@
 #'  \item{parse data text}
 #'  \item{standardized names}
 #' }
+#' 
+#' 
+#' The columns of the 'data' dataframe include:
+#' 
+#' \itemize{
+#'  \item{datetime: date and time of observation}
+#'  \item{temperature: temperature (°C)}
+#'  \item{humidity: average relative humidity (\%)}
+#'  \item{fuelMoisture: 10-hour time lag fuel moisture}
+#'  \item{windSpeed: average wind speed (m/s)}
+#'  \item{windDirection: average wind direction (°)}
+#'  \item{maxGustSpeed: max gust speed (m/s)}
+#'  \item{maxGustDirection: max gust direction (°)}
+#'  \item{precipitation: precipitation (mm/h)}
+#'  \item{solarRadiation: solar radiation (W/m^2)}
+#'  \item{minHumidity: minimum relative humidity (\%)}
+#'  \item{maxHumidity: maximum relative humidity (\%)}
+#' }
 #'
 #' @examples
 #' \dontrun{
@@ -91,11 +109,20 @@ fw13_createTimeseriesObject <- function(
     else
       return(speed)
   }
-  # TODO:  Change all wind speeds to meters per second
-  # speed <- mapply(speedConvert, tbl$measurementType, tbl$avWindSpeed)
+
+  windSpeed <- mapply(speedConvert, tbl$measurementType, tbl$avWindSpeed)
+  mxGustSpeed <- mapply(speedConvert, tbl$measurementType, tbl$maxGustSpeed)
   
-  # TODO:  Change precipitation to millimeters per hour
+  # Convert precipitation to millimeters per hour
+  precipConvert <- function(type, amount, duration) {
+    if (type == 1)
+      return((25.4 * amount) / duration)
+    else
+      return(amount / duration)
+  }
   
+  precipitation <- mapply(precipConvert, tbl$measurementType, tbl$precipAmount, tbl$precipDuration)
+  precipitation[is.nan(precipitation)] <- 0
   
   # * Harmonize ----
   
@@ -115,11 +142,11 @@ fw13_createTimeseriesObject <- function(
       "temperature" = temperature,
       "humidity" = (.data$minRelHumidity + .data$maxRelHumidity)/2,
       "fuelMoisture" = .data$fuelMoisture,
-      "windSpeed" = .data$avWindSpeed,
+      "windSpeed" = windSpeed,
       "windDirection" = .data$windDirection,
-      "maxGustSpeed" = .data$maxGustSpeed,
+      "maxGustSpeed" = mxGustSpeed,
       "maxGustDirection" = .data$maxGustDirection,
-      "precipitation" = .data$precipAmount,
+      "precipitation" = precipitation,
       "solarRadiation" = .data$solarRadiation,
       "minHumidity" = .data$minRelHumidity,
       "maxHumidity" = .data$maxRelHumidity,

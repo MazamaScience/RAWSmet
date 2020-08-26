@@ -32,6 +32,24 @@ Steps involved include:
  \item{parse data text}
  \item{standardized names}
 }
+
+
+The columns of the 'data' dataframe include:
+
+\itemize{
+ \item{datetime: date and time of observation}
+ \item{temperature: temperature (°C)}
+ \item{humidity: average relative humidity (\%)}
+ \item{fuelMoisture: 10-hour time lag fuel moisture}
+ \item{windSpeed: average wind speed (m/s)}
+ \item{windDirection: average wind direction (°)}
+ \item{maxGustSpeed: max gust speed (m/s)}
+ \item{maxGustDirection: max gust direction (°)}
+ \item{precipitation: precipitation (mm/h)}
+ \item{solarRadiation: solar radiation (W/m^2)}
+ \item{minHumidity: minimum relative humidity (\%)}
+ \item{maxHumidity: maximum relative humidity (\%)}
+}
 }
 \examples{
 \dontrun{
