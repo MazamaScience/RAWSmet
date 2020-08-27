@@ -28,6 +28,7 @@
 #' }
 #'
 #' @seealso \code{fw13_createTimeseriesObject}
+#' @seealso \code{setRawsDataDir}
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 
 fw13_load <- function(

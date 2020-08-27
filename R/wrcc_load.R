@@ -28,6 +28,7 @@
 #' }
 #'
 #' @seealso \code{wrcc_createTimeseriesObject}
+#' @seealso \code{setRawsDataDir}
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 
 wrcc_load <- function(

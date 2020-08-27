@@ -48,4 +48,6 @@ dplyr::glimpse(meta)
 }
 \seealso{
 \code{fw13_createTimeseriesObject}
+
+\code{setRawsDataDir}
 }

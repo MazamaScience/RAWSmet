@@ -41,4 +41,6 @@ dplyr::glimpse(stationMeta)
 }
 \seealso{
 \code{wrcc_createMetadata}
+
+\code{setRawsDataDir}
 }

@@ -22,6 +22,7 @@
 #' }
 #'
 #' @seealso \code{fw13_createMetadata}
+#' @seealso \code{setRawsDataDir}
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 
 fw13_loadMeta <- function(

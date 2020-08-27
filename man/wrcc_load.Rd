@@ -48,4 +48,6 @@ dplyr::glimpse(meta)
 }
 \seealso{
 \code{wrcc_createTimeseriesObject}
+
+\code{setRawsDataDir}
 }

@@ -38,4 +38,6 @@ dplyr::glimpse(stationMeta)
 }
 \seealso{
 \code{fw13_createMetadata}
+
+\code{setRawsDataDir}
 }
