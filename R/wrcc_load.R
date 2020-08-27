@@ -2,7 +2,7 @@
 #' @importfrom rlang .data
 #' @importfrom dplyr filter
 #' 
-#' @title Load WRCC RAWS data from a local directory
+#' @title Load WRCC RAWS timeseries object from a local directory
 #'
 #' @param stationID RAWS station identifier (will be upcased)
 #' @param meta Tibble of FW13 station metadata.
@@ -51,8 +51,8 @@ wrcc_load <- function(
   
   # ----- Check for local data -------------------------------------------------
   
-  fileName = sprintf("/wrcc_%s_%d.rda", stationID, year)
-  filePath = paste0(dataDir, fileName)
+  fileName = sprintf("wrcc_%s_%d.rda", stationID, year)
+  filePath = file.path(dataDir, fileName)
   
   if ( file.exists(filePath) ) {
     

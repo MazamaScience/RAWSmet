@@ -2,7 +2,7 @@
 % Please edit documentation in R/fw13_load.R
 \name{fw13_load}
 \alias{fw13_load}
-\title{Load FW13 RAWS data from a local directory}
+\title{Load FW13 RAWS timeseries object from a local directory}
 \usage{
 fw13_load(
   nwsID = NULL,

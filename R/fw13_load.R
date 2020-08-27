@@ -2,7 +2,7 @@
 #' @importfrom rlang .data
 #' @importfrom dplyr filter
 #' 
-#' @title Load FW13 RAWS data from a local directory
+#' @title Load FW13 RAWS timeseries object from a local directory
 #'
 #' @param nwsID NWS RAWS station identifier.
 #' @param meta Tibble of FW13 station metadata.
@@ -51,8 +51,8 @@ fw13_load <- function(
   
   # ----- Check for local data -------------------------------------------------
   
-  fileName = sprintf("/fw13_%s_%d.rda", nwsID, year)
-  filePath = paste0(dataDir, fileName)
+  fileName = sprintf("fw13_%s_%d.rda", nwsID, year)
+  filePath = file.path(dataDir, fileName)
   
   if ( file.exists(filePath) ) {
     

@@ -2,7 +2,7 @@
 % Please edit documentation in R/wrcc_load.R
 \name{wrcc_load}
 \alias{wrcc_load}
-\title{Load WRCC RAWS data from a local directory}
+\title{Load WRCC RAWS timeseries object from a local directory}
 \usage{
 wrcc_load(
   stationID = NULL,
