@@ -1,6 +1,6 @@
 #' @export
-#' @importfrom rlang .data
-#' @importfrom dplyr filter
+#' @importFrom rlang .data
+#' @importFrom dplyr filter
 #' 
 #' @title Load FW13 RAWS timeseries object from a local directory
 #'
@@ -71,7 +71,7 @@ fw13_load <- function(
     }
     
     # If local data does not exist, download and return it.
-    rawsObject <- fw13_createTimeseriesObject(nwsID = nwsID, meta = meta)
+    rawsObject <- fw13_createTimeseriesObject(nwsID = nwsID, meta = meta, baseUrl = baseUrl)
     
     # Temp solution until raws_filter~() functions are created
     rawsObject$data <- rawsObject$data %>% dplyr::filter(stringr::str_sub(.data$datetime, 0, 4) == year)

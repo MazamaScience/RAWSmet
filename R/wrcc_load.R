@@ -1,6 +1,6 @@
 #' @export
-#' @importfrom rlang .data
-#' @importfrom dplyr filter
+#' @importFrom rlang .data
+#' @importFrom dplyr filter
 #' 
 #' @title Load WRCC RAWS timeseries object from a local directory
 #'
@@ -71,7 +71,7 @@ wrcc_load <- function(
     }
     
     # If local data does not exist, download and return it.
-    rawsObject <- wrcc_createTimeseriesObject(stationID = stationID, meta = meta)
+    rawsObject <- wrcc_createTimeseriesObject(stationID = stationID, meta = meta, baseUrl = baseUrl)
     
     # Temp solution until raws_filter~() functions are created
     rawsObject$data <- rawsObject$data %>% dplyr::filter(stringr::str_sub(.data$datetime, 0, 4) == year)
