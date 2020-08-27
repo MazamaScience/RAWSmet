@@ -101,17 +101,15 @@ meta <- fw13_createMetadata()
 head(meta)
 ```
 
-The `wrcc_leaflet()` function provides an interactive map to help find the ID 
+The `raws_leaflet()` function provides an interactive map to help find the ID 
 associated with a particular location. Just click on a dot to find the associated
 ID:
 
-```{r wrcc_leaflet}
-# NOTE:  wrcc_leaflet() expects 'stationID' rather than 'nwsID'
-meta$stationID <- meta$nwsID
-wrcc_leaflet(meta)
+```{r raws_leaflet}
+raws_leaflet(meta)
 ```
 
-We will shoose the station in Enumclaw, Washington (451702) and create a 
+We will choose the station in Enumclaw, Washington (451702) and create a 
 "timeseries object". This timeseries object contains two dataframes, one of 
 station metadata and another of cleaned weather data.
 

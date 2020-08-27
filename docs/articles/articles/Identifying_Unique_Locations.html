@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
       </span>
     </div>
 
@@ -256,17 +256,18 @@
 <span class="co"># We are only interested in the 'data' part:</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">CampCreek_1</span>$<span class="no">data</span>)</pre></body></html></div>
-<pre><code>## # A tibble: 6 x 9
-##   datetime            temperature humidity windSpeed windDirection maxGustSpeed
-##   &lt;dttm&gt;                    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;
-## 1 1998-06-25 03:00:00        50       58.5        14           216           30
-## 2 1998-06-25 04:00:00        50.5     58          17           231           41
-## 3 1998-06-25 05:00:00        51       57.5        18           234           40
-## 4 1998-06-25 06:00:00        51       57.5        19           236           43
-## 5 1998-06-25 07:00:00        51       57.5        19           235           38
-## 6 1998-06-25 08:00:00        51.5     57.5        21           251           37
-## # … with 3 more variables: maxGustDirection &lt;dbl&gt;, precipitation &lt;dbl&gt;,
-## #   solarRadiation &lt;dbl&gt;</code></pre>
+<pre><code>## # A tibble: 6 x 13
+##   datetime            temperature humidity fuelMoisture windSpeed windDirection
+##   &lt;dttm&gt;                    &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;
+## 1 1998-06-25 03:00:00        22.2     58.5           NA      6.26           216
+## 2 1998-06-25 04:00:00        22.8     58             NA      7.60           231
+## 3 1998-06-25 05:00:00        23.3     57.5           NA      8.05           234
+## 4 1998-06-25 06:00:00        23.3     57.5           NA      8.49           236
+## 5 1998-06-25 07:00:00        22.8     57.5           NA      8.49           235
+## 6 1998-06-25 08:00:00        23.9     57.5           NA      9.39           251
+## # … with 7 more variables: maxGustSpeed &lt;dbl&gt;, maxGustDirection &lt;dbl&gt;,
+## #   precipitation &lt;dbl&gt;, solarRadiation &lt;dbl&gt;, minHumidity &lt;dbl&gt;,
+## #   maxHumidity &lt;dbl&gt;, precipDuration &lt;dbl&gt;</code></pre>
 <div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="co"># ----- Plot them separately -----</span>
 
 <span class="co"># Hint:  use pch = '.' to speed up graphical rendering</span>

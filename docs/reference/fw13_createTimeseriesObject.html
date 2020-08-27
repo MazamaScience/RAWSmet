@@ -49,6 +49,23 @@ download data text
 parse data text
 standardized names
 
+
+
+The columns of the 'data' dataframe include:
+
+datetime: date and time of observation
+temperature: temperature (°C)
+humidity: average relative humidity (%)
+fuelMoisture: 10-hour time lag fuel moisture
+windSpeed: average wind speed (m/s)
+windDirection: average wind direction (°)
+maxGustSpeed: max gust speed (m/s)
+maxGustDirection: max gust direction (°)
+precipitation: precipitation
+solarRadiation: solar radiation (W/m^2)
+minHumidity: minimum relative humidity (%)
+maxHumidity: maximum relative humidity (%)
+
 " />
 
 
@@ -81,7 +98,7 @@ standardized names
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
       </span>
     </div>
 
@@ -154,6 +171,23 @@ ready for use with all <code>raw_~</code> functions.</p>
 <li><p>standardized names</p></li>
 </ol>
 
+
+<p>The columns of the 'data' dataframe include:</p>
+<ul>
+<li><p>datetime: date and time of observation</p></li>
+<li><p>temperature: temperature (°C)</p></li>
+<li><p>humidity: average relative humidity (%)</p></li>
+<li><p>fuelMoisture: 10-hour time lag fuel moisture</p></li>
+<li><p>windSpeed: average wind speed (m/s)</p></li>
+<li><p>windDirection: average wind direction (°)</p></li>
+<li><p>maxGustSpeed: max gust speed (m/s)</p></li>
+<li><p>maxGustDirection: max gust direction (°)</p></li>
+<li><p>precipitation: precipitation</p></li>
+<li><p>solarRadiation: solar radiation (W/m^2)</p></li>
+<li><p>minHumidity: minimum relative humidity (%)</p></li>
+<li><p>maxHumidity: maximum relative humidity (%)</p></li>
+</ul>
+
     </div>
 
     <pre class="usage"><span class='fu'>fw13_createTimeseriesObject</span>(
@@ -185,6 +219,7 @@ ready for use with all <code>raw_~</code> functions.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p><a href='https://cefa.dri.edu/raws/'>Program for Climate, Ecosystem and Fire Applications</a></p>
+<p><a href='https://fam.nwcg.gov/fam-web/weatherfirecd/13.htm'>FW13 Data Format</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='fw13_createMetadata.html'>fw13_createMetadata</a></code></p>
