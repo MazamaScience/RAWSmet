@@ -2,9 +2,9 @@
 #' @importfrom rlang .data
 #' @importfrom dplyr filter
 #' 
-#' @title Load FW13 RAWS data from a local directory
+#' @title Load WRCC RAWS data from a local directory
 #'
-#' @param nwsID NWS RAWS station identifier.
+#' @param stationID RAWS station identifier (will be upcased)
 #' @param meta Tibble of FW13 station metadata.
 #' @param year Year to access station data for.
 #' @param baseUrl Base URL for data queries.
@@ -12,7 +12,7 @@
 #'
 #' @return Timeseries object with 'meta' and 'data'.
 #'
-#' @description Loads FW13 station metadata and data from the \code{rawsDataDir}. If the
+#' @description Loads WRCC station metadata and data from the \code{rawsDataDir}. If the
 #' data is not in this directory, this will download and save the data. 
 #' 
 #' @examples
@@ -21,26 +21,26 @@
 #' 
 #' setRawsDataDir("~/Data/RAWS/")
 #'
-#' stationMeta <- fw13_createMetadata()
-#' meta <- fw13_load(nwsID = 451702, meta = stationMeta)
+#' stationMeta <- wrcc_createMetadata(stateCode = "WA", stationIDs = "waWENU")
+#' meta <- wrcc_load(stationID = "waWENU", meta = stationMeta)
 #' 
 #' dplyr::glimpse(meta)
 #' }
 #'
-#' @seealso \code{fw13_createTimeseriesObject}
+#' @seealso \code{wrcc_createTimeseriesObject}
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 
-fw13_load <- function(
-  nwsID = NULL,
+wrcc_load <- function(
+  stationID = NULL,
   meta = NULL,
   year = NULL,
-  baseUrl = "https://cefa.dri.edu/raws/fw13/",
+  baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl",
   verbose = TRUE
 ) {
   
   # ----- Validate parameters --------------------------------------------------
   
-  MazamaCoreUtils::stopIfNull(nwsID)
+  MazamaCoreUtils::stopIfNull(stationID)
   MazamaCoreUtils::stopIfNull(year)
   
   if ( !is.numeric(year) ) {
@@ -51,7 +51,7 @@ fw13_load <- function(
   
   # ----- Check for local data -------------------------------------------------
   
-  fileName = sprintf("/fw13_%s_%d.rda", nwsID, year)
+  fileName = sprintf("/wrcc_%s_%d.rda", stationID, year)
   filePath = paste0(dataDir, fileName)
   
   if ( file.exists(filePath) ) {
@@ -71,7 +71,7 @@ fw13_load <- function(
     }
     
     # If local data does not exist, download and return it.
-    rawsObject <- fw13_createTimeseriesObject(nwsID = nwsID, meta = meta)
+    rawsObject <- wrcc_createTimeseriesObject(stationID = stationID, meta = meta)
     
     # Temp solution until raws_filter~() functions are created
     rawsObject$data <- rawsObject$data %>% dplyr::filter(stringr::str_sub(.data$datetime, 0, 4) == year)
