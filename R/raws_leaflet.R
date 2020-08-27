@@ -79,7 +79,7 @@ raws_leaflet <- function(
     )    
   } else {
     meta$popupText <- paste(
-      "<strong>", meta$nwsID, "</strong><br>",
+      "<strong>", meta$siteName, "</strong><br>",
       "Station ID:", meta$nwsID, "<br>",
       "Elevation:", round(meta$elevation), "m<br>",
       "Country Code:", meta$countryCode, "<br>",
