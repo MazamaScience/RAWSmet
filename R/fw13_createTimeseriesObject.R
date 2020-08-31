@@ -74,7 +74,7 @@ fw13_createTimeseriesObject <- function(
   # ----- Create 'meta' --------------------------------------------------------
   
   if ( is.null(meta) )
-    meta <- fw13_createMetadata()
+    meta <- fw13_loadMeta()
   
   # Subset to a single record
   meta <- dplyr::filter(meta, nwsID == !!nwsID)

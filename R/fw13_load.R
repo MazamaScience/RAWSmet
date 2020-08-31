@@ -22,7 +22,7 @@
 #' setRawsDataDir("~/Data/RAWS/")
 #'
 #' stationMeta <- fw13_createMetadata()
-#' meta <- fw13_load(nwsID = 451702, meta = stationMeta)
+#' meta <- fw13_load(nwsID = 451702, year = 2005, meta = stationMeta)
 #' 
 #' dplyr::glimpse(meta)
 #' }
