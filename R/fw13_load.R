@@ -6,14 +6,13 @@
 #'
 #' @param nwsID NWS RAWS station identifier.
 #' @param meta Tibble of FW13 station metadata.
-#' @param year Year to access station data for.
 #' @param baseUrl Base URL for data queries.
 #' @param verbose Logical flag controlling detailed progress statements.
 #'
 #' @return Timeseries object with 'meta' and 'data'.
 #'
-#' @description Loads FW13 station metadata and data from the \code{rawsDataDir}. If the
-#' data is not in this directory, this will download and save the data. 
+#' @description Loads FW13 station metadata and data from the \code{rawsDataDir}. 
+#' If the data is not in this directory, this will download and save the data. 
 #' 
 #' @examples
 #' \dontrun{
@@ -22,7 +21,7 @@
 #' setRawsDataDir("~/Data/RAWS/")
 #'
 #' stationMeta <- fw13_createMetadata()
-#' meta <- fw13_load(nwsID = 451702, year = 2005, meta = stationMeta)
+#' meta <- fw13_load(nwsID = 451702, meta = stationMeta)
 #' 
 #' dplyr::glimpse(meta)
 #' }
@@ -34,7 +33,6 @@
 fw13_load <- function(
   nwsID = NULL,
   meta = NULL,
-  year = NULL,
   baseUrl = "https://cefa.dri.edu/raws/fw13/",
   verbose = TRUE
 ) {
@@ -42,17 +40,17 @@ fw13_load <- function(
   # ----- Validate parameters --------------------------------------------------
   
   MazamaCoreUtils::stopIfNull(nwsID)
-  MazamaCoreUtils::stopIfNull(year)
   
-  if ( !is.numeric(year) ) {
-    stop("Parameter 'year' must be numeric.")
-  }
-  
+  currentYear <- lubridate::now(tzone = "UTC") %>% lubridate::year()
+
   dataDir <- getRawsDataDir()
   
   # ----- Check for local data -------------------------------------------------
   
-  fileName = sprintf("fw13_%s_%d.rda", nwsID, year)
+  # NOTE:  We save the file with the currentYear. This guarantees that updated
+  # NOTE:  files will be obtained at least every year.
+  
+  fileName = sprintf("fw13_%s_%d.rda", nwsID, currentYear)
   filePath = file.path(dataDir, fileName)
   
   if ( file.exists(filePath) ) {
@@ -73,9 +71,6 @@ fw13_load <- function(
     
     # If local data does not exist, download and return it.
     rawsObject <- fw13_createTimeseriesObject(nwsID = nwsID, meta = meta, baseUrl = baseUrl)
-    
-    # Temp solution until raws_filter~() functions are created
-    rawsObject$data <- rawsObject$data %>% dplyr::filter(stringr::str_sub(.data$datetime, 0, 4) == year)
     
     # Save this object so it may be loaded in the future
     save(rawsObject, file = filePath)

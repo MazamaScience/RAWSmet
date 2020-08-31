@@ -4,7 +4,7 @@
 \alias{raws_isEmpty}
 \title{Test for an epty \emph{raws_timeseries} object}
 \usage{
-raws_isEmpty(rawsObject)
+raws_isEmpty(rawsObject = NULL)
 }
 \arguments{
 \item{rawsObject}{\emph{raws_timeseries} object}

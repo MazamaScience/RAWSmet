@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Set package data directory — setRawsDataDir • RAWSmet</title>
+<title>Extract dataframes from <em>raws_timeseries</em> objects — raws_extract • RAWSmet</title>
 
 
 <!-- jquery -->
@@ -35,9 +35,10 @@
 
 
 
-<meta property="og:title" content="Set package data directory — setRawsDataDir" />
-<meta property="og:description" content="Sets the package data directory where RAWS data is located.
-If the directory does not exist, it will be created." />
+<meta property="og:title" content="Extract dataframes from <em>raws_timeseries</em> objects — raws_extract" />
+<meta property="og:description" content="These functions are convenient wrappers for extracting the dataframes that
+comprise a raws_timeseries object. These functions are designed to be useful when
+manipulating data in a pipeline chain using %&amp;gt;%." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -127,42 +128,62 @@ If the directory does not exist, it will be created." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Set package data directory</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/RAWSmet.R'><code>R/RAWSmet.R</code></a></small>
-    <div class="hidden name"><code>setRawsDataDir.Rd</code></div>
+    <h1>Extract dataframes from <em>raws_timeseries</em> objects</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/raws_utils.R'><code>R/raws_utils.R</code></a></small>
+    <div class="hidden name"><code>raws_extract.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Sets the package data directory where RAWS data is located.
-If the directory does not exist, it will be created.</p>
+    <p>These functions are convenient wrappers for extracting the dataframes that
+comprise a <em>raws_timeseries</em> object. These functions are designed to be useful when
+manipulating data in a pipeline chain using <code>%&gt;%</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>setRawsDataDir</span>(<span class='no'>dataDir</span>)</pre>
+    <pre class="usage"><span class='fu'>raws_extractData</span>(<span class='kw'>rawsObject</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>forOpenair</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+<span class='fu'>raws_extractMeta</span>(<span class='kw'>rawsObject</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dataDir</th>
-      <td><p>directory where RAWS data are created</p></td>
+      <th>rawsObject</th>
+      <td><p><em>raws_timeseries</em> object to extract dataframe from</p></td>
+    </tr>
+    <tr>
+      <th>forOpenair</th>
+      <td><p>Logical instructions to clean data for use with openair</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Silently returns previous value of data directory.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>A dataframe from the given <em>raws_timeseries</em> object</p>
 
-    <div class='dont-index'><p>rawsDataDir</p>
-<p>getRawsDataDir</p></div>
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>RAWSmet</span>)
 
+<span class='fu'><a href='setRawsDataDir.html'>setRawsDataDir</a></span>(<span class='st'>"~/Data/RAWS"</span>)
+<span class='fu'>setSpatialDataDir</span>(<span class='st'>"~/Data/Spatial"</span>)
+
+<span class='fu'><a href='fw13_load.html'>fw13_load</a></span>(<span class='fl'>451702</span>, <span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2005</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>raws_extractData</span>(<span class='kw'>forOpenair</span> <span class='kw'>=</span> <span class='no'>T</span>) <span class='kw'>%&gt;%</span>
+  <span class='kw pkg'>openair</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/openair/man/timePlot.html'>timePlot</a></span>(
+    <span class='kw'>pollutant</span> <span class='kw'>=</span> <span class='st'>"temperature"</span>
+  )
+
+<span class='fu'><a href='fw13_load.html'>fw13_load</a></span>(<span class='fl'>451702</span>, <span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2005</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>raws_extractMeta</span>() <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>()
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

@@ -8,7 +8,7 @@
 \usage{
 raws_extractData(rawsObject = NULL, forOpenair = FALSE)
 
-raws_extractMeta(rawsObject)
+raws_extractMeta(rawsObject = NULL)
 }
 \arguments{
 \item{rawsObject}{\emph{raws_timeseries} object to extract dataframe from}

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Set package data directory — setRawsDataDir • RAWSmet</title>
+<title>Date filtering for <em>raws_timeseries</em> objects — raws_filterDate • RAWSmet</title>
 
 
 <!-- jquery -->
@@ -35,9 +35,16 @@
 
 
 
-<meta property="og:title" content="Set package data directory — setRawsDataDir" />
-<meta property="og:description" content="Sets the package data directory where RAWS data is located.
-If the directory does not exist, it will be created." />
+<meta property="og:title" content="Date filtering for <em>raws_timeseries</em> objects — raws_filterDate" />
+<meta property="og:description" content="Subsets a raws_timeseries object by date. This function
+always filters to day-boundaries.
+Dates can be anything that is understood by lubridate::ymd()
+including either of the following recommended formats:
+
+&quot;YYYYmmdd&quot;
+&quot;YYYY-mm-dd&quot;
+
+" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -127,42 +134,91 @@ If the directory does not exist, it will be created." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Set package data directory</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/RAWSmet.R'><code>R/RAWSmet.R</code></a></small>
-    <div class="hidden name"><code>setRawsDataDir.Rd</code></div>
+    <h1>Date filtering for <em>raws_timeseries</em> objects</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/raws_filterDate.R'><code>R/raws_filterDate.R</code></a></small>
+    <div class="hidden name"><code>raws_filterDate.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Sets the package data directory where RAWS data is located.
-If the directory does not exist, it will be created.</p>
+    <p>Subsets a <em>raws_timeseries</em> object by date. This function
+always filters to day-boundaries.</p>
+<p>Dates can be anything that is understood by <code><a href='http://lubridate.tidyverse.org/reference/ymd.html'>lubridate::ymd()</a></code>
+including either of the following recommended formats:</p>
+<ul>
+<li><p><code>"YYYYmmdd"</code></p></li>
+<li><p><code>"YYYY-mm-dd"</code></p></li>
+</ul>
+
     </div>
 
-    <pre class="usage"><span class='fu'>setRawsDataDir</span>(<span class='no'>dataDir</span>)</pre>
+    <pre class="usage"><span class='fu'>raws_filterDate</span>(
+  <span class='kw'>rawsObject</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>days</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>weeks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dataDir</th>
-      <td><p>directory where RAWS data are created</p></td>
+      <th>rawsObject</th>
+      <td><p><em>raws_timeseries</em> object.</p></td>
+    </tr>
+    <tr>
+      <th>startdate</th>
+      <td><p>Desired start datetime (ISO 8601).</p></td>
+    </tr>
+    <tr>
+      <th>enddate</th>
+      <td><p>Desired end datetime (ISO 8601).</p></td>
+    </tr>
+    <tr>
+      <th>days</th>
+      <td><p>Number of days to include in the filterDate interval.</p></td>
+    </tr>
+    <tr>
+      <th>weeks</th>
+      <td><p>Number of weeks to include in the filterDate interval.</p></td>
+    </tr>
+    <tr>
+      <th>timezone</th>
+      <td><p>Olson timezone used to interpret dates.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Silently returns previous value of data directory.</p>
+    <p>A subset of the given <em>raws_timeseries</em> object.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>The returned data will run from the beginning of <code>startdate</code> until
+the <strong>beginning</strong> of <code>enddate</code> -- <em>i.e.</em> no values associated
+with <code>enddate</code> will be returned.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>rawsDataDir</p>
-<p>getRawsDataDir</p></div>
+    <div class='dont-index'><p><a href='raws_filter.html'>raws_filter</a></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>RAWSmet</span>)
+<span class='fu'><a href='setRawsDataDir.html'>setRawsDataDir</a></span>(<span class='st'>"~/Data/RAWS"</span>)
+
+<span class='no'>rawsObject</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fw13_load.html'>fw13_load</a></span>(<span class='kw'>nwsID</span> <span class='kw'>=</span> <span class='fl'>451702</span>, <span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2005</span>)
+
+<span class='no'>data200508</span> <span class='kw'>&lt;-</span> <span class='no'>rawsObject</span> <span class='kw'>%&gt;%</span> <span class='fu'>raws_filterDate</span>(<span class='fl'>20050801</span>, <span class='fl'>20050901</span>, <span class='kw'>timezone</span> <span class='kw'>=</span> <span class='st'>"America/Los_Angeles"</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#note">Note</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

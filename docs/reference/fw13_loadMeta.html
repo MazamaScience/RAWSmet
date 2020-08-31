@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Set package data directory — setRawsDataDir • RAWSmet</title>
+<title>Load FW13 RAWS station metadata from a local directory — fw13_loadMeta • RAWSmet</title>
 
 
 <!-- jquery -->
@@ -35,9 +35,9 @@
 
 
 
-<meta property="og:title" content="Set package data directory — setRawsDataDir" />
-<meta property="og:description" content="Sets the package data directory where RAWS data is located.
-If the directory does not exist, it will be created." />
+<meta property="og:title" content="Load FW13 RAWS station metadata from a local directory — fw13_loadMeta" />
+<meta property="og:description" content="Loads all FW13 station metadata from the rawsDataDir. If
+the data is not in this directory, this will download and save the data." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -127,42 +127,64 @@ If the directory does not exist, it will be created." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Set package data directory</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/RAWSmet.R'><code>R/RAWSmet.R</code></a></small>
-    <div class="hidden name"><code>setRawsDataDir.Rd</code></div>
+    <h1>Load FW13 RAWS station metadata from a local directory</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/fw13_loadMeta.R'><code>R/fw13_loadMeta.R</code></a></small>
+    <div class="hidden name"><code>fw13_loadMeta.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Sets the package data directory where RAWS data is located.
-If the directory does not exist, it will be created.</p>
+    <p>Loads all FW13 station metadata from the <code>rawsDataDir</code>. If
+the data is not in this directory, this will download and save the data.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>setRawsDataDir</span>(<span class='no'>dataDir</span>)</pre>
+    <pre class="usage"><span class='fu'>fw13_loadMeta</span>(
+  <span class='kw'>metadataUrl</span> <span class='kw'>=</span> <span class='st'>"https://cefa.dri.edu/raws/RAWSfw13list.xlsx"</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dataDir</th>
-      <td><p>directory where RAWS data are created</p></td>
+      <th>metadataUrl</th>
+      <td><p>URL for station metadata.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Logical flag controlling detailed progress statements.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Silently returns previous value of data directory.</p>
+    <p>Dataframe containing station metadata.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://cefa.dri.edu/raws/'>Program for Climate, Ecosystem and Fire Applications</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>rawsDataDir</p>
-<p>getRawsDataDir</p></div>
+    <div class='dont-index'><p><code>fw13_createMetadata</code></p>
+<p><code>setRawsDataDir</code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>RAWSmet</span>)
+
+<span class='fu'><a href='setRawsDataDir.html'>setRawsDataDir</a></span>(<span class='st'>"~/Data/RAWS/"</span>)
+
+<span class='no'>stationMeta</span> <span class='kw'>&lt;-</span> <span class='fu'>fw13_loadMeta</span>()
+
+<span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>glimpse</a></span>(<span class='no'>stationMeta</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#references">References</a></li>
       <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

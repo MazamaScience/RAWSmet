@@ -56,32 +56,32 @@ raws_isRaws <- function(
   MazamaCoreUtils::stopIfNull(rawsObject)
   
   if ( !("raws_timeseries" %in% class(rawsObject)) )
-    return (FALSE)
+    return(FALSE)
   if ( !("meta" %in% names(rawsObject)) )
-    return (FALSE)
+    return(FALSE)
   if ( !("data" %in% names(rawsObject)) )
-    return (FALSE)
+    return(FALSE)
   
   requiredNamesMeta <- c('siteName', 'longitude', 'latitude', 
-                     'elevation', 'countryCode', 'stateCode', 'timezone')
+                         'elevation', 'countryCode', 'stateCode', 'timezone')
   
   if ( !all(requiredNamesMeta %in% names(rawsObject$meta)) )
-    return (FALSE)
+    return(FALSE)
   
   requiredNamesData <- c('datetime', 'temperature', 'humidity', 'windSpeed', 
                          'windDirection', 'maxGustSpeed', 'maxGustDirection',
                          'precipitation', 'solarRadiation')
   
   if ( !all(requiredNamesData %in% names(rawsObject$data)) )
-    return (FALSE)
+    return(FALSE)
   
   if ( any(duplicated(rawsObject$data$datetime)) )
     warning("Duplicate timesteps found in 'raws_timeseries' object.")
   
   # Nothing failed so return TRUE
-  return (TRUE)
+  return(TRUE)
+  
 }
-
 
 
 #' @export
@@ -108,12 +108,13 @@ raws_isRaws <- function(
 #' raws_isEmpty(rawsObj)
 #' }
 #' 
-raws_isEmpty <- function(rawsObject) {
+raws_isEmpty <- function(
+  rawsObject = NULL
+) {
   if ( !raws_isRaws(rawsObject) )
     stop("Parameter 'rawsObject' is not a valid 'raws_timeseries' object.")
-  return ( nrow(rawsObject$data) == 0 )
+  return( nrow(rawsObject$data) == 0 )
 }
-
 
 
 #' @export
@@ -129,7 +130,10 @@ raws_isEmpty <- function(rawsObject) {
 #' 
 #' @return A \emph{raws_timeseries} object with no duplicated data records.
 #' 
-raws_distinct <- function(rawsObject) {
+raws_distinct <- function(
+  rawsObject = NULL
+) {
+  
   if ( !raws_isRaws(rawsObject) )
     stop("Parameter 'rawsObject' is not a valid 'raws_timeseries' object.")
   
@@ -138,9 +142,9 @@ raws_distinct <- function(rawsObject) {
     dplyr::distinct() %>%
     dplyr::arrange(.data$datetime)
   
-  return (rawsObject)
+  return(rawsObject)
+  
 }
-
 
 
 #' @name raws_extract
@@ -176,6 +180,7 @@ raws_distinct <- function(rawsObject) {
 #' 
 NULL
 
+
 #' @export
 #' @param forOpenair Logical instructions to clean data for use with openair
 #' @rdname raws_extract
@@ -194,20 +199,24 @@ raws_extractData <- function(
   
   # ----- Set up data for openair ----------------------------------------------
   
-  # Rename 'datetime' column to 'date'
+  # Duplicate 'datetime' column as 'date'
   if( forOpenair ) {
     rawsObject$data$date <- rawsObject$data$datetime
   }
   
   # ----- Return ----------------------------------------------------------------
-
+  
   return(rawsObject$data)
+  
 }
+
 
 #' @export
 #' @rdname raws_extract
 #' 
-raws_extractMeta <- function(rawsObject) {
+raws_extractMeta <- function(
+  rawsObject = NULL
+) {
   
   # ----- Validate parameters --------------------------------------------------
   
@@ -219,4 +228,5 @@ raws_extractMeta <- function(rawsObject) {
   # ----- Return ----------------------------------------------------------------
   
   return(rawsObject$meta)
+  
 }

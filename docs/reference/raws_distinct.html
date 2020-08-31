@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Set package data directory — setRawsDataDir • RAWSmet</title>
+<title>Retain only distinct data records in <code>rawsObject$data</code> — raws_distinct • RAWSmet</title>
 
 
 <!-- jquery -->
@@ -35,9 +35,9 @@
 
 
 
-<meta property="og:title" content="Set package data directory — setRawsDataDir" />
-<meta property="og:description" content="Sets the package data directory where RAWS data is located.
-If the directory does not exist, it will be created." />
+<meta property="og:title" content="Retain only distinct data records in <code>rawsObject$data</code> — raws_distinct" />
+<meta property="og:description" content="Guarantees that records in a raws_timeseries object
+are distinct and are arranged in datetime order." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -127,34 +127,30 @@ If the directory does not exist, it will be created." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Set package data directory</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/RAWSmet.R'><code>R/RAWSmet.R</code></a></small>
-    <div class="hidden name"><code>setRawsDataDir.Rd</code></div>
+    <h1>Retain only distinct data records in <code>rawsObject$data</code></h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/raws_utils.R'><code>R/raws_utils.R</code></a></small>
+    <div class="hidden name"><code>raws_distinct.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Sets the package data directory where RAWS data is located.
-If the directory does not exist, it will be created.</p>
+    <p>Guarantees that records in a <em>raws_timeseries</em> object
+are distinct and are arranged in <code>datetime</code> order.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>setRawsDataDir</span>(<span class='no'>dataDir</span>)</pre>
+    <pre class="usage"><span class='fu'>raws_distinct</span>(<span class='kw'>rawsObject</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dataDir</th>
-      <td><p>directory where RAWS data are created</p></td>
+      <th>rawsObject</th>
+      <td><p><em>raws_timeseries</em> object</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Silently returns previous value of data directory.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>rawsDataDir</p>
-<p>getRawsDataDir</p></div>
+    <p>A <em>raws_timeseries</em> object with no duplicated data records.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -162,7 +158,6 @@ If the directory does not exist, it will be created.</p>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
     </ul>
 
   </div>

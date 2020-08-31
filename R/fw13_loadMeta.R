@@ -7,8 +7,8 @@
 #'
 #' @return Dataframe containing station metadata.
 #'
-#' @description Loads all FW13 station metadata from the \code{rawsDataDir}. If the
-#' data is not in this directory, this will download and save the data. 
+#' @description Loads all FW13 station metadata from the \code{rawsDataDir}. If
+#' the data is not in this directory, this will download and save the data. 
 #' 
 #' @examples
 #' \dontrun{
@@ -36,7 +36,7 @@ fw13_loadMeta <- function(
   
   # ----- Check for local data -------------------------------------------------
   
-  fileName = "fw13Metadata.rda"
+  fileName = "fw13_metadata.rda"
   filePath = file.path(dataDir, fileName)
   
   if ( file.exists(filePath) ) {

@@ -1,3 +1,15 @@
+# RAWSmet 0.1.5
+
+* Added utility functions: `raws_distinct()`, `raws_filter()`, 
+`raws_filterDate()`, `raws_isEmpty()`, `raws_isRaws()` to aid in building 
+"recipe style" pipelines.
+* Added `fw13_load()` and `wrcc_load()` functions to create and save timeseries
+data in the `rawsDataDir` directory.
+* Added `fw13_loadMeta()` and `wrcc_loadMeta()` functions to create and save 
+metadata in the `rawsDataDir` directory.
+* `wrcc_leaflet()` renamed to `raws_leaflet()`.
+* `fw13_createTimeseriesObject()` now converts data to metric units.
+
 # RAWSmet 0.1.4
 
 * Added "Working with openair" article.

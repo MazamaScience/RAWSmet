@@ -4,7 +4,7 @@
 \alias{raws_distinct}
 \title{Retain only distinct data records in \code{rawsObject$data}}
 \usage{
-raws_distinct(rawsObject)
+raws_distinct(rawsObject = NULL)
 }
 \arguments{
 \item{rawsObject}{\emph{raws_timeseries} object}

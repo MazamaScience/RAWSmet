@@ -1,12 +1,33 @@
 # Example timeseries plots
 
+library(MazamaSpatialUtils)
+setSpatialDataDir("~/Data/Spatial")
+
 library(RAWSmet)
+setRawsDataDir("~/Data/RAWS")
 
-raws <- fw13_createTimeseriesObject(nwsID = 500726)
+meta <- fw13_loadMeta(verbose = TRUE)
 
-start <- MazamaCoreUtils::parseDatetime("20160101", timezone = "America/Los_Angeles")
-end <- MazamaCoreUtils::parseDatetime(20170101, timezone = "America/Los_Angeles")
+raws_leaflet(meta)
 
-data <- dplyr::filter(raws$data, datetime >= start & datetime < end)
+bend_1 <- fw13_load("352621", meta)
 
-AirSensor::timeseriesTbl_multiPlot(data)
+range(bend_1$data$datetime)
+
+data_2017 <- 
+  bend_1 %>% 
+  raws_filterDate(20170901, 20171101, timezone = "America/Los_Angeles") %>%
+  raws_extractData(forOpenair = TRUE)
+
+AirSensor::timeseriesTbl_multiPlot(data_2017)
+
+openair::timePlot(
+  data_2017,
+  pollutant = c("temperature", "humidity"),
+  avg.time = "hour",
+  main = "Temperature and Humidity in Bend, OR, September 2017", 
+  key = TRUE,
+  name.pol = c("temperature (°C)", "humidity (%)"), 
+  ylab = ""
+)
+

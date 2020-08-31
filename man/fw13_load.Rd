@@ -7,7 +7,6 @@
 fw13_load(
   nwsID = NULL,
   meta = NULL,
-  year = NULL,
   baseUrl = "https://cefa.dri.edu/raws/fw13/",
   verbose = TRUE
 )
@@ -17,8 +16,6 @@ fw13_load(
 
 \item{meta}{Tibble of FW13 station metadata.}
 
-\item{year}{Year to access station data for.}
-
 \item{baseUrl}{Base URL for data queries.}
 
 \item{verbose}{Logical flag controlling detailed progress statements.}
@@ -27,8 +24,8 @@ fw13_load(
 Timeseries object with 'meta' and 'data'.
 }
 \description{
-Loads FW13 station metadata and data from the \code{rawsDataDir}. If the
-data is not in this directory, this will download and save the data.
+Loads FW13 station metadata and data from the \code{rawsDataDir}. 
+If the data is not in this directory, this will download and save the data.
 }
 \examples{
 \dontrun{
@@ -37,7 +34,7 @@ library(RAWSmet)
 setRawsDataDir("~/Data/RAWS/")
 
 stationMeta <- fw13_createMetadata()
-meta <- fw13_load(nwsID = 451702, year = 2005, meta = stationMeta)
+meta <- fw13_load(nwsID = 451702, meta = stationMeta)
 
 dplyr::glimpse(meta)
 }

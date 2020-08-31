@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Set package data directory — setRawsDataDir • RAWSmet</title>
+<title>Test for correct structure for a <em>raws_timeseries</em> object — raws_isRaws • RAWSmet</title>
 
 
 <!-- jquery -->
@@ -35,9 +35,33 @@
 
 
 
-<meta property="og:title" content="Set package data directory — setRawsDataDir" />
-<meta property="og:description" content="Sets the package data directory where RAWS data is located.
-If the directory does not exist, it will be created." />
+<meta property="og:title" content="Test for correct structure for a <em>raws_timeseries</em> object — raws_isRaws" />
+<meta property="og:description" content="The rawsObject is checked for the 'raws_timeseries' class name
+and presence of core meta and data columns.
+Core meta columns include:
+
+stationID or nwsID -- WRCC or FW13 station identifier
+countryCode -- ISO 3166-1 alpha-2
+stateCode -- ISO 3166-2 alpha-2
+siteName -- English language station name
+longitude -- decimal degrees E
+latitude -- decimal degrees N
+elevation -- elevation of station in m
+
+
+Core data columns include:
+
+datetime -- measurement time (UTC)
+temperature -- temperature (C)
+humidity -- humidity (%)
+windSpeed -- wind speed (m/s)
+windDirection -- wind direction (degrees)
+maxGustSpeed -- speed of max gust (m/s)
+maxGustDirection -- direction of max gust (degrees)
+precipitation -- precipitation (mm/h)
+solarRadiation -- solar radiation (W/m^2)
+
+" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -127,42 +151,73 @@ If the directory does not exist, it will be created." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Set package data directory</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/RAWSmet.R'><code>R/RAWSmet.R</code></a></small>
-    <div class="hidden name"><code>setRawsDataDir.Rd</code></div>
+    <h1>Test for correct structure for a <em>raws_timeseries</em> object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/raws_utils.R'><code>R/raws_utils.R</code></a></small>
+    <div class="hidden name"><code>raws_isRaws.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Sets the package data directory where RAWS data is located.
-If the directory does not exist, it will be created.</p>
+    <p>The <code>rawsObject</code> is checked for the 'raws_timeseries' class name
+and presence of core <code>meta</code> and <code>data</code> columns.</p>
+<p>Core <code>meta</code> columns include:</p>
+<ul>
+<li><p><code>stationID</code> or <code>nwsID</code> -- WRCC or FW13 station identifier</p></li>
+<li><p><code>countryCode</code> -- ISO 3166-1 alpha-2</p></li>
+<li><p><code>stateCode</code> -- ISO 3166-2 alpha-2</p></li>
+<li><p><code>siteName</code> -- English language station name</p></li>
+<li><p><code>longitude</code> -- decimal degrees E</p></li>
+<li><p><code>latitude</code> -- decimal degrees N</p></li>
+<li><p><code>elevation</code> -- elevation of station in m</p></li>
+</ul>
+
+<p>Core <code>data</code> columns include:</p>
+<ul>
+<li><p><code>datetime</code> -- measurement time (UTC)</p></li>
+<li><p><code>temperature</code> -- temperature (C)</p></li>
+<li><p><code>humidity</code> -- humidity (%)</p></li>
+<li><p><code>windSpeed</code> -- wind speed (m/s)</p></li>
+<li><p><code>windDirection</code> -- wind direction (degrees)</p></li>
+<li><p><code>maxGustSpeed</code> -- speed of max gust (m/s)</p></li>
+<li><p><code>maxGustDirection</code> -- direction of max gust (degrees)</p></li>
+<li><p><code>precipitation</code> -- precipitation (mm/h)</p></li>
+<li><p><code>solarRadiation</code> -- solar radiation (W/m^2)</p></li>
+</ul>
+
     </div>
 
-    <pre class="usage"><span class='fu'>setRawsDataDir</span>(<span class='no'>dataDir</span>)</pre>
+    <pre class="usage"><span class='fu'>raws_isRaws</span>(<span class='kw'>rawsObject</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dataDir</th>
-      <td><p>directory where RAWS data are created</p></td>
+      <th>rawsObject</th>
+      <td><p><em>raws_timeseries</em> object</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Silently returns previous value of data directory.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p><code>TRUE</code> if <code>rawsObject</code> has the correct structure, 
+<code>FALSE</code> otherwise.</p>
 
-    <div class='dont-index'><p>rawsDataDir</p>
-<p>getRawsDataDir</p></div>
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>RAWSmet</span>)
 
+<span class='fu'><a href='setRawsDataDir.html'>setRawsDataDir</a></span>(<span class='st'>"~/Data/RAWS"</span>)
+
+<span class='no'>rawsObj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fw13_load.html'>fw13_load</a></span>(<span class='fl'>451702</span>, <span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2005</span>)
+
+<span class='fu'>raws_isRaws</span>(<span class='no'>rawsObj</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

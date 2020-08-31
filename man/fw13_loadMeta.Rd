@@ -18,8 +18,8 @@ fw13_loadMeta(
 Dataframe containing station metadata.
 }
 \description{
-Loads all FW13 station metadata from the \code{rawsDataDir}. If the
-data is not in this directory, this will download and save the data.
+Loads all FW13 station metadata from the \code{rawsDataDir}. If
+the data is not in this directory, this will download and save the data.
 }
 \examples{
 \dontrun{
