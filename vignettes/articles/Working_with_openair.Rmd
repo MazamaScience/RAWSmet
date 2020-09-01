@@ -68,36 +68,41 @@ setSpatialDataDir('~/Data/Spatial')
 installSpatialData()
 ```
 
-<!-- Data generated with package functions can be be saved to and reloaded from a -->
-<!-- dedicated directory much the same as the `spatialDataDir` used above. Set up -->
-<!-- a directory for RAWS data with: -->
+Data generated with package functions can be be saved to and reloaded from a
+dedicated directory much the same as the `spatialDataDir` used above. Set up 
+a directory for RAWS data with:
 
-<!-- ``` -->
-<!-- library(RAWSmet) -->
-<!-- dir.create('~/Data/RAWS', recursive = TRUE) -->
-<!-- setRawsDataDir('~/Data/RAWS') -->
-<!-- ``` -->
+```
+library(RAWSmet)
+dir.create('~/Data/RAWS', recursive = TRUE)
+setRawsDataDir('~/Data/RAWS')
+```
 
-<!-- The `rawsDataDir` must be set up correctly to use its functionality. RAWS data  -->
-<!-- takes a long time to download so data may be saved to this directory so it does  -->
-<!-- not need to be downloaded again in the future. -->
+The `rawsDataDir` must be set up correctly to use its functionality. RAWS data
+takes a long time to download so data may be saved to this directory so it does
+not need to be downloaded again in the future.
 
 ## Preparing data for openair
+
+Throughout this section, we will be using **RAWSmet**'s `fw13_load()` and 
+`fw13_loadMeta()` functions. These functions will either load the specified 
+data from `rawsDataDir` or download and save it to the `rawsDataDir` if it 
+does not exist. You may also use `wrcc_load()` and `wrcc_loadMeta()` for RAWS
+data from the WRCC. 
 
 Before using RAWS data with **openair**, we must ensure that the data is 
 downloaded correctly and is in the correct format. 
 
-First, create a RAWS timeseries object using **RAWSmet**’s 
-`fw13_createTimeseriesObject()` function (or `wrcc_createTimeseriesObject()` for 
-current RAWS data from the WRCC). 
+First, create or load all of the FW13 station metadata using `fw13_loadMeta()`.
 
 ```{r fw13_createTimeseriesObject, message = FALSE}
 library(RAWSmet)
 library(MazamaSpatialUtils)
 
 setSpatialDataDir("~/Data/Spatial")
+setRawsDataDir("~/Data/RAWS")
 
-meta <- fw13_createMetadata()
+meta <- fw13_loadMeta()
 head(meta)
 ```
 
@@ -109,13 +114,13 @@ ID:
 raws_leaflet(meta)
 ```
 
-We will choose the station in Enumclaw, Washington (451702) and create a 
+We will choose the station in Enumclaw, Washington (451702) and create or load a
 "timeseries object". This timeseries object contains two dataframes, one of 
 station metadata and another of cleaned weather data.
 
 ```{r view_ts_object}
 # nwsID 451702 is Enumclaw, WA
-enumclawTSObj <- fw13_createTimeseriesObject(nwsID = 451702, meta = meta)
+enumclawTSObj <- fw13_load(nwsID = 451702, meta = meta)
 
 names(enumclawTSObj)
 # View station metadata
@@ -124,48 +129,74 @@ enumclawTSObj$meta
 head(enumclawTSObj$data)
 ```
 
-**Openair** requires that dates and times of observations are stored in a column 
-called `date`. However, **RAWSmet** names this column `datetime`. Create the 
-correct date column by running:
-
-```{r rename_datetime, message = FALSE}
-library(dplyr)
-
-# Create a new column by copying the data from datetime
-enumclawTSObj$data$date <- enumclawTSObj$data$datetime
-
-# Another solution is to rename the column using dplyr:
-# enumclawTSObj$data <- dplyr::rename(enumclawTSObj$data, date = datetime)
-```
-
 Note that this RAWS timeseries object contains *all* of the data gathered by the 
 specified station in its lifetime. We can filter the data to look at periods of 
-interest. It is also important to note that the datetimes stored in these RAWS 
-timeseries objects are of class `POSIXct` and are in the UTC timezone. 
+interest using `raws_filterDate()`. This function can understand any date that is
+understood by `lubridate::ymd()`.
 
-The `MazamaCoreUtils::parseDatetime()` function provides a robust datetime
-parser that enforces use of an explicit timezone. We can use this function to
-provide some start and end dates and then use normal **dplyr** filtering to subset
-the dataframe:
+Also note that the data stored in these RAWS timeseries objects are in UTC. 
 
 ```{r filter_dates, message = FALSE}
-library(MazamaCoreUtils)
-# 20050101 will be parsed as Jan. 1st, 2005
-start2005 <- MazamaCoreUtils::parseDatetime(20050101, timezone = "UTC")
-# 20060101 will be parsed as Jan 1st. 2006
-end2005 <- MazamaCoreUtils::parseDatetime(20060101, timezone = "UTC")
 
-# 20050801 will be parsed as Aug. 1st, 2005
-startAug2005 <- MazamaCoreUtils::parseDatetime(20050801, timezone = "UTC")
-# 20050901 will be parsed as Sep. 1st, 2005
-endAug2005 <- MazamaCoreUtils::parseDatetime(20050901, timezone = "UTC")
+# 20050101 will be parsed as Jan. 1st, 2005
+# 20060101 will be parsed as Jan 1st. 2006
 
 # Get all observations between these dates
-enumclawData_2005 <- dplyr::filter(enumclawTSObj$data, date >= start2005 & date < end2005)
-range(enumclawData_2005$date)
+enumclawTSObj_2005 <- 
+  raws_filterDate(enumclawTSObj, 
+                  startdate = 20050101,
+                  enddate = 20060101,
+                  timezone = "America/Los_Angeles")
 
-enumclawData_200508 <- dplyr::filter(enumclawTSObj$data, date >= startAug2005 & date < endAug2005)
-range(enumclawData_200508$datetime)
+range(enumclawTSObj_2005$data$datetime)
+
+# 20050801 will be parsed as Aug. 1st, 2005
+# 20050901 will be parsed as Sep. 1st, 2005
+
+# Get all observations between these dates
+enumclawTSObj_200508 <- 
+  raws_filterDate(enumclawTSObj,
+                  startdate = 20050801,
+                  enddate = 20060901,
+                  timezone = "America/Los_Angeles")
+
+range(enumclawTSObj_200508$data$datetime)
+```
+
+**Openair** requires that dates and times of observations are stored in a column 
+called `date`. However, **RAWSmet** names this column `datetime`. Use `raws_extractData()`
+with `forOpenair = TRUE` to extract the `data` dataframe from a RAWS timeseries 
+object with a new column called `date` containing the same values as `datetime`.
+
+```{r rename_datetime, message = FALSE}
+
+
+enumclawData_2005 <-raws_extractData(enumclawTSObj_2005, forOpenair = TRUE)
+enumclawData_200508 <-raws_extractData(enumclawTSObj_2005, forOpenair = TRUE)
+
+```
+
+All of the functions used above may be used separately as demonstrated but they
+can also be strung neatly together by using the pipe `%>%` operator. The same data
+may be generated like so:
+```{r generate_with_pipe, message = FALSE}
+
+meta <- fw13_loadMeta()
+
+enumclawData_2005 <- 
+  fw13_load(nwsID = 451702, meta = meta) %>%
+  raws_filterDate(20050101, 20060101, timezone = "America/Los_Angeles") %>%
+  raws_extractData(forOpenair = TRUE)
+
+enumclawData_200508 <- 
+  fw13_load(nwsID = 451702, meta = meta) %>%
+  raws_filterDate(20050801, 20050901, timezone = "America/Los_Angeles") %>%
+  raws_extractData(forOpenair = TRUE)
+
+# We will also extract a dataframe of ALL of the station's data
+enumclawData_ALL <-
+  fw13_load(nwsID = 451702, meta = meta) %>%
+  raws_extractData(forOpenair = TRUE)
 ```
 
 After renaming the datetime column and filtering by dates of interest, we are 
@@ -269,7 +300,7 @@ also compare different averages.
 
 ```{r smoothTrend_years}
 openair::smoothTrend(
-  enumclawTSObj$data, 
+  enumclawData_ALL,  
   pollutant = "solarRadiation",
   main = "Solar Radiation trend in Enumclaw", 
   statistic = "mean",
