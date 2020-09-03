@@ -1,6 +1,6 @@
 #' @export
-#' @importFrom MazamaCoreUtils logger.trace logger.debug logger.warn logger.error
-#' @importFrom MazamaSpatialUtils loadSpatialData getCountryCode getStateCode getTimezone
+#' @importFrom MazamaCoreUtils logger.trace logger.debug logger.warn logger.error html_getLinks
+#' @importFrom MazamaSpatialUtils loadSpatialData getCountryCode getStateCode getTimezone codeToState
 #' 
 #' @title Obtain metadata for each station in a state.
 #'
@@ -50,42 +50,90 @@ wrcc_createMetadata <- function(
   if ( is.null(stateCode) && is.null(stationIDs) ) 
     stop("Either 'stateCode' or 'stationIDs' must be specified.")
   
-  # TODO: Check if stateCode is in list of state codes.
+  if ( ! toupper(stateCode) %in% MazamaSpatialUtils::US_stateCodes$stateCode )
+    stop("Parameter 'stateCode' is not a valid state code")
   
   # ----- Get station IDs ------------------------------------------------------
   
   if ( is.null(stationIDs) ) {
     
     stateCode <- tolower(stateCode)
-    
-    # NOTE: California is separated into north and south. We have to get these
-    #       two lists separately. 
+
+    # NOTE: California, Idaho, and Montana are split into multiple lists so we
+    #       must concatenate these lists.
+    #       Also, some states are combined into the same list so we must have
+    #       an extra check to get the correct list for these states.
     if ( stateCode == 'ca' ) {
       
+      # Get the north, central, and south urls
       northUrl <- paste0(baseUrl, "ncalst.html")
+      centralUrl <- paste0(baseUrl, "ccalst.html")
       southUrl <- paste0(baseUrl, "scalst.html")
       
-      stationIDs <- 
-        MazamaCoreUtils::html_getLinkUrls(northUrl) %>%        # get links 
-        append(MazamaCoreUtils::html_getLinkUrls(southUrl)) %>%
-        stringr::str_subset("rawMAIN.pl\\?") %>%              # only keep those with "rawMAIN.pl?"
-        stringr::str_match(".+MAIN.pl\\?(.+)") %>%            # pull out everything after "MAIN.pl?"
-        magrittr::extract(, 2)                                # keep the second column of the matrix
+      # Concatenate the links
+      stationLinks <- 
+        MazamaCoreUtils::html_getLinks(northUrl) %>%
+        rbind(MazamaCoreUtils::html_getLinks(centralUrl)) %>%
+        rbind(MazamaCoreUtils::html_getLinks(southUrl))
+      
+    } else if ( stateCode == 'id') {
+      
+      # Get the north and south urls
+      northUrl <- paste0(baseUrl, "nidwmtlst.html")
+      southUrl <- paste0(baseUrl, "sidlst.html")
+      
+      # Concatenate the links
+      stationLinks <- 
+        MazamaCoreUtils::html_getLinks(northUrl) %>%
+        rbind(MazamaCoreUtils::html_getLinks(southUrl))
+      
+    } else if ( stateCode == 'mt' ) {
+      
+      # Get the west and east urls
+      westUrl <- paste0(baseUrl, "nidwmtlst.html")
+      eastUrl <- paste0(baseUrl, "emtlst.html")
+      
+      # Concatenate the links
+      stationLinks <- 
+        MazamaCoreUtils::html_getLinks(westUrl) %>%
+        rbind(MazamaCoreUtils::html_getLinks(eastUrl))
       
     } else {
       
-      url <- paste0(baseUrl, tolower(stateCode), "lst.html")
+      combinedStates <- c("me_nh_vt", "ct_ma_ri", "nj_pa", "ky_tn", "mi_wi", "va_wv", "de_md", "ga_sc", "al_ms")
       
-      stationIDs <- 
-        MazamaCoreUtils::html_getLinkUrls(url) %>%  # get links 
-        stringr::str_subset("rawMAIN.pl\\?") %>%    # only keep those with "rawMAIN.pl?"
-        stringr::str_match(".+MAIN.pl\\?(.+)") %>%  # pull out everything after "MAIN.pl?"
-        magrittr::extract(, 2)                      # keep the second column of the matrix   
+      if ( any(stringr::str_detect(combinedStates, stateCode)) ) {
+        
+        # If the state is in one of these combines lists
+        combinedPath = combinedStates[stringr::str_detect(combinedStates, stateCode)]
+        url <- paste0(baseUrl, combinedPath, "lst.html")
+        
+      } else {
+        
+        # If the state does not match any of these cases
+        url <- paste0(baseUrl, stateCode, "lst.html")
+        
+      }
       
+      # Get the links
+      stationLinks <- MazamaCoreUtils::html_getLinks(url)
     }
     
-    # Filter for stations not in the requested state
-    stationIDs <- stringr::str_subset(stationIDs, paste0("^", stateCode) )
+    # Get the name of the state
+    stateName <- MazamaSpatialUtils::codeToState(toupper(stateCode), countryCode = "US")
+    
+    # Get the station IDs for the given state
+    stationIDs <- 
+      stationLinks %>%
+      dplyr::filter(stringr::str_detect(.data$linkName, stateName)) %>% # Get stations in the requested state
+      dplyr::pull(.data$linkUrl) %>%                                    # Get only the link URLs
+      stringr::str_subset("rawMAIN.pl\\?") %>%                          # only keep those with "rawMAIN.pl?"
+      stringr::str_match(".+MAIN.pl\\?(.+)") %>%                        # pull out everything after "MAIN.pl?"
+      magrittr::extract(, 2)                                            # keep the second column of the matrix
+    
+    # Stop if there are no stations in the given state
+    if ( rlang::is_empty(stationIDs) )
+      stop(sprintf("Could not find any stations in the state with state code '%s'", stateCode))
     
   } #END of stationIDs from stateCode
   
@@ -146,9 +194,6 @@ wrcc_createMetadata <- function(
     # Remove extra whitespace in siteName
     siteName <- gsub("\\s+", " ", siteName)
     
-    # Get stateCode from stationID
-    stateCode <- toupper(stringr::str_sub(stationID, 1, 2))
-    
     # Check if identifies are valid
     # NOTE: identifiers will not be a character if the table is missing.
     # NOTE: identifiers will be empty strings ("") if the table exists but the
@@ -163,7 +208,7 @@ wrcc_createMetadata <- function(
     recordList[[stationID]] <-
       dplyr::tibble(
         "countryCode" = "US", 
-        "stateCode" = stateCode, 
+        "stateCode" = toupper(stateCode), 
         "stationID" = stationID, 
         "siteName" = siteName, 
         "longitude" = longitude, 
