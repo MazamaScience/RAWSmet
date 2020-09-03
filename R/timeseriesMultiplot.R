@@ -41,7 +41,7 @@
 #' )
 #' }
 #' 
-raws_timeseriesMultiplot <- function(
+timeseriesMultiplot <- function(
   data = NULL,
   pattern = NULL,
   parameters = NULL,
