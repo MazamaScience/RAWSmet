@@ -105,7 +105,7 @@ wrcc_createMetadata <- function(
       if ( any(stringr::str_detect(combinedStates, stateCode)) ) {
         
         # If the state is in one of these combines lists
-        combinedPath = combinedStates[stringr::str_detect(combinedStates, stateCode)]
+        combinedPath = stringr::str_subset(combinedStates, stateCode)
         url <- paste0(baseUrl, combinedPath, "lst.html")
         
       } else {
@@ -171,33 +171,35 @@ wrcc_createMetadata <- function(
     # * Convert to internal standard -----
     
     # Scrape the coordinate data
-    # NOTE: Coordinate data comes in like "48° 44' 35&quot"
-    latitudeSplit <- stringr::str_split(latitudeDMS, " ", simplify = TRUE)
-    longitudeSplit <- stringr::str_split(longitudeDMS, " ", simplify = TRUE)
+    # NOTE: Coordinate data comes in like "48\u00b0 44' 35&quot"
     
-    latitudeDegrees <- as.integer(stringr::str_sub(latitudeSplit[1], end = -2))
-    latitudeMinutes <- as.integer(stringr::str_sub(latitudeSplit[2], end = -2))
-    latitudeSeconds <- as.integer(stringr::str_sub(latitudeSplit[3], end = -6))
+    latitudeSplit <- stringr::str_match(latitudeDMS, "(\\d+).* (\\d+).* (\\d+)")
     
-    longitudeDegrees <- as.integer(stringr::str_sub(longitudeSplit[1], end = -2))
-    longitudeMinutes <- as.integer(stringr::str_sub(longitudeSplit[2], end = -2))
-    longitudeSeconds <- as.integer(stringr::str_sub(longitudeSplit[3], end = -6))
+    latitude <- 
+      as.numeric(latitudeSplit[2]) +
+      as.numeric(latitudeSplit[3]) / 60 +
+      as.numeric(latitudeSplit[4]) / 3600
     
-    # Covert degrees/minutes/seconds coordinates to decimal degrees
-    latitude <- latitudeDegrees + latitudeMinutes/60 + latitudeSeconds/3600
+    longitudeSplit <- stringr::str_match(longitudeDMS, "(\\d+).* (\\d+).* (\\d+)")
+    
     # NOTE: The longitude is in degrees west. Negate to get it in degrees east.
-    longitude <- -(longitudeDegrees + longitudeMinutes/60 + longitudeSeconds/3600)
+    longitude <- -1.0 * (
+      as.numeric(longitudeSplit[2]) +
+        as.numeric(longitudeSplit[3]) / 60 +
+        as.numeric(longitudeSplit[4]) / 3600
+    )
     
     # Convert elevation in feet to meters
-    elevation <- round(as.integer(stringr::str_sub(elevation, end = -5)) * 0.3048)
+    elevationSplit <- stringr::str_match(elevation, "(\\d+)")
+    elevation <- round(as.integer(stringr::str_sub(elevationSplit[2])) * 0.3048)
     
     # Remove extra whitespace in siteName
-    siteName <- gsub("\\s+", " ", siteName)
+    siteName <- stringr::str_trim(siteName)
     
     # Check if identifies are valid
-    # NOTE: identifiers will not be a character if the table is missing.
-    # NOTE: identifiers will be empty strings ("") if the table exists but the
-    #       value is empty.
+    # NOTE:  Identifiers will not be a character if the table is missing.
+    # NOTE:  Identifiers will be empty strings ("") if the table exists but the
+    # NOTE:  value is empty.
     if ( !is.character(nessID) || nessID == "")
       nessID = NA
     if ( !is.character(nwsID) || nwsID == "")

@@ -1,3 +1,10 @@
+# RAWSmet 0.1.6
+
+* Improved `wrcc_createMetadata()` to handle combined-state metadata pages at 
+WRCC.
+* New `timeseriesMultiplot()` function plots the `$data` portion of 
+_raws\_timeseries_ objects.
+
 # RAWSmet 0.1.5
 
 * Added utility functions: `raws_distinct()`, `raws_filter()`, 
