@@ -20,7 +20,7 @@ timeseriesMultiplot(
 
 \item{pattern}{Pattern used to match groups of parameters.}
 
-\item{parameters}{Custom vector of aggregation parameters to view.}
+\item{parameters}{Custom vector of parameters to view.}
 
 \item{nrow}{Number of rows in the faceted plot.}
 
@@ -42,7 +42,7 @@ Specification of \code{ylim} will override the choice of
 \code{autoRange}.
 }
 \examples{
-\dontrun{
+\donttest{
 library(RAWSmet)
 
 setRawsDataDir("~/Data/RAWS/")
@@ -50,10 +50,10 @@ fw13Meta <- fw13_loadMeta()
 
 data <- 
   fw13_load(nwsID = 451702, meta = fw13Meta) \%>\% 
-  raws_filterDate(20200801, 20200901) \%>\%
+  raws_filterDate(20170801, 20170901) \%>\%
   raws_extractData()
 
-raws_timeseriesMultiplot(
+timeseriesMultiplot(
   data,
   pattern = c("humidity|temperature"),
   nrow = 2

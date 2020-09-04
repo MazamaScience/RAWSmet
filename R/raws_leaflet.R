@@ -49,14 +49,11 @@ raws_leaflet <- function(
   
   MazamaCoreUtils::stopIfNull(meta)
   
-  requiredNames <- c('siteName', 'longitude', 'latitude', 
-                     'elevation', 'countryCode', 'stateCode', 'timezone')
+  requiredNames <- c('nwsID', 'wrccID', 'siteName', 
+                     'longitude', 'latitude', 'elevation', 
+                     'agency', 'countryCode', 'stateCode', 'timezone')
   
   missingNames <- setdiff(requiredNames, names(meta))
-  
-  if( !('stationID' %in% names(meta) | 'nwsID' %in% names(meta)) ) {
-    missingNames <- append(missingNames, "stationID OR nwsID")
-  }
   
   if ( length(missingNames) > 0 ) {
     stop(sprintf(
@@ -68,26 +65,17 @@ raws_leaflet <- function(
   # ----- Create map  -------wrccMeta---------------------------------------------------
   
   # Create popup text
-  if ( 'stationID' %in% names(meta) ) {
-    meta$popupText <- paste(
-      "<strong>", meta$siteName, "</strong><br>",
-      "Station ID:", meta$stationID, "<br>",
-      "Elevation:", round(meta$elevation), "m<br>",
-      "Country Code:", meta$countryCode, "<br>",
-      "State Code:", meta$stateCode, "<br>",
-      "Timezone:", meta$timezone
-    )    
-  } else {
-    meta$popupText <- paste(
-      "<strong>", meta$siteName, "</strong><br>",
-      "Station ID:", meta$nwsID, "<br>",
-      "Elevation:", round(meta$elevation), "m<br>",
-      "Country Code:", meta$countryCode, "<br>",
-      "State Code:", meta$stateCode, "<br>",
-      "Timezone:", meta$timezone
-    )
-  }
-
+  meta$popupText <- paste(
+    "<strong>", meta$siteName, "</strong><br>",
+    "NWS ID:", meta$nwsID, "<br>",
+    "WRCC ID:", meta$wrccID, "<br>",
+    "Agency:", meta$agency, "<br>",
+    "Elevation:", round(meta$elevation), "m<br>",
+    "Country Code:", meta$countryCode, "<br>",
+    "State Code:", meta$stateCode, "<br>",
+    "Timezone:", meta$timezone
+  )    
+  
   # Generate the map
   map <- leaflet::leaflet(meta) %>%
     leaflet::addProviderTiles("Esri.WorldTopoMap") %>%

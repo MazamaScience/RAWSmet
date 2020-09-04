@@ -41,7 +41,7 @@ into a standardized dataframe. Metdata columns include:
 
 countryCode -- ISO 3166-1 alpha-2 country code
 stateCode -- ISO 3166-2 alpha-2 state code
-stationID -- WRCC RAWS station identifier
+wrccID -- WRCC RAWS station identifier
 siteName -- human readable site name
 longitude -- decimal degrees East
 latitude -- decimal degrees North
@@ -83,7 +83,7 @@ metadata, it is recommended that the file be saved and reused." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
       </span>
     </div>
 
@@ -151,7 +151,7 @@ into a standardized dataframe. Metdata columns include:</p>
 <ul>
 <li><p><code>countryCode</code> -- ISO 3166-1 alpha-2 country code</p></li>
 <li><p><code>stateCode</code> -- ISO 3166-2 alpha-2 state code</p></li>
-<li><p><code>stationID</code> -- WRCC RAWS station identifier</p></li>
+<li><p><code>wrccID</code> -- WRCC RAWS station identifier</p></li>
 <li><p><code>siteName</code> -- human readable site name</p></li>
 <li><p><code>longitude</code> -- decimal degrees East</p></li>
 <li><p><code>latitude</code> -- decimal degrees North</p></li>
@@ -165,9 +165,9 @@ metadata, it is recommended that the file be saved and reused.</p>
 
     <pre class="usage"><span class='fu'>wrcc_createMetadata</span>(
   <span class='kw'>stateCode</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>stationIDs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>wrccIDs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>baseUrl</span> <span class='kw'>=</span> <span class='st'>"https://raws.dri.edu/"</span>,
-  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -178,8 +178,8 @@ metadata, it is recommended that the file be saved and reused.</p>
       <td><p>Two character state code (will be downcased).</p></td>
     </tr>
     <tr>
-      <th>stationIDs</th>
-      <td><p>Vector of stationIDs to be used instead of <code>stateCode</code>.</p></td>
+      <th>wrccIDs</th>
+      <td><p>Vector of wrccIDs to be used instead of <code>stateCode</code>.</p></td>
     </tr>
     <tr>
       <th>baseUrl</th>

@@ -1,3 +1,14 @@
+# RAWSmet 0.1.7
+
+* Changed `stationID` to `wrccID` throughout the code base.
+* Added `verbose` arguments to all data loading functions. Functions that
+create metadata default to `verbose = TRUE`.
+* "FW13" and "WRCC" metadata are now harmonized to always return the same set
+of columns.
+* Removed state names from "WRCC" metadata `siteName` field.
+* New `addWindBarbs()` function to create standard wind barbs for use with
+base plots.
+
 # RAWSmet 0.1.6
 
 * Improved `wrcc_createMetadata()` to handle combined-state metadata pages at 

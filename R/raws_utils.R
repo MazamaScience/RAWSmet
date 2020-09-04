@@ -11,13 +11,16 @@
 #' Core \code{meta} columns include:
 #' 
 #' \itemize{
-#'   \item{\code{stationID} or \code{nwsID} -- WRCC or FW13 station identifier}
+#'   \item{\code{nwsID} -- NWS station identifier (for FW13 data)}
+#'   \item{\code{wrccID} -- WRCC station identifier (for WRCC data)}
 #'   \item{\code{countryCode} -- ISO 3166-1 alpha-2}
 #'   \item{\code{stateCode} -- ISO 3166-2 alpha-2}
 #'   \item{\code{siteName} -- English language station name}
+#'   \item{\code{agency} -- responsible agency (in WRCC data)}
 #'   \item{\code{longitude} -- decimal degrees E}
 #'   \item{\code{latitude} -- decimal degrees N}
 #'   \item{\code{elevation} -- elevation of station in m}
+#'   \item{\code{timezone} -- Olson time zone}
 #' }
 #' 
 #' Core \code{data} columns include:
@@ -62,8 +65,9 @@ raws_isRaws <- function(
   if ( !("data" %in% names(rawsObject)) )
     return(FALSE)
   
-  requiredNamesMeta <- c('siteName', 'longitude', 'latitude', 
-                         'elevation', 'countryCode', 'stateCode', 'timezone')
+  requiredNamesMeta <- c('nwsID', 'wrccID', 'siteName', 
+                         'longitude', 'latitude', 'elevation', 
+                         'agency', 'countryCode', 'stateCode', 'timezone')
   
   if ( !all(requiredNamesMeta %in% names(rawsObject$meta)) )
     return(FALSE)

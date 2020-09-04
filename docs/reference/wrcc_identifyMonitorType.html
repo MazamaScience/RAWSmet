@@ -85,7 +85,7 @@ The monitorType will be one of:
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
       </span>
     </div>
 
@@ -189,7 +189,7 @@ data using <code><a href='https://readr.tidyverse.org/reference/read_delim.html'
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>RAWSmet</span>)
 
-<span class='no'>fileString</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='wrcc_downloadData.html'>wrcc_downloadData</a></span>(<span class='kw'>stationID</span> <span class='kw'>=</span> <span class='st'>'WENU'</span>)
+<span class='no'>fileString</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='wrcc_downloadData.html'>wrcc_downloadData</a></span>(<span class='kw'>wrccID</span> <span class='kw'>=</span> <span class='st'>'WENU'</span>)
 <span class='no'>monitorTypeList</span> <span class='kw'>&lt;-</span> <span class='fu'>wrcc_identifyMonitorType</span>(<span class='no'>fileString</span>)
 }</div></pre>
   </div>

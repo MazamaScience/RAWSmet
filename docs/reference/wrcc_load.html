@@ -70,7 +70,7 @@ data is not in this directory, this will download and save the data." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
       </span>
     </div>
 
@@ -138,7 +138,7 @@ data is not in this directory, this will download and save the data.</p>
     </div>
 
     <pre class="usage"><span class='fu'>wrcc_load</span>(
-  <span class='kw'>stationID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>wrccID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>meta</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>year</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>baseUrl</span> <span class='kw'>=</span> <span class='st'>"https://wrcc.dri.edu/cgi-bin/wea_list2.pl"</span>,
@@ -149,7 +149,7 @@ data is not in this directory, this will download and save the data.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>stationID</th>
+      <th>wrccID</th>
       <td><p>RAWS station identifier (will be upcased)</p></td>
     </tr>
     <tr>
@@ -187,8 +187,8 @@ data is not in this directory, this will download and save the data.</p>
 
 <span class='fu'><a href='setRawsDataDir.html'>setRawsDataDir</a></span>(<span class='st'>"~/Data/RAWS/"</span>)
 
-<span class='no'>stationMeta</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='wrcc_createMetadata.html'>wrcc_createMetadata</a></span>(<span class='kw'>stateCode</span> <span class='kw'>=</span> <span class='st'>"WA"</span>, <span class='kw'>stationIDs</span> <span class='kw'>=</span> <span class='st'>"waWENU"</span>)
-<span class='no'>meta</span> <span class='kw'>&lt;-</span> <span class='fu'>wrcc_load</span>(<span class='kw'>stationID</span> <span class='kw'>=</span> <span class='st'>"waWENU"</span>, <span class='kw'>meta</span> <span class='kw'>=</span> <span class='no'>stationMeta</span>)
+<span class='no'>stationMeta</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='wrcc_createMetadata.html'>wrcc_createMetadata</a></span>(<span class='kw'>stateCode</span> <span class='kw'>=</span> <span class='st'>"WA"</span>, <span class='kw'>wrccIDs</span> <span class='kw'>=</span> <span class='st'>"waWENU"</span>)
+<span class='no'>meta</span> <span class='kw'>&lt;-</span> <span class='fu'>wrcc_load</span>(<span class='kw'>wrccID</span> <span class='kw'>=</span> <span class='st'>"waWENU"</span>, <span class='kw'>meta</span> <span class='kw'>=</span> <span class='no'>stationMeta</span>)
 
 <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>glimpse</a></span>(<span class='no'>meta</span>)
 }</div></pre>

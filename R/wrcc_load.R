@@ -58,7 +58,7 @@ wrcc_load <- function(
   if ( file.exists(filePath) ) {
     
     if( verbose ) {
-      message("Loading data from local directory.")
+      message(sprintf("Loading data from %s", filePath))
     }
     
     # If local data exists, load and return it.

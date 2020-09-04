@@ -18,7 +18,7 @@ meta <- fw13_loadMeta(verbose = TRUE)
 # See what stations are available
 raws_leaflet(meta)
 
-# Use a stationID to download historical data
+# Use a nwsID to download historical data
 bend_1 <- fw13_load("352621", meta)
 
 # "raws" objects are a list with 'meta' and 'data'

@@ -40,13 +40,16 @@
 and presence of core meta and data columns.
 Core meta columns include:
 
-stationID or nwsID -- WRCC or FW13 station identifier
+nwsID -- NWS station identifier (for FW13 data)
+wrccID -- WRCC station identifier (for WRCC data)
 countryCode -- ISO 3166-1 alpha-2
 stateCode -- ISO 3166-2 alpha-2
 siteName -- English language station name
+agency -- responsible agency (in WRCC data)
 longitude -- decimal degrees E
 latitude -- decimal degrees N
 elevation -- elevation of station in m
+timezone -- Olson time zone
 
 
 Core data columns include:
@@ -94,7 +97,7 @@ solarRadiation -- solar radiation (W/m^2)
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
       </span>
     </div>
 
@@ -161,13 +164,16 @@ solarRadiation -- solar radiation (W/m^2)
 and presence of core <code>meta</code> and <code>data</code> columns.</p>
 <p>Core <code>meta</code> columns include:</p>
 <ul>
-<li><p><code>stationID</code> or <code>nwsID</code> -- WRCC or FW13 station identifier</p></li>
+<li><p><code>nwsID</code> -- NWS station identifier (for FW13 data)</p></li>
+<li><p><code>wrccID</code> -- WRCC station identifier (for WRCC data)</p></li>
 <li><p><code>countryCode</code> -- ISO 3166-1 alpha-2</p></li>
 <li><p><code>stateCode</code> -- ISO 3166-2 alpha-2</p></li>
 <li><p><code>siteName</code> -- English language station name</p></li>
+<li><p><code>agency</code> -- responsible agency (in WRCC data)</p></li>
 <li><p><code>longitude</code> -- decimal degrees E</p></li>
 <li><p><code>latitude</code> -- decimal degrees N</p></li>
 <li><p><code>elevation</code> -- elevation of station in m</p></li>
+<li><p><code>timezone</code> -- Olson time zone</p></li>
 </ul>
 
 <p>Core <code>data</code> columns include:</p>

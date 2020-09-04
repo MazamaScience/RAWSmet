@@ -6,7 +6,7 @@
 \usage{
 fw13_createMetadata(
   metadataUrl = "https://cefa.dri.edu/raws/RAWSfw13list.xlsx",
-  verbose = FALSE
+  verbose = TRUE
 )
 }
 \arguments{

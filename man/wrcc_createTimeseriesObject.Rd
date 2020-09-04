@@ -9,7 +9,8 @@ wrcc_createTimeseriesObject(
   meta = NULL,
   startdate = strftime(lubridate::now(tzone = "UTC"), "\%Y\%m0101", tz = "UTC"),
   enddate = strftime(lubridate::now(tzone = "UTC"), "\%Y\%m\%d23", tz = "UTC"),
-  baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl"
+  baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl",
+  verbose = FALSE
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ wrcc_createTimeseriesObject(
 \item{enddate}{Desired end date (integer or character representing YYYYMMDD[HH]).}
 
 \item{baseUrl}{Base URL for data queries.}
+
+\item{verbose}{Logical flag controlling detailed progress statements.}
 }
 \value{
 Timeseries object with 'meta' and 'data'.

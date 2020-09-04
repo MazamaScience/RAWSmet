@@ -19,16 +19,18 @@
 # addWindBarb(-122, 47, speed = 125, dir = 45,
 #             circleSize = 1, barbSize = 1.5, lwd = 2)
 
-addWindBarb <- function(x, 
-                        y,
-                        speed,
-                        dir,
-                        circleSize = 1,
-                        circleFill = 'transparent',
-                        lineCol = 1,
-                        extraBarbLength = 0,
-                        barbSize = 1,
-                        ...) {
+addWindBarb <- function(
+  x, 
+  y,
+  speed,
+  dir,
+  circleSize = 1,
+  circleFill = 'transparent',
+  lineCol = 1,
+  extraBarbLength = 0,
+  barbSize = 1,
+  ...
+) {
   
   # Wind direction is measured in degrees clockwise from north
   # We want to convert into counter-clockwise from east
@@ -41,8 +43,8 @@ addWindBarb <- function(x,
   # Get x and y scale factors
   pin <- par("pin")
   usr <- par("usr")
-  xpi <- (usr[2]-usr[1])/pin[1]
-  ypi <- (usr[4]-usr[3])/pin[2]
+  xpi <- (usr[2] - usr[1]) / pin[1]
+  ypi <- (usr[4] - usr[3]) / pin[2]
   
   # Add a little circle
   # Default radius is 1/24 inch. Change based on circleSize 
@@ -66,10 +68,10 @@ addWindBarb <- function(x,
     }
     
     # Get starting and ending points for barb
-    xs <- x+rx*cos(rad)
-    ys <- y+rx*sin(rad)
-    xe <- xs+(lx + extraBarbLength*lx)*cos(rad)
-    ye <- ys+(ly + extraBarbLength*ly)*sin(rad)
+    xs <- x + rx * cos(rad)
+    ys <- y + rx * sin(rad)
+    xe <- xs + (lx + extraBarbLength*lx) * cos(rad)
+    ye <- ys + (ly + extraBarbLength*ly) * sin(rad)
     
     
     # Plot the line
@@ -84,13 +86,13 @@ addWindBarb <- function(x,
       # length is 1/4 of the barb length
       # position counts in by 1/6th of the barb from outside
       add_5 <- function(position) {
-        fxs <- xs + (lx + extraBarbLength*lx)*cos(rad) - lx*cos(rad)*(position-1)/6
+        fxs <- xs + (lx + extraBarbLength*lx)*cos(rad) - lx*cos(rad)*(position - 1)/6
         fxe <- fxs + lx/4*cos(fa)
-        fys <- ys + (ly + extraBarbLength*ly)*sin(rad) - ly*sin(rad)*(position-1)/6 
+        fys <- ys + (ly + extraBarbLength*ly)*sin(rad) - ly*sin(rad)*(position - 1)/6 
         fye <- fys + ly/4*sin(fa)
         
         
-        lines(c(fxs, fxe), c(fys, fye), col=lineCol, ...)
+        lines(c(fxs, fxe), c(fys, fye), col = lineCol, ...)
         
       }
       
@@ -100,9 +102,9 @@ addWindBarb <- function(x,
       # length is 1/2 of barb length
       # position counts in by 1/6th of the barb from outside
       add_10 <- function(position) {
-        fxs <- xs + (lx + extraBarbLength*lx)*cos(rad) - lx*cos(rad)*(position-1)/6
+        fxs <- xs + (lx + extraBarbLength*lx)*cos(rad) - lx*cos(rad)*(position - 1)/6
         fxe <- fxs + lx/2*cos(fa)
-        fys <- ys + (ly + extraBarbLength*ly)*sin(rad) - ly*sin(rad)*(position-1)/6 
+        fys <- ys + (ly + extraBarbLength*ly)*sin(rad) - ly*sin(rad)*(position - 1)/6 
         fye <- fys + ly/2*sin(fa)
         
         
@@ -114,10 +116,10 @@ addWindBarb <- function(x,
       add_50 <- function(position) {
         fx1 <- xs + (lx + extraBarbLength*lx)*cos(rad) - lx*cos(rad)*(position)/6
         fx2 <- fx1 + lx/2*cos(fa)
-        fx3 <- xs + (lx + extraBarbLength*lx)*cos(rad) - lx*cos(rad)*(position-1)/6
+        fx3 <- xs + (lx + extraBarbLength*lx)*cos(rad) - lx*cos(rad)*(position - 1)/6
         fy1 <- ys + (ly + extraBarbLength*ly)*sin(rad) - ly*sin(rad)*(position)/6 
         fy2 <- fy1 + ly/2*sin(fa)
-        fy3 <- ys + (ly + extraBarbLength*ly)*sin(rad) - ly*sin(rad)*(position-1)/6 
+        fy3 <- ys + (ly + extraBarbLength*ly)*sin(rad) - ly*sin(rad)*(position - 1)/6 
         
         polygon(c(fx1, fx2, fx3, fx1), c(fy1, fy2, fy3, fy1), col = lineCol, border = lineCol, ...) 
         
@@ -134,7 +136,7 @@ addWindBarb <- function(x,
           add_50(i)
         }
         if (tens > 0) {
-          for (i in (fifties+1):(fifties+1+tens)) {
+          for (i in (fifties + 1):(fifties + 1 + tens)) {
             add_10(i)
           }
         }
@@ -151,16 +153,12 @@ addWindBarb <- function(x,
         
         
         if (fives == 1) {
-          add_5(max(c(tens, 1))+1)
+          add_5(max(c(tens, 1)) + 1)
         }
         
       }
       
     }
   }
-  
-  
-  
-  
-  
+
 }
