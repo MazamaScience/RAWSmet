@@ -30,7 +30,7 @@ The character data are then processed, read into a tibble and augmented in the f
 \dontrun{
 library(RAWSmet)
 
-fileString <- wrcc_downloadData(stationID = 'WENU')
+fileString <- wrcc_downloadData(wrccID = 'WENU')
 tbl <- wrcc_parseData(fileString)
 }
 }

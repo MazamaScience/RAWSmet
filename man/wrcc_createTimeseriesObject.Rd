@@ -5,7 +5,7 @@
 \title{Obtain RAWS data and create a timeseries object.}
 \usage{
 wrcc_createTimeseriesObject(
-  stationID = NULL,
+  wrccID = NULL,
   meta = NULL,
   startdate = strftime(lubridate::now(tzone = "UTC"), "\%Y\%m0101", tz = "UTC"),
   enddate = strftime(lubridate::now(tzone = "UTC"), "\%Y\%m\%d23", tz = "UTC"),
@@ -13,9 +13,9 @@ wrcc_createTimeseriesObject(
 )
 }
 \arguments{
-\item{stationID}{Station identifier found in 'meta'.}
+\item{wrccID}{Station identifier found in 'meta'.}
 
-\item{meta}{Tibble of RAWS metadata containing \code{stationID}.}
+\item{meta}{Tibble of RAWS metadata containing \code{wrccID}.}
 
 \item{startdate}{Desired start date (integer or character representing YYYYMMDD[HH]).}
 
@@ -43,7 +43,7 @@ Steps involved include:
 \dontrun{
 library(RAWSmet)
 
-waWALD <- wrcc_createTimeseriesObject(stationID = 'waWALD')
+waWALD <- wrcc_createTimeseriesObject(wrccID = 'waWALD')
 
 }
 

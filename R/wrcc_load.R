@@ -4,7 +4,7 @@
 #' 
 #' @title Load WRCC RAWS timeseries object from a local directory
 #'
-#' @param stationID RAWS station identifier (will be upcased)
+#' @param wrccID RAWS station identifier (will be upcased)
 #' @param meta Tibble of FW13 station metadata.
 #' @param year Year to access station data for.
 #' @param baseUrl Base URL for data queries.
@@ -21,8 +21,8 @@
 #' 
 #' setRawsDataDir("~/Data/RAWS/")
 #'
-#' stationMeta <- wrcc_createMetadata(stateCode = "WA", stationIDs = "waWENU")
-#' meta <- wrcc_load(stationID = "waWENU", meta = stationMeta)
+#' stationMeta <- wrcc_createMetadata(stateCode = "WA", wrccIDs = "waWENU")
+#' meta <- wrcc_load(wrccID = "waWENU", meta = stationMeta)
 #' 
 #' dplyr::glimpse(meta)
 #' }
@@ -32,7 +32,7 @@
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 
 wrcc_load <- function(
-  stationID = NULL,
+  wrccID = NULL,
   meta = NULL,
   year = NULL,
   baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl",
@@ -41,7 +41,7 @@ wrcc_load <- function(
   
   # ----- Validate parameters --------------------------------------------------
   
-  MazamaCoreUtils::stopIfNull(stationID)
+  MazamaCoreUtils::stopIfNull(wrccID)
   MazamaCoreUtils::stopIfNull(year)
   
   if ( !is.numeric(year) ) {
@@ -52,7 +52,7 @@ wrcc_load <- function(
   
   # ----- Check for local data -------------------------------------------------
   
-  fileName = sprintf("wrcc_%s_%d.rda", stationID, year)
+  fileName = sprintf("wrcc_%s_%d.rda", wrccID, year)
   filePath = file.path(dataDir, fileName)
   
   if ( file.exists(filePath) ) {
@@ -72,7 +72,7 @@ wrcc_load <- function(
     }
     
     # If local data does not exist, download and return it.
-    rawsObject <- wrcc_createTimeseriesObject(stationID = stationID, meta = meta, baseUrl = baseUrl)
+    rawsObject <- wrcc_createTimeseriesObject(wrccID = wrccID, meta = meta, baseUrl = baseUrl)
     
     # Temp solution until raws_filter~() functions are created
     rawsObject$data <- rawsObject$data %>% dplyr::filter(stringr::str_sub(.data$datetime, 0, 4) == year)

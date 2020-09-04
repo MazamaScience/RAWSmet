@@ -5,8 +5,8 @@
 #'
 #' @title Obtain RAWS data and create a timeseries object.
 #'
-#' @param stationID Station identifier found in 'meta'.
-#' @param meta Tibble of RAWS metadata containing \code{stationID}.
+#' @param wrccID Station identifier found in 'meta'.
+#' @param meta Tibble of RAWS metadata containing \code{wrccID}.
 #' @param startdate Desired start date (integer or character representing YYYYMMDD[HH]).
 #' @param enddate Desired end date (integer or character representing YYYYMMDD[HH]).
 #' @param baseUrl Base URL for data queries.
@@ -29,7 +29,7 @@
 #' \dontrun{
 #' library(RAWSmet)
 #'
-#' waWALD <- wrcc_createTimeseriesObject(stationID = 'waWALD')
+#' waWALD <- wrcc_createTimeseriesObject(wrccID = 'waWALD')
 #' 
 #' }
 #'
@@ -39,7 +39,7 @@
 #' @references \href{https://raws.dri.edu/}{RAWS USA Climate Archive}
 
 wrcc_createTimeseriesObject <- function(
-  stationID = NULL,
+  wrccID = NULL,
   meta = NULL,
   startdate = strftime(lubridate::now(tzone = "UTC"), "%Y%m0101", tz = "UTC"),
   enddate = strftime(lubridate::now(tzone = "UTC"), "%Y%m%d23", tz = "UTC"),
@@ -48,20 +48,20 @@ wrcc_createTimeseriesObject <- function(
   
   # ----- Validate parameters --------------------------------------------------
   
-  stopIfNull(stationID)
+  stopIfNull(wrccID)
 
-  if ( length(stationID) > 1 )
-    stop("Parameter 'stationID' must be of length 1")
+  if ( length(wrccID) > 1 )
+    stop("Parameter 'wrccID' must be of length 1")
   
   # ----- Create 'meta' --------------------------------------------------------
   
   if ( is.null(meta) ) {
     
-    meta <- wrcc_createMetadata(stationIDs = stationID)
+    meta <- wrcc_createMetadata(wrccIDs = wrccID)
     
   } else {
     
-    meta <- dplyr::filter(meta, stationID == !!stationID)
+    meta <- dplyr::filter(meta, wrccID == !!wrccID)
     
   }
   
@@ -70,7 +70,7 @@ wrcc_createTimeseriesObject <- function(
   # * Download/parse -----
   
   tbl <- wrcc_createRawDataframe(
-    stationID = stationID,
+    wrccID = wrccID,
     startdate = startdate,
     enddate = enddate,
     baseUrl = baseUrl

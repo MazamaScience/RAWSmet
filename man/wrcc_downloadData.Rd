@@ -5,14 +5,14 @@
 \title{Download RAWS data}
 \usage{
 wrcc_downloadData(
-  stationID = NULL,
+  wrccID = NULL,
   startdate = strftime(lubridate::now(tzone = "UTC"), "\%Y\%m0101", tz = "UTC"),
   enddate = strftime(lubridate::now(tzone = "UTC"), "\%Y\%m\%d23", tz = "UTC"),
   baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl"
 )
 }
 \arguments{
-\item{stationID}{Station identifier (will be upcased).}
+\item{wrccID}{Station identifier (will be upcased).}
 
 \item{startdate}{Desired start date (integer or character representing YYYYMMDD[HH]).}
 
@@ -33,7 +33,7 @@ Station identifiers can be found at https://raws.dri.edu/.
 \dontrun{
 library(RAWSmet)
 
-fileString <- wrcc_downloadData(stationID = 'waWENU')
+fileString <- wrcc_downloadData(wrccID = 'waWENU')
 print(readr::read_lines(fileString)[1:10])
 }
 }

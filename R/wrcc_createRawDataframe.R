@@ -3,7 +3,7 @@
 #'
 #' @title Obtain RAWS data and parse into a tibble
 #'
-#' @param stationID Station identifier (will be upcased).
+#' @param wrccID Station identifier (will be upcased).
 #' @param startdate Desired start date (integer or character representing YYYYMMDD[HH]).
 #' @param enddate Desired end date (integer or character representing YYYYMMDD[HH]).
 #' @param baseUrl Base URL for data queries.
@@ -25,7 +25,7 @@
 #' \dontrun{
 #' library(RAWSmet)
 #'
-#' tbl <- wrcc_createRawDataframe(stationID = 'waWENU')
+#' tbl <- wrcc_createRawDataframe(wrccID = 'waWENU')
 #' dplyr::glimpse(tbl)
 #' }
 #'
@@ -35,7 +35,7 @@
 #' @references \href{https://raws.dri.edu/}{RAWS USA Climate Archive}
 
 wrcc_createRawDataframe <- function(
-  stationID = NULL,
+  wrccID = NULL,
   startdate = strftime(lubridate::now(tzone = "UTC"), "%Y%m0101", tz = "UTC"),
   enddate = strftime(lubridate::now(tzone = "UTC"), "%Y%m%d23", tz = "UTC"),
   baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl"
@@ -43,20 +43,20 @@ wrcc_createRawDataframe <- function(
   
   # ----- Validate parameters --------------------------------------------------
   
-  MazamaCoreUtils::stopIfNull(stationID)
+  MazamaCoreUtils::stopIfNull(wrccID)
   
-  if ( length(stationID) > 1 )
-    stop("Parameter 'stationID' must be of length 1")
+  if ( length(wrccID) > 1 )
+    stop("Parameter 'wrccID' must be of length 1")
   
   # ----- Download/parse data --------------------------------------------------
   
   # Read in RAWS data
-  fileString <- wrcc_downloadData(stationID, startdate, enddate, baseUrl)
+  fileString <- wrcc_downloadData(wrccID, startdate, enddate, baseUrl)
   
   # Catch HTML errors
   if ( stringr::str_detect(fileString, "Access to WRCC historical raws data is limited") ||
        stringr::str_detect(fileString, stringr::regex("^\\s+.\\w.+\\w.+(\\n\\n)")) ) {
-    stop("Could not access data for that time range or stationID")
+    stop("Could not access data for that time range or wrccID")
   }
   
   # Read fwf raw data into a tibble

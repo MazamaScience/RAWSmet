@@ -6,7 +6,7 @@
 \usage{
 wrcc_createMetadata(
   stateCode = NULL,
-  stationIDs = NULL,
+  wrccIDs = NULL,
   baseUrl = "https://raws.dri.edu/",
   verbose = FALSE
 )
@@ -14,7 +14,7 @@ wrcc_createMetadata(
 \arguments{
 \item{stateCode}{Two character state code (will be downcased).}
 
-\item{stationIDs}{Vector of stationIDs to be used instead of \code{stateCode}.}
+\item{wrccIDs}{Vector of wrccIDs to be used instead of \code{stateCode}.}
 
 \item{baseUrl}{Base URL for data queries.}
 
@@ -30,7 +30,7 @@ into a standardized dataframe. Metdata columns include:
 \itemize{
 \item{\code{countryCode} -- ISO 3166-1 alpha-2 country code}
 \item{\code{stateCode} -- ISO 3166-2 alpha-2 state code}
-\item{\code{stationID} -- WRCC RAWS station identifier}
+\item{\code{wrccID} -- WRCC RAWS station identifier}
 \item{\code{siteName} -- human readable site name}
 \item{\code{longitude} -- decimal degrees East}
 \item{\code{latitude} -- decimal degrees North}

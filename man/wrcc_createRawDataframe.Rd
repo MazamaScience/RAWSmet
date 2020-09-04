@@ -5,14 +5,14 @@
 \title{Obtain RAWS data and parse into a tibble}
 \usage{
 wrcc_createRawDataframe(
-  stationID = NULL,
+  wrccID = NULL,
   startdate = strftime(lubridate::now(tzone = "UTC"), "\%Y\%m0101", tz = "UTC"),
   enddate = strftime(lubridate::now(tzone = "UTC"), "\%Y\%m\%d23", tz = "UTC"),
   baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl"
 )
 }
 \arguments{
-\item{stationID}{Station identifier (will be upcased).}
+\item{wrccID}{Station identifier (will be upcased).}
 
 \item{startdate}{Desired start date (integer or character representing YYYYMMDD[HH]).}
 
@@ -39,7 +39,7 @@ Steps involved include:
 \dontrun{
 library(RAWSmet)
 
-tbl <- wrcc_createRawDataframe(stationID = 'waWENU')
+tbl <- wrcc_createRawDataframe(wrccID = 'waWENU')
 dplyr::glimpse(tbl)
 }
 

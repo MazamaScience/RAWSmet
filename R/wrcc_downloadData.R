@@ -3,7 +3,7 @@
 #'
 #' @title Download RAWS data
 #'
-#' @param stationID Station identifier (will be upcased).
+#' @param wrccID Station identifier (will be upcased).
 #' @param startdate Desired start date (integer or character representing YYYYMMDD[HH]).
 #' @param enddate Desired end date (integer or character representing YYYYMMDD[HH]).
 #' @param baseUrl Base URL for data queries.
@@ -20,12 +20,12 @@
 #' \dontrun{
 #' library(RAWSmet)
 #' 
-#' fileString <- wrcc_downloadData(stationID = 'waWENU')
+#' fileString <- wrcc_downloadData(wrccID = 'waWENU')
 #' print(readr::read_lines(fileString)[1:10])
 #' }
 
 wrcc_downloadData <- function(
-  stationID = NULL,
+  wrccID = NULL,
   startdate = strftime(lubridate::now(tzone = "UTC"),"%Y%m0101", tz = "UTC"),
   enddate = strftime(lubridate::now(tzone = "UTC"),"%Y%m%d23", tz = "UTC"),
   baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl"
@@ -33,9 +33,9 @@ wrcc_downloadData <- function(
   
   # ----- Validate parameters --------------------------------------------------
   
-  stopIfNull(stationID)
+  stopIfNull(wrccID)
 
-  wrccID <- stationID
+  wrccID <- wrccID
   
   # Strip off the stateCode portion
   if ( stringr::str_count(wrccID) == 6 )
@@ -78,7 +78,7 @@ wrcc_downloadData <- function(
   # ----- Download data --------------------------------------------------------
   
   if ( MazamaCoreUtils::logger.isInitialized() )
-    logger.trace("Downloading WRCC data for stationID %s", stationID)
+    logger.trace("Downloading WRCC data for wrccID %s", wrccID)
   
   suppressWarnings({
     r <- httr::POST(baseUrl, body = .params)
@@ -88,7 +88,7 @@ wrcc_downloadData <- function(
   # NOTE:  for downstream processing.
   if ( httr::http_error(r) ) {
     if ( MazamaCoreUtils::logger.isInitialized() ) {
-      logger.error("WRCC data service failed for stationID: %s", stationID)
+      logger.error("WRCC data service failed for wrccID: %s", wrccID)
       logger.error("WRCC data service failed with: %s", httr::content(r))
     }
     return("")

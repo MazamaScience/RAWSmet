@@ -5,7 +5,7 @@
 #' @title Obtain metadata for each station in a state.
 #'
 #' @param stateCode Two character state code (will be downcased).
-#' @param stationIDs Vector of stationIDs to be used instead of \code{stateCode}.
+#' @param wrccIDs Vector of wrccIDs to be used instead of \code{stateCode}.
 #' @param baseUrl Base URL for data queries.
 #' @param verbose Logical flag controlling detailed progress statements.
 #'
@@ -17,7 +17,7 @@
 #' \itemize{
 #' \item{\code{countryCode} -- ISO 3166-1 alpha-2 country code}
 #' \item{\code{stateCode} -- ISO 3166-2 alpha-2 state code}
-#' \item{\code{stationID} -- WRCC RAWS station identifier}
+#' \item{\code{wrccID} -- WRCC RAWS station identifier}
 #' \item{\code{siteName} -- human readable site name}
 #' \item{\code{longitude} -- decimal degrees East}
 #' \item{\code{latitude} -- decimal degrees North}
@@ -40,22 +40,22 @@
 
 wrcc_createMetadata <- function(
   stateCode = NULL,
-  stationIDs = NULL,
+  wrccIDs = NULL,
   baseUrl = "https://raws.dri.edu/",
   verbose = FALSE
 ) {
   
   # ----- Validate parameters --------------------------------------------------
   
-  if ( is.null(stateCode) && is.null(stationIDs) ) 
-    stop("Either 'stateCode' or 'stationIDs' must be specified.")
+  if ( is.null(stateCode) && is.null(wrccIDs) ) 
+    stop("Either 'stateCode' or 'wrccIDs' must be specified.")
   
-  if ( ! toupper(stateCode) %in% MazamaSpatialUtils::US_stateCodes$stateCode )
+  if ( ! is.null(stateCode) && ! toupper(stateCode) %in% MazamaSpatialUtils::US_stateCodes$stateCode )
     stop("Parameter 'stateCode' is not a valid state code")
   
   # ----- Get station IDs ------------------------------------------------------
   
-  if ( is.null(stationIDs) ) {
+  if ( is.null(wrccIDs) ) {
     
     stateCode <- tolower(stateCode)
 
@@ -123,7 +123,7 @@ wrcc_createMetadata <- function(
     stateName <- MazamaSpatialUtils::codeToState(toupper(stateCode), countryCode = "US")
     
     # Get the station IDs for the given state
-    stationIDs <- 
+    wrccIDs <- 
       stationLinks %>%
       dplyr::filter(stringr::str_detect(.data$linkName, stateName)) %>% # Get stations in the requested state
       dplyr::pull(.data$linkUrl) %>%                                    # Get only the link URLs
@@ -132,24 +132,24 @@ wrcc_createMetadata <- function(
       magrittr::extract(, 2)                                            # keep the second column of the matrix
     
     # Stop if there are no stations in the given state
-    if ( rlang::is_empty(stationIDs) )
+    if ( rlang::is_empty(wrccIDs) )
       stop(sprintf("Could not find any stations in the state with state code '%s'", stateCode))
     
-  } #END of stationIDs from stateCode
+  } #END of wrccIDs from stateCode
   
-  # ----- Loop over stationIDs -------------------------------------------------
+  # ----- Loop over wrccIDs -------------------------------------------------
   
   recordList <- list()
   i <- 0
-  for ( stationID in stationIDs ) {
+  for ( wrccID in wrccIDs ) {
     
     i <- i + 1
     if ( verbose )
-      message(sprintf("Working on %03d/%03d: %s...", i, length(stationIDs), stationID))
+      message(sprintf("Working on %03d/%03d: %s...", i, length(wrccIDs), wrccID))
     
     # * Get the data -----
     
-    metaUrl <- paste0("https://raws.dri.edu/cgi-bin/wea_info.pl?", stationID)
+    metaUrl <- paste0("https://raws.dri.edu/cgi-bin/wea_info.pl?", wrccID)
     
     tables <- MazamaCoreUtils::html_getTables(metaUrl)
     
@@ -205,11 +205,14 @@ wrcc_createMetadata <- function(
     if ( !is.character(agency) || agency == "")
       agency = NA
     
-    recordList[[stationID]] <-
+    if ( is.null(stateCode) )
+      stateCode <- stringr::str_sub(wrccID, 0, 2)
+    
+    recordList[[wrccID]] <-
       dplyr::tibble(
         "countryCode" = "US", 
         "stateCode" = toupper(stateCode), 
-        "stationID" = stationID, 
+        "wrccID" = wrccID, 
         "siteName" = siteName, 
         "longitude" = longitude, 
         "latitude" = latitude, 
@@ -222,7 +225,7 @@ wrcc_createMetadata <- function(
   }
   
   # ----- Assemble dataframe ---------------------------------------------------
-  
+
   meta <- dplyr::bind_rows(recordList)
   
   # Make sure the timezone dataset is loaded

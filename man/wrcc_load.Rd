@@ -5,7 +5,7 @@
 \title{Load WRCC RAWS timeseries object from a local directory}
 \usage{
 wrcc_load(
-  stationID = NULL,
+  wrccID = NULL,
   meta = NULL,
   year = NULL,
   baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl",
@@ -13,7 +13,7 @@ wrcc_load(
 )
 }
 \arguments{
-\item{stationID}{RAWS station identifier (will be upcased)}
+\item{wrccID}{RAWS station identifier (will be upcased)}
 
 \item{meta}{Tibble of FW13 station metadata.}
 
@@ -36,8 +36,8 @@ library(RAWSmet)
 
 setRawsDataDir("~/Data/RAWS/")
 
-stationMeta <- wrcc_createMetadata(stateCode = "WA", stationIDs = "waWENU")
-meta <- wrcc_load(stationID = "waWENU", meta = stationMeta)
+stationMeta <- wrcc_createMetadata(stateCode = "WA", wrccIDs = "waWENU")
+meta <- wrcc_load(wrccID = "waWENU", meta = stationMeta)
 
 dplyr::glimpse(meta)
 }

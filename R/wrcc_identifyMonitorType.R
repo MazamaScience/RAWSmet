@@ -29,7 +29,7 @@
 #' \dontrun{
 #' library(RAWSmet)
 #' 
-#' fileString <- wrcc_downloadData(stationID = 'WENU')
+#' fileString <- wrcc_downloadData(wrccID = 'WENU')
 #' monitorTypeList <- wrcc_identifyMonitorType(fileString)
 #' }
 
