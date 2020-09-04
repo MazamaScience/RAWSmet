@@ -26,11 +26,12 @@ Imports:
     maps,
     MazamaCoreUtils,
     MazamaSpatialUtils,
+    metR,
     readr,
     readxl,
     rlang,
     stringr,
-    tidyr
+    tidyr,
 Suggests:
     knitr,
     markdown,
