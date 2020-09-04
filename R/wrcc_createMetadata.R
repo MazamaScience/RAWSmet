@@ -196,6 +196,12 @@ wrcc_createMetadata <- function(
     # Remove extra whitespace in siteName
     siteName <- stringr::str_trim(siteName)
     
+    # Remove state name from siteName
+    stateCode <- stringr::str_sub(wrccID, 0, 2)
+    stateName <- MazamaSpatialUtils::codeToState(toupper(stateCode), countryCode = "US")
+    
+    siteName <- stringr::str_trim(stringr::str_sub(siteName, 1, nchar(siteName) - nchar(stateName)))
+    
     # Check if identifies are valid
     # NOTE:  Identifiers will not be a character if the table is missing.
     # NOTE:  Identifiers will be empty strings ("") if the table exists but the
@@ -206,9 +212,6 @@ wrcc_createMetadata <- function(
       nwsID = NA
     if ( !is.character(agency) || agency == "")
       agency = NA
-    
-    if ( is.null(stateCode) )
-      stateCode <- stringr::str_sub(wrccID, 0, 2)
     
     recordList[[wrccID]] <-
       dplyr::tibble(
