@@ -23,6 +23,7 @@ Imports:
     leaflet,
     lubridate,
     magrittr,
+    maps,
     MazamaCoreUtils,
     MazamaSpatialUtils,
     readr,
