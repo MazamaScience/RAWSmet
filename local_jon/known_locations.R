@@ -8,9 +8,9 @@ MazamaLocationUtils::mazama_initialize()
 
 library(RAWSmet)
 
-meta <- fw13_createMetadata()
+meta <- fw13_loadMeta()
 
-known_locations <- MazamaLocationUtils::table_initializeExisting(meta)
+known_locations <- MazamaLocationUtils::table_initializeExisting(meta, radius = 1000)
 
 dplyr::glimpse(known_locations)
 

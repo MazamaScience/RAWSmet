@@ -10,6 +10,7 @@
 #' @param startdate Desired start date (integer or character representing YYYYMMDD[HH]).
 #' @param enddate Desired end date (integer or character representing YYYYMMDD[HH]).
 #' @param baseUrl Base URL for data queries.
+#' @param verbose Logical flag controlling detailed progress statements.
 #'
 #' @return Timeseries object with 'meta' and 'data'.
 #'
@@ -43,7 +44,8 @@ wrcc_createTimeseriesObject <- function(
   meta = NULL,
   startdate = strftime(lubridate::now(tzone = "UTC"), "%Y%m0101", tz = "UTC"),
   enddate = strftime(lubridate::now(tzone = "UTC"), "%Y%m%d23", tz = "UTC"),
-  baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl"
+  baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl",
+  verbose = FALSE
 ) {
   
   # ----- Validate parameters --------------------------------------------------
@@ -57,6 +59,9 @@ wrcc_createTimeseriesObject <- function(
   
   if ( is.null(meta) ) {
     
+    if ( verbose )
+      message(sprintf("Creating metadata for wrccID = %s...", wrccID))
+
     meta <- wrcc_createMetadata(wrccIDs = wrccID)
     
   } else {

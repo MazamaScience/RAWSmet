@@ -7,7 +7,8 @@
 fw13_createTimeseriesObject(
   nwsID = NULL,
   meta = NULL,
-  baseUrl = "https://cefa.dri.edu/raws/fw13/"
+  baseUrl = "https://cefa.dri.edu/raws/fw13/",
+  verbose = FALSE
 )
 }
 \arguments{
@@ -16,6 +17,8 @@ fw13_createTimeseriesObject(
 \item{meta}{Tibble of RAWS metadata containing \code{nwsID}.}
 
 \item{baseUrl}{Base URL for data queries.}
+
+\item{verbose}{Logical flag controlling detailed progress statements.}
 }
 \value{
 Timeseries object with 'meta' and 'data'.

@@ -17,11 +17,14 @@
 #' @examples
 #' \dontrun{
 #' library(RAWSmet)
-#' 
 #' setRawsDataDir("~/Data/RAWS/")
-#'
-#' stationMeta <- fw13_createMetadata()
-#' meta <- fw13_load(nwsID = 451702, meta = stationMeta)
+#' 
+#' # For creation of metadata
+#' library(MazamaSpatialUtils)
+#' setSpatialDataDir("~/Data/Spatial")
+#' loadSpatialData("NaturalEarthAdm1")
+#' 
+#' meta <- fw13_loadMeta()
 #' 
 #' dplyr::glimpse(meta)
 #' }
@@ -56,7 +59,7 @@ fw13_load <- function(
   if ( file.exists(filePath) ) {
     
     if( verbose ) {
-      message("Loading data from local directory.")
+      message(sprintf("Loading data from %s", filePath))
     }
     
     # If local data exists, load and return it.

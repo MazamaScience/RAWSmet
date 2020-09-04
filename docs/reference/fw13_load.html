@@ -70,7 +70,7 @@ If the data is not in this directory, this will download and save the data." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
       </span>
     </div>
 
@@ -179,11 +179,14 @@ If the data is not in this directory, this will download and save the data.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>RAWSmet</span>)
-
 <span class='fu'><a href='setRawsDataDir.html'>setRawsDataDir</a></span>(<span class='st'>"~/Data/RAWS/"</span>)
 
-<span class='no'>stationMeta</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fw13_createMetadata.html'>fw13_createMetadata</a></span>()
-<span class='no'>meta</span> <span class='kw'>&lt;-</span> <span class='fu'>fw13_load</span>(<span class='kw'>nwsID</span> <span class='kw'>=</span> <span class='fl'>451702</span>, <span class='kw'>meta</span> <span class='kw'>=</span> <span class='no'>stationMeta</span>)
+<span class='co'># For creation of metadata</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>MazamaSpatialUtils</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/MazamaSpatialUtils/man/setSpatialDataDir.html'>setSpatialDataDir</a></span>(<span class='st'>"~/Data/Spatial"</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/MazamaSpatialUtils/man/loadSpatialData.html'>loadSpatialData</a></span>(<span class='st'>"NaturalEarthAdm1"</span>)
+
+<span class='no'>meta</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fw13_loadMeta.html'>fw13_loadMeta</a></span>()
 
 <span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>glimpse</a></span>(<span class='no'>meta</span>)
 }</div></pre>

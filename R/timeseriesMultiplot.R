@@ -8,7 +8,7 @@
 #'
 #' @param data \code{data} dataframe of a \emph{raws_timeseries} object.
 #' @param pattern Pattern used to match groups of parameters.
-#' @param parameters Custom vector of aggregation parameters to view.
+#' @param parameters Custom vector of parameters to view.
 #' @param nrow Number of rows in the faceted plot.
 #' @param ncol Number of columns in the faceted plot.
 #' @param autoRange Logical specifying whether to scale the y axis separately
@@ -23,7 +23,7 @@
 #' \code{autoRange}.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' library(RAWSmet)
 #' 
 #' setRawsDataDir("~/Data/RAWS/")
@@ -31,10 +31,10 @@
 #' 
 #' data <- 
 #'   fw13_load(nwsID = 451702, meta = fw13Meta) %>% 
-#'   raws_filterDate(20200801, 20200901) %>%
+#'   raws_filterDate(20170801, 20170901) %>%
 #'   raws_extractData()
 #' 
-#' raws_timeseriesMultiplot(
+#' timeseriesMultiplot(
 #'   data,
 #'   pattern = c("humidity|temperature"),
 #'   nrow = 2
@@ -51,8 +51,6 @@ timeseriesMultiplot <- function(
   ylim = NULL,
   style = "line"
 ) {
-  
-  # TODO: Update to work with new agg function
   
   # ----- Validate parameters --------------------------------------------------
   

@@ -71,7 +71,7 @@ Station identifiers can be found at https://raws.dri.edu/." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
       </span>
     </div>
 
@@ -140,7 +140,7 @@ Data are returned as a single character string containing the RAWS output.</p>
     </div>
 
     <pre class="usage"><span class='fu'>wrcc_downloadData</span>(
-  <span class='kw'>stationID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>wrccID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/strptime.html'>strftime</a></span>(<span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/now.html'>now</a></span>(<span class='kw'>tzone</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>), <span class='st'>"%Y%m0101"</span>, <span class='kw'>tz</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>),
   <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/strptime.html'>strftime</a></span>(<span class='kw pkg'>lubridate</span><span class='kw ns'>::</span><span class='fu'><a href='http://lubridate.tidyverse.org/reference/now.html'>now</a></span>(<span class='kw'>tzone</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>), <span class='st'>"%Y%m%d23"</span>, <span class='kw'>tz</span> <span class='kw'>=</span> <span class='st'>"UTC"</span>),
   <span class='kw'>baseUrl</span> <span class='kw'>=</span> <span class='st'>"https://wrcc.dri.edu/cgi-bin/wea_list2.pl"</span>
@@ -150,7 +150,7 @@ Data are returned as a single character string containing the RAWS output.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>stationID</th>
+      <th>wrccID</th>
       <td><p>Station identifier (will be upcased).</p></td>
     </tr>
     <tr>
@@ -178,7 +178,7 @@ Data are returned as a single character string containing the RAWS output.</p>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>RAWSmet</span>)
 
-<span class='no'>fileString</span> <span class='kw'>&lt;-</span> <span class='fu'>wrcc_downloadData</span>(<span class='kw'>stationID</span> <span class='kw'>=</span> <span class='st'>'waWENU'</span>)
+<span class='no'>fileString</span> <span class='kw'>&lt;-</span> <span class='fu'>wrcc_downloadData</span>(<span class='kw'>wrccID</span> <span class='kw'>=</span> <span class='st'>'waWENU'</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw pkg'>readr</span><span class='kw ns'>::</span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_lines.html'>read_lines</a></span>(<span class='no'>fileString</span>)[<span class='fl'>1</span>:<span class='fl'>10</span>])
 }</div></pre>
   </div>

@@ -8,7 +8,7 @@ wrcc_createMetadata(
   stateCode = NULL,
   wrccIDs = NULL,
   baseUrl = "https://raws.dri.edu/",
-  verbose = FALSE
+  verbose = TRUE
 )
 }
 \arguments{

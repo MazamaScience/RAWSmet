@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
       </span>
     </div>
 
@@ -146,15 +146,16 @@
 <a class="sourceLine" id="cb1-5" data-line-number="5"></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6">meta &lt;-<span class="st"> </span><span class="kw"><a href="../../reference/fw13_createMetadata.html">fw13_createMetadata</a></span>(<span class="dt">verbose =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(meta)</a></code></pre></div>
-<pre><code>## # A tibble: 6 x 8
-##   nwsID  longitude latitude elevation siteName   countryCode stateCode timezone 
-##   &lt;chr&gt;      &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;    
-## 1 021503    -114.      34.1       360 AHAKAHV P… US          AZ        America/…
-## 2 500726    -141.      62.8      1800 ALCAN HWY… US          AK        America/…
-## 3 020401    -109.      33.8      8188 ALPINE     US          AZ        America/…
-## 4 500742    -146.      65.0      1100 ANGEL CRE… US          AK        America/…
-## 5 032101     -92.8     35.6      1600 ARMSTEAD … US          AR        America/…
-## 6 010702     -87.3     34.3       989 BANKHD     US          AL        America/…</code></pre>
+<pre><code>## # A tibble: 6 x 11
+##   nwsID wrccID nessID siteName longitude latitude timezone elevation countryCode
+##   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt;        &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;      
+## 1 0215… &lt;NA&gt;   &lt;NA&gt;   AHAKAHV…    -114.      34.1 America…       360 US         
+## 2 5007… &lt;NA&gt;   &lt;NA&gt;   ALCAN H…    -141.      62.8 America…      1800 US         
+## 3 0204… &lt;NA&gt;   &lt;NA&gt;   ALPINE      -109.      33.8 America…      8188 US         
+## 4 5007… &lt;NA&gt;   &lt;NA&gt;   ANGEL C…    -146.      65.0 America…      1100 US         
+## 5 0321… &lt;NA&gt;   &lt;NA&gt;   ARMSTEA…     -92.8     35.6 America…      1600 US         
+## 6 0107… &lt;NA&gt;   &lt;NA&gt;   BANKHD       -87.3     34.3 America…       989 US         
+## # … with 2 more variables: stateCode &lt;chr&gt;, agency &lt;chr&gt;</code></pre>
 <p>This dataframe of 1791 records contains unique identifiers and locations.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(meta)</a></code></pre></div>
 <pre><code>## [1] 1791</code></pre>

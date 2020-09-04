@@ -18,6 +18,7 @@
 #' library(RAWSmet)
 #' 
 #' setRawsDataDir("~/Data/RAWS")
+#' fw13Meta <- fw13_loadMeta()
 #' 
 #' maps::map('state', "washington")
 #' 
@@ -29,8 +30,7 @@
 #' speed <- c(station1$data[1,]$windSpeed, station2$data[1,]$windSpeed)
 #' dir <- c(station1$data[1,]$windDirection, station2$data[1,]$windDirection)
 #' 
-#' addWindBarbs(lon, lat, speed, dir,
-#'              circleSize = 1.8, circleFill = c('orange', 'blue'))
+#' addWindBarbs(lon, lat, speed, dir, lwd = 2)
 #'}
 #'
 addWindBarbs <- function(x,

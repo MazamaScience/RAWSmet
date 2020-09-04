@@ -42,7 +42,7 @@ wrcc_createMetadata <- function(
   stateCode = NULL,
   wrccIDs = NULL,
   baseUrl = "https://raws.dri.edu/",
-  verbose = FALSE
+  verbose = TRUE
 ) {
   
   # ----- Validate parameters --------------------------------------------------

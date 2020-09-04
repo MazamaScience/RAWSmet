@@ -8,6 +8,7 @@
 #' @param nwsID Station identifier found in 'meta'.
 #' @param meta Tibble of RAWS metadata containing \code{nwsID}.
 #' @param baseUrl Base URL for data queries.
+#' @param verbose Logical flag controlling detailed progress statements.
 #'
 #' @return Timeseries object with 'meta' and 'data'.
 #'
@@ -61,7 +62,8 @@
 fw13_createTimeseriesObject <- function(
   nwsID = NULL,
   meta = NULL,
-  baseUrl = "https://cefa.dri.edu/raws/fw13/"
+  baseUrl = "https://cefa.dri.edu/raws/fw13/",
+  verbose = FALSE
 ) {
   
   # ----- Validate parameters --------------------------------------------------
@@ -73,8 +75,9 @@ fw13_createTimeseriesObject <- function(
   
   # ----- Create 'meta' --------------------------------------------------------
   
-  if ( is.null(meta) )
-    meta <- fw13_loadMeta()
+  if ( is.null(meta) ) {
+    meta <- fw13_loadMeta(verbose = verbose)
+  }
   
   # Subset to a single record
   meta <- dplyr::filter(meta, nwsID == !!nwsID)

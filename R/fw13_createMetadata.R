@@ -39,7 +39,7 @@
 
 fw13_createMetadata <- function(
   metadataUrl = "https://cefa.dri.edu/raws/RAWSfw13list.xlsx",
-  verbose = FALSE
+  verbose = TRUE
 ) {
   
   # ----- Setup ----------------------------------------------------------------
