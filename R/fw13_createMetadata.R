@@ -111,6 +111,33 @@ fw13_createMetadata <- function(
     useBuffering = TRUE
   )
   
+  # ----- Add empty columns ----------------------------------------------------
+  
+  # NOTE: These columns exist in WRCC metadata so we add these to keep 
+  #       the columns of RAWS metadata consistent 
+  meta$nessID <- as.character(NA)
+  meta$wrccID <- as.character(NA)
+  meta$agency <- as.character(NA)
+  
+  
+  # ----- Reorder columns ----------------------------------------------------
+  
+  meta <-
+    dplyr::select(
+      .data = meta,
+      nwsID = .data$nwsID,
+      wrccID = .data$wrccID,
+      nessID = .data$nessID,
+      siteName = .data$siteName,
+      longitude = .data$longitude,
+      latitude = .data$latitude,
+      timezone = .data$timezone,
+      elevation = .data$elevation,
+      countryCode = .data$countryCode,
+      stateCode = .data$stateCode,
+      agency = .data$agency
+    )
+  
   # ----- Clean up and Return --------------------------------------------------
   
   unlink(filePath, force = TRUE)

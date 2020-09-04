@@ -212,15 +212,15 @@ wrcc_createMetadata <- function(
     
     recordList[[wrccID]] <-
       dplyr::tibble(
-        "countryCode" = "US", 
-        "stateCode" = toupper(stateCode), 
-        "wrccID" = wrccID, 
-        "siteName" = siteName, 
+        "nwsID" = nwsID,
+        "wrccID" = wrccID,
+        "nessID" = nessID,
+        "siteName" = siteName,
         "longitude" = longitude, 
         "latitude" = latitude, 
         "elevation" = elevation,
-        "nessID" = nessID,
-        "nwsID" = nwsID,
+        "countryCode" = "US", 
+        "stateCode" = toupper(stateCode), 
         "agency" = agency
       )
     
@@ -237,6 +237,24 @@ wrcc_createMetadata <- function(
   # Now add the timezone
   meta$timezone <- MazamaSpatialUtils::getTimezone(meta$longitude, meta$latitude)
   
+  # Reorder columns
+  meta <- 
+    dplyr::select(
+      .data = meta,
+      nwsID = .data$nwsID,
+      wrccID = .data$wrccID,
+      nessID = .data$nessID,
+      siteName = .data$siteName,
+      longitude = .data$longitude, 
+      latitude = .data$latitude, 
+      timezone = .data$timezone,
+      elevation = .data$elevation,
+      countryCode = .data$countryCode, 
+      stateCode = .data$stateCode, 
+      agency = .data$agency
+    )
+  
+  # Return
   return(meta)
   
 }
