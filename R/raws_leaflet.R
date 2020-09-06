@@ -21,10 +21,10 @@
 #' the map.
 #' 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' library(RAWSmet)
 #' 
-#' wa_meta <- wrcc_createMetadata("WA")
+#' wa_meta <- example_wrccMeta
 #' raws_leaflet(wa_meta)
 
 #' }

@@ -18,14 +18,11 @@ Conveniently tests if a given \emph{raws_timeseries} object
 is empty.
 }
 \examples{
-\dontrun{
+\donttest{
 library(RAWSmet)
 
-setRawsDataDir("~/Data/RAWS")
-
-rawsObj <- fw13_load(451702, year = 2005)
-
-raws_isEmpty(rawsObj)
+raws_isEmpty(example_fw13SaddleMountain)
+raws_isEmpty(example_wrccSaddleMountain)
 }
 
 }

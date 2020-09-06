@@ -2,6 +2,7 @@
 #' @importFrom MazamaCoreUtils parseDatetime
 #' @importFrom ggplot2 ggplot geom_point geom_line ylim labs scale_color_manual theme guide_legend element_text aes
 #' @importFrom metR geom_arrow
+#' @importFrom grid arrow unit
 #' @importFrom rlang .data
 #' 
 #' @title Create a visualization of wind and gust speeds for a given station
@@ -15,15 +16,12 @@
 #' @description Creates a visualization of wind and gust speeds and wind directions.
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' library(RAWSmet)
-#'
-#' setRawsDataDir("~/Data/RAWS")
+#' library(grid)
+#' library(ggplot2)
 #' 
-#' fw13Meta <- fw13_loadMeta()
-#' rawsObject <- fw13_load(nwsID = "451702", meta = fw13Meta)
-#' 
-#' plot <- windTimeseriesPlot(rawsObject, 20050801, 20050802)
+#' plot <- windTimeseriesPlot(example_fw13SaddleMountain, 20170801, 20170802)
 #' plot
 #' }
 #'

@@ -45,11 +45,8 @@ Specification of \code{ylim} will override the choice of
 \donttest{
 library(RAWSmet)
 
-setRawsDataDir("~/Data/RAWS/")
-fw13Meta <- fw13_loadMeta()
-
 data <- 
-  fw13_load(nwsID = 451702, meta = fw13Meta) \%>\% 
+  example_fw13SaddleMountain \%>\% 
   raws_filterDate(20170801, 20170901) \%>\%
   raws_extractData()
 

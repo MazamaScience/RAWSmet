@@ -24,19 +24,19 @@ comprise a \emph{raws_timeseries} object. These functions are designed to be use
 manipulating data in a pipeline chain using \code{\%>\%}.
 }
 \examples{
-\dontrun{
+\donttest{
 library(RAWSmet)
 
-setRawsDataDir("~/Data/RAWS")
-setSpatialDataDir("~/Data/Spatial")
-
-fw13_load(451702, year = 2005) \%>\%
-  raws_extractData(forOpenair = T) \%>\%
-  openair::timePlot(
-    pollutant = "temperature"
-  )
+data <- 
+  example_fw13SaddleMountain \%>\%
+  raws_extractData(forOpenair = TRUE)
+  
+# openair::timePlot(
+#  data,
+#  pollutant = "temperature"
+# )
    
-fw13_load(451702, year = 2005) \%>\%
+example_fw13SaddleMountain \%>\%
   raws_extractMeta() \%>\%
   head()
 }

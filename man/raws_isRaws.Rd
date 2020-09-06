@@ -47,14 +47,11 @@ Core \code{data} columns include:
 }
 }
 \examples{
-\dontrun{
+\donttest{
 library(RAWSmet)
 
-setRawsDataDir("~/Data/RAWS")
-
-rawsObj <- fw13_load(451702, year = 2005)
-
-raws_isRaws(rawsObj)
+raws_isRaws(example_fw13SaddleMountain)
+raws_isRaws(example_wrccSaddleMountain)
 }
 
 }

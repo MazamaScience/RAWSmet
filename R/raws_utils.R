@@ -41,14 +41,11 @@
 #' \code{FALSE} otherwise.
 #' 
 #' @examples 
-#' \dontrun{
+#' \donttest{
 #' library(RAWSmet)
 #' 
-#' setRawsDataDir("~/Data/RAWS")
-#' 
-#' rawsObj <- fw13_load(451702, year = 2005)
-#' 
-#' raws_isRaws(rawsObj)
+#' raws_isRaws(example_fw13SaddleMountain)
+#' raws_isRaws(example_wrccSaddleMountain)
 #' }
 #' 
 raws_isRaws <- function(
@@ -102,14 +99,11 @@ raws_isRaws <- function(
 #' \code{FALSE} otherwise
 #' 
 #' @examples 
-#' \dontrun{
+#' \donttest{
 #' library(RAWSmet)
-#' 
-#' setRawsDataDir("~/Data/RAWS")
-#' 
-#' rawsObj <- fw13_load(451702, year = 2005)
-#' 
-#' raws_isEmpty(rawsObj)
+#'
+#' raws_isEmpty(example_fw13SaddleMountain)
+#' raws_isEmpty(example_wrccSaddleMountain)
 #' }
 #' 
 raws_isEmpty <- function(
@@ -163,19 +157,19 @@ raws_distinct <- function(
 #' @return A dataframe from the given \emph{raws_timeseries} object
 #' 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' library(RAWSmet)
 #' 
-#' setRawsDataDir("~/Data/RAWS")
-#' setSpatialDataDir("~/Data/Spatial")
-#' 
-#' fw13_load(451702, year = 2005) %>%
-#'   raws_extractData(forOpenair = T) %>%
-#'   openair::timePlot(
-#'     pollutant = "temperature"
-#'   )
+#' data <- 
+#'   example_fw13SaddleMountain %>%
+#'   raws_extractData(forOpenair = TRUE)
+#'   
+#' # openair::timePlot(
+#' #  data,
+#' #  pollutant = "temperature"
+#' # )
 #'    
-#' fw13_load(451702, year = 2005) %>%
+#' example_fw13SaddleMountain %>%
 #'   raws_extractMeta() %>%
 #'   head()
 #' }

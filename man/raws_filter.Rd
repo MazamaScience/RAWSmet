@@ -23,11 +23,10 @@ evaluates to TRUE are kept.Rows where the condition evaluates to \code{NA}
 are dropped.
 }
 \examples{
-\dontrun{
+\donttest{
 library(RAWSmet)
-setRawsDataDir("~/Data/RAWS")
 
-rawsObject <- fw13_load(nwsID = 451702, year = 2005)
+rawsObject <- example_fw13SaddleMountain
 
 daytime <- raws_filter(rawsObject, solarRadiation > 0)
 head(daytime$data)

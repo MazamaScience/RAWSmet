@@ -29,13 +29,13 @@
 #' 
 #' @seealso \link{raws_filter}
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' library(RAWSmet)
-#' setRawsDataDir("~/Data/RAWS")
 #' 
-#' rawsObject <- fw13_load(nwsID = 451702, year = 2005)
+#' rawsObject <- example_fw13SaddleMountain
 #' 
-#' data200508 <- rawsObject %>% raws_filterDate(20050801, 20050901, timezone = "America/Los_Angeles")
+#' data201708 <- rawsObject %>% raws_filterDate(20170801, 20170901, timezone = "America/Los_Angeles")
+#' head(data201708$data)
 #' }
 #'
 raws_filterDate <- function(

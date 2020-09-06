@@ -42,22 +42,19 @@ addWindBarbs(
 Add a multi-sided polygon to a plot.
 }
 \examples{
-\dontrun{
+\donttest{
 library(maps)
 library(RAWSmet)
 
-setRawsDataDir("~/Data/RAWS")
-fw13Meta <- fw13_loadMeta()
-
 maps::map('state', "washington")
 
-station1 <- fw13_load(nwsID = 451702, meta = fw13Meta) \%>\% raws_filterDate(20100623, 20100623)
-station2 <- fw13_load(nwsID = 452319, meta = fw13Meta) \%>\% raws_filterDate(20100623, 20100623)
+januaryData <- example_fw13SaddleMountain \%>\% raws_filterDate(20170101, 20170101)
+juneData <- example_fw13SaddleMountain \%>\% raws_filterDate(20170601, 20170601)
 
-lat <- c(station1$meta$latitude, station2$meta$latitude) 
-lon <- c(station1$meta$longitude, station2$meta$longitude) 
-speed <- c(station1$data[1,]$windSpeed, station2$data[1,]$windSpeed)
-dir <- c(station1$data[1,]$windDirection, station2$data[1,]$windDirection)
+lat <- c(januaryData$meta$latitude, juneData$meta$latitude) 
+lon <- c(januaryData$meta$longitude, juneData$meta$longitude) 
+speed <- c(januaryData$data[1,]$windSpeed, juneData$data[1,]$windSpeed)
+dir <- c(januaryData$data[1,]$windDirection, juneData$data[1,]$windDirection)
 
 addWindBarbs(lon, lat, speed, dir, lwd = 2)
 }
