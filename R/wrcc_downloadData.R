@@ -97,6 +97,15 @@ wrcc_downloadData <- function(
   # No error so return the content (which might be an HTML formatted error message)
   fileString <- httr::content(r, 'text', encoding = 'UTF-8')
   
+  
+  # NOTE: Some stations may not have data for the requested time period so we must
+  #       check if data was actually downloaded
+  lines <- readr::read_lines(fileString)
+  if ( length(lines) < 4) {
+    stop(sprintf("No data was found for station %s between %s and %s", wrccID, starttime, endtime))
+  }
+  
+  # Return
   return(fileString)
   
 }
