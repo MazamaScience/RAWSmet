@@ -30,6 +30,7 @@ The \code{monitorType} will be one of:
 \itemize{
 \item{"\code{WRCC_TYPE1}"}{ -- ???}
 \item{"\code{WRCC_TYPE2}"}{ -- ???}
+\item{"\code{WRCC_TYPE3}"}{ -- ???}
 \item{"\code{UNKOWN}"}{ -- ???}
 }
 }

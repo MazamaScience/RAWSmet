@@ -9,6 +9,8 @@
 #' @param lineCol line color (currently not supported)
 #' @param extraBarbLength add length to barbs
 #' @param barbSize size of the barb 
+#' @param forMap logical flag stating if the plot is a map or timeseries plot
+#' @param barbLocation barb start location for timeseries plot. Currently accepts 'point' or 'zero'
 #' @param ... additional arguments to be passed to \code{lines}
 #' @description Add a multi-sided polygon to a plot.
 #' @references https://commons.wikimedia.org/wiki/Wind_speed
@@ -39,6 +41,8 @@ addWindBarbs <- function(x,
                          lineCol = 1,
                          extraBarbLength = 0,
                          barbSize = 1,
+                         forMap = TRUE,
+                         barbLocation = "zero",
                          ...) {
   
   # Make sure all vector lengths match
@@ -65,7 +69,7 @@ addWindBarbs <- function(x,
   for (i in 1:vectorLength) {
     addWindBarb(x[i], y[i], speed[i], dir[i],
                 circleSize[i], circleFill[i], lineCol[i],
-                extraBarbLength, barbSize, ...)
+                extraBarbLength, barbSize, forMap, barbLocation, ...)
   }
   
 }

@@ -10,6 +10,8 @@
 #' @param lineCol line color (currently not supported)
 #' @param extraBarbLength add length to barbs
 #' @param barbSize size of the barb 
+#' @param forMap logical flag stating if the plot is a map or timeseries plot
+#' @param barbLocation barb start location for timeseries plot. Currently accepts 'point' or 'zero'
 #' @param ... additional arguments to be passed to \code{lines}
 #' @description Add a wind barb to the plot. Used internally in \link{addWindBarbs}
 #' @references \url{https://commons.wikimedia.org/wiki/Wind_speed}
@@ -29,6 +31,8 @@ addWindBarb <- function(
   lineCol = 1,
   extraBarbLength = 0,
   barbSize = 1,
+  forMap = TRUE,
+  barbLocation = "zero",
   ...
 ) {
   
@@ -46,119 +50,152 @@ addWindBarb <- function(
   xpi <- (usr[2] - usr[1]) / pin[1]
   ypi <- (usr[4] - usr[3]) / pin[2]
   
-  # Add a little circle
-  # Default radius is 1/24 inch. Change based on circleSize 
-  rx <- xpi/24*circleSize
-  ry <- ypi/24*circleSize
-  theta <- seq(0, 2*pi, length = 50)
-  xx <- x + rx*cos(theta)
-  yy <- y + ry*sin(theta)
-  
-  polygon(xx, yy, col = circleFill, border = lineCol, ...)
-  
-  # Only add barb if speed > 0
-  if ( speed > 0 ) {
-    # The baseline barb length will be 1/4 inch
-    lx <- xpi / 4 * barbSize
-    ly <- ypi / 4 * barbSize
-    if (speed < 5) {
-      # under 5 knots, barb length is shorter with lower speeds
-      lx <- lx/5*speed
-      ly <- ly/5*speed
+  if ( forMap) {
+    # Add a little circle
+    # Default radius is 1/24 inch. Change based on circleSize 
+    rx <- xpi/24*circleSize
+    ry <- ypi/24*circleSize
+    theta <- seq(0, 2*pi, length = 50)
+    xx <- x + rx*cos(theta)
+    yy <- y + ry*sin(theta)
+    
+    polygon(xx, yy, col = circleFill, border = lineCol, ...)
+    
+    # Only add barb if speed > 0
+    if ( speed > 0 ) {
+      # The baseline barb length will be 1/4 inch
+      lx <- xpi / 4 * barbSize
+      ly <- ypi / 4 * barbSize
+      if (speed < 5) {
+        # under 5 knots, barb length is shorter with lower speeds
+        lx <- lx/5*speed
+        ly <- ly/5*speed
+      }
+      
+      # Get starting and ending points for barb
+      xs <- x + rx * cos(rad)
+      ys <- y + rx * sin(rad)
+      xe <- xs + (lx + extraBarbLength*lx) * cos(rad)
+      ye <- ys + (ly + extraBarbLength*ly) * sin(rad)
+      
+      
+      # Plot the line
+      lines(c(xs, xe), c(ys, ye), col = lineCol, ...)
+      if (speed >= 5) {
+        # Add flags
+        # flag angle 
+        fa <- rad + 75*pi/180
+        
+        # 5 knots
+        # start at 5/6 of the way up the barb
+        # length is 1/4 of the barb length
+        # position counts in by 1/6th of the barb from outside
+        add_5 <- function(position) {
+          fxs <- xs + (lx + extraBarbLength*lx)*cos(rad) - lx*cos(rad)*(position - 1)/6
+          fxe <- fxs + lx/4*cos(fa)
+          fys <- ys + (ly + extraBarbLength*ly)*sin(rad) - ly*sin(rad)*(position - 1)/6 
+          fye <- fys + ly/4*sin(fa)
+          
+          
+          lines(c(fxs, fxe), c(fys, fye), col = lineCol, ...)
+          
+        }
+        
+        
+        # 10 knots
+        # start at end of barb
+        # length is 1/2 of barb length
+        # position counts in by 1/6th of the barb from outside
+        add_10 <- function(position) {
+          fxs <- xs + (lx + extraBarbLength*lx)*cos(rad) - lx*cos(rad)*(position - 1)/6
+          fxe <- fxs + lx/2*cos(fa)
+          fys <- ys + (ly + extraBarbLength*ly)*sin(rad) - ly*sin(rad)*(position - 1)/6 
+          fye <- fys + ly/2*sin(fa)
+          
+          
+          lines(c(fxs, fxe), c(fys, fye), col = lineCol,  ...)
+          
+        }
+        
+        # 50 knots
+        add_50 <- function(position) {
+          fx1 <- xs + (lx + extraBarbLength*lx)*cos(rad) - lx*cos(rad)*(position)/6
+          fx2 <- fx1 + lx/2*cos(fa)
+          fx3 <- xs + (lx + extraBarbLength*lx)*cos(rad) - lx*cos(rad)*(position - 1)/6
+          fy1 <- ys + (ly + extraBarbLength*ly)*sin(rad) - ly*sin(rad)*(position)/6 
+          fy2 <- fy1 + ly/2*sin(fa)
+          fy3 <- ys + (ly + extraBarbLength*ly)*sin(rad) - ly*sin(rad)*(position - 1)/6 
+          
+          polygon(c(fx1, fx2, fx3, fx1), c(fy1, fy2, fy3, fy1), col = lineCol, border = lineCol, ...) 
+          
+        }
+        
+        
+        fifties <- speed %/% 50
+        tens <- (speed %% 50) %/% 10
+        fives <- (speed %% 10) %/% 5
+        
+        if (fifties > 0) {
+          
+          for (i in 1:fifties) {
+            add_50(i)
+          }
+          if (tens > 0) {
+            for (i in (fifties + 1):(fifties + 1 + tens)) {
+              add_10(i)
+            }
+          }
+          if (fives > 0) {
+            add_5(fifties + tens + 2)
+          }
+        } else {
+          
+          if (tens > 0) {
+            for (i in 1:tens) {
+              add_10(i)
+            }
+          }
+          
+          
+          if (fives == 1) {
+            add_5(max(c(tens, 1)) + 1)
+          }
+          
+        }
+        
+      }
     }
-    
-    # Get starting and ending points for barb
-    xs <- x + rx * cos(rad)
-    ys <- y + rx * sin(rad)
-    xe <- xs + (lx + extraBarbLength*lx) * cos(rad)
-    ye <- ys + (ly + extraBarbLength*ly) * sin(rad)
-    
-    
-    # Plot the line
-    lines(c(xs, xe), c(ys, ye), col = lineCol, ...)
-    if (speed >= 5) {
-      # Add flags
-      # flag angle 
-      fa <- rad + 75*pi/180
-      
-      # 5 knots
-      # start at 5/6 of the way up the barb
-      # length is 1/4 of the barb length
-      # position counts in by 1/6th of the barb from outside
-      add_5 <- function(position) {
-        fxs <- xs + (lx + extraBarbLength*lx)*cos(rad) - lx*cos(rad)*(position - 1)/6
-        fxe <- fxs + lx/4*cos(fa)
-        fys <- ys + (ly + extraBarbLength*ly)*sin(rad) - ly*sin(rad)*(position - 1)/6 
-        fye <- fys + ly/4*sin(fa)
-        
-        
-        lines(c(fxs, fxe), c(fys, fye), col = lineCol, ...)
-        
+  } else {
+    if ( speed > 0 ) {
+      # The baseline barb length will be 1/4 inch
+      lx <- xpi / 4 * barbSize
+      ly <- ypi / 4 * barbSize
+      if (speed < 5) {
+        # under 5 knots, barb length is shorter with lower speeds
+        lx <- lx/5*speed
+        ly <- ly/5*speed
       }
       
+      # Convert POSIXct x axis to numeric
+      x <- as.numeric(x)
       
-      # 10 knots
-      # start at end of barb
-      # length is 1/2 of barb length
-      # position counts in by 1/6th of the barb from outside
-      add_10 <- function(position) {
-        fxs <- xs + (lx + extraBarbLength*lx)*cos(rad) - lx*cos(rad)*(position - 1)/6
-        fxe <- fxs + lx/2*cos(fa)
-        fys <- ys + (ly + extraBarbLength*ly)*sin(rad) - ly*sin(rad)*(position - 1)/6 
-        fye <- fys + ly/2*sin(fa)
-        
-        
-        lines(c(fxs, fxe), c(fys, fye), col = lineCol,  ...)
-        
+      # If the barb starting location is zero, set y to 0
+      # If not y will be left as is
+      if ( barbLocation == "zero" ) {
+        y <- 0
       }
       
-      # 50 knots
-      add_50 <- function(position) {
-        fx1 <- xs + (lx + extraBarbLength*lx)*cos(rad) - lx*cos(rad)*(position)/6
-        fx2 <- fx1 + lx/2*cos(fa)
-        fx3 <- xs + (lx + extraBarbLength*lx)*cos(rad) - lx*cos(rad)*(position - 1)/6
-        fy1 <- ys + (ly + extraBarbLength*ly)*sin(rad) - ly*sin(rad)*(position)/6 
-        fy2 <- fy1 + ly/2*sin(fa)
-        fy3 <- ys + (ly + extraBarbLength*ly)*sin(rad) - ly*sin(rad)*(position - 1)/6 
-        
-        polygon(c(fx1, fx2, fx3, fx1), c(fy1, fy2, fy3, fy1), col = lineCol, border = lineCol, ...) 
-        
-      }
+      # Get ending points for barb
+      xe <- x + (lx + extraBarbLength*lx) * cos(rad)
+      ye <- y + (ly + extraBarbLength*ly) * sin(rad)
       
-      
-      fifties <- speed %/% 50
-      tens <- (speed %% 50) %/% 10
-      fives <- (speed %% 10) %/% 5
-      
-      if (fifties > 0) {
-        
-        for (i in 1:fifties) {
-          add_50(i)
-        }
-        if (tens > 0) {
-          for (i in (fifties + 1):(fifties + 1 + tens)) {
-            add_10(i)
-          }
-        }
-        if (fives > 0) {
-          add_5(fifties + tens + 2)
-        }
-      } else {
-        
-        if (tens > 0) {
-          for (i in 1:tens) {
-            add_10(i)
-          }
-        }
-        
-        
-        if (fives == 1) {
-          add_5(max(c(tens, 1)) + 1)
-        }
-        
-      }
-      
+      # Convert numeric end position back to POSIXct
+      xe <- as.POSIXct.numeric(xe, origin = "1970-01-01")
+
+      # Draw arrows
+      arrows(x0 = x, y0 = y, x1 = xe, y1 = ye, ...)
     }
   }
+  
 
 }

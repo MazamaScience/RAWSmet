@@ -14,6 +14,8 @@ addWindBarb(
   lineCol = 1,
   extraBarbLength = 0,
   barbSize = 1,
+  forMap = TRUE,
+  barbLocation = "zero",
   ...
 )
 }
@@ -35,6 +37,10 @@ addWindBarb(
 \item{extraBarbLength}{add length to barbs}
 
 \item{barbSize}{size of the barb}
+
+\item{forMap}{logical flag stating if the plot is a map or timeseries plot}
+
+\item{barbLocation}{barb start location for timeseries plot. Currently accepts 'point' or 'zero'}
 
 \item{...}{additional arguments to be passed to \code{lines}}
 }
