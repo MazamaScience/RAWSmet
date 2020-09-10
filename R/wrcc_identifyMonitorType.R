@@ -67,9 +67,9 @@ wrcc_identifyMonitorType <- function(fileString) {
   type3_header <- vector('character',3)
   type3_header[1] <- ":       LST\t mm  \t m/s \t Deg \tDeg C\tDeg C\t  %  \tvolts\t  %  \t Deg \t m/s \t W/m2"   
   type3_header[2] <- ": Date/Time\t Precip\t  Wind \t Wind  \t Av Air\t  Fuel \t  Rel  \tBattery\t  Fuel \t   Dir \tMx Gust\t Solar "
-  type3_header[3] <- ":YYMMDDhhmm\t       \t  Speed\t Direc \t  Temp \t  Temp \tHumidty\tVoltage\tMoistr\t MxGust\t Speed \t  Rad. "
+  type3_header[3] <- ":YYMMDDhhmm\t       \t  Speed\t Direc \t  Temp \t  Temp \tHumidty\tVoltage\tMoistur\t MxGust\t Speed \t  Rad. "
   type3_rawNames <- c('LST_datestamp', 'Precip', 'WindSpeed', 'WindDirec', 'AvAirTemp', 'FuelTemp', 'RelHumidty',
-                      'BatteryVoltage', 'FuelMoistr', 'DirMxGust', 'MxGustSpeed', 'SolarRad')
+                      'BatteryVoltage', 'AvFuelMoistr', 'DirMxGust', 'MxGustSpeed', 'SolarRad')
   type3_names <- type3_rawNames
   type3_types <- 'cddddddddddd'
   
@@ -109,7 +109,7 @@ wrcc_identifyMonitorType <- function(fileString) {
   type7_header[2] <- ": Date/Time\t Precip\t  Wind \t Wind  \t Av Air\t  Fuel \t  Rel  \tBattery\t  Fuel \t Soil  \t4\" Soil\t   Dir \tMx Gust"
   type7_header[3] <- ":YYMMDDhhmm\t       \t  Speed\t Direc \t  Temp \t  Temp \tHumidty\tVoltage\tMoistr\tMoistr\tAv Temp\t MxGust\t Speed "
   type7_rawNames <- c('LST_datestamp', 'Precip', 'WindSpeed', 'WindDirec', 'AvAirTemp', 'FuelTemp', 'RelHumidty',
-                      'BatteryVoltage', 'FuelMoistr', 'SoilMoistr', 'SoilAvTemp', 'DirMxGust', 'MxGustSpeed')
+                      'BatteryVoltage', 'AvFuelMoistr', 'SoilMoistr', 'SoilAvTemp', 'DirMxGust', 'MxGustSpeed')
   type7_names <- type7_rawNames
   type7_types <- 'cdddddddddddd'
   
@@ -119,7 +119,7 @@ wrcc_identifyMonitorType <- function(fileString) {
   type8_header[2] <- ": Date/Time\t Precip\t  Wind \t Wind  \t Av Air\t  Fuel \t  Rel  \tBattery\t Barom \tAv Fuel\t   Dir \tMx Gust\t Solar "
   type8_header[3] <- ":YYMMDDhhmm\t       \t  Speed\t Direc \t  Temp \t  Temp \tHumidty\tVoltage\t Press \t Moistr\t MxGust\t Speed \t  Rad. "
   type8_rawNames <- c('LST_datestamp', 'Precip', 'WindSpeed', 'WindDirec', 'AvAirTemp', 'FuelTemp', 'RelHumidty',
-                      'BatteryVoltage', 'BaromPress', 'FuelMoistr', 'DirMxGust', 'MxGustSpeed', 'SolarRad')
+                      'BatteryVoltage', 'BaromPress', 'AvFuelMoistr', 'DirMxGust', 'MxGustSpeed', 'SolarRad')
   type8_names <- type8_rawNames
   type8_types <- 'cdddddddddddd'
   
@@ -152,7 +152,7 @@ wrcc_identifyMonitorType <- function(fileString) {
   type11_header[2] <- ": Date/Time\t Precip\t  Wind \t Wind  \t Av Air\t  Fuel \t  Rel  \tBattery\t  Fuel \t   Dir \tMx Gust\t#2 Rain\t Solar "
   type11_header[3] <- ":YYMMDDhhmm\t       \t  Speed\t Direc \t  Temp \t  Temp \tHumidty\tVoltage\tMoistr\t MxGust\t Speed \t Gauge \t  Rad. "
   type11_rawNames <- c('LST_datestamp', 'Precip', 'WindSpeed', 'WindDirec', 'AvAirTemp',  'FuelTemp', 'RelHumidty',
-                       'BatteryVoltage', 'FuelMoistr', 'DirMxGust', 'MxGustSpeed', '2RainGauge', 'SolarRad')
+                       'BatteryVoltage', 'AvFuelMoistr', 'DirMxGust', 'MxGustSpeed', '2RainGauge', 'SolarRad')
   
   type11_names <- type11_rawNames
   type11_types <- 'cdddddddddddd'
@@ -163,7 +163,7 @@ wrcc_identifyMonitorType <- function(fileString) {
   type12_header[2] <- ": Date/Time\t Precip\t  Wind \t Wind  \t Av Air\t  Fuel \t  Rel  \tBattery\t  Fuel \t   Dir \tMx Gust\t Soil  \t4\" Soil\t Solar "
   type12_header[3] <- ":YYMMDDhhmm\t       \t  Speed\t Direc \t  Temp \t  Temp \tHumidty\tVoltage\tMoistr\t MxGust\t Speed \tMoistr\tAv Temp\t  Rad. "
   type12_rawNames <- c('LST_datestamp', 'Precip', 'WindSpeed', 'WindDirec', 'AvAirTemp',  'FuelTemp', 'RelHumidty',
-                         'BatteryVoltage', 'FuelMoistre', 'DirMxGust', 'MxGustSpeed', 'SoilMoistr', 'SoilAvTemp', 'SolarRad')
+                         'BatteryVoltage', 'AvFuelMoistre', 'DirMxGust', 'MxGustSpeed', 'SoilMoistr', 'SoilAvTemp', 'SolarRad')
   
   type12_names <- type12_rawNames
   type12_types <- 'cddddddddddddd'
@@ -174,7 +174,7 @@ wrcc_identifyMonitorType <- function(fileString) {
   type13_header[2] <- ": Date/Time\t Precip\t  Wind \t Wind  \t Av Air\t  Fuel \t  Rel  \tBattery\t  Fuel \t   Dir \tMx Gust\t Solar \tAv. Air\tAve Rel"
   type13_header[3] <- ":YYMMDDhhmm\t       \t  Speed\t Direc \t  Temp \t  Temp \tHumidty\tVoltage\tMoistr\t MxGust\t Speed \t  Rad. \tTemp #2\tHumd #2"
   type13_rawNames <- c('LST_datestamp', 'Precip', 'WindSpeed', 'WindDirec', 'AvAirTemp',  'FuelTemp', 'RelHumidty',
-                       'BatteryVoltage', 'FuelMoistr', 'DirMxGust', 'MxGustSpeed', 'SolarRad', 'AvAirTemp2', 'AveRelHumd2')
+                       'BatteryVoltage', 'AvFuelMoistr', 'DirMxGust', 'MxGustSpeed', 'SolarRad', 'AvAirTemp2', 'AveRelHumd2')
   
   type13_names <- type13_rawNames
   type13_types <- 'cddddddddddddd'
@@ -196,7 +196,7 @@ wrcc_identifyMonitorType <- function(fileString) {
   type15_header[2] <- ": Date/Time\t Precip\t  Wind \t Wind  \t Av Air\t  Fuel \t  Rel  \tBattery\t   Dir \tMx Gust\t  Fuel \t 24 hr \t 24 hr \t 24 hr \t 24 hr \t Solar "
   type15_header[3] <- ":YYMMDDhhmm\t       \t  Speed\t Direc \t  Temp \t  Temp \tHumidty\tVoltage\t MxGust\t Speed \tMoistr\tMx Air \tMn Air \tMx Rel \tMn Rel \t  Rad. "
   type15_rawNames <- c('LST_datestamp', 'Precip', 'WindSpeed', 'WindDirec', 'AvAirTemp',  'FuelTemp', 'RelHumidty',
-                         'BatteryVoltage', 'DirMxGust', 'MxGustSpeed', 'FuelMoistre', '24hrMxAir', '24hrMnAir', '24hrMxRel', '24hrMnRel', 'SolarRad')
+                         'BatteryVoltage', 'DirMxGust', 'MxGustSpeed', 'AvFuelMoistre', '24hrMxAir', '24hrMnAir', '24hrMxRel', '24hrMnRel', 'SolarRad')
   
   type15_names <- type15_rawNames
   type15_types <- 'cddddddddddddd'
@@ -241,7 +241,7 @@ wrcc_identifyMonitorType <- function(fileString) {
   type19_header[2] <- ": Date/Time\t Precip\t  Wind \t Wind  \t Av Air\t  Fuel \t  Rel  \tBattery\t   Dir \tMx Gust\t  Fuel \t Solar "
   type19_header[3] <- ":YYMMDDhhmm\t       \t  Speed\t Direc \t  Temp \t  Temp \tHumidty\tVoltage\t MxGust\t Speed \tMoistr\t  Rad. "
   type19_rawNames <- c('LST_datestamp', 'Precip', 'WindSpeed', 'WindDirec', 'AvAirTemp',  'FuelTemp', 'RelHumidty',
-                         'BatteryVoltage', 'DirMxGust', 'MxGustSpeed', 'FuelMoistr', 'SolarRad')
+                         'BatteryVoltage', 'DirMxGust', 'MxGustSpeed', 'AvFuelMoistr', 'SolarRad')
   
   type19_names <- type19_rawNames
   type19_types <- 'cddddddddddddd'
@@ -341,7 +341,7 @@ wrcc_identifyMonitorType <- function(fileString) {
   type28_header[2] <- ": Date/Time\t Precip\t  Wind \t Wind  \t Av Air\t  Fuel \t  Rel  \tBattery\t Barom \t  Fuel \t   Dir \tMx Gust\t Solar "
   type28_header[3] <- ":YYMMDDhhmm\t       \t  Speed\t Direc \t  Temp \t  Temp \tHumidty\tVoltage\t Press \tMoistr\t MxGust\t Speed \t  Rad. "
   type28_rawNames <- c('LST_datestamp', 'Precip', 'WindSpeed', 'WindDirec', 'AvAirTemp', 'FuelTemp', 'RelHumidty',
-                       'BatteryVoltage', 'BaromPress', 'FuelMoistr', 'DirMxGust', 'MxGustSpeed', 'SolarRad')
+                       'BatteryVoltage', 'BaromPress', 'AvFuelMoistr', 'DirMxGust', 'MxGustSpeed', 'SolarRad')
   
   type28_names <- type28_rawNames
   type28_types <- 'cdddddddddddd'
@@ -442,7 +442,7 @@ wrcc_identifyMonitorType <- function(fileString) {
   type37_header[2] <- ": Date/Time\t Precip\t  Wind \t Wind  \t Av Air\t  Fuel \t  Rel  \tBattery\t Barom \t  Fuel \t   Dir \tMx Gust\t4\" Soil\t Solar "
   type37_header[3] <- ":YYMMDDhhmm\t       \t  Speed\t Direc \t  Temp \t  Temp \tHumidty\tVoltage\t Press \tMoistr\t MxGust\t Speed \tAv Temp\t  Rad. "
   type37_rawNames <- c('LST_datestamp', 'Precip', 'WindSpeed', 'WindDirec', 'AvAirTemp', 'FuelTemp', 'RelHumidty',
-                      'BatteryVoltage', 'BaromPress', 'FuelMoistr', 'DirMxGust', 'MxGustSpeed', 'SoilAvTemp', 'SolarRad')
+                      'BatteryVoltage', 'BaromPress', 'AvFuelMoistr', 'DirMxGust', 'MxGustSpeed', 'SoilAvTemp', 'SolarRad')
   
   type37_names <- type37_rawNames
   type37_types <- 'cddddddddddddd'
@@ -453,7 +453,7 @@ wrcc_identifyMonitorType <- function(fileString) {
   type38_header[2] <- ": Date/Time\t Precip\t  Wind \t Wind  \t Av Air\t  Fuel \t  Rel  \tBattery\t   Dir \tMx Gust\t  Fuel \t Solar \tSoil M \t8\" Soil"
   type38_header[3] <- ":YYMMDDhhmm\t       \t  Speed\t Direc \t  Temp \t  Temp \tHumidty\tVoltage\t MxGust\t Speed \tMoistr\t  Rad. \t@ 8 in.\tAv Temp"
   type38_rawNames <- c('LST_datestamp', 'Precip', 'WindSpeed', 'WindDirec', 'AvAirTemp', 'FuelTemp', 'RelHumidty',
-                      'BatteryVoltage', 'DirMxGust', 'MxGustSpeed', 'FuelMoistr', 'SolarRad', 'SoilM8in', 'SoilAvTemp')
+                      'BatteryVoltage', 'DirMxGust', 'MxGustSpeed', 'AvFuelMoistr', 'SolarRad', 'SoilM8in', 'SoilAvTemp')
   
   type38_names <- type38_rawNames
   type38_types <- 'cddddddddddddd'
@@ -488,7 +488,7 @@ wrcc_identifyMonitorType <- function(fileString) {
   type41_header[2] <- ": Date/Time\t Precip\t  Wind \t Wind  \t Av Air\t  Fuel \t  Rel  \tBattery\t  Fuel \t   Dir \tMx Gust\t Solar \tSoil M \t8\" Soil"
   type41_header[3] <- ":YYMMDDhhmm\t       \t  Speed\t Direc \t  Temp \t  Temp \tHumidty\tVoltage\tMoistr\t MxGust\t Speed \t  Rad. \t@ 8 in.\tAv Temp"
   type41_rawNames <- c('LST_datestamp', 'Precip', 'WindSpeed', 'WindDirec', 'AvAirTemp', 'FuelTemp', 'RelHumidty',
-                      'BatteryVoltage', 'FuelMoistr', 'DirMxGust', 'MxGustSpeed', 'SolarRad', 'SoilM8in', 'SoilAvTemp')
+                      'BatteryVoltage', 'AvFuelMoistr', 'DirMxGust', 'MxGustSpeed', 'SolarRad', 'SoilM8in', 'SoilAvTemp')
   
   type41_names <- type41_rawNames
   type41_types <- 'cddddddddddddd'
@@ -510,7 +510,7 @@ wrcc_identifyMonitorType <- function(fileString) {
   type43_header[2] <- ": Date/Time\t Precip\t  Wind \t Wind  \t Av Air\t  Fuel \t  Rel  \tBattery\t   Dir \tMx Gust\t  Fuel \t#2 Rain\t Solar "
   type43_header[3] <- ":YYMMDDhhmm\t       \t  Speed\t Direc \t  Temp \t  Temp \tHumidty\tVoltage\t MxGust\t Speed \tMoistr\t Gauge \t  Rad. "
   type43_rawNames <- c('LST_datestamp', 'Precip', 'WindSpeed', 'WindDirec', 'AvAirTemp', 'FuelTemp', 'RelHumidty',
-                      'BatteryVoltage', 'DirMxGust', 'MxGustSpeed', 'FuelMoistr', '2RainGauge', 'SolarRad')
+                      'BatteryVoltage', 'DirMxGust', 'MxGustSpeed', 'AvFuelMoistr', '2RainGauge', 'SolarRad')
   
   type43_names <- type43_rawNames
   type43_types <- 'cdddddddddddd'
@@ -521,7 +521,7 @@ wrcc_identifyMonitorType <- function(fileString) {
   type44_header[2] <- ": Date/Time\t Precip\t  Wind \t Wind  \t Av Air\t  Fuel \t  Rel  \tBattery\t  Fuel \tSoil M \t4\" Soil\t   Dir \tMx Gust\t Solar "
   type44_header[3] <- ":YYMMDDhhmm\t       \t  Speed\t Direc \t  Temp \t  Temp \tHumidty\tVoltage\tMoistr\t       \tAv Temp\t MxGust\t Speed \t  Rad. "
   type44_rawNames <- c('LST_datestamp', 'Precip', 'WindSpeed', 'WindDirec', 'AvAirTemp', 'FuelTemp', 'RelHumidty',
-                       'BatteryVoltage', 'FuelMoistr', 'SoilM', 'SoilTemp', 'DirMxGust', 'MxGustSpeed', 'SolarRad')
+                       'BatteryVoltage', 'AvFuelMoistr', 'SoilM', 'SoilTemp', 'DirMxGust', 'MxGustSpeed', 'SolarRad')
   
   type44_names <- type44_rawNames
   type44_types <- 'cddddddddddddd'
