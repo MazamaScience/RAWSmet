@@ -68,6 +68,16 @@ timeseriesMultiplot <- function(
     }
   }
   
+  # Remove columns with all NA values as they mess up the creation of axes
+  containsDataMask <- lapply(data, function(x) { any(!is.na(x)) }) %>% unlist()
+  noDataNames <- names(containsDataMask[!containsDataMask])
+  if ( length(noDataNames) > 0 ) {
+    msg <- sprintf("Dropping columns with all missing data: %s",
+                   paste0(noDataNames, collapse = ", "))
+    message(msg)
+    data <- data[,containsDataMask]
+  }
+  
   if ( is.null(nrow) && is.null(ncol) )
     ncol <- 1
   

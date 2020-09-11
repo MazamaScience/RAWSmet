@@ -1,3 +1,12 @@
+# RAWSmet 0.1.9
+
+* Many examples have been updated to run with `example_` data so they can be
+tested.
+* New `windTimeseriesPlot()`
+* Completely refactored `wrcc_identifyMonitorType()` to handle **46!!** different
+data formats coming from WRCC.
+* Columns with all `NA` are dropped by `timeseriesMultiplot()`.
+
 # RAWSmet 0.1.8
 
 * Added example datasets `example_fw13Meta.rda`, `example_wrccMeta.rda`,
