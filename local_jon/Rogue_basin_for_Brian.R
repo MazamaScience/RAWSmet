@@ -21,8 +21,12 @@
 library(MazamaSpatialUtils)
 setSpatialDataDir("~/Data/Spatial")
 
+# For assigning states
+loadSpatialData("NaturalEarthAdm1")
+
 # State boundary
 MazamaSpatialUtils::loadSpatialData("USCensusStates")
+
 OR <- subset(USCensusStates, stateCode == "OR")
 
 # USGS Watershed boundaries
@@ -89,4 +93,9 @@ raws_leaflet(Rogue_fw13_meta)
 
 # ----- TBD --------------------------------------------------------------------
 
+wrcc_meta <- 
+  wrcc_loadMeta(stateCode = "OR")
+
+# Have a look:
+raws_leaflet(wrcc_meta)
 

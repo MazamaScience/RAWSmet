@@ -1,3 +1,8 @@
+# RAWSmet 0.1.8
+
+* Added example datasets `example_fw13Meta.rda`, `example_wrccMeta.rda`,
+`example_fw13SaddleMountain.rda`, `example_wrccSaddleMountain.rda`.
+
 # RAWSmet 0.1.7
 
 * Changed `stationID` to `wrccID` throughout the code base.

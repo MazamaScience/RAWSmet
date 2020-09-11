@@ -57,7 +57,7 @@ wrcc_load <- function(
   
   if ( file.exists(filePath) ) {
     
-    if( verbose ) {
+    if ( verbose ) {
       message(sprintf("Loading data from %s", filePath))
     }
     

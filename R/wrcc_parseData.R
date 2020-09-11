@@ -35,6 +35,11 @@ wrcc_parseData <- function(fileString) {
   monitorTypeList <- wrcc_identifyMonitorType(fileString)
   
   monitorType <- monitorTypeList$monitorType
+  
+  if ( monitorType == "UNKNOWN" ) {
+    stop("Cannot process data of unknown type.")
+  }
+  
   rawNames <- monitorTypeList$rawNames
   columnNames <- monitorTypeList$columnNames
   columnTypes <- monitorTypeList$columnTypes
