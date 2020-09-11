@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get package data directory — getRawsDataDir • RAWSmet</title>
+<title>Create a visualization of wind and gust speeds for a given station — windTimeseriesPlot • RAWSmet</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,8 @@
 
 
 
-<meta property="og:title" content="Get package data directory — getRawsDataDir" />
-<meta property="og:description" content="Returns the package data directory where RAWS data is located." />
+<meta property="og:title" content="Create a visualization of wind and gust speeds for a given station — windTimeseriesPlot" />
+<meta property="og:description" content="Creates a visualization of wind and gust speeds and wind directions." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -126,32 +126,55 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get package data directory</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/RAWSmet.R'><code>R/RAWSmet.R</code></a></small>
-    <div class="hidden name"><code>getRawsDataDir.Rd</code></div>
+    <h1>Create a visualization of wind and gust speeds for a given station</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/windTimeseriesPlot.R'><code>R/windTimeseriesPlot.R</code></a></small>
+    <div class="hidden name"><code>windTimeseriesPlot.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Returns the package data directory where RAWS data is located.</p>
+    <p>Creates a visualization of wind and gust speeds and wind directions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>getRawsDataDir</span>()</pre>
+    <pre class="usage"><span class='fu'>windTimeseriesPlot</span>(<span class='kw'>rawsObject</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>startDate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>endDate</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>rawsObject</th>
+      <td><p><em>raws_timeseries</em> object for which to create the plot for</p></td>
+    </tr>
+    <tr>
+      <th>startDate</th>
+      <td><p>Desired start datetime (ISO 8601).</p></td>
+    </tr>
+    <tr>
+      <th>endDate</th>
+      <td><p>Desired end datetime (ISO 8601).</p></td>
+    </tr>
+    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Absolute path string.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>ggplot2 plot of wind and gust speeds</p>
 
-    <div class='dont-index'><p>rawsDataDir</p>
-<p>setRawsDataDir</p></div>
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>RAWSmet</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>grid</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
 
+<span class='no'>plot</span> <span class='kw'>&lt;-</span> <span class='fu'>windTimeseriesPlot</span>(<span class='no'>example_fw13SaddleMountain</span>, <span class='fl'>20170801</span>, <span class='fl'>20170802</span>)
+<span class='no'>plot</span></div><div class='img'><img src='windTimeseriesPlot-1.png' alt='' width='700' height='433' /></div><div class='input'># }
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

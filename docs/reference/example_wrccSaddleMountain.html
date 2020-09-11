@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get package data directory — getRawsDataDir • RAWSmet</title>
+<title>Example WRCC timeseries data — example_wrccSaddleMountain • RAWSmet</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,19 @@
 
 
 
-<meta property="og:title" content="Get package data directory — getRawsDataDir" />
-<meta property="og:description" content="Returns the package data directory where RAWS data is located." />
+<meta property="og:title" content="Example WRCC timeseries data — example_wrccSaddleMountain" />
+<meta property="og:description" content="The example_wrccSaddleMountain dataset provides a quickly loadable
+raws_timeseries object containing WRCC data for the station in Saddle Mountain,
+Washington, (wrccID: waWSAD) between August 8th and September 6th 2020.
+This dataset was generated on 2020-09-06 by running:
+
+library(RAWSmet)
+
+example_wrccSaddleMountain &amp;lt;- wrcc_createTimeseriesObject(wrccID = &quot;waWSAD&quot;, startdate = 20200808, enddate = 20200906)
+  
+save(example_wrccSaddleMountain, file = &quot;data/example_wrccSaddleMountain.rda&quot;)
+
+" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -126,32 +137,39 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get package data directory</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/RAWSmet.R'><code>R/RAWSmet.R</code></a></small>
-    <div class="hidden name"><code>getRawsDataDir.Rd</code></div>
+    <h1>Example WRCC timeseries data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>example_wrccSaddleMountain.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Returns the package data directory where RAWS data is located.</p>
+    <p>The <code>example_wrccSaddleMountain</code> dataset provides a quickly loadable
+<em>raws_timeseries</em> object containing WRCC data for the station in Saddle Mountain,
+Washington, (wrccID: waWSAD) between August 8th and September 6th 2020.</p>
+<p>This dataset was generated on 2020-09-06 by running:</p>
+<pre>
+library(RAWSmet)
+
+example_wrccSaddleMountain &lt;- wrcc_createTimeseriesObject(wrccID = "waWSAD", startdate = 20200808, enddate = 20200906)
+  
+save(example_wrccSaddleMountain, file = "data/example_wrccSaddleMountain.rda")
+</pre>
+
     </div>
 
-    <pre class="usage"><span class='fu'>getRawsDataDir</span>()</pre>
+    <pre class="usage"><span class='no'>example_wrccSaddleMountain</span></pre>
 
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>Absolute path string.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>rawsDataDir</p>
-<p>setRawsDataDir</p></div>
+    <p>A <em>raws_timeseries object</em> containing <code>meta</code> and <code>data</code> dataframes. 
+<code>meta</code> has 1 row and 11 columns and <code>data</code> has 708 rows and 9 columns.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
+      <li><a href="#format">Format</a></li>
     </ul>
 
   </div>

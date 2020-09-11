@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get package data directory — getRawsDataDir • RAWSmet</title>
+<title>Example WRCC station metadata — example_wrccMeta • RAWSmet</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,22 @@
 
 
 
-<meta property="og:title" content="Get package data directory — getRawsDataDir" />
-<meta property="og:description" content="Returns the package data directory where RAWS data is located." />
+<meta property="og:title" content="Example WRCC station metadata — example_wrccMeta" />
+<meta property="og:description" content="The example_wrccMeta dataset provides a small subset of
+WRCC station metadata containing only stations in Washington state.
+This dataset was generated on 2020-09-06 by running:
+
+library(RAWSmet)
+library(MazamaSpatialUtils)
+
+setSpatialDataDir(&quot;~/Data/Spatial&quot;)
+loadSpatialData(&quot;NaturalEarthAdm1&quot;) 
+
+example_wrccMeta &amp;lt;- wrcc_createMetadata(stateCode = &quot;WA&quot;)
+
+save(example_wrccMeta, file = &quot;data/example_wrccMeta.rda&quot;)
+
+" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -126,32 +140,41 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get package data directory</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/RAWSmet.R'><code>R/RAWSmet.R</code></a></small>
-    <div class="hidden name"><code>getRawsDataDir.Rd</code></div>
+    <h1>Example WRCC station metadata</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>example_wrccMeta.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Returns the package data directory where RAWS data is located.</p>
+    <p>The <code>example_wrccMeta</code> dataset provides a small subset of
+WRCC station metadata containing only stations in Washington state.</p>
+<p>This dataset was generated on 2020-09-06 by running:</p>
+<pre>
+library(RAWSmet)
+library(MazamaSpatialUtils)
+
+setSpatialDataDir("~/Data/Spatial")
+loadSpatialData("NaturalEarthAdm1") 
+
+example_wrccMeta &lt;- wrcc_createMetadata(stateCode = "WA")
+
+save(example_wrccMeta, file = "data/example_wrccMeta.rda")
+</pre>
+
     </div>
 
-    <pre class="usage"><span class='fu'>getRawsDataDir</span>()</pre>
+    <pre class="usage"><span class='no'>example_wrccMeta</span></pre>
 
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>Absolute path string.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>rawsDataDir</p>
-<p>setRawsDataDir</p></div>
+    <p>A dataframe with 121 rows and 11 columns of data.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
+      <li><a href="#format">Format</a></li>
     </ul>
 
   </div>

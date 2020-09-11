@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get package data directory — getRawsDataDir • RAWSmet</title>
+<title>Example FW13 timeseries data — example_fw13SaddleMountain • RAWSmet</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,22 @@
 
 
 
-<meta property="og:title" content="Get package data directory — getRawsDataDir" />
-<meta property="og:description" content="Returns the package data directory where RAWS data is located." />
+<meta property="og:title" content="Example FW13 timeseries data — example_fw13SaddleMountain" />
+<meta property="og:description" content="The example_fw13SaddleMountain dataset provides a quickly loadable
+raws_timeseries object containing FW13 data for the station in Saddle Mountain,
+Washington, (nwsID: 452701) in 2017.
+This dataset was generated on 2020-09-06 by running:
+
+library(RAWSmet)
+
+fw13Meta &amp;lt;- fw13_createMetadata()
+example_fw13SaddleMountain &amp;lt;- 
+  fw13_createTimeseriesObject(nwsID = &quot;452701&quot;, meta = fw13Meta) 
+  raws_filterDate(20170101, 20180101, timezone = &quot;America/Los_Angeles&quot;)
+  
+save(example_fw13SaddleMountain, file = &quot;data/example_fw13SaddleMountain.rda&quot;)
+
+" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -126,32 +140,42 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get package data directory</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/RAWSmet.R'><code>R/RAWSmet.R</code></a></small>
-    <div class="hidden name"><code>getRawsDataDir.Rd</code></div>
+    <h1>Example FW13 timeseries data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>example_fw13SaddleMountain.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Returns the package data directory where RAWS data is located.</p>
+    <p>The <code>example_fw13SaddleMountain</code> dataset provides a quickly loadable
+<em>raws_timeseries</em> object containing FW13 data for the station in Saddle Mountain,
+Washington, (nwsID: 452701) in 2017.</p>
+<p>This dataset was generated on 2020-09-06 by running:</p>
+<pre>
+library(RAWSmet)
+
+fw13Meta &lt;- fw13_createMetadata()
+example_fw13SaddleMountain &lt;- 
+  fw13_createTimeseriesObject(nwsID = "452701", meta = fw13Meta) <!-- %&gt;% -->
+  raws_filterDate(20170101, 20180101, timezone = "America/Los_Angeles")
+  
+save(example_fw13SaddleMountain, file = "data/example_fw13SaddleMountain.rda")
+</pre>
+
     </div>
 
-    <pre class="usage"><span class='fu'>getRawsDataDir</span>()</pre>
+    <pre class="usage"><span class='no'>example_fw13SaddleMountain</span></pre>
 
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>Absolute path string.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>rawsDataDir</p>
-<p>setRawsDataDir</p></div>
+    <p>A <em>raws_timeseries object</em> containing <code>meta</code> and <code>data</code> dataframes. 
+<code>meta</code> has 1 row and 11 columns and <code>data</code> has 8744 rows and 13 columns.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
+      <li><a href="#format">Format</a></li>
     </ul>
 
   </div>
