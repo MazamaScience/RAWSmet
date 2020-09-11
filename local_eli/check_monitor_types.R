@@ -31,13 +31,38 @@ for ( i in 1:nrow(orMeta) ) {
 
 unknownStations <- data.frame("first" = unknownStationsFirst, "second" = unknownStationsSecond, "third" = unknownStationsThird)
 
-for ( i in 1:nrow(unknownStationsOR) ) {
-  wrccID <- unknownStationsOR[i,]$wrccID
-  print(wrccID)
-  fileString <- wrcc_downloadData(wrccID = wrccID)
-  monitorData <- wrcc_identifyMonitorType(fileString)
-  
-  if ( monitorData$monitorType == "UNKNOWN" ) {
-    unknownStationsOR <- append(unknownStationsOR, wrccID)
-  }
+for ( i in 1:nrow(orMeta) ) {
+  wrccID <- orMeta[i,]$wrccID
+    res <- try ({
+    fileString <- wrcc_downloadData(wrccID = wrccID)
+    monitorData <- wrcc_identifyMonitorType(fileString)
+    
+    if ( monitorData$monitorType == "WRCC_TYPE27" ) {
+      print(wrccID)
+    }
+  })
 }
+
+
+
+fs <- wrcc_downloadData(wrccID = "waWENU")
+lines <- readr::read_lines(fs)
+lines <- stringr::str_replace(lines, '^ *', '')
+header <- lines[2:4]
+
+line1Split <- stringr::str_split(header[1], '\t')[[1]] %>% stringr::str_replace_all(':', '') %>% stringr::str_replace_all(' ', '')
+line2Split <- stringr::str_split(header[2], '\t')[[1]] %>% stringr::str_replace_all(':', '') %>% stringr::str_replace_all(' ', '')
+line3Split <- stringr::str_split(header[3], '\t')[[1]] %>% stringr::str_replace_all(':', '') %>% stringr::str_replace_all(' ', '')
+
+datetimeVariations <- c("Date/TimeYYMMDDhhmm")
+precipVariations <- c("Precip")
+windSpeedVariations <- c("WindSpeed")
+windDirecVariations <- c("WindDirec")
+avAirTempVariations <- c("AvAirTemp")
+fuelTempVariations <- c("FuelTemp")
+relHumidtyVariations <- c("RelHumidty")
+batteryVoltageVariations <- c("BatteryVoltage")
+avFuelMoistrVariations <- c("AvFuelMoistr")
+dirMxGustVariations <- c("DirMxGust")
+mxGustSpeedVariations <- c("MxGustSpeed")
+solarRadVariations <- c("SolarRad.")
