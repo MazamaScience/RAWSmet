@@ -5,7 +5,8 @@
 #' @param speed vector of wind speeds in knots
 #' @param dir wind directions in degrees clockwise from north
 #' @param extraBarbLength add length to barbs
-#' @param barbSize size of the barb 
+#' @param barbSize size of the barb s
+#' @param barbColor color of the barbs
 #' @param barbLocation starting location for barbs. Currently accepts 'point' or 'zero'
 #' @param ... additional arguments to be passed to \code{lines}
 #' @description Add a multi-sided polygon to a plot.
@@ -29,6 +30,7 @@ addWindBarbs2 <- function(x,
                          dir,
                          extraBarbLength = 0,
                          barbSize = 1,
+                         barbColor = "blue",
                          barbLocation = "zero",
                          ...) {
   
@@ -49,7 +51,7 @@ addWindBarbs2 <- function(x,
   
   for (i in 1:vectorLength) {
     addWindBarb2(x[i], y[i], speed[i], dir[i],
-                extraBarbLength, barbSize, barbLocation, ...)
+                extraBarbLength, barbSize, barbColor, barbLocation, ...)
   }
   
 }

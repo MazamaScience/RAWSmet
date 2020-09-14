@@ -7,6 +7,7 @@
 #' @param dir wind direction in degrees clockwise from north
 #' @param extraBarbLength add length to barbs
 #' @param barbSize size of the barb 
+#' @param barbColor color of the barbs
 #' @param barbLocation starting location for the barb. Currently accepts 'point' or 'zero'
 #' @param ... additional arguments to be passed to \code{lines}
 #' @description Add a wind barb to the plot. Used internally in \link{addWindBarbs2}
@@ -19,6 +20,7 @@ addWindBarb2 <- function(
   dir,
   extraBarbLength = 0,
   barbSize = 1,
+  barbColor = "blue",
   barbLocation = "zero",
   ...
 ) {
@@ -64,7 +66,7 @@ addWindBarb2 <- function(
     xe <- as.POSIXct.numeric(xe, origin = "1970-01-01")
 
     # Draw arrows
-    arrows(x0 = x, y0 = y, x1 = xe, y1 = ye, ...)
+    arrows(x0 = x, y0 = y, x1 = xe, y1 = ye, col = barbColor, ...)
   }
   
 

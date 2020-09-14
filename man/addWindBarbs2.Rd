@@ -11,6 +11,7 @@ addWindBarbs2(
   dir,
   extraBarbLength = 0,
   barbSize = 1,
+  barbColor = "blue",
   barbLocation = "zero",
   ...
 )
@@ -26,7 +27,9 @@ addWindBarbs2(
 
 \item{extraBarbLength}{add length to barbs}
 
-\item{barbSize}{size of the barb}
+\item{barbSize}{size of the barb s}
+
+\item{barbColor}{color of the barbs}
 
 \item{barbLocation}{starting location for barbs. Currently accepts 'point' or 'zero'}
 
