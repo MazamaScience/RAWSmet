@@ -52,8 +52,13 @@ windTimeseriesPlot <- function(
   
   data$windDirection <- data$windDirection + 90
   
-  title = sprintf("Observed Wind at %s, %s %s \n From %s LST to %s LST", 
-                  meta$nwsID, 
+  if ( is.na(meta$wrccID) )
+    stationID <- meta$nwsID
+  else
+    stationID <- meta$wrccID
+  
+  title <- sprintf("Observed Wind at %s, %s %s \n From %s LST to %s LST", 
+                  stationID, 
                   meta$siteName, 
                   meta$stateCode, 
                   MazamaCoreUtils::parseDatetime(startDate, timezone = meta$timezone), 
