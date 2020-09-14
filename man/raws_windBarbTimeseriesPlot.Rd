@@ -9,6 +9,7 @@ raws_windBarbTimeseriesPlot(
   extraBarbLength = 0,
   barbSize = 1,
   barbColor = "blue",
+  pointColor = "black",
   barbLocation = "zero",
   xlab = "Time",
   ylab = "Wind Speed",
@@ -26,9 +27,19 @@ raws_windBarbTimeseriesPlot(
 
 \item{barbColor}{color of the barbs}
 
+\item{pointColor}{color of the plotted points}
+
 \item{barbLocation}{starting location for barbs. Currently accepts 'point' or 'zero'}
 
-\item{...}{additional arguments to be passed to \code{lines}}
+\item{xlab}{x-axis label}
+
+\item{ylab}{y-axis label}
+
+\item{xlim}{vector containing minimum and maximum x-axis values}
+
+\item{ylim}{vector containing minimum and maximum y-axis values}
+
+\item{...}{additional arguments to be passed to \code{addWindBarbs2}}
 }
 \value{
 plot of wind speed and direction
@@ -44,8 +55,7 @@ rawsObject <-
  example_fw13SaddleMountain \%>\%
  raws_filterDate("20170901", "20170902")
   
-plot <- raws_windBarbTimeseriesPlot(rawsObject, barbSize = 5, barbLocation = "point", barbColor = "blue")
-plot
+raws_windBarbTimeseriesPlot(rawsObject, barbSize = 5, barbLocation = "point", barbColor = "blue")
 }
 
 }

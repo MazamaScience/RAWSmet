@@ -8,7 +8,7 @@
 #' @param barbSize size of the barb s
 #' @param barbColor color of the barbs
 #' @param barbLocation starting location for barbs. Currently accepts 'point' or 'zero'
-#' @param ... additional arguments to be passed to \code{lines}
+#' @param ... additional arguments to be passed to \code{arrows}
 #' @description Add a multi-sided polygon to a plot.
 #' @references https://commons.wikimedia.org/wiki/Wind_speed
 #' @examples

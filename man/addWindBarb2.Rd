@@ -33,7 +33,7 @@ addWindBarb2(
 
 \item{barbLocation}{starting location for the barb. Currently accepts 'point' or 'zero'}
 
-\item{...}{additional arguments to be passed to \code{lines}}
+\item{...}{additional arguments to be passed to \code{arrows}}
 }
 \description{
 Add a wind barb to the plot. Used internally in \link{addWindBarbs2}

@@ -9,7 +9,7 @@
 #' @param barbSize size of the barb 
 #' @param barbColor color of the barbs
 #' @param barbLocation starting location for the barb. Currently accepts 'point' or 'zero'
-#' @param ... additional arguments to be passed to \code{lines}
+#' @param ... additional arguments to be passed to \code{arrows}
 #' @description Add a wind barb to the plot. Used internally in \link{addWindBarbs2}
 #' @references \url{https://commons.wikimedia.org/wiki/Wind_speed}
 

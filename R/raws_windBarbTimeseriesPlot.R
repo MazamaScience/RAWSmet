@@ -6,8 +6,13 @@
 #' @param extraBarbLength add length to barbss
 #' @param barbSize size of the barbs
 #' @param barbColor color of the barbs
+#' @param pointColor color of the plotted points
 #' @param barbLocation starting location for barbs. Currently accepts 'point' or 'zero'
-#' @param ... additional arguments to be passed to \code{lines}
+#' @param xlab x-axis label
+#' @param ylab y-axis label
+#' @param xlim vector containing minimum and maximum x-axis values
+#' @param ylim vector containing minimum and maximum y-axis values
+#' @param ... additional arguments to be passed to \code{addWindBarbs2}
 #'
 #' @return plot of wind speed and direction
 #'
@@ -21,8 +26,7 @@
 #'  example_fw13SaddleMountain %>%
 #'  raws_filterDate("20170901", "20170902")
 #'   
-#' plot <- raws_windBarbTimeseriesPlot(rawsObject, barbSize = 5, barbLocation = "point", barbColor = "blue")
-#' plot
+#' raws_windBarbTimeseriesPlot(rawsObject, barbSize = 5, barbLocation = "point", barbColor = "blue")
 #' }
 #'
 raws_windBarbTimeseriesPlot <- function(
