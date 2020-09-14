@@ -2,6 +2,7 @@
 
 export("%>%")
 export(addWindBarbs)
+export(addWindBarbs2)
 export(fw13_createMetadata)
 export(fw13_createRawDataframe)
 export(fw13_createTimeseriesObject)
