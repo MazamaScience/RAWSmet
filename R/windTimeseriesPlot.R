@@ -39,6 +39,12 @@ windTimeseriesPlot <- function(
   if ( raws_isEmpty(rawsObject) )
     stop("Parameter 'rawsObject' must not be empty")
   
+  if ( is.null(startDate) )
+    startDate <- min(rawsObject$data$datetime)
+  
+  if ( is.null(endDate) )
+    endDate <- max(rawsObject$data$datetime)
+  
   # ----- Extract data and metadata --------------------------------------------
   
   meta <- 
