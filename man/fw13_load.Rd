@@ -7,6 +7,7 @@
 fw13_load(
   nwsID = NULL,
   meta = NULL,
+  forceDownload = FALSE,
   baseUrl = "https://cefa.dri.edu/raws/fw13/",
   verbose = TRUE
 )
@@ -15,6 +16,8 @@ fw13_load(
 \item{nwsID}{NWS RAWS station identifier.}
 
 \item{meta}{Tibble of FW13 station metadata.}
+
+\item{forceDownload}{Logical flag stating whether or not to download and override existing data.}
 
 \item{baseUrl}{Base URL for data queries.}
 
@@ -39,7 +42,8 @@ loadSpatialData("NaturalEarthAdm1")
 
 meta <- fw13_loadMeta()
 
-dplyr::glimpse(meta)
+rawsObject <- fw13_load(nwsID = 451702, meta = meta)
+head(rawsObject$data)
 }
 
 }

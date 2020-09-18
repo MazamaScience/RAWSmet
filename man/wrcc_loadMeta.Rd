@@ -6,12 +6,15 @@
 \usage{
 wrcc_loadMeta(
   stateCode = NULL,
+  forceDownload = FALSE,
   baseUrl = "https://raws.dri.edu/",
   verbose = TRUE
 )
 }
 \arguments{
 \item{stateCode}{Two character state code (will be downcased).}
+
+\item{forceDownload}{Logical flag stating whether or not to download and override existing data.}
 
 \item{baseUrl}{Base URL for data queries.}
 

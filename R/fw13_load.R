@@ -8,7 +8,8 @@
 #' @param meta Tibble of FW13 station metadata.
 #' @param baseUrl Base URL for data queries.
 #' @param verbose Logical flag controlling detailed progress statements.
-#'
+#' @param forceDownload Logical flag stating whether or not to download and override existing data.
+#' 
 #' @return Timeseries object with 'meta' and 'data'.
 #'
 #' @description Loads FW13 station metadata and data from the \code{rawsDataDir}. 
@@ -26,7 +27,8 @@
 #' 
 #' meta <- fw13_loadMeta()
 #' 
-#' dplyr::glimpse(meta)
+#' rawsObject <- fw13_load(nwsID = 451702, meta = meta)
+#' head(rawsObject$data)
 #' }
 #'
 #' @seealso \code{fw13_createTimeseriesObject}
@@ -36,6 +38,7 @@
 fw13_load <- function(
   nwsID = NULL,
   meta = NULL,
+  forceDownload = FALSE,
   baseUrl = "https://cefa.dri.edu/raws/fw13/",
   verbose = TRUE
 ) {
@@ -56,7 +59,7 @@ fw13_load <- function(
   fileName = sprintf("fw13_%s_%d.rda", nwsID, currentYear)
   filePath = file.path(dataDir, fileName)
   
-  if ( file.exists(filePath) ) {
+  if ( file.exists(filePath) && forceDownload == FALSE ) {
     
     if( verbose ) {
       message(sprintf("Loading data from %s", filePath))
@@ -68,7 +71,8 @@ fw13_load <- function(
   } else {
     
     if ( verbose ) {
-      message("Could not find local data.")
+      if( !forceDownload )
+        message("Could not find local data.")
       message(paste("Downloading and saving data to", filePath, "."))
     }
     

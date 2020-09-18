@@ -6,11 +6,14 @@
 \usage{
 fw13_loadMeta(
   metadataUrl = "https://cefa.dri.edu/raws/RAWSfw13list.xlsx",
+  forceDownload = FALSE,
   verbose = TRUE
 )
 }
 \arguments{
 \item{metadataUrl}{URL for station metadata.}
+
+\item{forceDownload}{Logical flag stating whether or not to download and override existing data.}
 
 \item{verbose}{Logical flag controlling detailed progress statements.}
 }

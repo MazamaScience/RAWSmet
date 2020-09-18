@@ -7,6 +7,7 @@
 #' @param wrccID RAWS station identifier (will be upcased)
 #' @param meta Tibble of FW13 station metadata.
 #' @param year Year to access station data for.
+#' @param forceDownload Logical flag stating whether or not to download and override existing data.
 #' @param baseUrl Base URL for data queries.
 #' @param verbose Logical flag controlling detailed progress statements.
 #'
@@ -21,10 +22,10 @@
 #' 
 #' setRawsDataDir("~/Data/RAWS/")
 #'
-#' stationMeta <- wrcc_createMetadata(stateCode = "WA", wrccIDs = "waWENU")
-#' meta <- wrcc_load(wrccID = "waWENU", meta = stationMeta)
+#' stationMeta <- wrcc_loadMeta(stateCode = "WA")
+#' rawsObject <- wrcc_load(wrccID = "waWENU", meta = stationMeta, year = 2020)
 #' 
-#' dplyr::glimpse(meta)
+#' dplyr::glimpse(rawsObject)
 #' }
 #'
 #' @seealso \code{wrcc_createTimeseriesObject}
@@ -35,6 +36,7 @@ wrcc_load <- function(
   wrccID = NULL,
   meta = NULL,
   year = NULL,
+  forceDownload = FALSE,
   baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl",
   verbose = TRUE
 ) {
@@ -55,7 +57,7 @@ wrcc_load <- function(
   fileName = sprintf("wrcc_%s_%d.rda", wrccID, year)
   filePath = file.path(dataDir, fileName)
   
-  if ( file.exists(filePath) ) {
+  if ( file.exists(filePath) && forceDownload == FALSE ) {
     
     if ( verbose ) {
       message(sprintf("Loading data from %s", filePath))
@@ -67,7 +69,8 @@ wrcc_load <- function(
   } else {
     
     if ( verbose ) {
-      message("Could not find local data.")
+      if ( !forceDownload )
+        message("Could not find local data.")
       message(paste("Downloading and saving data to", filePath, "."))
     }
     
