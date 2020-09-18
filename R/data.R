@@ -80,7 +80,7 @@
 #' \preformatted{
 #' library(RAWSmet)
 #' 
-#' example_wrccSaddleMountain <- wrcc_createTimeseriesObject(wrccID = "waWSAD", startdate = 20200808, enddate = 20200906)
+#' example_wrccSaddleMountain <- wrcc_createTimeseriesObject(wrccID = "waWSAD", startdate = 20200819, enddate = 20200916)
 #'   
 #' save(example_wrccSaddleMountain, file = "data/example_wrccSaddleMountain.rda")
 #' }
