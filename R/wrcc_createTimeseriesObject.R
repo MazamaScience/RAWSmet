@@ -83,6 +83,9 @@ wrcc_createTimeseriesObject <- function(
   
   # * Harmonize ----
   
+  # Station can only have one 'monitorType'
+  monitorType <- unique(tbl$monitorType)
+  
   # Define the set of standard columns that will always be returned
   standardDataVars <- c(
     "datetime", "temperature", "humidity",
@@ -113,7 +116,7 @@ wrcc_createTimeseriesObject <- function(
       "solarRadiation" = .data$SolarRad,
       "fuelMoisture" = .data$AvFuelMoistr,
       "fuelTemperature" = .data$FuelTemp,
-      "monitorType" = "WRCC"
+      "monitorType" = .data$monitorType
     ) %>%
     dplyr::select(all_of(standardDataVars))
     
