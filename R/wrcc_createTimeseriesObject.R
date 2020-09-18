@@ -83,19 +83,17 @@ wrcc_createTimeseriesObject <- function(
   
   # * Harmonize ----
   
-  # Station can only have one 'monitorType'
-  monitorType <- unique(tbl$monitorType)
-  
   # Define the set of standard columns that will always be returned
-  standardColumns <- c(
-    "datetime", "AvAirTemp", "RelHumidty",
-    "WindSpeed", "WindDirec", "MxGustSpeed", "DirMxGust",
-    "Precip", "SolarRad", "BatteryVoltage", "FuelTemp",
-    "AvFuelMoistr"
+  standardDataVars <- c(
+    "datetime", "temperature", "humidity",
+    "windSpeed", "windDirection", "maxGustSpeed", "maxGustDirection",
+    "precipitation", "solarRadiation",
+    "fuelMoisture", "fuelTemperature",
+    "monitorType"
   )
   
   # If any of the standard columns don't exist, replace them with NA
-  for ( column in standardColumns) {
+  for ( column in standardDataVars) {
     if ( !column %in% names(tbl) ) {
       tbl[column] <- as.character(NA)
     }
@@ -113,12 +111,11 @@ wrcc_createTimeseriesObject <- function(
       "maxGustDirection" = .data$DirMxGust,
       "precipitation" = .data$Precip,
       "solarRadiation" = .data$SolarRad,
-      "batteryVoltage" = .data$BatteryVoltage,
-      "fuelTemperature" = .data$FuelTemp,
       "fuelMoisture" = .data$AvFuelMoistr,
-      "monitorType" = .data$monitorType
+      "fuelTemperature" = .data$FuelTemp,
+      "monitorType" = "WRCC"
     ) %>%
-    dplyr::select(all_of(standardColumns))
+    dplyr::select(all_of(standardDataVars))
     
   
   # * Convert datetime to UTC ----
