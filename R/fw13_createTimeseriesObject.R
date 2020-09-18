@@ -31,15 +31,14 @@
 #'  \item{datetime: date and time of observation}
 #'  \item{temperature: temperature (°C)}
 #'  \item{humidity: average relative humidity (\%)}
-#'  \item{fuelMoisture: 10-hour time lag fuel moisture}
 #'  \item{windSpeed: average wind speed (m/s)}
 #'  \item{windDirection: average wind direction (°)}
 #'  \item{maxGustSpeed: max gust speed (m/s)}
 #'  \item{maxGustDirection: max gust direction (°)}
 #'  \item{precipitation: precipitation}
 #'  \item{solarRadiation: solar radiation (W/m^2)}
-#'  \item{minHumidity: minimum relative humidity (\%)}
-#'  \item{maxHumidity: maximum relative humidity (\%)}
+#'  \item{fuelMoisture: 10-hour time lag fuel moisture}
+#'  \item{fuelTemperature: NA for FW13 data}
 #' }
 #'
 #' @examples
@@ -130,11 +129,12 @@ fw13_createTimeseriesObject <- function(
   # * Harmonize ----
   
   # Define the set of standard columns that will always be returned
-  standardColumns <- c(
-    "datetime", "temperature", "humidity", "fuelMoisture",
+  standardDataVars <- c(
+    "datetime", "temperature", "humidity",
     "windSpeed", "windDirection", "maxGustSpeed", "maxGustDirection",
     "precipitation", "solarRadiation",
-    "minHumidity", "maxHumidity", "precipDuration"
+    "fuelMoisture", "fuelTemperature",
+    "monitorType"
   )
   
   # TODO:  Use metric versions of data
@@ -144,18 +144,17 @@ fw13_createTimeseriesObject <- function(
       "datetime" = paste0(.data$observationDate, .data$observationTime),
       "temperature" = temperature,
       "humidity" = (.data$minRelHumidity + .data$maxRelHumidity)/2,
-      "fuelMoisture" = .data$fuelMoisture,
       "windSpeed" = windSpeed,
       "windDirection" = .data$windDirection,
       "maxGustSpeed" = mxGustSpeed,
       "maxGustDirection" = .data$maxGustDirection,
       "precipitation" = .data$precipAmount,
       "solarRadiation" = .data$solarRadiation,
-      "minHumidity" = .data$minRelHumidity,
-      "maxHumidity" = .data$maxRelHumidity,
+      "fuelMoisture" = .data$fuelMoisture,
+      "fuelTemperature" = as.character(NA),
       "monitorType" = "FW13"
     ) %>%
-    dplyr::select(all_of(standardColumns))
+    dplyr::select(all_of(standardDataVars))
   
   # * Convert datetime to UTC ----
 
