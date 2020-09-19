@@ -1,0 +1,22 @@
+---
+title: "September 2020 Oregon Wildfires"
+author: "Eli Grosman, Mazama Science"
+date: "September 18, 2020"
+output: rmarkdown::html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Background
+
+## Assembling data
+
+## Locations with data
+
+## Wind shift maps
+
+## Wind shift time series plots
+
+## Extra
