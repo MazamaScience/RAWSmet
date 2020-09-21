@@ -107,10 +107,9 @@ for ( station in allData ) {
 ```
 
 ## Wind shift time series plots
-```{r windTimeseriesPlots, message = FALSE, echo = FALSE, fig.align = "center"}
+```{r windTimeseriesPlots, message = FALSE, echo = FALSE, fig.align = "center", fig.height = 10, fig.width = 10}
 
-par(mfrow = c(1, 2))
-
+# Get data
 
 orOBRR <- 
   wrcc_load(wrccID = "orOBRR", meta = oregonMeta, year = 2020) %>%
@@ -120,9 +119,33 @@ orOGOO <-
   wrcc_load(wrccID = "orOGOO", meta = oregonMeta, year = 2020) %>%
   raws_filterDate(20200904, 20200907)
 
-windTimeseriesPlot(orOBRR)
-windTimeseriesPlot(orOGOO)
+orOBRRData <- orOBRR %>% raws_extractData()
+orOGOOData <- orOGOO %>% raws_extractData()
+
+# Create plots
+
+orOBRRwindTimeseries <- windTimeseriesPlot(orOBRR)
+orOGOOwindTimeseries <- windTimeseriesPlot(orOGOO)
+
+orOBRRtimeseriesMultiplot <-
+  timeseriesMultiplot(orOBRRData, pattern = c("humidity|temperature"), nrow = 2) + 
+  ggplot2::ggtitle(sprintf("Temperature and Humidity in %s, %s", 
+                           orOBRR$meta$wrccID, orOBRR$meta$siteName)) +
+  ggplot2::xlab("Time") +
+  ggplot2::ylab("Temperature (°C), Humidity (%)") +
+  ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
+
+orOGOOtimeseriesMultiplot <-
+  timeseriesMultiplot(orOGOOData, pattern = c("humidity|temperature"), nrow = 2) +
+  ggplot2::ggtitle(sprintf("Temperature and Humidity in %s, %s", 
+                           orOGOO$meta$wrccID, orOGOO$meta$siteName)) +
+  ggplot2::xlab("Time") +
+  ggplot2::ylab("Temperature (°C), Humidity (%)") +
+  ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
+
+gridExtra::grid.arrange(orOBRRwindTimeseries, orOGOOwindTimeseries, orOBRRtimeseriesMultiplot, orOGOOtimeseriesMultiplot)
 ```
 
+
 ## Extra
-somethin
+
