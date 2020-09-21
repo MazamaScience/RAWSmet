@@ -56,7 +56,9 @@ windTimeseriesPlot <- function(
   
   # ----- Create plot ----------------------------------------------------------
   
-  data$windDirection <- data$windDirection + 90
+  # Wind direction is measured in degrees clockwise from north
+  # We want to convert into counter-clockwise from east
+  data$windDirection <- (360 - data$windDirection + 90) %% 360
   
   if ( is.na(meta$wrccID) )
     stationID <- meta$nwsID
