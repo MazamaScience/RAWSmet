@@ -95,32 +95,32 @@ wrcc_identifyMonitorType <- function(fileString) {
   columnNames <- rawNames
   # Replace any column names differing from the standard with its standardized name
   for ( var in datetimeVariations )
-    columnNames <- columnNames %>% stringr::str_replace(var, "LST_datestamp")
+    columnNames <- columnNames %>% stringr::str_replace(var, "datetime")
   for ( var in precipVariations )
-    columnNames <- columnNames %>% stringr::str_replace(var, "Precip")
+    columnNames <- columnNames %>% stringr::str_replace(var, "precipitation")
   for ( var in windSpeedVariations )
-    columnNames <- columnNames %>% stringr::str_replace(var, "WindSpeed")
+    columnNames <- columnNames %>% stringr::str_replace(var, "windSpeed")
   for ( var in windDirecVariations )
-    columnNames <- columnNames %>% stringr::str_replace(var, "WindDirec")
+    columnNames <- columnNames %>% stringr::str_replace(var, "windDirection")
   for ( var in avAirTempVariations )
-    columnNames <- columnNames %>% stringr::str_replace(var, "AvAirTemp")
+    columnNames <- columnNames %>% stringr::str_replace(var, "temperature")
   for ( var in fuelTempVariations )
-    columnNames <- columnNames %>% stringr::str_replace(var, "FuelTemp")
+    columnNames <- columnNames %>% stringr::str_replace(var, "fuelTemperature")
   for ( var in relHumidtyVariations )
-    columnNames <- columnNames %>% stringr::str_replace(var, "RelHumidty")
+    columnNames <- columnNames %>% stringr::str_replace(var, "humidity")
   for ( var in batteryVoltageVariations )
-    columnNames <- columnNames %>% stringr::str_replace(var, "BatteryVoltage")
+    columnNames <- columnNames %>% stringr::str_replace(var, "batteryVoltage")
   for ( var in avFuelMoistrVariations )
-    columnNames <- columnNames %>% stringr::str_replace(var, "AvFuelMoistr")
+    columnNames <- columnNames %>% stringr::str_replace(var, "fuelMoisture")
   for ( var in dirMxGustVariations )
-    columnNames <- columnNames %>% stringr::str_replace(var, "DirMxGust")
+    columnNames <- columnNames %>% stringr::str_replace(var, "maxGustDirection")
   for ( var in mxGustSpeedVariations )
-    columnNames <- columnNames %>% stringr::str_replace(var, "MxGustSpeed")  
+    columnNames <- columnNames %>% stringr::str_replace(var, "maxGustSpeed")  
   for ( var in solarRadVariations )
-    columnNames <- columnNames %>% stringr::str_replace(var, "SolarRad")
+    columnNames <- columnNames %>% stringr::str_replace(var, "solarRadiation")
   
-  columnTypes <- 'cddddddddddd'
-  columnTypes <- stringr::str_pad(columnTypes, length(columnNames), 'right', 'd')
+  columnTypes <- 'c'
+  columnTypes <- stringr::str_pad(columnTypes, length(rawNames), 'right', 'd')
   
   # NOTE: Some headers have multiple columns named ''. Further down the line this 
   #       confused readr::read_tsv so we must rename them to something unique.

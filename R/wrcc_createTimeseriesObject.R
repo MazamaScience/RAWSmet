@@ -95,6 +95,8 @@ wrcc_createTimeseriesObject <- function(
     "monitorType"
   )
   
+  
+  
   # If any of the standard columns don't exist, replace them with NA
   for ( column in standardDataVars) {
     if ( !column %in% names(tbl) ) {
@@ -105,17 +107,17 @@ wrcc_createTimeseriesObject <- function(
   data <-
     tbl %>%
     dplyr::mutate(
-      "datetime" = paste0("20",.data$LST_datestamp),
-      "temperature" = .data$AvAirTemp,
-      "humidity" = .data$RelHumidty,
-      "windSpeed" = .data$WindSpeed,
-      "windDirection" = .data$WindDirec,
-      "maxGustSpeed" = .data$MxGustSpeed,
-      "maxGustDirection" = .data$DirMxGust,
-      "precipitation" = .data$Precip,
-      "solarRadiation" = .data$SolarRad,
-      "fuelMoisture" = .data$AvFuelMoistr,
-      "fuelTemperature" = .data$FuelTemp,
+      "datetime" = paste0("20",.data$datetime),
+      "temperature" = .data$temperature,
+      "humidity" = .data$humidity,
+      "windSpeed" = .data$windSpeed,
+      "windDirection" = .data$windDirection,
+      "maxGustSpeed" = .data$maxGustSpeed,
+      "maxGustDirection" = .data$maxGustDirection,
+      "precipitation" = .data$precipitation,
+      "solarRadiation" = .data$solarRadiation,
+      "fuelMoisture" = .data$fuelMoisture,
+      "fuelTemperature" = .data$fuelTemperature,
       "monitorType" = .data$monitorType
     ) %>%
     dplyr::select(all_of(standardDataVars))
