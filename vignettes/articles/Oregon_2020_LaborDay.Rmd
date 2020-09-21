@@ -12,11 +12,117 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Background
 
 ## Assembling data
+```{r assembleData, message = FALSE}
+library(RAWSmet)
+
+setRawsDataDir("~/Data/RAWS")
+
+oregonMeta <- wrcc_loadMeta(stateCode = "OR")
+
+allData <- list()
+counter <- 1
+allData <- get(load("~/Data/allData.rda"))
+#for ( wrccID in oregonMeta$wrccID ) {
+#  message(sprintf("Working on %s (%d/%d)", wrccID, counter, nrow(oregonMeta)))
+#  res <- try({
+#    stationTimeseriesObject <- 
+#      wrcc_load(wrccID = wrccID, meta = oregonMeta, year = 2020) %>%
+#      raws_filterDate(
+#        startdate = MazamaCoreUtils::parseDatetime(20200831, timezone = "America/Los_Angeles"),
+#        enddate = MazamaCoreUtils::parseDatetime(20200914, timezone = "America/Los_Angeles"))
+#    
+#    allData[[counter]] <- stationTimeseriesObject
+#    counter <- counter + 1
+#  }, silent = TRUE)
+#}
+```
 
 ## Locations with data
+```{r oregonStations, message = FALSE}
+wrccIDs <- c()
+
+for ( station in allData )
+  wrccIDs <- append(wrccIDs, station$meta$wrccID)
+
+meta <- oregonMeta %>% dplyr::filter(wrccID %in% wrccIDs)
+RAWSmet::raws_leaflet(meta)
+```
 
 ## Wind shift maps
+```{r windShift, message = FALSE, echo = FALSE, fig.align = "center", fig.width = 10, fig.height = 10}
+library(maps)
+
+par(mfrow = c(2, 2))
+
+sep3rd <- MazamaCoreUtils::parseDatetime(2020090312, timezone = "America/Los_Angeles")
+sep5th <- MazamaCoreUtils::parseDatetime(2020090512, timezone = "America/Los_Angeles")
+sep7th <- MazamaCoreUtils::parseDatetime(2020090712, timezone = "America/Los_Angeles")
+sep9th <- MazamaCoreUtils::parseDatetime(2020090912, timezone = "America/Los_Angeles")
+
+maps::map('state', 'oregon')
+title("Sept. 3rd 12pm")
+
+for ( station in allData ) {
+  data <- 
+    station$data %>%
+    dplyr::filter(datetime == sep3rd)
+  addWindBarbs(station$meta$longitude, station$meta$latitude, data$windSpeed, data$windDirection)
+}
+
+maps::map('state', 'oregon')
+title("Sept. 5th 12pm")
+
+for ( station in allData ) {
+  data <- 
+    station$data %>%
+    dplyr::filter(datetime == sep5th)
+  addWindBarbs(station$meta$longitude, station$meta$latitude, data$windSpeed, data$windDirection)
+}
+
+maps::map('state', 'oregon')
+title("Sept. 7th 12pm")
+
+for ( station in allData ) {
+  data <- 
+    station$data %>%
+    dplyr::filter(datetime == sep7th)
+  addWindBarbs(station$meta$longitude, station$meta$latitude, data$windSpeed, data$windDirection)
+}
+
+maps::map('state', 'oregon')
+title("Sept. 9th 12pm")
+
+for ( station in allData ) {
+  data <- 
+    station$data %>%
+    dplyr::filter(datetime == sep9th)
+
+  res <- try({
+    if(length(data$windSpeed) == 0) 
+      addWindBarbs(station$meta$longitude, station$meta$latitude, 0, 0)
+    else
+      addWindBarbs(station$meta$longitude, station$meta$latitude, data$windSpeed, data$windDirection)
+  })
+}
+```
 
 ## Wind shift time series plots
+```{r windTimeseriesPlots, message = FALSE, echo = FALSE, fig.align = "center"}
+
+par(mfrow = c(1, 2))
+
+
+orOBRR <- 
+  wrcc_load(wrccID = "orOBRR", meta = oregonMeta, year = 2020) %>%
+  raws_filterDate(20200904, 20200907)
+
+orOGOO <- 
+  wrcc_load(wrccID = "orOGOO", meta = oregonMeta, year = 2020) %>%
+  raws_filterDate(20200904, 20200907)
+
+windTimeseriesPlot(orOBRR)
+windTimeseriesPlot(orOGOO)
+```
 
 ## Extra
+somethin
