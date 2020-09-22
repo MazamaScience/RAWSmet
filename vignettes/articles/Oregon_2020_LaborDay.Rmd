@@ -5,7 +5,7 @@ date: "September 18, 2020"
 output: rmarkdown::html_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -29,27 +29,27 @@ if ( file.exists(filePath) ) {
   
   stationList_OR <- list()
   counter <- 1
-  
+
   for ( wrccID in oregonMeta$wrccID ) {
-    
+
     message(sprintf("Working on %s (%d/%d)", wrccID, counter, nrow(oregonMeta)))
-    
+
     # Keep going even if a particular station doesn't have data
     res <- try({
-      
-      stationTimeseriesObject <- 
+
+      stationTimeseriesObject <-
         wrcc_load(wrccID = wrccID, meta = oregonMeta, year = 2020) %>%
         raws_filterDate(
           startdate = MazamaCoreUtils::parseDatetime(20200831, timezone = "America/Los_Angeles"),
           enddate = MazamaCoreUtils::parseDatetime(20200914, timezone = "America/Los_Angeles"))
-      
+
       stationList_OR[[wrccID]] <- stationTimeseriesObject
     }, silent = TRUE)
-    
+
     counter <- counter + 1
-      
+
   }
-  
+
   save(stationList_OR, file = filePath)
     
 }
@@ -205,7 +205,4 @@ orOGOOtimeseriesMultiplot <-
 
 gridExtra::grid.arrange(orOBRRwindTimeseries, orOGOOwindTimeseries, orOBRRtimeseriesMultiplot, orOGOOtimeseriesMultiplot)
 ```
-
-
-## Extra
 
