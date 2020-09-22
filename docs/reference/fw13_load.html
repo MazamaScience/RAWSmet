@@ -99,6 +99,9 @@ If the data is not in this directory, this will download and save the data." />
       <a href="../articles/articles/Identifying_Unique_Locations.html">Identifying Unique Locations</a>
     </li>
     <li>
+      <a href="../articles/articles/Oregon_2020_LaborDay.html">September 2020 Oregon Wildfires</a>
+    </li>
+    <li>
       <a href="../articles/articles/Working_with_openair.html">Working With openair</a>
     </li>
   </ul>
@@ -140,6 +143,7 @@ If the data is not in this directory, this will download and save the data.</p>
     <pre class="usage"><span class='fu'>fw13_load</span>(
   <span class='kw'>nwsID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>meta</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>forceDownload</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>baseUrl</span> <span class='kw'>=</span> <span class='st'>"https://cefa.dri.edu/raws/fw13/"</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )</pre>
@@ -154,6 +158,10 @@ If the data is not in this directory, this will download and save the data.</p>
     <tr>
       <th>meta</th>
       <td><p>Tibble of FW13 station metadata.</p></td>
+    </tr>
+    <tr>
+      <th>forceDownload</th>
+      <td><p>Logical flag stating whether or not to download and override existing data.</p></td>
     </tr>
     <tr>
       <th>baseUrl</th>
@@ -188,7 +196,8 @@ If the data is not in this directory, this will download and save the data.</p>
 
 <span class='no'>meta</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='fw13_loadMeta.html'>fw13_loadMeta</a></span>()
 
-<span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>glimpse</a></span>(<span class='no'>meta</span>)
+<span class='no'>rawsObject</span> <span class='kw'>&lt;-</span> <span class='fu'>fw13_load</span>(<span class='kw'>nwsID</span> <span class='kw'>=</span> <span class='fl'>451702</span>, <span class='kw'>meta</span> <span class='kw'>=</span> <span class='no'>meta</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>rawsObject</span>$<span class='no'>data</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

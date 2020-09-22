@@ -4,5 +4,6 @@ pkgdown_sha: ~
 articles:
   RAWSmet: RAWSmet.html
   Identifying_Unique_Locations: articles/Identifying_Unique_Locations.html
+  Oregon_2020_LaborDay: articles/Oregon_2020_LaborDay.html
   Working_with_openair: articles/Working_with_openair.html
 

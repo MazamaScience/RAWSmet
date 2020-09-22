@@ -56,8 +56,10 @@ addWindBarb <- function(
   
   polygon(xx, yy, col = circleFill, border = lineCol, ...)
   
+  # TODO:  What is the proper behavior if speed is NA?
+  
   # Only add barb if speed > 0
-  if ( speed > 0 ) {
+  if ( !is.na(speed) && speed > 0 ) {
     # The baseline barb length will be 1/4 inch
     lx <- xpi / 4 * barbSize
     ly <- ypi / 4 * barbSize

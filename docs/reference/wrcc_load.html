@@ -99,6 +99,9 @@ data is not in this directory, this will download and save the data." />
       <a href="../articles/articles/Identifying_Unique_Locations.html">Identifying Unique Locations</a>
     </li>
     <li>
+      <a href="../articles/articles/Oregon_2020_LaborDay.html">September 2020 Oregon Wildfires</a>
+    </li>
+    <li>
       <a href="../articles/articles/Working_with_openair.html">Working With openair</a>
     </li>
   </ul>
@@ -141,6 +144,7 @@ data is not in this directory, this will download and save the data.</p>
   <span class='kw'>wrccID</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>meta</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>year</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>forceDownload</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>baseUrl</span> <span class='kw'>=</span> <span class='st'>"https://wrcc.dri.edu/cgi-bin/wea_list2.pl"</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )</pre>
@@ -159,6 +163,10 @@ data is not in this directory, this will download and save the data.</p>
     <tr>
       <th>year</th>
       <td><p>Year to access station data for.</p></td>
+    </tr>
+    <tr>
+      <th>forceDownload</th>
+      <td><p>Logical flag stating whether or not to download and override existing data.</p></td>
     </tr>
     <tr>
       <th>baseUrl</th>
@@ -187,10 +195,10 @@ data is not in this directory, this will download and save the data.</p>
 
 <span class='fu'><a href='setRawsDataDir.html'>setRawsDataDir</a></span>(<span class='st'>"~/Data/RAWS/"</span>)
 
-<span class='no'>stationMeta</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='wrcc_createMetadata.html'>wrcc_createMetadata</a></span>(<span class='kw'>stateCode</span> <span class='kw'>=</span> <span class='st'>"WA"</span>, <span class='kw'>wrccIDs</span> <span class='kw'>=</span> <span class='st'>"waWENU"</span>)
-<span class='no'>meta</span> <span class='kw'>&lt;-</span> <span class='fu'>wrcc_load</span>(<span class='kw'>wrccID</span> <span class='kw'>=</span> <span class='st'>"waWENU"</span>, <span class='kw'>meta</span> <span class='kw'>=</span> <span class='no'>stationMeta</span>)
+<span class='no'>stationMeta</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='wrcc_loadMeta.html'>wrcc_loadMeta</a></span>(<span class='kw'>stateCode</span> <span class='kw'>=</span> <span class='st'>"WA"</span>)
+<span class='no'>rawsObject</span> <span class='kw'>&lt;-</span> <span class='fu'>wrcc_load</span>(<span class='kw'>wrccID</span> <span class='kw'>=</span> <span class='st'>"waWENU"</span>, <span class='kw'>meta</span> <span class='kw'>=</span> <span class='no'>stationMeta</span>, <span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2020</span>)
 
-<span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>glimpse</a></span>(<span class='no'>meta</span>)
+<span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>glimpse</a></span>(<span class='no'>rawsObject</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

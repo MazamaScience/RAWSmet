@@ -60,6 +60,9 @@
       <a href="../../articles/articles/Identifying_Unique_Locations.html">Identifying Unique Locations</a>
     </li>
     <li>
+      <a href="../../articles/articles/Oregon_2020_LaborDay.html">September 2020 Oregon Wildfires</a>
+    </li>
+    <li>
       <a href="../../articles/articles/Working_with_openair.html">Working With openair</a>
     </li>
   </ul>
@@ -257,18 +260,18 @@
 <a class="sourceLine" id="cb11-13" data-line-number="13"><span class="co"># We are only interested in the 'data' part:</span></a>
 <a class="sourceLine" id="cb11-14" data-line-number="14"></a>
 <a class="sourceLine" id="cb11-15" data-line-number="15"><span class="kw"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(CampCreek_<span class="dv">1</span><span class="op">$</span>data)</a></code></pre></div>
-<pre><code>## # A tibble: 6 x 13
-##   datetime            temperature humidity fuelMoisture windSpeed windDirection
-##   &lt;dttm&gt;                    &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;
-## 1 1998-06-25 03:00:00        22.2     58.5           NA      6.26           216
-## 2 1998-06-25 04:00:00        22.8     58             NA      7.60           231
-## 3 1998-06-25 05:00:00        23.3     57.5           NA      8.05           234
-## 4 1998-06-25 06:00:00        23.3     57.5           NA      8.49           236
-## 5 1998-06-25 07:00:00        22.8     57.5           NA      8.49           235
-## 6 1998-06-25 08:00:00        23.9     57.5           NA      9.39           251
-## # … with 7 more variables: maxGustSpeed &lt;dbl&gt;, maxGustDirection &lt;dbl&gt;,
-## #   precipitation &lt;dbl&gt;, solarRadiation &lt;dbl&gt;, minHumidity &lt;dbl&gt;,
-## #   maxHumidity &lt;dbl&gt;, precipDuration &lt;dbl&gt;</code></pre>
+<pre><code>## # A tibble: 6 x 12
+##   datetime            temperature humidity windSpeed windDirection maxGustSpeed
+##   &lt;dttm&gt;                    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;
+## 1 1998-06-25 03:00:00        22.2     58.5      6.26           216         13.4
+## 2 1998-06-25 04:00:00        22.8     58        7.60           231         18.3
+## 3 1998-06-25 05:00:00        23.3     57.5      8.05           234         17.9
+## 4 1998-06-25 06:00:00        23.3     57.5      8.49           236         19.2
+## 5 1998-06-25 07:00:00        22.8     57.5      8.49           235         17.0
+## 6 1998-06-25 08:00:00        23.9     57.5      9.39           251         16.5
+## # … with 6 more variables: maxGustDirection &lt;dbl&gt;, precipitation &lt;dbl&gt;,
+## #   solarRadiation &lt;dbl&gt;, fuelMoisture &lt;dbl&gt;, fuelTemperature &lt;chr&gt;,
+## #   monitorType &lt;chr&gt;</code></pre>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co"># ----- Plot them separately -----</span></a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb13-3" data-line-number="3"><span class="co"># Hint:  use pch = '.' to speed up graphical rendering</span></a>

@@ -19,30 +19,45 @@ setRawsDataDir("~/Data/RAWS")
 
 oregonMeta <- wrcc_loadMeta(stateCode = "OR")
 
-allData <- list()
-counter <- 1
-allData <- get(load("~/Data/allData.rda"))
-#for ( wrccID in oregonMeta$wrccID ) {
-#  message(sprintf("Working on %s (%d/%d)", wrccID, counter, nrow(oregonMeta)))
-#  res <- try({
-#    stationTimeseriesObject <- 
-#      wrcc_load(wrccID = wrccID, meta = oregonMeta, year = 2020) %>%
-#      raws_filterDate(
-#        startdate = MazamaCoreUtils::parseDatetime(20200831, timezone = "America/Los_Angeles"),
-#        enddate = MazamaCoreUtils::parseDatetime(20200914, timezone = "America/Los_Angeles"))
-#    
-#    allData[[counter]] <- stationTimeseriesObject
-#    counter <- counter + 1
-#  }, silent = TRUE)
-#}
+filePath <- file.path(getRawsDataDir(), "stationList_OR.rda")
+
+if ( file.exists(filePath) ) {
+  
+  stationList_OR <- get(load(filePath))
+  
+} else {
+  
+  stationList_OR <- list()
+  counter <- 1
+  
+  for ( wrccID in oregonMeta$wrccID ) {
+    
+    message(sprintf("Working on %s (%d/%d)", wrccID, counter, nrow(oregonMeta)))
+    
+    # Keep going even if a particular station doesn't have data
+    res <- try({
+      
+      stationTimeseriesObject <- 
+        wrcc_load(wrccID = wrccID, meta = oregonMeta, year = 2020) %>%
+        raws_filterDate(
+          startdate = MazamaCoreUtils::parseDatetime(20200831, timezone = "America/Los_Angeles"),
+          enddate = MazamaCoreUtils::parseDatetime(20200914, timezone = "America/Los_Angeles"))
+      
+      stationList_OR[[wrccID]] <- stationTimeseriesObject
+    }, silent = TRUE)
+    
+    counter <- counter + 1
+      
+  }
+  
+  save(stationList_OR, file = filePath)
+    
+}
 ```
 
 ## Locations with data
 ```{r oregonStations, message = FALSE}
-wrccIDs <- c()
-
-for ( station in allData )
-  wrccIDs <- append(wrccIDs, station$meta$wrccID)
+wrccIDs <- names(stationList_OR)
 
 meta <- oregonMeta %>% dplyr::filter(wrccID %in% wrccIDs)
 RAWSmet::raws_leaflet(meta)
@@ -54,70 +69,115 @@ library(maps)
 
 par(mfrow = c(2, 2))
 
-sep3rd <- MazamaCoreUtils::parseDatetime(2020090312, timezone = "America/Los_Angeles")
-sep5th <- MazamaCoreUtils::parseDatetime(2020090512, timezone = "America/Los_Angeles")
-sep7th <- MazamaCoreUtils::parseDatetime(2020090712, timezone = "America/Los_Angeles")
-sep9th <- MazamaCoreUtils::parseDatetime(2020090912, timezone = "America/Los_Angeles")
+maps::map('state', 'oregon', fill = FALSE, col = 'gray80')
+title("Sept. 6th at noon")
 
-maps::map('state', 'oregon')
-title("Sept. 3rd 12pm")
-
-for ( station in allData ) {
+for ( station in stationList_OR ) {
   data <- 
     station$data %>%
-    dplyr::filter(datetime == sep3rd)
-  addWindBarbs(station$meta$longitude, station$meta$latitude, data$windSpeed, data$windDirection)
+    dplyr::filter(
+      datetime == MazamaCoreUtils::parseDatetime(2020090612, timezone = "America/Los_Angeles")
+    )
+  knots <- data$maxGustSpeed * 1.944
+  addWindBarbs(
+    station$meta$longitude, 
+    station$meta$latitude, 
+    knots, 
+    data$maxGustDirection,
+    circleSize = 0.5,
+    circleFill = 'black',
+    lineCol = 1,
+    extraBarbLength = -0.2,
+    lwd = 1.2
+  )
 }
 
-maps::map('state', 'oregon')
-title("Sept. 5th 12pm")
 
-for ( station in allData ) {
+maps::map('state', 'oregon', fill = FALSE, col = 'gray80')
+title("Sept. 6th at midnight")
+
+for ( station in stationList_OR ) {
   data <- 
     station$data %>%
-    dplyr::filter(datetime == sep5th)
-  addWindBarbs(station$meta$longitude, station$meta$latitude, data$windSpeed, data$windDirection)
+    dplyr::filter(
+      datetime == MazamaCoreUtils::parseDatetime(2020090700, timezone = "America/Los_Angeles")
+    )
+  knots <- data$maxGustSpeed * 1.944
+  addWindBarbs(
+    station$meta$longitude, 
+    station$meta$latitude, 
+    knots, 
+    data$maxGustDirection,
+    circleSize = 0.5,
+    circleFill = 'black',
+    lineCol = 1,
+    extraBarbLength = -0.2,
+    lwd = 1.2
+  )
 }
 
-maps::map('state', 'oregon')
-title("Sept. 7th 12pm")
 
-for ( station in allData ) {
+maps::map('state', 'oregon', fill = FALSE, col = 'gray80')
+title("Wind Gusts on Sept. 7th at noon")
+
+for ( station in stationList_OR ) {
   data <- 
     station$data %>%
-    dplyr::filter(datetime == sep7th)
-  addWindBarbs(station$meta$longitude, station$meta$latitude, data$windSpeed, data$windDirection)
+    dplyr::filter(
+      datetime == MazamaCoreUtils::parseDatetime(2020090712, timezone = "America/Los_Angeles")
+    )
+  knots <- data$maxGustSpeed * 1.944
+  addWindBarbs(
+    station$meta$longitude, 
+    station$meta$latitude, 
+    knots, 
+    data$maxGustDirection,
+    circleSize = 0.5,
+    circleFill = 'black',
+    lineCol = 1,
+    extraBarbLength = -0.2,
+    lwd = 1.2
+  )
 }
 
-maps::map('state', 'oregon')
-title("Sept. 9th 12pm")
 
-for ( station in allData ) {
+maps::map('state', 'oregon', fill = FALSE, col = 'gray80')
+title("Wind Gusts on Sept. 7th at midnight")
+
+for ( station in stationList_OR ) {
   data <- 
     station$data %>%
-    dplyr::filter(datetime == sep9th)
-
-  res <- try({
-    if(length(data$windSpeed) == 0) 
-      addWindBarbs(station$meta$longitude, station$meta$latitude, 0, 0)
-    else
-      addWindBarbs(station$meta$longitude, station$meta$latitude, data$windSpeed, data$windDirection)
-  })
+    dplyr::filter(
+      datetime == MazamaCoreUtils::parseDatetime(2020090800, timezone = "America/Los_Angeles")
+    )
+  knots <- data$maxGustSpeed * 1.944
+  addWindBarbs(
+    station$meta$longitude, 
+    station$meta$latitude, 
+    knots, 
+    data$maxGustDirection,
+    circleSize = 0.5,
+    circleFill = 'black',
+    lineCol = 1,
+    extraBarbLength = -0.2,
+    lwd = 1.2
+  )
 }
 ```
 
 ## Wind shift time series plots
+
 ```{r windTimeseriesPlots, message = FALSE, echo = FALSE, fig.align = "center", fig.height = 10, fig.width = 10}
 
 # Get data
 
 orOBRR <- 
   wrcc_load(wrccID = "orOBRR", meta = oregonMeta, year = 2020) %>%
-  raws_filterDate(20200904, 20200907)
+  raws_filterDate(20200904, 20200908)
 
 orOGOO <- 
   wrcc_load(wrccID = "orOGOO", meta = oregonMeta, year = 2020) %>%
-  raws_filterDate(20200904, 20200907)
+  raws_filterDate(20200904, 20200908)
 
 orOBRRData <- orOBRR %>% raws_extractData()
 orOGOOData <- orOGOO %>% raws_extractData()

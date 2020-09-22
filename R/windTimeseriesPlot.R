@@ -56,10 +56,6 @@ windTimeseriesPlot <- function(
   
   # ----- Create plot ----------------------------------------------------------
   
-  # Wind direction is measured in degrees clockwise from north
-  # We want to convert into counter-clockwise from east
-  data$windDirection <- (360 - data$windDirection + 90) %% 360
-  
   if ( is.na(meta$wrccID) )
     stationID <- meta$nwsID
   else
@@ -75,14 +71,23 @@ windTimeseriesPlot <- function(
   gg <- ggplot2::ggplot(data, ggplot2::aes(x = .data$datetime, y = .data$windSpeed)) +
     ggplot2::geom_point(ggplot2::aes(y = .data$windSpeed, color = "Winds")) +
     ggplot2::geom_line(ggplot2::aes(y = .data$maxGustSpeed, color = "Gusts")) +
-    metR::geom_arrow(ggplot2::aes(mag = 1, angle =.data$windDirection), arrow.ends = "last", show.legend = F) +
+    # See ?metR::geom_arrow Details section
+    metR::geom_arrow(
+      ggplot2::aes(mag = 1, angle =.data$windDirection),
+      start = -90,
+      direction = "cw",              
+      arrow.ends = "last", 
+      show.legend = FALSE
+    ) +
     ggplot2::ylim(min = -1, max = max(data$maxGustSpeed)) +
     ggplot2::labs(title = title, x = "", y = "Speed in m/s", color = "") +
-    ggplot2::scale_color_manual(values = c("blue", "red"),
-                       breaks = c("Winds", "Gusts"),
-                       guide = ggplot2::guide_legend(override.aes = list(
-                         linetype = c("blank", "solid"),
-                         shape = c(16, NA)))) +
+    ggplot2::scale_color_manual(
+      values = c("blue", "red"),
+      breaks = c("Winds", "Gusts"),
+      guide = ggplot2::guide_legend(override.aes = list(
+        linetype = c("blank", "solid"),
+        shape = c(16, NA)))
+    ) +
     ggplot2::theme(legend.position = "bottom", plot.title = ggplot2::element_text(hjust = 0.5))
   
   return(gg)
