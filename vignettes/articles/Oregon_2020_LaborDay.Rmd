@@ -10,8 +10,14 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Background
+At the end of a hot and dry summer, the conditions were perfect for several large
+wildfires to spread across western Oregon. The purpose of this document is to 
+demonstrate the **RAWSmet** package's data gathering and modeling capabilities
+by investigating the factors that allowed for the wildfires to spread. 
 
 ## Assembling data
+The following code is executed to gather data from all of the WRCC stations 
+in Oregon from the dates surrounding the start of the Holiday Farm fires:
 ```{r assembleData, message = FALSE}
 library(RAWSmet)
 
@@ -56,6 +62,10 @@ if ( file.exists(filePath) ) {
 ```
 
 ## Locations with data
+Across the state of Oregon there are 205 RAWS stations with data provided by the 
+WRCC, however, only 134 of these stations have accessible data from the dates of 
+the fires. The locations of these stations in addition to station metdata
+can be seen on the following map: 
 ```{r oregonStations, message = FALSE}
 wrccIDs <- names(stationList_OR)
 
@@ -64,6 +74,9 @@ RAWSmet::raws_leaflet(meta)
 ```
 
 ## Wind shift maps
+These maps show the direction and speeds of winds and gusts at all of the available
+stations in Oregon. It is clear that over the dates of the fires there are 
+strong winds coming from the east. 
 ```{r windShift, message = FALSE, echo = FALSE, fig.align = "center", fig.width = 10, fig.height = 10}
 library(maps)
 
@@ -166,7 +179,7 @@ for ( station in stationList_OR ) {
 ```
 
 ## Wind shift time series plots
-
+Lets take a closer look at some stations in western Oregon. 
 ```{r windTimeseriesPlots, message = FALSE, echo = FALSE, fig.align = "center", fig.height = 10, fig.width = 10}
 
 # Get data
@@ -205,7 +218,8 @@ orOGOOtimeseriesMultiplot <-
 
 gridExtra::grid.arrange(orOBRRwindTimeseries, orOGOOwindTimeseries, orOBRRtimeseriesMultiplot, orOGOOtimeseriesMultiplot)
 ```
-
+It is apparent that over labor day weekend, these stations experienced high winds 
+from the east in addition to high temperatures and low humidity. 
 
 ## Extra
 
