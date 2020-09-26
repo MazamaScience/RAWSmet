@@ -25,10 +25,12 @@ library(RAWSmet)
 
 setRawsDataDir("~/Data/RAWS")
 
+# Load WRCC station metadata for Oregon
 oregonMeta <- wrcc_loadMeta(stateCode = "OR")
 
 filePath <- file.path(getRawsDataDir(), "stationList_OR.rda")
 
+# Load pre-generated data if it exists. If it does not exist, create it.
 if ( file.exists(filePath) ) {
   
   stationList_OR <- get(load(filePath))
@@ -38,6 +40,7 @@ if ( file.exists(filePath) ) {
   stationList_OR <- list()
   counter <- 1
   
+  # Iterate through every station in oregon and download its data
   for ( wrccID in oregonMeta$wrccID ) {
     
     message(sprintf("Working on %s (%d/%d)", wrccID, counter, nrow(oregonMeta)))
@@ -45,12 +48,14 @@ if ( file.exists(filePath) ) {
     # Keep going even if a particular station doesn't have data
     res <- try({
       
+      # Load/download station data and filter by the important dates
       stationTimeseriesObject <- 
         wrcc_load(wrccID = wrccID, meta = oregonMeta, year = 2020) %>%
         raws_filterDate(
           startdate = MazamaCoreUtils::parseDatetime(20200831, timezone = "America/Los_Angeles"),
           enddate = MazamaCoreUtils::parseDatetime(20200914, timezone = "America/Los_Angeles"))
       
+      # Add the station timeseries object to a list
       stationList_OR[[wrccID]] <- stationTimeseriesObject
     }, silent = TRUE)
     
@@ -58,6 +63,7 @@ if ( file.exists(filePath) ) {
       
   }
   
+  # Save this data so it does not need to be generated again in the future
   save(stationList_OR, file = filePath)
     
 }
@@ -78,9 +84,14 @@ RAWSmet::raws_leaflet(meta)
 ## Wind shift maps
 With all of the necessary data assembled, we can now take a look at the wind patterns
 around the dates of the wildfires. These maps, created with `maps::map()` and 
-`RAWSMet::addWindBarbs()`, show the direction and speeds of winds and gusts at 
-all of the available stations in Oregon. It is clear that over the dates of the 
-fires there are strong winds coming from the east. 
+`RAWSMet::addWindBarbs()`, show the direction and speeds of *wind gusts* at 
+all of the available stations in Oregon. 
+
+Through these maps it is apparent that on September 6th at noon there is no irregular pattern
+in the wind that stands out. However, at midnight on the 6th, the eastern side of
+Oregon experienced strong winds coming from the north. Over the night and throughout
+the morning, these winds move and the western side of the Cascades
+is seen to have strong winds coming from the east. 
 ```{r windShift, message = FALSE, echo = FALSE, fig.align = "center", fig.width = 10, fig.height = 10}
 library(maps)
 
@@ -135,7 +146,7 @@ for ( station in stationList_OR ) {
 
 
 maps::map('state', 'oregon', fill = FALSE, col = 'gray80')
-title("Wind Gusts on Sept. 7th at noon")
+title("Sept. 7th at noon")
 
 for ( station in stationList_OR ) {
   data <- 
@@ -159,7 +170,7 @@ for ( station in stationList_OR ) {
 
 
 maps::map('state', 'oregon', fill = FALSE, col = 'gray80')
-title("Wind Gusts on Sept. 7th at midnight")
+title("Sept. 7th at midnight")
 
 for ( station in stationList_OR ) {
   data <- 
@@ -230,7 +241,13 @@ gridExtra::grid.arrange(orOBRRwindTimeseries, orOGOOwindTimeseries, orOBRRtimese
 ```
 
 
-## Extra
+## Wind rose plots
+Using **openair**'s `windRose()` plot, we can take a closer look at the wind 
+patterns in western Oregon. The following plots compare the winds at Goodwin Peak 
+in September 2020 to historical data for the winds in each September between 2005
+and 2017. From the historical data it is clear that the winds in Goodwin Peak in 
+September typically come from the north. However, in September 2020, an unmistakable
+majority of the winds come from the east.
 ```{r windRoseAllTime, echo = FALSE, message = FALSE}
 library(openair)
 
@@ -256,18 +273,18 @@ for ( i in 1:nrow(meta) ) {
   }, silent = TRUE)
 }
 
-openair::windRose(allData_westernOregon, ws = "windSpeed", wd = "windDirection", main = "Wind direction and speed. Western oregon, all time.")
+# openair::windRose(allData_westernOregon, ws = "windSpeed", wd = "windDirection", main = "Wind direction and speed. Western oregon, all time.")
 ```
 
-```{r windRosesOGOO, echo = FALSE, message = FALSE, fig.width = 5, fig.height = 5, fig.show = 'hold', fig.align = 'center'}
+```{r windRosesOGOO, echo = TRUE, message = FALSE, fig.width = 5, fig.height = 5, fig.show = 'hold'}
 
-par(mfrow = c(2, 2))
+par(mfrow = c(1, 2))
 
 wrccData_orOGOO <- 
   wrcc_load(wrccID = "orOGOO", year = 2020) %>%
   raws_filterDate(
     startdate = MazamaCoreUtils::parseDatetime(20200901, timezone = "America/Los_Angeles"),
-    enddate = MazamaCoreUtils::parseDatetime(20200924, timezone = "America/Los_Angeles")
+    enddate = MazamaCoreUtils::parseDatetime(20200930, timezone = "America/Los_Angeles")
   ) %>%
   raws_extractData(forOpenair = TRUE)
 
@@ -276,7 +293,13 @@ fw13Data_orOGOO <-
   raws_extractData(forOpenair = TRUE) %>%
   dplyr::filter(lubridate::month(datetime) == 9)
 
-fw13Plot <- openair::windRose(fw13Data_orOGOO, ws = "windSpeed", wd = "windDirection", main = "Goodwin peak, September 2005-2017.")
-wrccPlot <- openair::windRose(orOGOOData, ws = "windSpeed", wd = "windDirection", main = "Goodwin peak, September 2020.")
+fw13Plot <- openair::windRose(mydata = fw13Data_orOGOO,
+                              ws = "windSpeed",
+                              wd = "windDirection",
+                              main = "Goodwin peak, September 2005-2017.")
 
+wrccPlot <- openair::windRose(mydata = orOGOOData,
+                              ws = "windSpeed",
+                              wd = "windDirection",
+                              main = "Goodwin peak, September 2020.")
 ```
