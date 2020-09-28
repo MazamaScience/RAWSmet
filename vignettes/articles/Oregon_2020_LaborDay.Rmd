@@ -5,7 +5,7 @@ date: "September 18, 2020"
 output: rmarkdown::html_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -39,30 +39,30 @@ if ( file.exists(filePath) ) {
   
   stationList_OR <- list()
   counter <- 1
-  
+
   # Iterate through every station in oregon and download its data
   for ( wrccID in oregonMeta$wrccID ) {
-    
+
     message(sprintf("Working on %s (%d/%d)", wrccID, counter, nrow(oregonMeta)))
-    
+
     # Keep going even if a particular station doesn't have data
     res <- try({
-      
+
       # Load/download station data and filter by the important dates
       stationTimeseriesObject <- 
         wrcc_load(wrccID = wrccID, meta = oregonMeta, year = 2020) %>%
         raws_filterDate(
           startdate = MazamaCoreUtils::parseDatetime(20200831, timezone = "America/Los_Angeles"),
           enddate = MazamaCoreUtils::parseDatetime(20200914, timezone = "America/Los_Angeles"))
-      
+
       # Add the station timeseries object to a list
       stationList_OR[[wrccID]] <- stationTimeseriesObject
     }, silent = TRUE)
-    
+
     counter <- counter + 1
-      
+
   }
-  
+
   # Save this data so it does not need to be generated again in the future
   save(stationList_OR, file = filePath)
     
@@ -239,7 +239,6 @@ orOGOOtimeseriesMultiplot <-
 
 gridExtra::grid.arrange(orOBRRwindTimeseries, orOGOOwindTimeseries, orOBRRtimeseriesMultiplot, orOGOOtimeseriesMultiplot)
 ```
-
 
 ## Wind rose plots
 Using **openair**'s `windRose()` plot, we can take a closer look at the wind 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Load WRCC RAWS timeseries object from a local directory — wrcc_load • RAWSmet</title>
+<title>Load multiple WRCC RAWS timeseries objects from a local directory — wrcc_loadMultiple • RAWSmet</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Load WRCC RAWS timeseries object from a local directory — wrcc_load" />
+<meta property="og:title" content="Load multiple WRCC RAWS timeseries objects from a local directory — wrcc_loadMultiple" />
 <meta property="og:description" content="Loads WRCC station metadata and data from the rawsDataDir. If the
 data is not in this directory, this will download and save the data." />
 
@@ -133,9 +133,9 @@ data is not in this directory, this will download and save the data." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Load WRCC RAWS timeseries object from a local directory</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/wrcc_load.R'><code>R/wrcc_load.R</code></a></small>
-    <div class="hidden name"><code>wrcc_load.Rd</code></div>
+    <h1>Load multiple WRCC RAWS timeseries objects from a local directory</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/wrcc_loadMultiple.R'><code>R/wrcc_loadMultiple.R</code></a></small>
+    <div class="hidden name"><code>wrcc_loadMultiple.Rd</code></div>
     </div>
 
     <div class="ref-description">
@@ -143,8 +143,8 @@ data is not in this directory, this will download and save the data." />
 data is not in this directory, this will download and save the data.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>wrcc_load</span>(
-  wrccID = <span class='kw'>NULL</span>,
+    <pre class="usage"><span class='fu'>wrcc_loadMultiple</span>(
+  wrccIDs = <span class='kw'>NULL</span>,
   meta = <span class='kw'>NULL</span>,
   year = <span class='kw'>NULL</span>,
   forceDownload = <span class='fl'>FALSE</span>,
@@ -156,8 +156,8 @@ data is not in this directory, this will download and save the data.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>wrccID</th>
-      <td><p>RAWS station identifier (will be upcased)</p></td>
+      <th>wrccIDs</th>
+      <td><p>Vector of RAWS station identifiers (will be upcased).</p></td>
     </tr>
     <tr>
       <th>meta</th>
@@ -183,13 +183,14 @@ data is not in this directory, this will download and save the data.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Timeseries object with 'meta' and 'data'.</p>
+    <p>List of timeseries objects each containing 'meta' and 'data'.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p><a href='https://cefa.dri.edu/raws/'>Program for Climate, Ecosystem and Fire Applications</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code>wrcc_createTimeseriesObject</code></p>
+<p><code>wrcc_load</code></p>
 <p><code>setRawsDataDir</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -199,9 +200,11 @@ data is not in this directory, this will download and save the data.</p>
 <span class='fu'><a href='setRawsDataDir.html'>setRawsDataDir</a></span>(<span class='st'>"~/Data/RAWS/"</span>)
 
 <span class='kw'>stationMeta</span> <span class='op'>&lt;-</span> <span class='fu'><a href='wrcc_loadMeta.html'>wrcc_loadMeta</a></span>(stateCode = <span class='st'>"WA"</span>)
-<span class='kw'>rawsObject</span> <span class='op'>&lt;-</span> <span class='fu'>wrcc_load</span>(wrccID = <span class='st'>"waWENU"</span>, meta = <span class='kw'>stationMeta</span>, year = <span class='fl'>2020</span>)
 
-<span class='kw'>dplyr</span>::<span class='fu'><a href='https://tibble.tidyverse.org/reference/glimpse.html'>glimpse</a></span>(<span class='kw'>rawsObject</span>)
+<span class='kw'>wrccIDs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"waWENU"</span>, <span class='st'>"waWASH"</span>, <span class='st'>"waWALD"</span>)
+<span class='kw'>stationData</span> <span class='op'>&lt;-</span> <span class='fu'>wrcc_loadMultiple</span>(wrccIDs = <span class='kw'>wrccIDs</span>, meta = <span class='kw'>stationMeta</span>, year = <span class='fl'>2020</span>)
+
+<span class='kw'>dplyr</span>::<span class='fu'><a href='https://tibble.tidyverse.org/reference/glimpse.html'>glimpse</a></span>(<span class='kw'>stationData</span>)
 }
 
 </div></pre>
