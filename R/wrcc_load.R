@@ -5,7 +5,7 @@
 #' @title Load WRCC RAWS timeseries object from a local directory
 #'
 #' @param wrccID RAWS station identifier (will be upcased)
-#' @param meta Tibble of FW13 station metadata.
+#' @param meta Tibble of WRCC station metadata.
 #' @param year Year to access station data for.
 #' @param forceDownload Logical flag stating whether or not to download and override existing data.
 #' @param baseUrl Base URL for data queries.
