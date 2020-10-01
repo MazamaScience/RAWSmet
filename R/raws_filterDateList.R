@@ -36,10 +36,14 @@
 #' 
 #' rawsObjects <- example_fw13List
 #' 
-#' data201708 <- rawsObjects %>% raws_filterDateList(
-#'                                  startdate = 20170801, 
-#'                                  enddate = 20170901, 
-#'                                  timezone = "America/Los_Angeles")
+#' data201708 <- 
+#'   rawsObjects %>% 
+#'   raws_filterDateList(
+#'     startdate = 20170801, 
+#'     enddate = 20170901, 
+#'     timezone = "America/Los_Angeles"
+#'   )
+#'   
 #' head(data201708)
 #' }
 #'
