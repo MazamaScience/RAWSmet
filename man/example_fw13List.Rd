@@ -13,7 +13,7 @@ example_fw13List
 \description{
 The \code{example_fw13List} dataset provides a quickly loadable list of
 \emph{raws_timeseries} objects containing FW13 data for the station in Saddle Mountain, and Wellpinit
-Washington, (nwsIDs: 452701, 452918) in 2017.
+Washington, (nwsIDs: 452701, 452918) from September 2017.
 
 This dataset was generated on 2020-10-1 by running:
 
@@ -24,7 +24,7 @@ setRawsDataDir(~/Data/RAWS/)
 
 nwsIDs <- c("452701", "452918")
 example_fw13List <- fw13_loadMultiple(nwsIDs = nwsIDs) %>% 
-                      raws_filterDateList(20170101, 20180101, timezone = "America/Los_Angeles")
+                      raws_filterDateList(20170901, 20171001, timezone = "America/Los_Angeles")
   
 save(example_fw13List, file = "data/example_fw13List.rda")
 }

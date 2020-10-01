@@ -3,7 +3,7 @@
 #' 
 #' @title General purpose data filtering for a list of raws_timeseries objects
 #' 
-#' @param rawsObjects List of \emph{raws_timeseries} object.
+#' @param rawsList List of \emph{raws_timeseries} object.
 #' @param ... Logical predicates defined in terms of the variables in the 
 #' \code{rawsObject$data}.
 #' 
@@ -16,51 +16,51 @@
 #' @return A list of subsets of the elements of the given list of 
 #' \emph{raws_timeseries} objects.
 #' 
-#' @seealso \link{raws_filterDateList}
+#' @seealso \link{rawsList_filterDate}
 #' @examples
 #' \donttest{
 #' library(RAWSmet)
 #' 
-#' rawsObjects <- example_fw13Multiple
+#' rawsList <- example_fw13Multiple
 #' 
-#' daytime <- raws_filter(rawsObjects, solarRadiation > 0)
+#' daytime <- rawsList_filter(rawsList, solarRadiation > 0)
 #' }
 #' 
-raws_filterList <- function(
-  rawsObjects = NULL, 
+rawsList_filter <- function(
+  rawsList = NULL, 
   ...
 ) {
   
   # ----- Validate parameters --------------------------------------------------
   
-  MazamaCoreUtils::stopIfNull(rawsObjects)
+  MazamaCoreUtils::stopIfNull(rawsList)
   
-  if ( !is.list(rawsObjects) )
-    stop("Parameter 'rawsObjects' must be a list.")
+  if ( !is.list(rawsList) )
+    stop("Parameter 'rawsList' must be a list.")
   
-  for ( i in seq(length(rawsObjects)) ) {
-    if ( !raws_isRaws(rawsObjects[[i]]) )
-      stop(sprintf("Element %s in 'rawsObjects' is not a valid 'raws_timeseries' object.", rawsObjects[[i]]$meta$wrccID))
-    if ( raws_isEmpty(rawsObjects[[i]]) )
-      stop(sprintf("Element %s in 'rawsObject' has no data.", rawsObjects[[i]]$meta$wrccID))
+  for ( i in seq(length(rawsList)) ) {
+    if ( !raws_isRaws(rawsList[[i]]) )
+      stop(sprintf("Element %s in 'rawsList' is not a valid 'raws_timeseries' object.", rawsList[[i]]$meta$wrccID))
+    if ( raws_isEmpty(rawsList[[i]]) )
+      stop(sprintf("Element %s in 'rawsObject' has no data.", rawsList[[i]]$meta$wrccID))
     
     # Remove any duplicate data records
-    rawsObjects[[i]] <- raws_distinct(rawsObjects[[i]])
+    rawsList[[i]] <- raws_distinct(rawsList[[i]])
   }
   
   # ----- Filter data ----------------------------------------------------------
   
-  for ( i in seq(length(rawsObjects)) ) {
+  for ( i in seq(length(rawsList)) ) {
     
-    rawsObjects[[i]] <-
-      raws_filter(rawsObjects[[i]], ...)
+    rawsList[[i]] <-
+      raws_filter(rawsList[[i]], ...)
     
     # Remove any duplicate data records
-    rawsObjects[[i]] <- raws_distinct(rawsObjects[[i]])
+    rawsList[[i]] <- raws_distinct(rawsList[[i]])
   }
   
   # ----- Return ---------------------------------------------------------------
 
-  return(rawsObjects)
+  return(rawsList)
   
 }
