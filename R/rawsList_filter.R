@@ -43,21 +43,12 @@ rawsList_filter <- function(
       stop(sprintf("Element %s in 'rawsList' is not a valid 'raws_timeseries' object.", rawsList[[i]]$meta$wrccID))
     if ( raws_isEmpty(rawsList[[i]]) )
       stop(sprintf("Element %s in 'rawsObject' has no data.", rawsList[[i]]$meta$wrccID))
-    
-    # Remove any duplicate data records
-    rawsList[[i]] <- raws_distinct(rawsList[[i]])
   }
   
   # ----- Filter data ----------------------------------------------------------
   
-  for ( i in seq(length(rawsList)) ) {
-    
-    rawsList[[i]] <-
-      raws_filter(rawsList[[i]], ...)
-    
-    # Remove any duplicate data records
-    rawsList[[i]] <- raws_distinct(rawsList[[i]])
-  }
+  rawsList <- rawsList %>% purrr::map(function(x) raws_filter(x, ...))
+
   
   # ----- Return ---------------------------------------------------------------
 

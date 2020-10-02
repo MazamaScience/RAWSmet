@@ -37,8 +37,8 @@
 #' rawsList <- example_fw13List
 #' 
 #' data201708 <- rawsList %>% rawsList_filterDate(
-#'                                  startdate = 20170801, 
-#'                                  enddate = 20170901, 
+#'                                  startdate = 20170901, 
+#'                                  enddate = 20171001, 
 #'                                  timezone = "America/Los_Angeles")
 #' head(data201708)
 #' }
@@ -82,44 +82,11 @@ rawsList_filterDate <- function(
       stop("Parameter 'timezone' must not be null.")
     }
   }
-  
-  # ----- Get the start and end times ------------------------------------------
-  
-  if ( !is.null(days) ) {
-    days <- days
-  } else if ( !is.null(weeks) ) {
-    days <- weeks * 7
-  } else {
-    days <- 7 # default
-  }
-  
-  dateRange <- MazamaCoreUtils::dateRange(
-    startdate = startdate, 
-    enddate = enddate, 
-    timezone = timezone,
-    unit = "sec",
-    ceilingEnd = FALSE,
-    days = days
-  )
 
-  # ----- Subset each element in "rawsList" ---------------------------------
+  # ----- Filter each element in "rawsList" ---------------------------------
   
-  for ( id in names(rawsList) ) {
-    
-    # Check if each element contains the requested date range
-    if (dateRange[1] > rawsList[[id]]$data$datetime[length(rawsList[[id]]$data$datetime)] |
-        dateRange[2] < rawsList[[id]]$data$datetime[1])
-      stop(sprintf("Element '%s' in 'rawsList' does not contain requested date range", id))
-    
-    # Filter each element by the requested dates
-    rawsList[[id]]$data <- 
-      rawsList[[id]]$data %>%
-      dplyr::filter(.data$datetime >= dateRange[1]) %>%
-      dplyr::filter(.data$datetime < dateRange[2])
-    
-    # Remove any duplicate data records
-    rawsList[[id]] <- raws_distinct(rawsList[[id]])
-  }
+  rawsList <- rawsList %>% purrr::map(~ raws_filterDate(.x, startdate, enddate, days))
+  
   # ----- Return ---------------------------------------------------------------
   
   return(rawsList)

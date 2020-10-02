@@ -28,6 +28,7 @@ Imports:
     MazamaCoreUtils,
     MazamaSpatialUtils,
     metR,
+    purrr,
     readr,
     readxl,
     rlang,

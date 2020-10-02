@@ -123,7 +123,7 @@
 #' 
 #' nwsIDs <- c("452701", "452918")
 #' example_fw13List <- fw13_loadMultiple(nwsIDs = nwsIDs) %>% 
-#'                       raws_filterDateList(20170901, 20171001, timezone = "America/Los_Angeles")
+#'                       rawsList_filterDate(20170901, 20171001, timezone = "America/Los_Angeles")
 #'   
 #' save(example_fw13List, file = "data/example_fw13List.rda")
 #' }

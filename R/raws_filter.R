@@ -45,9 +45,9 @@ raws_filter <- function(
   rawsObject <- raws_distinct(rawsObject)
   
   # ----- Filter data ----------------------------------------------------------
-  
+
   rawsObject$data <- 
-    dplyr::filter(rawsObject$data,...)
+    dplyr::filter(rawsObject$data, ...)
   
   # ----- Return ---------------------------------------------------------------
   
