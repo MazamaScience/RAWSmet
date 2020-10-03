@@ -86,6 +86,8 @@ wrcc_loadMultiple <- function(
     
   }
   
+  class(stationList) <- c("rawsList", class(stationList))
+  
   # ----- Return ---------------------------------------------------------------
   
   return(stationList)
