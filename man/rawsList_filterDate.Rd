@@ -54,8 +54,8 @@ library(RAWSmet)
 rawsList <- example_fw13List
 
 data201708 <- rawsList \%>\% rawsList_filterDate(
-                                 startdate = 20170801, 
-                                 enddate = 20170901, 
+                                 startdate = 20170901, 
+                                 enddate = 20171001, 
                                  timezone = "America/Los_Angeles")
 head(data201708)
 }
