@@ -6,6 +6,7 @@
 #' @param rawsList a list of raws_timeseries objects
 #' @param observationTime Time of observation in question. Only accepts POSIXct objects.
 #' @param skipMissing Logical flag to skip stations with data missing at the requested time.
+#' @param type Which type of wind to plot. Currently only accepts 'winds' or 'gusts'
 #' @param circleSize size of the circle 
 #' @param circleFill circle fill color
 #' @param lineCol line color (currently not supported)
@@ -33,6 +34,7 @@ rawsList_addWindBarbs <- function(
   rawsList = NULL,
   observationTime = NULL,
   skipMissing = FALSE,
+  type = "winds",
   circleSize = 1,
   circleFill = 'transparent',
   lineCol = 1,
@@ -74,8 +76,13 @@ rawsList_addWindBarbs <- function(
     lat <- station$meta$latitude
     
     # Convert wind speed from m/s to knots
-    speedKnots <- observationData[1,]$windSpeed * 1.944
-    windDirection <- observationData[1,]$windDirection
+    if ( type == "gusts") {
+      speedKnots <- observationData[1,]$maxGustSpeed * 1.944
+      windDirection <- observationData[1,]$maxGustDirection
+    } else {
+      speedKnots <- observationData[1,]$windSpeed * 1.944
+      windDirection <- observationData[1,]$windDirection
+    }
     
     addWindBarbs(x = lon,
                  y = lat,

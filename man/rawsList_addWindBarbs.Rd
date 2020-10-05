@@ -8,6 +8,7 @@ rawsList_addWindBarbs(
   rawsList = NULL,
   observationTime = NULL,
   skipMissing = FALSE,
+  type = "winds",
   circleSize = 1,
   circleFill = "transparent",
   lineCol = 1,
@@ -22,6 +23,8 @@ rawsList_addWindBarbs(
 \item{observationTime}{Time of observation in question. Only accepts POSIXct objects.}
 
 \item{skipMissing}{Logical flag to skip stations with data missing at the requested time.}
+
+\item{type}{Which type of wind to plot. Currently only accepts 'winds' or 'gusts'}
 
 \item{circleSize}{size of the circle}
 

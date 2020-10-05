@@ -37,35 +37,16 @@ if ( file.exists(filePath) ) {
   
 } else {
   
-  stationList_OR <- list()
-  counter <- 1
-
-  # Iterate through every station in oregon and download its data
-  for ( wrccID in oregonMeta$wrccID ) {
-
-    message(sprintf("Working on %s (%d/%d)", wrccID, counter, nrow(oregonMeta)))
-
-    # Keep going even if a particular station doesn't have data
-    res <- try({
-
-      # Load/download station data and filter by the important dates
-      stationTimeseriesObject <- 
-        wrcc_load(wrccID = wrccID, meta = oregonMeta, year = 2020) %>%
-        raws_filterDate(
-          startdate = MazamaCoreUtils::parseDatetime(20200831, timezone = "America/Los_Angeles"),
-          enddate = MazamaCoreUtils::parseDatetime(20200914, timezone = "America/Los_Angeles"))
-
-      # Add the station timeseries object to a list
-      stationList_OR[[wrccID]] <- stationTimeseriesObject
-    }, silent = TRUE)
-
-    counter <- counter + 1
-
-  }
-
+  # Create required data
+  stationList_OR <- 
+    wrcc_loadMultiple(wrccIDs = oregonMeta$wrccID, meta = oregonMeta, year = 2020) %>%
+    rawsList_filterDate(
+      startdate = MazamaCoreUtils::parseDatetime(20200831, timezone = "America/Los_Angeles"),
+      enddate = MazamaCoreUtils::parseDatetime(20200914, timezone = "America/Los_Angeles"))
+  
   # Save this data so it does not need to be generated again in the future
   save(stationList_OR, file = filePath)
-    
+
 }
 ```
 
@@ -84,7 +65,7 @@ RAWSmet::raws_leaflet(meta)
 ## Wind shift maps
 With all of the necessary data assembled, we can now take a look at the wind patterns
 around the dates of the wildfires. These maps, created with `maps::map()` and 
-`RAWSMet::addWindBarbs()`, show the direction and speeds of *wind gusts* at 
+`RAWSMet::rawsList_addWindBarbs()`, show the direction and speeds of *wind gusts* at 
 all of the available stations in Oregon. 
 
 Through these maps it is apparent that on September 6th at noon there is no irregular pattern
@@ -100,97 +81,63 @@ par(mfrow = c(2, 2))
 maps::map('state', 'oregon', fill = FALSE, col = 'gray80')
 title("Sept. 6th at noon")
 
-for ( station in stationList_OR ) {
-  data <- 
-    station$data %>%
-    dplyr::filter(
-      datetime == MazamaCoreUtils::parseDatetime(2020090612, timezone = "America/Los_Angeles")
-    )
-  knots <- data$maxGustSpeed * 1.944
-  addWindBarbs(
-    station$meta$longitude, 
-    station$meta$latitude, 
-    knots, 
-    data$maxGustDirection,
-    circleSize = 0.5,
-    circleFill = 'black',
-    lineCol = 1,
-    extraBarbLength = -0.2,
-    lwd = 1.2
-  )
-}
-
+rawsList_addWindBarbs(
+  stationList_OR,
+  observationTime = MazamaCoreUtils::parseDatetime(2020090612, timezone = "America/Los_Angeles"),
+  skipMissing = TRUE,
+  type = "gusts",
+  circleSize = 0.5,
+  circleFill = 'black',
+  lineCol = 1,
+  extraBarbLength = -0.2,
+  lwd = 1.2
+)
 
 maps::map('state', 'oregon', fill = FALSE, col = 'gray80')
 title("Sept. 6th at midnight")
-
-for ( station in stationList_OR ) {
-  data <- 
-    station$data %>%
-    dplyr::filter(
-      datetime == MazamaCoreUtils::parseDatetime(2020090700, timezone = "America/Los_Angeles")
-    )
-  knots <- data$maxGustSpeed * 1.944
-  addWindBarbs(
-    station$meta$longitude, 
-    station$meta$latitude, 
-    knots, 
-    data$maxGustDirection,
-    circleSize = 0.5,
-    circleFill = 'black',
-    lineCol = 1,
-    extraBarbLength = -0.2,
-    lwd = 1.2
-  )
-}
-
+  
+rawsList_addWindBarbs(
+  stationList_OR,
+  observationTime = MazamaCoreUtils::parseDatetime(2020090700, timezone = "America/Los_Angeles"),
+  skipMissing = TRUE,
+  type = "gusts",
+  circleSize = 0.5,
+  circleFill = 'black',
+  lineCol = 1,
+  extraBarbLength = -0.2,
+  lwd = 1.2
+)
 
 maps::map('state', 'oregon', fill = FALSE, col = 'gray80')
 title("Sept. 7th at noon")
 
-for ( station in stationList_OR ) {
-  data <- 
-    station$data %>%
-    dplyr::filter(
-      datetime == MazamaCoreUtils::parseDatetime(2020090712, timezone = "America/Los_Angeles")
-    )
-  knots <- data$maxGustSpeed * 1.944
-  addWindBarbs(
-    station$meta$longitude, 
-    station$meta$latitude, 
-    knots, 
-    data$maxGustDirection,
-    circleSize = 0.5,
-    circleFill = 'black',
-    lineCol = 1,
-    extraBarbLength = -0.2,
-    lwd = 1.2
-  )
-}
-
+rawsList_addWindBarbs(
+  stationList_OR,
+  observationTime = MazamaCoreUtils::parseDatetime(2020090712, timezone = "America/Los_Angeles"),
+  skipMissing = TRUE,
+  type = "gusts",
+  circleSize = 0.5,
+  circleFill = 'black',
+  lineCol = 1,
+  extraBarbLength = -0.2,
+  lwd = 1.2
+)
 
 maps::map('state', 'oregon', fill = FALSE, col = 'gray80')
 title("Sept. 7th at midnight")
 
-for ( station in stationList_OR ) {
-  data <- 
-    station$data %>%
-    dplyr::filter(
-      datetime == MazamaCoreUtils::parseDatetime(2020090800, timezone = "America/Los_Angeles")
-    )
-  knots <- data$maxGustSpeed * 1.944
-  addWindBarbs(
-    station$meta$longitude, 
-    station$meta$latitude, 
-    knots, 
-    data$maxGustDirection,
-    circleSize = 0.5,
-    circleFill = 'black',
-    lineCol = 1,
-    extraBarbLength = -0.2,
-    lwd = 1.2
-  )
-}
+rawsList_addWindBarbs(
+  stationList_OR,
+  observationTime = MazamaCoreUtils::parseDatetime(2020090800, timezone = "America/Los_Angeles"),
+  skipMissing = TRUE,
+  type = "gusts",
+  circleSize = 0.5,
+  circleFill = 'black',
+  lineCol = 1,
+  extraBarbLength = -0.2,
+  lwd = 1.2
+)
+
 ```
 
 ## Wind shift time series plots
@@ -206,11 +153,11 @@ overall.
 # Get data
 
 orOBRR <- 
-  wrcc_load(wrccID = "orOBRR", meta = oregonMeta, year = 2020) %>%
+  stationList_OR[["orOBRR"]] %>%
   raws_filterDate(20200904, 20200908)
 
 orOGOO <- 
-  wrcc_load(wrccID = "orOGOO", meta = oregonMeta, year = 2020) %>%
+  stationList_OR[["orOGOO"]] %>%
   raws_filterDate(20200904, 20200908)
 
 orOBRRData <- orOBRR %>% raws_extractData()
@@ -275,17 +222,33 @@ for ( i in 1:nrow(meta) ) {
 # openair::windRose(allData_westernOregon, ws = "windSpeed", wd = "windDirection", main = "Wind direction and speed. Western oregon, all time.")
 ```
 
-```{r windRosesOGOO, echo = TRUE, message = FALSE, fig.width = 5, fig.height = 5, fig.show = 'hold'}
+```{r windRosesOGOO, echo = FALSE, message = FALSE, fig.width = 5, fig.height = 5, fig.show = 'hold'}
 
 par(mfrow = c(1, 2))
 
-wrccData_orOGOO <- 
-  wrcc_load(wrccID = "orOGOO", year = 2020) %>%
-  raws_filterDate(
-    startdate = MazamaCoreUtils::parseDatetime(20200901, timezone = "America/Los_Angeles"),
-    enddate = MazamaCoreUtils::parseDatetime(20200930, timezone = "America/Los_Angeles")
-  ) %>%
-  raws_extractData(forOpenair = TRUE)
+filePath <- file.path(getRawsDataDir(), "orOGOO_wrcc_0831-0919")
+
+# Load pre-generated data if it exists. If it does not exist, create it.
+if ( file.exists(filePath) ) {
+  
+  wrccData_orOGOO <- 
+    get(load(filePath)) %>%
+    raws_extractData(forOpenair = TRUE)
+
+} else {
+  
+  # Create data
+  wrccData_orOGOO <- 
+    wrcc_load(wrccID = "orOGOO", year = 2020) %>%
+    raws_filterDate(
+      startdate = MazamaCoreUtils::parseDatetime(20200901, timezone = "America/Los_Angeles"),
+      enddate = MazamaCoreUtils::parseDatetime(20200930, timezone = "America/Los_Angeles")
+    ) %>%
+    raws_extractData(forOpenair = TRUE)
+  
+  save(wrccData_orOGOO, file = filePath)
+}
+
 
 fw13Data_orOGOO <-
   fw13_load(nwsID = "352545") %>%
