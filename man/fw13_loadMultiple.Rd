@@ -31,9 +31,12 @@ Loads FW13 station metadata and data from the \code{rawsDataDir}. If the
 data is not in this directory, this will download and save the data.
 }
 \examples{
-\dontrun{
-library(RAWSmet)
+\donttest{
+library(MazamaSpatialUtils)
+setSpatialDataDir("~/Data/Spatial")
+loadSpatialData("NaturalEarthAdm1")
 
+library(RAWSmet)
 setRawsDataDir("~/Data/RAWS/")
 
 stationMeta <- fw13_loadMeta()

@@ -21,8 +21,16 @@
 #' \dontrun{
 #' library(RAWSmet)
 #' 
-#' fileString <- wrcc_downloadData(wrccID = 'waWENU')
+#' fileString <- wrcc_downloadData(wrccID = 'WENU')
 #' print(readr::read_lines(fileString)[1:10])
+#' 
+#' # Using a password for archival data
+#' fileString <- wrcc_downloadData(
+#'   wrccID = "WENU",
+#'   startdate = 20200801,
+#'   enddate = 20200901,
+#'   password = "MY_PASSWORD"
+#' )
 #' }
 
 wrcc_downloadData <- function(
@@ -42,9 +50,6 @@ wrcc_downloadData <- function(
   # Strip off the stateCode portion
   if ( stringr::str_count(wrccID) == 6 )
     wrccID <- stringr::str_sub(wrccID, 3, 6)
-  
-  # Guarantee password is character
-  password <- as.character
   
   # ----- Request parameters ---------------------------------------------------
   
@@ -107,6 +112,12 @@ wrcc_downloadData <- function(
   # No error so return the content (which might be an HTML formatted error message)
   fileString <- httr::content(r, 'text', encoding = 'UTF-8')
   
+  if ( stringr::str_detect(fileString, "Access to WRCC historical") ) {
+    stop(paste0(
+      "Access to WRCC historical raws data is limited to the last 30 days.\n",
+      "Did you specify a password?"
+    ))
+  }
   
   # NOTE: Some stations may not have data for the requested time period so we must
   #       check if data was actually downloaded
