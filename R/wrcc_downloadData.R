@@ -6,6 +6,7 @@
 #' @param wrccID Station identifier (will be upcased).
 #' @param startdate Desired start date (integer or character representing YYYYMMDD[HH]).
 #' @param enddate Desired end date (integer or character representing YYYYMMDD[HH]).
+#' @param password Password required for access to archival data.
 #' @param baseUrl Base URL for data queries.
 #' 
 #' @description Request data from a particular station for the desired time period.
@@ -28,6 +29,7 @@ wrcc_downloadData <- function(
   wrccID = NULL,
   startdate = strftime(lubridate::now(tzone = "UTC"),"%Y%m0101", tz = "UTC"),
   enddate = strftime(lubridate::now(tzone = "UTC"),"%Y%m%d23", tz = "UTC"),
+  password = NULL,
   baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl"
 ) {
   
@@ -40,6 +42,9 @@ wrcc_downloadData <- function(
   # Strip off the stateCode portion
   if ( stringr::str_count(wrccID) == 6 )
     wrccID <- stringr::str_sub(wrccID, 3, 6)
+  
+  # Guarantee password is character
+  password <- as.character
   
   # ----- Request parameters ---------------------------------------------------
   
@@ -74,6 +79,11 @@ wrcc_downloadData <- function(
     WeHou = '24',
     .cgifields = c('unit', 'flag', 'srce')
   )
+  
+  # Add the password field if used
+  if ( !is.null(password) ) {
+    .params$secret = password
+  }
   
   # ----- Download data --------------------------------------------------------
   

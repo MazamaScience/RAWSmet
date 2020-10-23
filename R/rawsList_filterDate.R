@@ -3,7 +3,7 @@
 #' 
 #' @title Date filtering for a list of \emph{raws_timeseries} objects
 #' 
-#' @param rawsObjects list of \emph{raws_timeseries} object.
+#' @param rawsList list of \emph{raws_timeseries} object.
 #' @param startdate Desired start datetime (ISO 8601).
 #' @param enddate Desired end datetime (ISO 8601).
 #' @param days Number of days to include in the filterDate interval.
@@ -29,12 +29,12 @@
 #' \emph{raws_timeseries} objects filtered by date.
 #' 
 #' @seealso \link{raws_filterDate}
-#' @seealso \link{raws_filterList}
+#' @seealso \link{rawsList_filter}
 #' @examples
 #' \donttest{
 #' library(RAWSmet)
 #' 
-#' rawsObjects <- example_fw13List
+#' rawsList <- example_fw13List
 #' 
 #' data201708 <- 
 #'   rawsObjects %>% 
@@ -47,8 +47,8 @@
 #' head(data201708)
 #' }
 #'
-raws_filterDateList <- function(
-  rawsObjects = NULL, 
+rawsList_filterDate <- function(
+  rawsList = NULL, 
   startdate = NULL, 
   enddate = NULL, 
   days = NULL, 
@@ -58,16 +58,16 @@ raws_filterDateList <- function(
   
   # ----- Validate parameters --------------------------------------------------
   
-  MazamaCoreUtils::stopIfNull(rawsObjects)
+  MazamaCoreUtils::stopIfNull(rawsList)
   
-  for ( id in names(rawsObjects) ) {
-    if ( !raws_isRaws(rawsObjects[[id]]) )
-      stop(sprintf("Element '%s' in 'rawsObjects' is not a valid 'raws_timeseries' object.", id))
-    if ( raws_isEmpty(rawsObjects[[id]]) )
+  for ( id in names(rawsList) ) {
+    if ( !raws_isRaws(rawsList[[id]]) )
+      stop(sprintf("Element '%s' in 'rawsList' is not a valid 'raws_timeseries' object.", id))
+    if ( raws_isEmpty(rawsList[[id]]) )
       stop(sprintf("Element '%s' in 'rawsObject' has no data.", id))
     
     # Remove any duplicate data records
-    rawsObjects[[id]] <- raws_distinct(rawsObjects[[id]])
+    rawsList[[id]] <- raws_distinct(rawsList[[id]])
   }
   
   if ( is.null(startdate) && !is.null(enddate) )
@@ -86,46 +86,13 @@ raws_filterDateList <- function(
       stop("Parameter 'timezone' must not be null.")
     }
   }
-  
-  # ----- Get the start and end times ------------------------------------------
-  
-  if ( !is.null(days) ) {
-    days <- days
-  } else if ( !is.null(weeks) ) {
-    days <- weeks * 7
-  } else {
-    days <- 7 # default
-  }
-  
-  dateRange <- MazamaCoreUtils::dateRange(
-    startdate = startdate, 
-    enddate = enddate, 
-    timezone = timezone,
-    unit = "sec",
-    ceilingEnd = FALSE,
-    days = days
-  )
 
-  # ----- Subset each element in "rawsObjects" ---------------------------------
+  # ----- Filter each element in "rawsList" ---------------------------------
   
-  for ( id in names(rawsObjects) ) {
-    
-    # Check if each element contains the requested date range
-    if (dateRange[1] > rawsObjects[[id]]$data$datetime[length(rawsObjects[[id]]$data$datetime)] |
-        dateRange[2] < rawsObjects[[id]]$data$datetime[1])
-      stop(sprintf("Element '%s' in 'rawsObjects' does not contain requested date range", id))
-    
-    # Filter each element by the requested dates
-    rawsObjects[[id]]$data <- 
-      rawsObjects[[id]]$data %>%
-      dplyr::filter(.data$datetime >= dateRange[1]) %>%
-      dplyr::filter(.data$datetime < dateRange[2])
-    
-    # Remove any duplicate data records
-    rawsObjects[[id]] <- raws_distinct(rawsObjects[[id]])
-  }
+  rawsList <- rawsList %>% purrr::map(~ raws_filterDate(.x, startdate, enddate, days))
+  
   # ----- Return ---------------------------------------------------------------
   
-  return(rawsObjects)
+  return(rawsList)
   
 }
