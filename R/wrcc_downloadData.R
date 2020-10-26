@@ -22,7 +22,7 @@
 #' library(RAWSmet)
 #' 
 #' fileString <- wrcc_downloadData(wrccID = 'WENU')
-#' print(readr::read_lines(fileString)[1:10])
+#' cat(fileString)
 #' 
 #' # Using a password for archival data
 #' fileString <- wrcc_downloadData(
