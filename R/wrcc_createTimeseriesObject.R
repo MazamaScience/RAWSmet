@@ -9,6 +9,7 @@
 #' @param meta Tibble of RAWS metadata containing \code{wrccID}.
 #' @param startdate Desired start date (integer or character representing YYYYMMDD[HH]).
 #' @param enddate Desired end date (integer or character representing YYYYMMDD[HH]).
+#' @param password Password required for access to archival data.
 #' @param baseUrl Base URL for data queries.
 #' @param verbose Logical flag controlling detailed progress statements.
 #'
@@ -44,6 +45,7 @@ wrcc_createTimeseriesObject <- function(
   meta = NULL,
   startdate = strftime(lubridate::now(tzone = "UTC"), "%Y%m0101", tz = "UTC"),
   enddate = strftime(lubridate::now(tzone = "UTC"), "%Y%m%d23", tz = "UTC"),
+  password = NULL,
   baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl",
   verbose = FALSE
 ) {
@@ -78,6 +80,7 @@ wrcc_createTimeseriesObject <- function(
     wrccID = wrccID,
     startdate = startdate,
     enddate = enddate,
+    password = password,
     baseUrl = baseUrl
   )
   
@@ -94,8 +97,6 @@ wrcc_createTimeseriesObject <- function(
     "fuelMoisture", "fuelTemperature",
     "monitorType"
   )
-  
-  
   
   # If any of the standard columns don't exist, replace them with NA
   for ( column in standardDataVars) {

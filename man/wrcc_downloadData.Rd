@@ -36,8 +36,16 @@ Station identifiers can be found at https://raws.dri.edu/.
 \dontrun{
 library(RAWSmet)
 
-fileString <- wrcc_downloadData(wrccID = 'waWENU')
-print(readr::read_lines(fileString)[1:10])
+fileString <- wrcc_downloadData(wrccID = 'WENU')
+cat(fileString)
+
+# Using a password for archival data
+fileString <- wrcc_downloadData(
+  wrccID = "WENU",
+  startdate = 20200801,
+  enddate = 20200901,
+  password = "MY_PASSWORD"
+)
 }
 }
 \references{

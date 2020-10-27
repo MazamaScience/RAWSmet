@@ -1,3 +1,8 @@
+# RAWSmet 0.2.0
+
+* Add password support to all `wrcc_~()` data access functions.
+* `wrcc_load()` was renamed to `wrcc_loadYear()`.
+
 # RAWSmet 0.1.9
 
 * Many examples have been updated to run with `example_` data so they can be

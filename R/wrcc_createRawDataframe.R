@@ -6,6 +6,7 @@
 #' @param wrccID Station identifier (will be upcased).
 #' @param startdate Desired start date (integer or character representing YYYYMMDD[HH]).
 #' @param enddate Desired end date (integer or character representing YYYYMMDD[HH]).
+#' @param password Password required for access to archival data.
 #' @param baseUrl Base URL for data queries.
 #'
 #' @return Raw tibble of RAWS data.
@@ -38,6 +39,7 @@ wrcc_createRawDataframe <- function(
   wrccID = NULL,
   startdate = strftime(lubridate::now(tzone = "UTC"), "%Y%m0101", tz = "UTC"),
   enddate = strftime(lubridate::now(tzone = "UTC"), "%Y%m%d23", tz = "UTC"),
+  password = NULL,
   baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl"
 ) {
   
@@ -51,7 +53,13 @@ wrcc_createRawDataframe <- function(
   # ----- Download/parse data --------------------------------------------------
   
   # Read in RAWS data
-  fileString <- wrcc_downloadData(wrccID, startdate, enddate, baseUrl)
+  fileString <- wrcc_downloadData(
+    wrccID = wrccID,
+    startdate = startdate,
+    enddate = enddate,
+    password = password,
+    baseUrl = baseUrl
+  )
   
   # Catch HTML errors
   if ( stringr::str_detect(fileString, "Access to WRCC historical raws data is limited") ||

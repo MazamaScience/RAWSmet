@@ -9,6 +9,7 @@ wrcc_createTimeseriesObject(
   meta = NULL,
   startdate = strftime(lubridate::now(tzone = "UTC"), "\%Y\%m0101", tz = "UTC"),
   enddate = strftime(lubridate::now(tzone = "UTC"), "\%Y\%m\%d23", tz = "UTC"),
+  password = NULL,
   baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl",
   verbose = FALSE
 )
@@ -21,6 +22,8 @@ wrcc_createTimeseriesObject(
 \item{startdate}{Desired start date (integer or character representing YYYYMMDD[HH]).}
 
 \item{enddate}{Desired end date (integer or character representing YYYYMMDD[HH]).}
+
+\item{password}{Password required for access to archival data.}
 
 \item{baseUrl}{Base URL for data queries.}
 

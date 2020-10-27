@@ -8,6 +8,7 @@
 #' @param meta Tibble of WRCC station metadata.
 #' @param year Year to access station data for.
 #' @param forceDownload Logical flag stating whether or not to download and override existing data.
+#' @param password Password required for access to archival data.
 #' @param baseUrl Base URL for data queries.
 #' @param verbose Logical flag controlling detailed progress statements.
 #'
@@ -43,6 +44,7 @@ wrcc_loadMultiple <- function(
   meta = NULL,
   year = NULL,
   forceDownload = FALSE,
+  password = NULL,
   baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl",
   verbose = TRUE
 ) {
@@ -72,11 +74,12 @@ wrcc_loadMultiple <- function(
       
       # Load or download data for each station 
       stationTimeseriesObject <-
-        wrcc_load(
+        wrcc_loadYear(
           wrccID = wrccID,
           meta = meta,
           year = year,
           forceDownload = forceDownload,
+          password = password,
           baseUrl = baseUrl,
           verbose = verbose)
       
