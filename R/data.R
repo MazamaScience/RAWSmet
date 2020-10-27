@@ -12,7 +12,7 @@
 #' 
 #' setSpatialDataDir("~/Data/Spatial")
 #' 
-#' allfw13Meta <- fw13_createMetadata()
+#' allfw13Meta <- fw13_createMeta()
 #' 
 #' example_fw13Meta <- dplyr::filter(allfw13Meta, stateCode == "WA")
 #' 
@@ -37,7 +37,7 @@
 #' setSpatialDataDir("~/Data/Spatial")
 #' loadSpatialData("NaturalEarthAdm1") 
 #' 
-#' example_wrccMeta <- wrcc_createMetadata(stateCode = "WA")
+#' example_wrccMeta <- wrcc_createMeta(stateCode = "WA")
 #' 
 #' save(example_wrccMeta, file = "data/example_wrccMeta.rda")
 #' }
@@ -57,7 +57,7 @@
 #' \preformatted{
 #' library(RAWSmet)
 #' 
-#' fw13Meta <- fw13_createMetadata()
+#' fw13Meta <- fw13_createMeta()
 #' example_fw13SaddleMountain <- 
 #'   fw13_createTimeseriesObject(nwsID = "452701", meta = fw13Meta) %>%
 #'   raws_filterDate(20170101, 20180101, timezone = "America/Los_Angeles")

@@ -1,6 +1,6 @@
 #' @export
 #' @importFrom MazamaCoreUtils logger.trace logger.debug logger.warn logger.error html_getLinks
-#' @importFrom MazamaSpatialUtils loadSpatialData getCountryCode getStateCode getTimezone codeToState
+#' @importFrom MazamaSpatialUtils getTimezone US_stateCodeToName
 #' 
 #' @title Obtain metadata for each station in a state.
 #'
@@ -26,19 +26,23 @@
 #' }
 #' 
 #' Because of the large number of web requests required to assemble this 
-#' metadata, it is recommended that the file be saved and reused.
+#' metadata, it is recommended that the file be saved and reused by calling
+#' \code{wrcc_loadMeta()}.
+#' 
+#' @seealso \code{wrcc_loadMeta}
+#' @seealso \code{setRawsDataDir}
 #' 
 #' @examples
 #' \dontrun{
 #' library(RAWSmet)
 #'
-#' wa_meta <- wrcc_createMetadata(stateCode = 'WA', verbose = TRUE)
+#' wa_meta <- wrcc_createMeta(stateCode = 'WA', verbose = TRUE)
 #' dplyr::glimpse(wa_meta)
 #' }
 #'
 #' @references \href{https://raws.dri.edu/}{RAWS USA Climate Archive}
 
-wrcc_createMetadata <- function(
+wrcc_createMeta <- function(
   stateCode = NULL,
   wrccIDs = NULL,
   baseUrl = "https://raws.dri.edu/",
@@ -120,7 +124,7 @@ wrcc_createMetadata <- function(
     }
     
     # Get the name of the state
-    stateName <- MazamaSpatialUtils::codeToState(toupper(stateCode), countryCode = "US")
+    stateName <- MazamaSpatialUtils::US_stateCodeToName(stateCode)
     
     # Get the station IDs for the given state
     wrccIDs <- 
@@ -198,8 +202,8 @@ wrcc_createMetadata <- function(
     
     # Remove state name from siteName
     stateCode <- stringr::str_sub(wrccID, 0, 2)
-    stateName <- MazamaSpatialUtils::codeToState(toupper(stateCode), countryCode = "US")
-    
+    stateName <- MazamaSpatialUtils::US_stateCodeToName(stateCode)
+
     siteName <- stringr::str_trim(stringr::str_sub(siteName, 1, nchar(siteName) - nchar(stateName)))
     
     # Check if identifies are valid

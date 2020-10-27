@@ -1,6 +1,6 @@
 Type: Package
 Package: RAWSmet
-Version: 0.2.0
+Version: 0.2.1
 Title: Download and Process data from Remote Automatic Weather Stations
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")),
@@ -26,7 +26,7 @@ Imports:
     magrittr,
     maps,
     MazamaCoreUtils,
-    MazamaSpatialUtils,
+    MazamaSpatialUtils (>= 0.6.4),
     metR,
     purrr,
     readr,

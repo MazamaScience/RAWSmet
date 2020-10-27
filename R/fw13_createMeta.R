@@ -31,13 +31,13 @@
 #' library(MazamaSpatialUtils)
 #' setSpatialDataDir("~/Data/Spatial")
 #'
-#' meta <- fw13_createMetadata(verbose = TRUE)
+#' meta <- fw13_createMeta(verbose = TRUE)
 #' dplyr::glimpse(meta)
 #' }
 #'
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 
-fw13_createMetadata <- function(
+fw13_createMeta <- function(
   metadataUrl = "https://cefa.dri.edu/raws/RAWSfw13list.xlsx",
   verbose = TRUE
 ) {

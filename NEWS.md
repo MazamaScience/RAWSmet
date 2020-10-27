@@ -1,3 +1,11 @@
+# RAWSmet 0.2.1
+
+* Changed default wrcc metadata name created by `wrcc-loadMeta()` to 
+`wrcc_meta_<stateCode>.rda`
+* Renamed functions with `Metadata` to just `Meta` for consistency.
+* WRCC download/parse functions now harmonizing units to guarantee metric
+units for all parameters.
+
 # RAWSmet 0.2.0
 
 * Add password support to all `wrcc_~()` data access functions.

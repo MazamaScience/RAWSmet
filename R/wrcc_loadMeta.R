@@ -9,8 +9,9 @@
 #'
 #' @return Dataframe containing station metadata.
 #'
-#' @description Loads WRCC station metadata for a given state from the \code{rawsDataDir}. If the
-#' data is not in this directory, this will download and save the data. 
+#' @description Loads WRCC station metadata for a given state from the 
+#' \code{rawsDataDir}. If the data is not in this directory, this will download 
+#' and save the data. 
 #' 
 #' @examples
 #' \dontrun{
@@ -18,12 +19,12 @@
 #' 
 #' setRawsDataDir("~/Data/RAWS/")
 #'
-#' stationMeta <- wrcc_loadMeta(stateCode = "WA")
+#' wa_meta <- wrcc_loadMeta(stateCode = "WA")
 #' 
-#' dplyr::glimpse(stationMeta)
+#' dplyr::glimpse(wa_meta, width = 80)
 #' }
 #'
-#' @seealso \code{wrcc_createMetadata}
+#' @seealso \code{wrcc_createMeta}
 #' @seealso \code{setRawsDataDir}
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 
@@ -42,7 +43,7 @@ wrcc_loadMeta <- function(
   
   # ----- Check for local data -------------------------------------------------
   
-  fileName = sprintf("wrccMetadata_%s.rda", stateCode)
+  fileName = sprintf("wrcc_meta_%s.rda", stateCode)
   filePath = file.path(dataDir, fileName)
   
   if ( file.exists(filePath) && forceDownload == FALSE ) {
@@ -63,7 +64,7 @@ wrcc_loadMeta <- function(
     }
     
     # If local data does not exist, download and return it.
-    metadata <- wrcc_createMetadata(stateCode = stateCode, baseUrl = baseUrl, verbose = verbose)
+    metadata <- wrcc_createMeta(stateCode = stateCode, baseUrl = baseUrl, verbose = verbose)
     
     # Save this object so it may be loaded in the future
     save(metadata, file = filePath)

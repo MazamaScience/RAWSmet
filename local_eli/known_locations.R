@@ -8,7 +8,7 @@ library(RAWSmet)
 RAWSmet::setRawsDataDir("~/Data/RAWS")
 rawsDataDir <- RAWSmet::getRawsDataDir()
 
-meta <- fw13_createMetadata()
+meta <- fw13_createMeta()
 
 known_locations <- MazamaLocationUtils::table_initializeExisting(meta)
 

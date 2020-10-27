@@ -46,7 +46,7 @@ library(MazamaSpatialUtils)
 setSpatialDataDir(&quot;~/Data/Spatial&quot;)
 loadSpatialData(&quot;NaturalEarthAdm1&quot;) 
 
-example_wrccMeta &amp;lt;- wrcc_createMetadata(stateCode = &quot;WA&quot;)
+example_wrccMeta &amp;lt;- wrcc_createMeta(stateCode = &quot;WA&quot;)
 
 save(example_wrccMeta, file = &quot;data/example_wrccMeta.rda&quot;)
 
@@ -83,7 +83,7 @@ save(example_wrccMeta, file = &quot;data/example_wrccMeta.rda&quot;)
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -159,7 +159,7 @@ library(MazamaSpatialUtils)
 setSpatialDataDir("~/Data/Spatial")
 loadSpatialData("NaturalEarthAdm1") 
 
-example_wrccMeta &lt;- wrcc_createMetadata(stateCode = "WA")
+example_wrccMeta &lt;- wrcc_createMeta(stateCode = "WA")
 
 save(example_wrccMeta, file = "data/example_wrccMeta.rda")
 </pre>

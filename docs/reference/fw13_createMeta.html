@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Load FW13 RAWS station metadata from a local directory — fw13_loadMeta • RAWSmet</title>
+<title>Obtain metadata for every station. — fw13_createMeta • RAWSmet</title>
 
 
 <!-- jquery -->
@@ -35,9 +35,20 @@
 
 
 
-<meta property="og:title" content="Load FW13 RAWS station metadata from a local directory — fw13_loadMeta" />
-<meta property="og:description" content="Loads all FW13 station metadata from the rawsDataDir. If
-the data is not in this directory, this will download and save the data." />
+<meta property="og:title" content="Obtain metadata for every station. — fw13_createMeta" />
+<meta property="og:description" content="Assembles individual station metadata from a CEFA webservice 
+into a standardized dataframe. Metdata columns include:
+
+nwsID -- NWS RAWS station identifier
+longitude -- decimal degrees East
+latitude -- decimal degrees North
+elevation -- in meters
+siteName -- human readable site name
+countryCode -- ISO 3166-1 alpha-2 country code
+stateCode -- ISO 3166-2 alpha-2 state code
+timezone -- Olson timezone
+
+" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -130,19 +141,29 @@ the data is not in this directory, this will download and save the data." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Load FW13 RAWS station metadata from a local directory</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/fw13_loadMeta.R'><code>R/fw13_loadMeta.R</code></a></small>
-    <div class="hidden name"><code>fw13_loadMeta.Rd</code></div>
+    <h1>Obtain metadata for every station.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/fw13_createMeta.R'><code>R/fw13_createMeta.R</code></a></small>
+    <div class="hidden name"><code>fw13_createMeta.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Loads all FW13 station metadata from the <code>rawsDataDir</code>. If
-the data is not in this directory, this will download and save the data.</p>
+    <p>Assembles individual station metadata from a CEFA webservice 
+into a standardized dataframe. Metdata columns include:</p>
+<ul>
+<li><p><code>nwsID</code> -- NWS RAWS station identifier</p></li>
+<li><p><code>longitude</code> -- decimal degrees East</p></li>
+<li><p><code>latitude</code> -- decimal degrees North</p></li>
+<li><p><code>elevation</code> -- in meters</p></li>
+<li><p><code>siteName</code> -- human readable site name</p></li>
+<li><p><code>countryCode</code> -- ISO 3166-1 alpha-2 country code</p></li>
+<li><p><code>stateCode</code> -- ISO 3166-2 alpha-2 state code</p></li>
+<li><p><code>timezone</code> -- Olson timezone</p></li>
+</ul>
+
     </div>
 
-    <pre class="usage"><span class='fu'>fw13_loadMeta</span>(
+    <pre class="usage"><span class='fu'>fw13_createMeta</span>(
   <span class='kw'>metadataUrl</span> <span class='kw'>=</span> <span class='st'>"https://cefa.dri.edu/raws/RAWSfw13list.xlsx"</span>,
-  <span class='kw'>forceDownload</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )</pre>
 
@@ -154,10 +175,6 @@ the data is not in this directory, this will download and save the data.</p>
       <td><p>URL for station metadata.</p></td>
     </tr>
     <tr>
-      <th>forceDownload</th>
-      <td><p>Logical flag stating whether or not to download and override existing data.</p></td>
-    </tr>
-    <tr>
       <th>verbose</th>
       <td><p>Logical flag controlling detailed progress statements.</p></td>
     </tr>
@@ -165,24 +182,20 @@ the data is not in this directory, this will download and save the data.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Dataframe containing station metadata.</p>
+    <p>Dataframe of station metadata.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p><a href='https://cefa.dri.edu/raws/'>Program for Climate, Ecosystem and Fire Applications</a></p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code>fw13_createMeta</code></p>
-<p><code>setRawsDataDir</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>RAWSmet</span>)
 
-<span class='fu'><a href='setRawsDataDir.html'>setRawsDataDir</a></span>(<span class='st'>"~/Data/RAWS/"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>MazamaSpatialUtils</span>)
+<span class='fu'><a href='https://rdrr.io/pkg/MazamaSpatialUtils/man/setSpatialDataDir.html'>setSpatialDataDir</a></span>(<span class='st'>"~/Data/Spatial"</span>)
 
-<span class='no'>stationMeta</span> <span class='kw'>&lt;-</span> <span class='fu'>fw13_loadMeta</span>()
-
-<span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>glimpse</a></span>(<span class='no'>stationMeta</span>)
+<span class='no'>meta</span> <span class='kw'>&lt;-</span> <span class='fu'>fw13_createMeta</span>(<span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>glimpse</a></span>(<span class='no'>meta</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -191,7 +204,6 @@ the data is not in this directory, this will download and save the data.</p>
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
       <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

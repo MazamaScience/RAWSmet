@@ -90,7 +90,7 @@ library(RAWSmet)
 library(MazamaSpatialUtils)
 setSpatialDataDir("~/Data/Spatial")
 
-meta <- fw13_createMetadata(verbose = TRUE)
+meta <- fw13_createMeta(verbose = TRUE)
 head(meta)
 ```
 

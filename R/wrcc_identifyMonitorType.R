@@ -34,31 +34,16 @@
 #' monitorTypeList <- wrcc_identifyMonitorType(fileString)
 #' }
 
-wrcc_identifyMonitorType <- function(fileString) {
+wrcc_identifyMonitorType <- function(
+  fileString = NULL
+) {
   
   # ----- Validate parameters --------------------------------------------------
   
+  MazamaCoreUtils::stopIfNull(fileString)
+  
   if ( class(fileString)[1] != "character" )
     stop(paste0('WRCC fileString is of type %s', class(fileString)[1]))
-  
-  # ----- Define column name variations ----------------------------------------
-
-  # NOTE: Some WRCC stations have different names for many of the standard columns.
-  #       The following vectors are the different variations of these names.
-  
-  datetimeVariations <- c("Date/TimeYYMMDDhhmm")
-  precipVariations <- c("Precip")
-  windSpeedVariations <- c("WindSpeed")
-  windDirecVariations <- c("WindDirec")
-  avAirTempVariations <- c("AvAirTemp")
-  fuelTempVariations <- c("FuelTemp")
-  relHumidtyVariations <- c("RelHumidty")
-  batteryVoltageVariations <- c("BatteryVoltage")
-  avFuelMoistrVariations <- c("AvFuelMoistr", "AvFuelMoistur", "FuelMoistur", "FuelMoistr", "AvAvFuelMoistr")
-  dirMxGustVariations <- c("DirMxGust")
-  mxGustSpeedVariations <- c("MxGustSpeed")
-  solarRadVariations <- c("SolarRad.")
-  
   
   # ----- Extract  header lines from the incoming fileString -------------------
   
@@ -82,12 +67,61 @@ wrcc_identifyMonitorType <- function(fileString) {
   # Extract the header
   header <- lines[2:4]
   
-  # ----- Rename the column names ----------------------------------------------
-  
   # Get each column from the header and trim whitespaces and the extra ':'
   line1Split <- stringr::str_split(header[1], '\t')[[1]] %>% stringr::str_replace_all(':', '') %>% stringr::str_replace_all(' ', '')
   line2Split <- stringr::str_split(header[2], '\t')[[1]] %>% stringr::str_replace_all(':', '') %>% stringr::str_replace_all(' ', '')
   line3Split <- stringr::str_split(header[3], '\t')[[1]] %>% stringr::str_replace_all(':', '') %>% stringr::str_replace_all(' ', '')
+
+  # ----- Harmonize unit name variations ---------------------------------------
+  
+  # NOTE:  Some WRCC stations have different names for many of the standard columns.
+  # NOTE:  The following vectors are the different variations of these names.
+  
+  mmVariations <- c("mm")
+  inVariations <- c("in")
+  m_sVariations <- c("m/s")
+  mphVariations <- c("mph")
+  degVariations <- c("Deg")
+  degCVariations <- c("DegC", "Deg C")
+  degFVariations <- c("DegF", "Deg F")
+  
+  # Units come from the first line
+  rawUnits <- line1Split
+  
+  columnUnits <- rawUnits
+  # Replace any column names differing from the standard with its standardized name
+  for ( var in mmVariations )
+    columnUnits <- columnUnits %>% stringr::str_replace(var, "mm")
+  for ( var in inVariations )
+    columnUnits <- columnUnits %>% stringr::str_replace(var, "in")
+  for ( var in m_sVariations )
+    columnUnits <- columnUnits %>% stringr::str_replace(var, "m/s")
+  for ( var in mphVariations )
+    columnUnits <- columnUnits %>% stringr::str_replace(var, "mph")
+  for ( var in degVariations )
+    columnUnits <- columnUnits %>% stringr::str_replace(var, "deg")
+  for ( var in degCVariations )
+    columnUnits <- columnUnits %>% stringr::str_replace(var, "degC")
+  for ( var in degFVariations )
+    columnUnits <- columnUnits %>% stringr::str_replace(var, "degF")
+  
+  # ----- Harmonize column name variations -------------------------------------
+  
+  # NOTE:  Some WRCC stations have different names for many of the standard columns.
+  # NOTE:  The following vectors are the different variations of these names.
+  
+  datetimeVariations <- c("Date/TimeYYMMDDhhmm")
+  precipVariations <- c("Precip")
+  windSpeedVariations <- c("WindSpeed")
+  windDirecVariations <- c("WindDirec")
+  avAirTempVariations <- c("AvAirTemp")
+  fuelTempVariations <- c("FuelTemp")
+  relHumidtyVariations <- c("RelHumidty")
+  batteryVoltageVariations <- c("BatteryVoltage")
+  avFuelMoistrVariations <- c("AvFuelMoistr", "AvFuelMoistur", "FuelMoistur", "FuelMoistr", "AvAvFuelMoistr")
+  dirMxGustVariations <- c("DirMxGust")
+  mxGustSpeedVariations <- c("MxGustSpeed")
+  solarRadVariations <- c("SolarRad.")
   
   # Concatenate the second and third line
   rawNames <- paste0(line2Split, line3Split)
@@ -135,7 +169,8 @@ wrcc_identifyMonitorType <- function(fileString) {
     monitorType = "WRCC_REGULARIZED",
     rawNames = rawNames,
     columnNames = columnNames,
-    columnTypes = columnTypes
+    columnTypes = columnTypes,
+    columnUnits = columnUnits
   )
   
 }

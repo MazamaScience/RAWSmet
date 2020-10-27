@@ -4,7 +4,7 @@
 \alias{wrcc_identifyMonitorType}
 \title{Identify RAWS station type}
 \usage{
-wrcc_identifyMonitorType(fileString)
+wrcc_identifyMonitorType(fileString = NULL)
 }
 \arguments{
 \item{fileString}{character string containing RAWS data}

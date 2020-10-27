@@ -60,10 +60,18 @@ wrcc_createRawDataframe <- function(
     password = password,
     baseUrl = baseUrl
   )
+
+  # Access denied message
+  if ( stringr::str_detect(fileString, "Access to WRCC historical") ) {
+    stop(paste0(
+      "Access to WRCC historical raws data is limited to the last 30 days.\n",
+      "Did you specify a password?"
+    ))
+  }
   
-  # Catch HTML errors
-  if ( stringr::str_detect(fileString, "Access to WRCC historical raws data is limited") ||
-       stringr::str_detect(fileString, stringr::regex("^\\s+.\\w.+\\w.+(\\n\\n)")) ) {
+  
+  # Catch HTML errors (What does this match?)
+  if ( stringr::str_detect(fileString, stringr::regex("^\\s+.\\w.+\\w.+(\\n\\n)")) ) {
     stop("Could not access data for that time range or wrccID")
   }
   

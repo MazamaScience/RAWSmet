@@ -22,7 +22,7 @@
 #' dplyr::glimpse(stationMeta)
 #' }
 #'
-#' @seealso \code{fw13_createMetadata}
+#' @seealso \code{fw13_createMeta}
 #' @seealso \code{setRawsDataDir}
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 
@@ -59,7 +59,7 @@ fw13_loadMeta <- function(
     }
     
     # If local data does not exist, download and return it.
-    metadata <- fw13_createMetadata(metadataUrl = metadataUrl, verbose = verbose)
+    metadata <- fw13_createMeta(metadataUrl = metadataUrl, verbose = verbose)
   
     # Save this object so it may be loaded in the future
     save(metadata, file = filePath)

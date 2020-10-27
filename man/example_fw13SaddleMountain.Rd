@@ -21,7 +21,7 @@ This dataset was generated on 2020-09-06 by running:
 \preformatted{
 library(RAWSmet)
 
-fw13Meta <- fw13_createMetadata()
+fw13Meta <- fw13_createMeta()
 example_fw13SaddleMountain <- 
   fw13_createTimeseriesObject(nwsID = "452701", meta = fw13Meta) %>%
   raws_filterDate(20170101, 20180101, timezone = "America/Los_Angeles")

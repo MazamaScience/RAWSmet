@@ -71,7 +71,7 @@ Station identifiers can be found at https://raws.dri.edu/." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -186,8 +186,16 @@ Data are returned as a single character string containing the RAWS output.</p>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>RAWSmet</span>)
 
-<span class='no'>fileString</span> <span class='kw'>&lt;-</span> <span class='fu'>wrcc_downloadData</span>(<span class='kw'>wrccID</span> <span class='kw'>=</span> <span class='st'>'waWENU'</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw pkg'>readr</span><span class='kw ns'>::</span><span class='fu'><a href='https://readr.tidyverse.org/reference/read_lines.html'>read_lines</a></span>(<span class='no'>fileString</span>)[<span class='fl'>1</span>:<span class='fl'>10</span>])
+<span class='no'>fileString</span> <span class='kw'>&lt;-</span> <span class='fu'>wrcc_downloadData</span>(<span class='kw'>wrccID</span> <span class='kw'>=</span> <span class='st'>'WENU'</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='no'>fileString</span>)
+
+<span class='co'># Using a password for archival data</span>
+<span class='no'>fileString</span> <span class='kw'>&lt;-</span> <span class='fu'>wrcc_downloadData</span>(
+  <span class='kw'>wrccID</span> <span class='kw'>=</span> <span class='st'>"WENU"</span>,
+  <span class='kw'>startdate</span> <span class='kw'>=</span> <span class='fl'>20200801</span>,
+  <span class='kw'>enddate</span> <span class='kw'>=</span> <span class='fl'>20200901</span>,
+  <span class='kw'>password</span> <span class='kw'>=</span> <span class='st'>"MY_PASSWORD"</span>
+)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

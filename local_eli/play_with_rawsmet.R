@@ -2,7 +2,7 @@ library(RAWSmet)
 library(openair)
 library(dplyr)
 
-fw13Meta <- fw13_createMetadata()
+fw13Meta <- fw13_createMeta()
 
 enumclawFW13 <- fw13_createTimeseriesObject(nwsID = 451702, meta)
 quilceneFW13 <- fw13_createTimeseriesObject(nwsID = 450207, meta)

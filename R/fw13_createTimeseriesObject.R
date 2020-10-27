@@ -52,7 +52,7 @@
 #' 
 #' }
 #'
-#' @seealso \code{\link{fw13_createMetadata}}
+#' @seealso \code{\link{fw13_createMeta}}
 #' @seealso \code{\link{fw13_createRawDataframe}}
 #'
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}

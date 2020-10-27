@@ -37,13 +37,14 @@
 
 <meta property="og:title" content="Parse RAWS data string — wrcc_parseData" />
 <meta property="og:description" content="Raw character data from WRCC are parsed into a tibble.
-The incoming fileString
-can be read in directly from WRCC using wrcc_downloadData() or from a local
-file using readr::read_file().
-The type of monitor represented by this fileString is inferred from the column names
-using wrcc_identifyMonitorType() and appropriate column types are assigned.
-The character data are then processed, read into a tibble and augmented in the following ways:
-Spaces at the beginning and end of each line are moved.
+The incoming fileString can be read in directly from WRCC using 
+wrcc_downloadData() or from a local file using readr::read_file().
+The type of monitor represented by this fileString is inferred from the 
+column names using wrcc_identifyMonitorType() and appropriate column 
+types are assigned. The character data are then processed, read into a tibble 
+and augmented in the following ways:
+
+Spaces at the beginning and end of each line are removed.
 All header lines beginning with ':' are removed.
 
 " />
@@ -79,7 +80,7 @@ All header lines beginning with ':' are removed.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -146,19 +147,20 @@ All header lines beginning with ':' are removed.
 
     <div class="ref-description">
     <p>Raw character data from WRCC are parsed into a tibble.
-The incoming <code>fileString</code>
-can be read in directly from WRCC using <code><a href='wrcc_downloadData.html'>wrcc_downloadData()</a></code> or from a local
-file using <code><a href='https://readr.tidyverse.org/reference/read_file.html'>readr::read_file()</a></code>.</p>
-<p>The type of monitor represented by this fileString is inferred from the column names
-using <code><a href='wrcc_identifyMonitorType.html'>wrcc_identifyMonitorType()</a></code> and appropriate column types are assigned.
-The character data are then processed, read into a tibble and augmented in the following ways:</p><ol>
-<li><p>Spaces at the beginning and end of each line are moved.</p></li>
+The incoming <code>fileString</code> can be read in directly from WRCC using 
+<code><a href='wrcc_downloadData.html'>wrcc_downloadData()</a></code> or from a local file using <code><a href='https://readr.tidyverse.org/reference/read_file.html'>readr::read_file()</a></code>.</p>
+<p>The type of monitor represented by this fileString is inferred from the 
+column names using <code><a href='wrcc_identifyMonitorType.html'>wrcc_identifyMonitorType()</a></code> and appropriate column 
+types are assigned. The character data are then processed, read into a tibble 
+and augmented in the following ways:</p>
+<ol>
+<li><p>Spaces at the beginning and end of each line are removed.</p></li>
 <li><p>All header lines beginning with ':' are removed.</p></li>
 </ol>
 
     </div>
 
-    <pre class="usage"><span class='fu'>wrcc_parseData</span>(<span class='no'>fileString</span>)</pre>
+    <pre class="usage"><span class='fu'>wrcc_parseData</span>(<span class='kw'>fileString</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

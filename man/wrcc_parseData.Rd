@@ -4,7 +4,7 @@
 \alias{wrcc_parseData}
 \title{Parse RAWS data string}
 \usage{
-wrcc_parseData(fileString)
+wrcc_parseData(fileString = NULL)
 }
 \arguments{
 \item{fileString}{character string containing RAWS data}
@@ -14,15 +14,16 @@ Dataframe of RAWS raw station data.
 }
 \description{
 Raw character data from WRCC are parsed into a tibble.
-The incoming \code{fileString}
-can be read in directly from WRCC using \code{wrcc_downloadData()} or from a local
-file using \code{readr::read_file()}.
+The incoming \code{fileString} can be read in directly from WRCC using 
+\code{wrcc_downloadData()} or from a local file using \code{readr::read_file()}.
 
-The type of monitor represented by this fileString is inferred from the column names
-using \code{wrcc_identifyMonitorType()} and appropriate column types are assigned.
-The character data are then processed, read into a tibble and augmented in the following ways:
+The type of monitor represented by this fileString is inferred from the 
+column names using \code{wrcc_identifyMonitorType()} and appropriate column 
+types are assigned. The character data are then processed, read into a tibble 
+and augmented in the following ways:
+
 \enumerate{
-\item{Spaces at the beginning and end of each line are moved.}
+\item{Spaces at the beginning and end of each line are removed.}
 \item{All header lines beginning with ':' are removed.}
 }
 }

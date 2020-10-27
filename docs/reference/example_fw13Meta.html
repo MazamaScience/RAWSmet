@@ -46,7 +46,7 @@ library(dplyr)
 
 setSpatialDataDir(&quot;~/Data/Spatial&quot;)
 
-allfw13Meta &amp;lt;- fw13_createMetadata()
+allfw13Meta &amp;lt;- fw13_createMeta()
 
 example_fw13Meta &amp;lt;- dplyr::filter(allfw13Meta, stateCode == &quot;WA&quot;)
 
@@ -86,7 +86,7 @@ save(example_fw13Meta, file = &quot;data/example_fw13Meta.rda&quot;)
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -162,7 +162,7 @@ library(dplyr)
 
 setSpatialDataDir("~/Data/Spatial")
 
-allfw13Meta &lt;- fw13_createMetadata()
+allfw13Meta &lt;- fw13_createMeta()
 
 example_fw13Meta &lt;- dplyr::filter(allfw13Meta, stateCode == "WA")
 

@@ -43,7 +43,12 @@ library(RAWSmet)
 setRawsDataDir("~/Data/RAWS/")
 
 stationMeta <- wrcc_loadMeta(stateCode = "WA")
-rawsObject <- wrcc_loadYear(wrccID = "waWENU", meta = stationMeta, year = 2020)
+rawsObject <- wrcc_loadYear(
+  wrccID = "waWENU", 
+  meta = stationMeta, 
+  year = 2020,
+  password = "MY_PASSWORD"
+)
 
 dplyr::glimpse(rawsObject)
 }

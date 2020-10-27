@@ -40,7 +40,7 @@ dplyr::glimpse(stationMeta)
 \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 }
 \seealso{
-\code{fw13_createMetadata}
+\code{fw13_createMeta}
 
 \code{setRawsDataDir}
 }

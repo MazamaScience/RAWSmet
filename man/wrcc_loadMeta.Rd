@@ -24,8 +24,9 @@ wrcc_loadMeta(
 Dataframe containing station metadata.
 }
 \description{
-Loads WRCC station metadata for a given state from the \code{rawsDataDir}. If the
-data is not in this directory, this will download and save the data.
+Loads WRCC station metadata for a given state from the 
+\code{rawsDataDir}. If the data is not in this directory, this will download 
+and save the data.
 }
 \examples{
 \dontrun{
@@ -33,9 +34,9 @@ library(RAWSmet)
 
 setRawsDataDir("~/Data/RAWS/")
 
-stationMeta <- wrcc_loadMeta(stateCode = "WA")
+wa_meta <- wrcc_loadMeta(stateCode = "WA")
 
-dplyr::glimpse(stationMeta)
+dplyr::glimpse(wa_meta, width = 80)
 }
 
 }
@@ -43,7 +44,7 @@ dplyr::glimpse(stationMeta)
 \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 }
 \seealso{
-\code{wrcc_createMetadata}
+\code{wrcc_createMeta}
 
 \code{setRawsDataDir}
 }

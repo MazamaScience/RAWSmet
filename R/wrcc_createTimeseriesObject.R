@@ -64,7 +64,7 @@ wrcc_createTimeseriesObject <- function(
     if ( verbose )
       message(sprintf("Creating metadata for wrccID = %s...", wrccID))
 
-    meta <- wrcc_createMetadata(wrccIDs = wrccID)
+    meta <- wrcc_createMeta(wrccIDs = wrccID)
     
   } else {
     

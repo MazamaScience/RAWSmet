@@ -71,7 +71,7 @@ nws_500726 <- fw13_createTimeseriesObject(nwsID = 500726)
 \href{https://fam.nwcg.gov/fam-web/weatherfirecd/13.htm}{FW13 Data Format}
 }
 \seealso{
-\code{\link{fw13_createMetadata}}
+\code{\link{fw13_createMeta}}
 
 \code{\link{fw13_createRawDataframe}}
 }

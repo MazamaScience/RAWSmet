@@ -19,7 +19,7 @@ Request data for a particular station. Data are returned as a
 single character string containing the RAWS output.
 
 Station identifiers can be found at https://cefa.dri.edu/raws/RAWSfw13list.xlsx
-and can be downloaded with \code{\link{fw13_createMetadata}}.
+and can be downloaded with \code{\link{fw13_createMeta}}.
 }
 \examples{
 \dontrun{

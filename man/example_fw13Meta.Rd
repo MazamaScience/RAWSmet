@@ -23,7 +23,7 @@ library(dplyr)
 
 setSpatialDataDir("~/Data/Spatial")
 
-allfw13Meta <- fw13_createMetadata()
+allfw13Meta <- fw13_createMeta()
 
 example_fw13Meta <- dplyr::filter(allfw13Meta, stateCode == "WA")
 

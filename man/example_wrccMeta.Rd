@@ -23,7 +23,7 @@ library(MazamaSpatialUtils)
 setSpatialDataDir("~/Data/Spatial")
 loadSpatialData("NaturalEarthAdm1") 
 
-example_wrccMeta <- wrcc_createMetadata(stateCode = "WA")
+example_wrccMeta <- wrcc_createMeta(stateCode = "WA")
 
 save(example_wrccMeta, file = "data/example_wrccMeta.rda")
 }

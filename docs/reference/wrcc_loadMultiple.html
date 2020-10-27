@@ -70,7 +70,7 @@ data is not in this directory, this will download and save the data." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
       </span>
     </div>
 
@@ -145,6 +145,7 @@ data is not in this directory, this will download and save the data.</p>
   <span class='kw'>meta</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>year</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>forceDownload</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>password</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>baseUrl</span> <span class='kw'>=</span> <span class='st'>"https://wrcc.dri.edu/cgi-bin/wea_list2.pl"</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
 )</pre>
@@ -167,6 +168,10 @@ data is not in this directory, this will download and save the data.</p>
     <tr>
       <th>forceDownload</th>
       <td><p>Logical flag stating whether or not to download and override existing data.</p></td>
+    </tr>
+    <tr>
+      <th>password</th>
+      <td><p>Password required for access to archival data.</p></td>
     </tr>
     <tr>
       <th>baseUrl</th>
@@ -199,22 +204,10 @@ data is not in this directory, this will download and save the data.</p>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>RAWSmet</span>)
 <span class='fu'><a href='setRawsDataDir.html'>setRawsDataDir</a></span>(<span class='st'>"~/Data/RAWS/"</span>)
 
-<span class='no'>stationMeta</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='wrcc_loadMeta.html'>wrcc_loadMeta</a></span>(<span class='kw'>stateCode</span> <span class='kw'>=</span> <span class='st'>"WA"</span>)</div><div class='output co'>#&gt; <span class='message'>Loading data from /Users/jonathan/Data/RAWS//wrccMetadata_WA.rda</span></div><div class='input'>
+<span class='no'>stationMeta</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='wrcc_loadMeta.html'>wrcc_loadMeta</a></span>(<span class='kw'>stateCode</span> <span class='kw'>=</span> <span class='st'>"WA"</span>)</div><div class='output co'>#&gt; <span class='message'>Loading data from /Users/jonathan/Data/RAWS//wrcc_meta_WA.rda</span></div><div class='input'>
 <span class='no'>wrccIDs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"waWENU"</span>, <span class='st'>"waWASH"</span>, <span class='st'>"waWALD"</span>)
-<span class='no'>stationData</span> <span class='kw'>&lt;-</span> <span class='fu'>wrcc_loadMultiple</span>(<span class='kw'>wrccIDs</span> <span class='kw'>=</span> <span class='no'>wrccIDs</span>, <span class='kw'>meta</span> <span class='kw'>=</span> <span class='no'>stationMeta</span>, <span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2020</span>)</div><div class='output co'>#&gt; <span class='message'>Loading data for waWENU (1/3)</span></div><div class='output co'>#&gt; <span class='message'>Loading data from /Users/jonathan/Data/RAWS//wrcc_waWENU_2020.rda</span></div><div class='output co'>#&gt; <span class='message'>Loading data for waWASH (2/3)</span></div><div class='output co'>#&gt; <span class='message'>Loading data from /Users/jonathan/Data/RAWS//wrcc_waWASH_2020.rda</span></div><div class='output co'>#&gt; <span class='message'>Loading data for waWALD (3/3)</span></div><div class='output co'>#&gt; <span class='message'>Loading data from /Users/jonathan/Data/RAWS//wrcc_waWALD_2020.rda</span></div><div class='input'>
-<span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>glimpse</a></span>(<span class='no'>stationData</span>)</div><div class='output co'>#&gt; List of 3
-#&gt;  $ waWENU:List of 2
-#&gt;   ..$ meta: tibble [1 × 11] (S3: tbl_df/tbl/data.frame)
-#&gt;   ..$ data: tibble [13 × 12] (S3: tbl_df/tbl/data.frame)
-#&gt;   ..- attr(*, "class")= chr [1:2] "raws_timeseries" "list"
-#&gt;  $ waWASH:List of 2
-#&gt;   ..$ meta: tibble [1 × 11] (S3: tbl_df/tbl/data.frame)
-#&gt;   ..$ data: tibble [13 × 12] (S3: tbl_df/tbl/data.frame)
-#&gt;   ..- attr(*, "class")= chr [1:2] "raws_timeseries" "list"
-#&gt;  $ waWALD:List of 2
-#&gt;   ..$ meta: tibble [1 × 11] (S3: tbl_df/tbl/data.frame)
-#&gt;   ..$ data: tibble [13 × 12] (S3: tbl_df/tbl/data.frame)
-#&gt;   ..- attr(*, "class")= chr [1:2] "raws_timeseries" "list"
+<span class='no'>stationData</span> <span class='kw'>&lt;-</span> <span class='fu'>wrcc_loadMultiple</span>(<span class='kw'>wrccIDs</span> <span class='kw'>=</span> <span class='no'>wrccIDs</span>, <span class='kw'>meta</span> <span class='kw'>=</span> <span class='no'>stationMeta</span>, <span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2020</span>)</div><div class='output co'>#&gt; <span class='message'>Loading data for waWENU (1/3)</span></div><div class='output co'>#&gt; <span class='message'>Could not find local data.</span></div><div class='output co'>#&gt; <span class='message'>Downloading and saving data to /Users/jonathan/Data/RAWS//wrcc_waWENU_2020.rda .</span></div><div class='output co'>#&gt; <span class='message'>Loading data for waWASH (2/3)</span></div><div class='output co'>#&gt; <span class='message'>Could not find local data.</span></div><div class='output co'>#&gt; <span class='message'>Downloading and saving data to /Users/jonathan/Data/RAWS//wrcc_waWASH_2020.rda .</span></div><div class='output co'>#&gt; <span class='message'>Loading data for waWALD (3/3)</span></div><div class='output co'>#&gt; <span class='message'>Could not find local data.</span></div><div class='output co'>#&gt; <span class='message'>Downloading and saving data to /Users/jonathan/Data/RAWS//wrcc_waWALD_2020.rda .</span></div><div class='input'>
+<span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>glimpse</a></span>(<span class='no'>stationData</span>)</div><div class='output co'>#&gt;  list()
 #&gt;  - attr(*, "class")= chr [1:2] "rawsList" "list"</div><div class='input'># }
 
 </div></pre>
