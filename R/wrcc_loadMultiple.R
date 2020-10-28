@@ -70,7 +70,7 @@ wrcc_loadMultiple <- function(
     if ( verbose )
       message(sprintf("Loading data for %s (%d/%d)", wrccID, counter, length(wrccIDs)))
     
-    res <- try({
+    result <- try({
       
       # Load or download data for each station 
       stationTimeseriesObject <-
@@ -83,10 +83,24 @@ wrcc_loadMultiple <- function(
           baseUrl = baseUrl,
           verbose = verbose)
       
+    }, silent = verbose)
+    
+    if ( "try-error" %in% class(result) ) {
+      
+      err_msg <- geterrmessage()
+      # TODO:  Trap and potentially rephrase error messages
+      message(sprintf(
+        "Skipping %s: %s",
+        wrccID,
+        err_msg
+      ))
+      
+    } else {
+      
       # Add this station's raws_timeseries object to the list
       stationList[[wrccID]] <- stationTimeseriesObject
       
-    }, silent = verbose)
+    }
     
     counter <- counter + 1
     

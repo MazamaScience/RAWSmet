@@ -78,7 +78,7 @@ wrcc_loadYear <- function(
     if ( verbose ) {
       if ( !forceDownload )
         message("Could not find local data.")
-      message(paste("Downloading and saving data to", filePath, "."))
+      message(paste("Downloading and saving data to", filePath))
     }
     
     # NOTE:  Extend start and end UTC dates by one day to capture full days in

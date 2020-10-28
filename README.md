@@ -16,23 +16,23 @@ Framework. This system  integrates a wide collection of models along a smoke
 modeling pipeline (fire  information > fuel loadings > consumption modeling > 
 emissions modeling > time rate of emissions modeling > plume height estimations > 
 smoke trajectory and dispersion  modeling). The resulting model output has 
-been integrated into many different smoke  prediction systems and scientific 
+been integrated into many different smoke prediction systems and scientific 
 modeling efforts.
 
 The **RAWSmet** R package is being developed for AirFire to help modelers and 
-scientists more easily work weather data from RAWS stations across 
+scientists more easily work with weather data from RAWS stations across 
 North America.
 
 The package makes it easier to obtain data, perform analyses and generate 
 reports. It includes functionality to:
 
-* access metadata and archival timeseries data from https://cefa.dri.edu/raws
-* access metadata and latest month timeseries data from https://raws.dri.edu
+* access metadata and timeseries data from https://cefa.dri.edu/raws
+* access metadata and timeseries data from https://raws.dri.edu
 * save and reload .RData versions of these in a rawsDataDir
 * determine which locations obtained from metadata are too close to be 
 considered “unique” locations
 * convert between UTC and local timezones
-* apply various algorithms to the data 5rolling means, aggregation, _etc._
+* apply various algorithms to the data: 5rolling means, aggregation, _etc._
 * provide interactive timeseries and maps through RStudio’s Viewer pane
 * create a variety of publication ready maps and timeseries plots
 
@@ -53,10 +53,10 @@ RStudio console:
 install.packages('knitr')
 install.packages('rmarkdown')
 install.packages('MazamaSpatialUtils')
-remotes::install_github('MazamaScience/MazamaLocationUtils')
+install.packages('MazamaLocationUtils')
 devtools::install_github('MazamaScience/RAWSmet')
 ```
-Any work with spatial data, *e.g.* assigning states, counties and timezones, 
+Any work with spatial data, _e.g._ assigning states, counties and timezones, 
 will require installation of required spatial datasets. To get these datasets 
 you should type the following at the RStudio console:
 

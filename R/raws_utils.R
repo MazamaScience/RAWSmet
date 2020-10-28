@@ -197,9 +197,11 @@ raws_extractData <- function(
   
   # ----- Set up data for openair ----------------------------------------------
   
-  # Duplicate 'datetime' column as 'date'
+  # Duplicate columns 'datetime', 'windSpeed', 'windDirection' as 'date', 'ws', 'wd'
   if( forOpenair ) {
     rawsObject$data$date <- rawsObject$data$datetime
+    rawsObject$data$ws <- rawsObject$data$windSpeed
+    rawsObject$data$wd <- rawsObject$data$windDirection
   }
   
   # ----- Return ----------------------------------------------------------------

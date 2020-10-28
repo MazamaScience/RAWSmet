@@ -73,7 +73,7 @@ fw13_load <- function(
     if ( verbose ) {
       if( !forceDownload )
         message("Could not find local data.")
-      message(paste("Downloading and saving data to", filePath, "."))
+      message(paste("Downloading and saving data to", filePath))
     }
     
     # If local data does not exist, download and return it.

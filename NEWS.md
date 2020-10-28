@@ -1,3 +1,10 @@
+# RAWSmet 0.2.2
+
+* Tweak downloading messages.
+* Data access error messages are now displayed by `wrcc_loadMultiple()`.
+* `raws_extractData(forOpenair = TRUE)` now adds `date`, `ws` and `wd` variables
+based on `datetime`, `windSpeed` and `windDirection`.
+
 # RAWSmet 0.2.1
 
 * Changed default wrcc metadata name created by `wrcc-loadMeta()` to 
