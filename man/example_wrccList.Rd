@@ -23,7 +23,7 @@ library(RAWSmet)
 setRawsDataDir(~/Data/RAWS/)
 
 wrccIDs <- c("waWSAD", "waWWLP")
-example_wrccList <- wrcc_loadMultiple(wrccIDs = wrccIDs, year = 2020)
+example_wrccList <- wrcc_loadMultiple(wrccIDs = wrccIDs, year = 2020, password = MY_PASSWORD)
   
 save(example_wrccList, file = "data/example_wrccList.rda")
 }
