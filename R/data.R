@@ -79,8 +79,10 @@
 #' 
 #' \preformatted{
 #' library(RAWSmet)
+#' setRawsDataDir("~/Data/RAWS")
 #' 
-#' example_wrccSaddleMountain <- wrcc_createTimeseriesObject(wrccID = "waWSAD", startdate = 20200819, enddate = 20200916)
+#' wrccMeta <- wrcc_loadMeta(stateCode = "WA")
+#' example_wrccSaddleMountain <- wrcc_loadYear(wrccID = "waWSAD", meta = wrccMeta, year = 2020, password = MY_PASSWORD)
 #'   
 #' save(example_wrccSaddleMountain, file = "data/example_wrccSaddleMountain.rda")
 #' }
@@ -101,7 +103,7 @@
 #' setRawsDataDir(~/Data/RAWS/)
 #' 
 #' wrccIDs <- c("waWSAD", "waWWLP")
-#' example_wrccList <- wrcc_loadMultiple(wrccIDs = wrccIDs, year = 2020)
+#' example_wrccList <- wrcc_loadMultiple(wrccIDs = wrccIDs, year = 2020, password = MY_PASSWORD)
 #'   
 #' save(example_wrccList, file = "data/example_wrccList.rda")
 #' }
