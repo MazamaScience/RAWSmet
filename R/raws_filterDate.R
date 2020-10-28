@@ -96,17 +96,22 @@ raws_filterDate <- function(
     days = days
   )
   
-  if (dateRange[1] > rawsObject$data$datetime[length(rawsObject$data$datetime)] |
-      dateRange[2] < rawsObject$data$datetime[1])
-    stop("rawsObject does not contain requested date range")
-  
-  
   # ----- Subset the "rawsObject" object ----------------------------------------------
   
-  data <- 
-    rawsObject$data %>%
-    dplyr::filter(.data$datetime >= dateRange[1]) %>%
-    dplyr::filter(.data$datetime < dateRange[2])
+  if (dateRange[1] > rawsObject$data$datetime[length(rawsObject$data$datetime)] |
+      dateRange[2] < rawsObject$data$datetime[1]) {
+    
+    warning("rawsObject does not contain requested date range")
+    data <- rawsObject$data[0,]
+
+  } else {
+    
+    data <- 
+      rawsObject$data %>%
+      dplyr::filter(.data$datetime >= dateRange[1]) %>%
+      dplyr::filter(.data$datetime < dateRange[2])
+    
+  }
   
   rawsObject$data <- data
   
