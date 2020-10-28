@@ -98,31 +98,31 @@ wrcc_parseData <- function(
   
   # Precip
   unit <- columnUnits[which(columnNames == "precipitation")]
-  if ( unit != "mm" ) {
+  if ( length(unit) > 0 && unit != "mm" ) {
     stop(sprintf("Need to handle precipitation units of \"%s\" in wrcc_parseData()"))
   }
   
   # Temperature
   unit <- columnUnits[which(columnNames == "temperature")]
-  if ( unit != "degC" ) {
+  if ( length(unit) > 0 && unit != "degC" ) {
     stop(sprintf("Need to handle temperature units of \"%s\" in wrcc_parseData()"))
   }
   
   # Fuel Temperature
   unit <- columnUnits[which(columnNames == "fuelTemperature")]
-  if ( unit != "degC" ) {
+  if ( length(unit) > 0 && unit != "degC" ) {
     stop(sprintf("Need to handle fuelTemperature units of \"%s\" in wrcc_parseData()"))
   }
   
   # Wind Speed
   unit <- columnUnits[which(columnNames == "windSpeed")]
-  if ( unit != "m/s" ) {
+  if ( length(unit) > 0 && unit != "m/s" ) {
     stop(sprintf("Need to handle windSpeed units of \"%s\" in wrcc_parseData()"))
   }
   
   # Max Gust Speed
   unit <- columnUnits[which(columnNames == "maxGustSpeed")]
-  if ( unit != "m/s" ) {
+  if ( length(unit) > 0 && unit != "m/s" ) {
     stop(sprintf("Need to handle maxGustSpeed units of \"%s\" in wrcc_parseData()"))
   }
  
