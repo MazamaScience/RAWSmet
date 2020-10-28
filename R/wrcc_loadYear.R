@@ -85,11 +85,11 @@ wrcc_loadYear <- function(
     # NOTE:  every timezone.
     
     startdate <- 
-      lubridate::now("UTC") %>% 
+      lubridate::ymd(paste0(year, "0101")) %>% 
       lubridate::floor_date(unit = "year") - lubridate::ddays(1)
     
     enddate <- 
-      lubridate::now("UTC") %>% 
+      lubridate::ymd(paste0(year, "0101")) %>% 
       lubridate::ceiling_date(unit = "year") + lubridate::ddays(1)
     
     # If local data does not exist, download and return it.
