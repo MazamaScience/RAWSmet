@@ -231,9 +231,7 @@ filePath <- file.path(getRawsDataDir(), "orOGOO_wrcc_0831-0919")
 # Load pre-generated data if it exists. If it does not exist, create it.
 if ( file.exists(filePath) ) {
   
-  wrccData_orOGOO <- 
-    get(load(filePath)) %>%
-    raws_extractData(forOpenair = TRUE)
+  wrccData_orOGOO <- get(load(filePath))
 
 } else {
   
@@ -260,7 +258,7 @@ fw13Plot <- openair::windRose(mydata = fw13Data_orOGOO,
                               wd = "windDirection",
                               main = "Goodwin peak, September 2005-2017.")
 
-wrccPlot <- openair::windRose(mydata = orOGOOData,
+wrccPlot <- openair::windRose(mydata = wrccData_orOGOO,
                               ws = "windSpeed",
                               wd = "windDirection",
                               main = "Goodwin peak, September 2020.")
