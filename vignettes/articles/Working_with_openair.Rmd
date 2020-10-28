@@ -87,7 +87,7 @@ not need to be downloaded again in the future.
 Throughout this section, we will be using **RAWSmet**'s `fw13_load()` and 
 `fw13_loadMeta()` functions. These functions will either load the specified 
 data from `rawsDataDir` or download and save it to the `rawsDataDir` if it 
-does not exist. You may also use `wrcc_load()` and `wrcc_loadMeta()` for RAWS
+does not exist. You may also use `wrcc_loadYear()` and `wrcc_loadMeta()` for RAWS
 data from the WRCC. 
 
 Before using RAWS data with **openair**, we must ensure that the data is 

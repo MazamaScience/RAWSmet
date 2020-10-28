@@ -37,8 +37,8 @@
 #' rawsList <- example_fw13List
 #' 
 #' data201708 <- 
-#'   rawsObjects %>% 
-#'   raws_filterDateList(
+#'   rawsList %>% 
+#'   rawsList_filterDate(
 #'     startdate = 20170801, 
 #'     enddate = 20170901, 
 #'     timezone = "America/Los_Angeles"
