@@ -78,7 +78,10 @@ raws_toRawsDF <- function(
     "value" = numeric()
   )
   
-  # Iterate through each parameter besides the first (datetime) and the last (monitorType)
+  parameters <- names(rawsObject$data)
+  parameters <- parameters[!parameters %in% c("datetime", "monitorType")]
+  
+  # Iterate through each parameter besides the datetime and monitorType
   for ( parameter in names(rawsObject$data[3:length(rawsObject$data)-1]) ) {
     
     newDF <- data.frame(
@@ -96,8 +99,9 @@ raws_toRawsDF <- function(
     
   }
   
+  # ----- Return ---------------------------------------------------------------
   
-  return(rawsObject)
+  return(rawsDF)
   
 }
 
