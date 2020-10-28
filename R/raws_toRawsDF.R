@@ -1,5 +1,5 @@
 #' @export
-#' @importFrom rlang .data
+#' @importFrom utils object.size
 #' 
 #' @title Convert a raws_timeseries object to a rawsDF object
 #'

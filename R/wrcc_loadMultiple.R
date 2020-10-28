@@ -29,7 +29,11 @@
 #' stationMeta <- wrcc_loadMeta(stateCode = "WA")
 #' 
 #' wrccIDs <- c("waWENU", "waWASH", "waWALD")
-#' stationData <- wrcc_loadMultiple(wrccIDs = wrccIDs, meta = stationMeta, year = 2020, password = MY_PASSWORD)
+#' stationData <- wrcc_loadMultiple(
+#'                  wrccIDs = wrccIDs, 
+#'                  meta = stationMeta, 
+#'                  year = 2020, 
+#'                  password = MY_PASSWORD)
 #' 
 #' dplyr::glimpse(stationData)
 #' }
