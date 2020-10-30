@@ -1,3 +1,14 @@
+# RAWSmet 0.2.3
+
+* New `raws_filterDate()` now returns a _raws_ object with no data records when
+no valid data existin within the requested time range.
+* New `raw_toRawsDF()` function convertions a _raws_ objejct (list with 'meta'
+and 'data') into a tidy dataframe for use with **dplyr** and **ggplot2**.
+* Fixed bug in `wrcc_loadYear()` to allow it to load data from past years.
+* All examples accessing archival WRCC data now include `password = MY_PASSWORD` 
+so that users can set the `MY_PASSWORD` to their personal password and then run
+the examples
+
 # RAWSmet 0.2.2
 
 * Tweak downloading messages.

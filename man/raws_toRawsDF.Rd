@@ -4,19 +4,20 @@
 \alias{raws_toRawsDF}
 \title{Convert a raws_timeseries object to a rawsDF object}
 \usage{
-raws_toRawsDF(rawsObject = NULL, verbose = TRUE)
+raws_toRawsDF(rawsObject = NULL, sizeMax = 100)
 }
 \arguments{
 \item{rawsObject}{\emph{raws_timeseries} object to convert.}
 
-\item{verbose}{Logical flag controlling detailed progress statements.}
+\item{sizeMax}{Maximum allowable size (in MB) for the resulting dataframe.}
 }
 \value{
-rawsDF object
+Tidy dataframe containing data and metadata.
 }
 \description{
-Converts a \emph{raws_timeseries} object to a single dataframe
-containing the following values:
+Converts a \emph{raws_timeseries} object to a single, tidy
+dataframe containing all varaibles from \code{rawsObject$data} along with the 
+following values from \code{rawsObject$meta}:
 
 \enumerate{
  \item{nwsID - the nwsID of the station}
@@ -24,10 +25,17 @@ containing the following values:
  \item{siteName - the name of the station}
  \item{longitude - longitude coordinate of the station}
  \item{latitude - latitude coordinate of the station}
- \item{datetime - the datestamp of the observation}
- \item{parameter - the name of the parameter this record represents}
- \item{value - the value of the parameter this record represents}
+ \item{elevation - elevation of the station}
 }
+
+This version of the RAWS data is known as a \emph{rawsDF} object.
+
+Replicating this set of variables for every record greatly inflates the size
+of the data but also makes it much more useful when working with the 
+\pkg{dplyr} and \code{ggplot2} packages.
+
+Multiple \emph{rawsDF} objects can be combined with \code{dplyr::bind_rows()} 
+and used to create multi-station plots.
 }
 \examples{
 \dontrun{
@@ -51,9 +59,4 @@ dplyr::glimpse(rawsDF)
 }
 \references{
 \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
-}
-\seealso{
-\code{wrcc_loadYear}
-
-\code{fw13_load}
 }
