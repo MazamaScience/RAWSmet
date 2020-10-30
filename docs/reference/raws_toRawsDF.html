@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Example WRCC timeseries data — example_wrccSaddleMountain • RAWSmet</title>
+<title>Convert a raws_timeseries object to a rawsDF object — raws_toRawsDF • RAWSmet</title>
 
 
 <!-- jquery -->
@@ -35,21 +35,25 @@
 
 
 
-<meta property="og:title" content="Example WRCC timeseries data — example_wrccSaddleMountain" />
-<meta property="og:description" content="The example_wrccSaddleMountain dataset provides a quickly loadable
-raws_timeseries object containing WRCC data for the station in Saddle Mountain,
-Washington, (wrccID: waWSAD) between August 8th and September 6th 2020.
-This dataset was generated on 2020-09-06 by running:
+<meta property="og:title" content="Convert a raws_timeseries object to a rawsDF object — raws_toRawsDF" />
+<meta property="og:description" content="Converts a raws_timeseries object to a single, tidy
+dataframe containing all varaibles from rawsObject$data along with the 
+following values from rawsObject$meta:
 
-library(RAWSmet)
-setRawsDataDir(&quot;~/Data/RAWS&quot;)
+nwsID - the nwsID of the station
+wrccID - the wrccID of the station
+siteName - the name of the station
+longitude - longitude coordinate of the station
+latitude - latitude coordinate of the station
+elevation - elevation of the station
 
-wrccMeta &amp;lt;- wrcc_loadMeta(stateCode = &quot;WA&quot;)
-example_wrccSaddleMountain &amp;lt;- wrcc_loadYear(wrccID = &quot;waWSAD&quot;, meta = wrccMeta, year = 2020, password = MY_PASSWORD)
-  
-save(example_wrccSaddleMountain, file = &quot;data/example_wrccSaddleMountain.rda&quot;)
 
-" />
+This version of the RAWS data is known as a rawsDF object.
+Replicating this set of variables for every record greatly inflates the size
+of the data but also makes it much more useful when working with the 
+dplyr and ggplot2 packages.
+Multiple rawsDF objects can be combined with dplyr::bind_rows() 
+and used to create multi-station plots." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -142,41 +146,80 @@ save(example_wrccSaddleMountain, file = &quot;data/example_wrccSaddleMountain.rd
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Example WRCC timeseries data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>example_wrccSaddleMountain.Rd</code></div>
+    <h1>Convert a raws_timeseries object to a rawsDF object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/raws_toRawsDF.R'><code>R/raws_toRawsDF.R</code></a></small>
+    <div class="hidden name"><code>raws_toRawsDF.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The <code>example_wrccSaddleMountain</code> dataset provides a quickly loadable
-<em>raws_timeseries</em> object containing WRCC data for the station in Saddle Mountain,
-Washington, (wrccID: waWSAD) between August 8th and September 6th 2020.</p>
-<p>This dataset was generated on 2020-09-06 by running:</p>
-<pre>
-library(RAWSmet)
-setRawsDataDir("~/Data/RAWS")
+    <p>Converts a <em>raws_timeseries</em> object to a single, tidy
+dataframe containing all varaibles from <code>rawsObject$data</code> along with the 
+following values from <code>rawsObject$meta</code>:</p>
+<ol>
+<li><p>nwsID - the nwsID of the station</p></li>
+<li><p>wrccID - the wrccID of the station</p></li>
+<li><p>siteName - the name of the station</p></li>
+<li><p>longitude - longitude coordinate of the station</p></li>
+<li><p>latitude - latitude coordinate of the station</p></li>
+<li><p>elevation - elevation of the station</p></li>
+</ol>
 
-wrccMeta &lt;- wrcc_loadMeta(stateCode = "WA")
-example_wrccSaddleMountain &lt;- wrcc_loadYear(wrccID = "waWSAD", meta = wrccMeta, year = 2020, password = MY_PASSWORD)
-  
-save(example_wrccSaddleMountain, file = "data/example_wrccSaddleMountain.rda")
-</pre>
-
+<p>This version of the RAWS data is known as a <em>rawsDF</em> object.</p>
+<p>Replicating this set of variables for every record greatly inflates the size
+of the data but also makes it much more useful when working with the 
+<span class="pkg">dplyr</span> and <code>ggplot2</code> packages.</p>
+<p>Multiple <em>rawsDF</em> objects can be combined with <code><a href='https://dplyr.tidyverse.org/reference/bind.html'>dplyr::bind_rows()</a></code> 
+and used to create multi-station plots.</p>
     </div>
 
-    <pre class="usage"><span class='no'>example_wrccSaddleMountain</span></pre>
+    <pre class="usage"><span class='fu'>raws_toRawsDF</span>(<span class='kw'>rawsObject</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sizeMax</span> <span class='kw'>=</span> <span class='fl'>100</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>rawsObject</th>
+      <td><p><em>raws_timeseries</em> object to convert.</p></td>
+    </tr>
+    <tr>
+      <th>sizeMax</th>
+      <td><p>Maximum allowable size (in MB) for the resulting dataframe.</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <em>raws_timeseries object</em> containing <code>meta</code> and <code>data</code> dataframes. 
-<code>meta</code> has 1 row and 11 columns and <code>data</code> has 708 rows and 9 columns.</p>
+    <p>Tidy dataframe containing data and metadata.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
+    <p><a href='https://cefa.dri.edu/raws/'>Program for Climate, Ecosystem and Fire Applications</a></p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>RAWSmet</span>)
+
+<span class='fu'><a href='setRawsDataDir.html'>setRawsDataDir</a></span>(<span class='st'>"~/Data/RAWS/"</span>)
+
+<span class='no'>stationMeta</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='wrcc_loadMeta.html'>wrcc_loadMeta</a></span>(<span class='kw'>stateCode</span> <span class='kw'>=</span> <span class='st'>"WA"</span>)
+<span class='no'>rawsObject</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='wrcc_loadYear.html'>wrcc_loadYear</a></span>(
+  <span class='kw'>wrccID</span> <span class='kw'>=</span> <span class='st'>"waWENU"</span>,
+  <span class='kw'>meta</span> <span class='kw'>=</span> <span class='no'>stationMeta</span>,
+  <span class='kw'>year</span> <span class='kw'>=</span> <span class='fl'>2020</span>,
+  <span class='kw'>password</span> <span class='kw'>=</span> <span class='no'>MY_PASSWORD</span>
+)
+
+<span class='no'>rawsDF</span> <span class='kw'>&lt;-</span> <span class='fu'>raws_toRawsDF</span>(<span class='no'>rawsObject</span>)
+
+<span class='kw pkg'>dplyr</span><span class='kw ns'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/reexports.html'>glimpse</a></span>(<span class='no'>rawsDF</span>)
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#format">Format</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#references">References</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Example WRCC timeseries data — example_wrccSaddleMountain • RAWSmet</title>
+<title>Remove <em>raws_timeseries</em> objects from a <em>rawsList</em>. — rawsList_removeEmpty • RAWSmet</title>
 
 
 <!-- jquery -->
@@ -35,21 +35,10 @@
 
 
 
-<meta property="og:title" content="Example WRCC timeseries data — example_wrccSaddleMountain" />
-<meta property="og:description" content="The example_wrccSaddleMountain dataset provides a quickly loadable
-raws_timeseries object containing WRCC data for the station in Saddle Mountain,
-Washington, (wrccID: waWSAD) between August 8th and September 6th 2020.
-This dataset was generated on 2020-09-06 by running:
-
-library(RAWSmet)
-setRawsDataDir(&quot;~/Data/RAWS&quot;)
-
-wrccMeta &amp;lt;- wrcc_loadMeta(stateCode = &quot;WA&quot;)
-example_wrccSaddleMountain &amp;lt;- wrcc_loadYear(wrccID = &quot;waWSAD&quot;, meta = wrccMeta, year = 2020, password = MY_PASSWORD)
-  
-save(example_wrccSaddleMountain, file = &quot;data/example_wrccSaddleMountain.rda&quot;)
-
-" />
+<meta property="og:title" content="Remove <em>raws_timeseries</em> objects from a <em>rawsList</em>. — rawsList_removeEmpty" />
+<meta property="og:description" content="Removes all empty raws_timeseries objects from a 
+rawsList. This may be necessary after using rawsList_filterDate()
+so that downstream functions are guaranteed to have only stations with data." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -142,41 +131,38 @@ save(example_wrccSaddleMountain, file = &quot;data/example_wrccSaddleMountain.rd
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Example WRCC timeseries data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>example_wrccSaddleMountain.Rd</code></div>
+    <h1>Remove <em>raws_timeseries</em> objects from a <em>rawsList</em>.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/rawsList_utils.R'><code>R/rawsList_utils.R</code></a></small>
+    <div class="hidden name"><code>rawsList_removeEmpty.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The <code>example_wrccSaddleMountain</code> dataset provides a quickly loadable
-<em>raws_timeseries</em> object containing WRCC data for the station in Saddle Mountain,
-Washington, (wrccID: waWSAD) between August 8th and September 6th 2020.</p>
-<p>This dataset was generated on 2020-09-06 by running:</p>
-<pre>
-library(RAWSmet)
-setRawsDataDir("~/Data/RAWS")
-
-wrccMeta &lt;- wrcc_loadMeta(stateCode = "WA")
-example_wrccSaddleMountain &lt;- wrcc_loadYear(wrccID = "waWSAD", meta = wrccMeta, year = 2020, password = MY_PASSWORD)
-  
-save(example_wrccSaddleMountain, file = "data/example_wrccSaddleMountain.rda")
-</pre>
-
+    <p>Removes all empty <em>raws_timeseries</em> objects from a 
+<em>rawsList</em>. This may be necessary after using <code><a href='rawsList_filterDate.html'>rawsList_filterDate()</a></code>
+so that downstream functions are guaranteed to have only stations with data.</p>
     </div>
 
-    <pre class="usage"><span class='no'>example_wrccSaddleMountain</span></pre>
+    <pre class="usage"><span class='fu'>rawsList_removeEmpty</span>(<span class='kw'>rawsList</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>rawsList</th>
+      <td><p><em>rawsList</em> object</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <em>raws_timeseries object</em> containing <code>meta</code> and <code>data</code> dataframes. 
-<code>meta</code> has 1 row and 11 columns and <code>data</code> has 708 rows and 9 columns.</p>
+    <p><em>rawsList</em> with empty stations removed.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#format">Format</a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
     </ul>
 
   </div>
