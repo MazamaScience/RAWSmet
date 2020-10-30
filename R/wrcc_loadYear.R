@@ -84,12 +84,21 @@ wrcc_loadYear <- function(
     # NOTE:  Extend start and end UTC dates by one day to capture full days in
     # NOTE:  every timezone.
     
+    # NOTE:  Surprising behavior from lubridate at the year boundary:
+    # NOTE:  
+    # NOTE:  > x <- ymd_hms("2020-01-01 00:00:00", tz = "UTC")
+    # NOTE:  > y <- ymd_hms("2020-01-01 00:00:01", tz = "UTC")
+    # NOTE:  > lubridate::ceiling_date(x, "year")
+    # NOTE:  [1] "2020-01-01 UTC"
+    # NOTE:  > lubridate::ceiling_date(y, "year")
+    # NOTE:  [1] "2021-01-01 UTC"
+
     startdate <- 
-      lubridate::ymd(paste0(year, "0101"), tz = "UTC") %>% 
+      lubridate::ymd(paste0(year, "0601"), tz = "UTC") %>% 
       lubridate::floor_date(unit = "year") - lubridate::ddays(1)
     
     enddate <- 
-      lubridate::ymd(paste0(year, "0101"), tz = "UTC") %>% 
+      lubridate::ymd(paste0(year, "0601"), tz = "UTC") %>% 
       lubridate::ceiling_date(unit = "year") + lubridate::ddays(1)
     
     # If local data does not exist, download and return it.
@@ -124,9 +133,9 @@ if ( FALSE ) {
 
   setRawsDataDir("~/Data/RAWS/")
 
-  meta <- wrcc_loadMeta(stateCode = "WA")
+  meta <- wrcc_loadMeta(stateCode = "OR")
   
-  wrccID = "waWENU"
+  wrccID = "orOWAG"
   ###meta = NULL
   year = 2020
   forceDownload = TRUE
@@ -134,4 +143,15 @@ if ( FALSE ) {
   baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl"
   verbose = TRUE
   
+  
+  raws <- wrcc_loadYear(
+    wrccID = wrccID,
+    meta = meta,
+    year = year,
+    forceDownload = forceDownload,
+    password = MY_PASSWORD,
+    baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl",
+    verbose = TRUE
+  )
+    
 }

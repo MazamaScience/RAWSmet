@@ -2,7 +2,7 @@
 % Please edit documentation in R/raws_utils.R
 \name{raws_isEmpty}
 \alias{raws_isEmpty}
-\title{Test for an epty \emph{raws_timeseries} object}
+\title{Test for an empty \emph{raws_timeseries} object}
 \usage{
 raws_isEmpty(rawsObject = NULL)
 }

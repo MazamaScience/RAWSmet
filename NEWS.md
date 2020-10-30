@@ -7,7 +7,9 @@ and 'data') into a tidy dataframe for use with **dplyr** and **ggplot2**.
 * Fixed bug in `wrcc_loadYear()` to allow it to load data from past years.
 * All examples accessing archival WRCC data now include `password = MY_PASSWORD` 
 so that users can set the `MY_PASSWORD` to their personal password and then run
-the examples
+the examples.
+* Added `rawsList_removeEmpty()`.
+* Fixed WRCC ingest so that columns with all missing are of type 'numeric'.
 
 # RAWSmet 0.2.2
 

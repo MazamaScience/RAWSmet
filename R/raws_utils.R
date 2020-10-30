@@ -88,7 +88,7 @@ raws_isRaws <- function(
 #' @export
 #' 
 #' @name raws_isEmpty
-#' @title Test for an epty \emph{raws_timeseries} object
+#' @title Test for an empty \emph{raws_timeseries} object
 #' 
 #' @param rawsObject \emph{raws_timeseries} object
 #' 

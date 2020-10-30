@@ -101,7 +101,7 @@ wrcc_createTimeseriesObject <- function(
   # If any of the standard columns don't exist, replace them with NA
   for ( column in standardDataVars) {
     if ( !column %in% names(tbl) ) {
-      tbl[column] <- as.character(NA)
+      tbl[column] <- as.numeric(NA)
     }
   }
   
