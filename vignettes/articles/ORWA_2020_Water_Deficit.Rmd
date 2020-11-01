@@ -115,10 +115,11 @@ waDF <-
   lapply(raws_toRawsDF) %>%
   dplyr::bind_rows()
 
-# Remove erroneous observation 
+# Remove an erroneous observation 
 waDF <- waDF %>% 
   dplyr::mutate(precipitation = replace(precipitation, precipitation > 5000, 0))
 
+# Combine tidy dataframes
 orwaDF <- orDF %>% dplyr::bind_rows(waDF)
 
 names(orwaDF)
@@ -138,7 +139,8 @@ plotDF <-
   dplyr::ungroup() %>%
   dplyr::select(datetime, wrccID, longitude, latitude, total_precip)
 
-# Remove erroneous observation 
+# Set precipitation values equal to zero to NA
+# This is important for when we plot the data
 plotDF <- plotDF %>% 
   dplyr::mutate(total_precip = replace(total_precip, total_precip == 0, NA))
 
@@ -165,29 +167,35 @@ colors <- RColorBrewer::brewer.pal(5, "BrBG")
 values <- c(0, .005, .01, .02, .05, 3)
 
 gg <- 
+  # Create an empty map
   ggmap::qmplot(
     longitude,
     latitude,
     data = plotDF, 
     geom = "blank", 
     zoom = 7, 
-    maptype = "terrain-background",
-    ###maptype = "toner-lite"
+    maptype = "terrain-background"
   ) +
+  # Add points at each station where the color is based on 'total_precip'
   geom_point(aes(color = total_precip), alpha = 1, size = 4) +
+  # Change the color of each point depending on where it falls in 'breaks'
   scale_color_stepsn(
     name = "Precipitation (mm)",
     breaks = breaks,
     colors = colors,
     values = values,
-    na.value = "#000000",
+    # This is why we set 0 values to NA
+    na.value = "black",
     guide = guide_colorsteps(order = 1)
   ) +
+  # Add 0 values to the legend
   geom_point(aes(size = "No Precipitation"), shape = NA, colour = "black") +
   guides(size = guide_legend("", override.aes=list(shape=15, size = 7), order = 2)) +
   ggtitle(
-    label = "Total Precipitaion in Washington and Oregon \n Aug 01-Sep 07, 2020"
-  )
+    label = "Total Precipitaion in Washington and Oregon \n Aug 01 - Sep 07, 2020"
+  ) +
+  theme(plot.title = element_text(hjust = 0.5))
+  
   
 print(gg)
 ```
