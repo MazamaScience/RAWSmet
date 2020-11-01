@@ -101,7 +101,7 @@ raws_filterDate <- function(
   if (dateRange[1] > rawsObject$data$datetime[length(rawsObject$data$datetime)] |
       dateRange[2] < rawsObject$data$datetime[1]) {
     
-    warning("rawsObject does not contain requested date range")
+    warning(sprintf("rawsObject (%s) does not contain requested date range", rawsObject$meta$siteName))
     data <- rawsObject$data[0,]
 
   } else {
