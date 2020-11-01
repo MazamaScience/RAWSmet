@@ -1,0 +1,194 @@
+---
+title: "Oregon/Washington 2020 Water Deficit"
+author: "Eli Grosman, Mazama Science"
+date: "September 18, 2020"
+output: rmarkdown::html_document
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Background
+The purpose of this article is to serve as a guide for ingesting and working with
+RAWS data and to present this data with a map. For this example, we will look
+at cumulative precipitation across Washington and Oregon between August 1st
+and September 7th.
+
+## Organizing data
+First, we will use **RAWSmet**'s `wrcc_loadMeta()` function to gather the 
+appropriate metadata and for the RAWS stations in Oregon and Washington. Additionally,
+we must set the directory that stores RAWS data by using `setRawsDataDir()`.  
+**RAWSmet** functions will save any data downloaded by `wrcc_load~()` or `fw13_load~()`
+functions to this directory and will retrieve it if requested again.
+```{r intro, message = FALSE}
+library(RAWSmet)
+
+setRawsDataDir("~/Data/RAWS")
+
+# Load state level metadata
+wa_meta <- wrcc_loadMeta("WA")
+or_meta <- wrcc_loadMeta("OR")
+
+# Take a look at the structure of this metadata
+head(wa_meta)
+```
+Just to double check that we are accessing the correct stations, we can easily 
+plot them on a map with `raws_leaflet()`.
+```{r raws_leaflet}
+orwa_meta <- or_meta %>% rbind(wa_meta)
+raws_leaflet(orwa_meta)
+```
+The `wrcc_loadYear()` function may be used to gather yearly data for a specific
+station. This function will create a `raws_timeseries` object with `meta` and `data`
+dataframes storing different information. The `meta` dataframe stores the metadata
+for this specific station and the `data` dataframe will contain hourly observations
+from this station. 
+
+For this example, however, we will use the wrapper function, `wrcc_loadMultiple()`.
+This function will load multiple `raws_timeseries` objects into a list of type
+`raws_list`. 
+
+In order for the following code to run properly on a local machine,
+one must provide a valid password used for accessing RAWS data.
+```{r load_data, message = FALSE, warning = FALSE}
+# Load all stations in Oregon
+orList <- 
+  # Load data
+  wrcc_loadMultiple(
+    wrccIDs = or_meta$wrccID,
+    meta = or_meta,
+    year = 2020,
+    password = MY_PASSWORD
+  )
+
+# Load all stations in Washington
+waList <- 
+  # Load data
+  wrcc_loadMultiple(
+    wrccIDs = wa_meta$wrccID,
+    meta = wa_meta,
+    year = 2020,
+    password = MY_PASSWORD
+  )
+```
+Next we will filter this `raws_list` to contain only the observations between
+the time range of interest: August 1st to September 7th. 
+```{r filter_date, message = FALSE, warning = FALSE}
+orList <- orList %>%
+  # Filter to the desired time range
+  rawsList_filterDate(
+    startdate = 20200801,
+    enddate = 20200907,
+    timezone = "America/Los_Angeles"
+  ) %>%
+  # Remove any stations with no data
+  rawsList_removeEmpty()
+
+waList <- waList %>%
+  # Filter to the desired time range
+  rawsList_filterDate(
+    startdate = 20200801,
+    enddate = 20200907,
+    timezone = "America/Los_Angeles"
+  ) %>%
+  # Remove any stations with no data
+  rawsList_removeEmpty()
+```
+While there are 205 stations in Oregon, only 135 of them contain data in this
+time range.
+
+To calculate the cumulative precipitation for each station, we will convert
+these two `raws_list`s to a tidy `rawsDF`. This is a single dataframe where each
+row represents an hourly measurement. The difference between this and the `data`
+dataframe of a `raws_timeseries` object is that each observation is stored with
+its associated station metadata. 
+```{r to_rawsDF}
+# Create tidy dataframes
+orDF <-
+  orList %>%
+  lapply(raws_toRawsDF) %>%
+  dplyr::bind_rows()
+
+waDF <-
+  waList %>%
+  lapply(raws_toRawsDF) %>%
+  dplyr::bind_rows()
+
+# Remove erroneous observation 
+waDF <- waDF %>% 
+  dplyr::mutate(precipitation = replace(precipitation, precipitation > 5000, 0))
+
+orwaDF <- orDF %>% dplyr::bind_rows(waDF)
+
+names(orwaDF)
+```
+
+Now that we have the data in a single dataframe, we can calculate the cumulative
+precipitation.
+``` {r calc_precip}
+# Find the cumulative precipitation. at each site
+plotDF <-
+  orwaDF %>%
+  dplyr::group_by(wrccID) %>%
+  dplyr::mutate(
+    total_precip = cumsum(precipitation)
+  ) %>%
+  dplyr::slice_max(datetime, with_ties = FALSE) %>%
+  dplyr::ungroup() %>%
+  dplyr::select(datetime, wrccID, longitude, latitude, total_precip)
+
+# Remove erroneous observation 
+plotDF <- plotDF %>% 
+  dplyr::mutate(total_precip = replace(total_precip, total_precip == 0, NA))
+
+head(plotDF)
+```
+
+## Creating maps of data
+
+Now `plotDF` contains all of the information we need to create a map of cumulative
+precipitation across Washington and Oregon. The following code will illustrate
+how this map is generated.
+```{r create_map, message = FALSE, warning = FALSE}
+
+library(ggmap)
+library(ggplot2)
+
+# 5 bins (one per ',')
+breaks <- c(0, 5, 10, 20, 50, Inf)
+
+# 5 colors
+colors <- RColorBrewer::brewer.pal(5, "BrBG")
+
+# 5 color positions [0-1]
+values <- c(0, .005, .01, .02, .05, 3)
+
+gg <- 
+  ggmap::qmplot(
+    longitude,
+    latitude,
+    data = plotDF, 
+    geom = "blank", 
+    zoom = 7, 
+    maptype = "terrain-background",
+    ###maptype = "toner-lite"
+  ) +
+  geom_point(aes(color = total_precip), alpha = 1, size = 4) +
+  scale_color_stepsn(
+    name = "Precipitation (mm)",
+    breaks = breaks,
+    colors = colors,
+    values = values,
+    na.value = "#000000",
+    guide = guide_colorsteps(order = 1)
+  ) +
+  geom_point(aes(size = "No Precipitation"), shape = NA, colour = "black") +
+  guides(size = guide_legend("", override.aes=list(shape=15, size = 7), order = 2)) +
+  ggtitle(
+    label = "Total Precipitaion in Washington and Oregon \n Aug 01-Sep 07, 2020"
+  )
+  
+print(gg)
+```
+
