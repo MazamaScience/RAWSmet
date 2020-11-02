@@ -3,7 +3,7 @@
 #' @title Load WRCC RAWS station metadata from a local directory
 #'
 #' @param stateCode Two character state code (will be downcased).
-#' @param forceDownload Logical flag stating whether or not to download and override existing data.
+#' @param newDownload Logical flag stating whether or not to download and override existing data.
 #' @param baseUrl Base URL for data queries.
 #' @param verbose Logical flag controlling detailed progress statements.
 #'
@@ -30,7 +30,7 @@
 
 wrcc_loadMeta <- function(
   stateCode = NULL,
-  forceDownload = FALSE,
+  newDownload = FALSE,
   baseUrl = "https://raws.dri.edu/",
   verbose = TRUE
 ) {
@@ -46,7 +46,7 @@ wrcc_loadMeta <- function(
   fileName = sprintf("wrcc_meta_%s.rda", stateCode)
   filePath = file.path(dataDir, fileName)
   
-  if ( file.exists(filePath) && forceDownload == FALSE ) {
+  if ( file.exists(filePath) && newDownload == FALSE ) {
     
     if( verbose ) {
       message(sprintf("Loading data from %s", filePath))
@@ -58,7 +58,7 @@ wrcc_loadMeta <- function(
   } else {
     
     if ( verbose ) {
-      if ( !forceDownload )
+      if ( !newDownload )
         message("Could not find local data.")
       message(paste("Downloading and saving data to", filePath))
     }

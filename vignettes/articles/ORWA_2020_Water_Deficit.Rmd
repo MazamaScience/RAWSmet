@@ -59,6 +59,7 @@ orList <-
     wrccIDs = or_meta$wrccID,
     meta = or_meta,
     year = 2020,
+    newDownload = FALSE,
     password = MY_PASSWORD
   )
 
@@ -69,6 +70,7 @@ waList <-
     wrccIDs = wa_meta$wrccID,
     meta = wa_meta,
     year = 2020,
+    newDownload = FALSE,
     password = MY_PASSWORD
   )
 ```
@@ -137,10 +139,14 @@ plotDF <-
   dplyr::ungroup() %>%
   dplyr::select(datetime, wrccID, longitude, latitude, total_precip)
 
-# Set precipitation values equal to zero to NA
-# This is important for when we plot the data
-plotDF <- plotDF %>% 
-  dplyr::mutate(total_precip = replace(total_precip, total_precip == 0, NA))
+# # Set precipitation values equal to zero to NA
+# # This is important for when we plot the data
+# plotDF <- plotDF %>% 
+#   dplyr::mutate(total_precip = replace(total_precip, total_precip == 0, NA))
+
+zeroPrecipDF <-
+  plotDF %>%
+  dplyr::filter(total_precip == 0)
 
 head(plotDF)
 ```
@@ -150,21 +156,22 @@ head(plotDF)
 Now `plotDF` contains all of the information we need to create a map of cumulative
 precipitation across Washington and Oregon. The following code will illustrate
 how this map is generated.
-```{r create_map, message = FALSE, warning = FALSE}
+```{r create_map, message = FALSE, warning = FALSE, fig.width = 5, fig.height = 10}
 
 library(ggmap)
 library(ggplot2)
 
 # 5 bins (one per ',')
-breaks <- c(0, 5, 10, 20, 50, Inf)
+breaks = c(-Inf, 5, 10, 20, 50, Inf)
 
 # 5 colors
 colors <- RColorBrewer::brewer.pal(5, "BrBG")
 
 # 5 color positions [0-1]
-values <- c(0, .005, .01, .02, .05, 3)
+values <- c(.005, .01, .02, .05, 1)
 
 gg <- 
+  
   # Create an empty map
   ggmap::qmplot(
     longitude,
@@ -174,26 +181,32 @@ gg <-
     zoom = 7, 
     maptype = "terrain-background"
   ) +
+  
   # Add points at each station where the color is based on 'total_precip'
   geom_point(aes(color = total_precip), alpha = 1, size = 4) +
-  # Change the color of each point depending on where it falls in 'breaks'
   scale_color_stepsn(
-    name = "Precipitation (mm)",
+    name = "Precip (mm)",
     breaks = breaks,
     colors = colors,
-    values = values,
-    # This is why we set 0 values to NA
-    na.value = "black",
-    guide = guide_colorsteps(order = 1)
+    values = values
   ) +
-  # Add 0 values to the legend
-  geom_point(aes(size = "No Precipitation"), shape = NA, colour = "black") +
-  guides(size = guide_legend("", override.aes=list(shape=15, size = 7), order = 2)) +
-  ggtitle(
-    label = "Total Precipitaion in Washington and Oregon \n Aug 01 - Sep 07, 2020"
-  ) +
-  theme(plot.title = element_text(hjust = 0.5))
   
+  # Add points with zero precipitation in black
+  geom_point(
+    data = zeroPrecipDF,
+    color = 'black',
+    alpha = 1, size = 4
+  ) +
+
+  # TODO:  Add a second legend for "No precip" black dots
+
+  # Add a title.
+  ggtitle(
+    label = "OR/WA Total Precipitaion \n Aug 01 - Sep 07, 2020"
+  ) +
+
+  # Theme with centered title
+  theme(plot.title = element_text(hjust = 0.5))
   
 print(gg)
 ```

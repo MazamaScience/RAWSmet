@@ -8,7 +8,7 @@ wrcc_loadMultiple(
   wrccIDs = NULL,
   meta = NULL,
   year = NULL,
-  forceDownload = FALSE,
+  newDownload = FALSE,
   password = NULL,
   baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl",
   verbose = TRUE
@@ -21,7 +21,7 @@ wrcc_loadMultiple(
 
 \item{year}{Year to access station data for.}
 
-\item{forceDownload}{Logical flag stating whether or not to download and override existing data.}
+\item{newDownload}{Logical flag stating whether or not to download and override existing data.}
 
 \item{password}{Password required for access to archival data.}
 

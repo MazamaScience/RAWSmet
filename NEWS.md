@@ -1,3 +1,13 @@
+# RAWSmet 0.2.4
+
+* New "RAWSmet Usage" article.
+* New "Oregon/Washington 2020 Water Deficit" article.
+* Updated "September 2020 Oregon Wildfires" article.
+* Replaced parameter `forceDownload` with `newDownload` with a default option 
+of `NA`. The new behavior is to **always download** when `newDownload = TRUE`, 
+**never download** when `newDownload = FALSE` and **download if not found** when
+`newDownload = NA` -- the default.
+
 # RAWSmet 0.2.3
 
 * New `raws_filterDate()` now returns a _raws_ object with no data records when

@@ -8,7 +8,7 @@ wrcc_loadYear(
   wrccID = NULL,
   meta = NULL,
   year = NULL,
-  forceDownload = FALSE,
+  newDownload = NA,
   password = NULL,
   baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl",
   verbose = TRUE
@@ -21,7 +21,7 @@ wrcc_loadYear(
 
 \item{year}{Year to access station data for.}
 
-\item{forceDownload}{Logical flag stating whether or not to download and override existing data.}
+\item{newDownload}{Logical flag specifying whether or not to download and override existing data.}
 
 \item{password}{Password required for access to archival data.}
 
@@ -35,6 +35,17 @@ Timeseries object with 'meta' and 'data'.
 \description{
 Loads WRCC station metadata and data from the \code{rawsDataDir}. If the
 data is not in this directory, this will download and save the data.
+}
+\note{
+The `newDownload` parameter has three possible settings:
+\itemize{
+\item{\code{NA} -- Download data if it is not found in \code{rawsDataDir}}
+\item{\code{TRUE} -- Always download data, overwriting existing data in \code{rawsDataDir}.
+This is useful for updating data files with more recent data.}
+\item{\code{FALSE} -- Never download data. This is useful when working with
+\link{wrcc_loadMultiple} and archival data to avoid continually requesting
+data for stations which have no data over a particular time period.}
+}
 }
 \examples{
 \dontrun{

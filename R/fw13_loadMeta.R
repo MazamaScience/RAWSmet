@@ -3,7 +3,7 @@
 #' @title Load FW13 RAWS station metadata from a local directory
 #'
 #' @param metadataUrl URL for station metadata.
-#' @param forceDownload Logical flag stating whether or not to download and override existing data.
+#' @param newDownload Logical flag stating whether or not to download and override existing data.
 #' @param verbose Logical flag controlling detailed progress statements.
 #'
 #' @return Dataframe containing station metadata.
@@ -28,7 +28,7 @@
 
 fw13_loadMeta <- function(
   metadataUrl = "https://cefa.dri.edu/raws/RAWSfw13list.xlsx",
-  forceDownload = FALSE,
+  newDownload = FALSE,
   verbose = TRUE
 ) {
   
@@ -41,7 +41,7 @@ fw13_loadMeta <- function(
   fileName = "fw13_metadata.rda"
   filePath = file.path(dataDir, fileName)
   
-  if ( file.exists(filePath) && forceDownload == FALSE ) {
+  if ( file.exists(filePath) && newDownload == FALSE ) {
     
     if( verbose ) {
       message(sprintf("Loading data from %s", filePath))
@@ -53,7 +53,7 @@ fw13_loadMeta <- function(
   } else {
     
     if ( verbose ) {
-      if ( !forceDownload )
+      if ( !newDownload )
         message("Could not find local data.")
       message(paste("Downloading and saving data to", filePath))
     }

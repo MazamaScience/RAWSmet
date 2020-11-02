@@ -1,6 +1,6 @@
 Type: Package
 Package: RAWSmet
-Version: 0.2.3
+Version: 0.2.4
 Title: Download and Process data from Remote Automatic Weather Stations
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")),

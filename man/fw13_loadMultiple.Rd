@@ -7,7 +7,7 @@
 fw13_loadMultiple(
   nwsIDs = NULL,
   meta = NULL,
-  forceDownload = FALSE,
+  newDownload = FALSE,
   baseUrl = "https://cefa.dri.edu/raws/fw13/",
   verbose = TRUE
 )
@@ -17,7 +17,7 @@ fw13_loadMultiple(
 
 \item{meta}{Tibble of FW13 station metadata.}
 
-\item{forceDownload}{Logical flag stating whether or not to download and override existing data.}
+\item{newDownload}{Logical flag stating whether or not to download and override existing data.}
 
 \item{baseUrl}{Base URL for data queries.}
 

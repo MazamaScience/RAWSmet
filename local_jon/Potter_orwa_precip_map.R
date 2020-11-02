@@ -19,7 +19,7 @@ orList <-
     wrccIDs = or_meta$wrccID,
     meta = or_meta,
     year = 2020,
-    forceDownload = TRUE,
+    newDownload = TRUE,
     password = MY_PASSWORD
   ) %>%
   # Filter to the desired time range

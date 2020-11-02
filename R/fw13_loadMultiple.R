@@ -6,7 +6,7 @@
 #'
 #' @param nwsIDs Vector of NWS RAWS station identifiers.
 #' @param meta Tibble of FW13 station metadata.
-#' @param forceDownload Logical flag stating whether or not to download and override existing data.
+#' @param newDownload Logical flag stating whether or not to download and override existing data.
 #' @param baseUrl Base URL for data queries.
 #' @param verbose Logical flag controlling detailed progress statements.
 #'
@@ -40,7 +40,7 @@
 fw13_loadMultiple <- function(
   nwsIDs = NULL,
   meta = NULL,
-  forceDownload = FALSE,
+  newDownload = FALSE,
   baseUrl = "https://cefa.dri.edu/raws/fw13/",
   verbose = TRUE
 ) {
@@ -68,7 +68,7 @@ fw13_loadMultiple <- function(
         fw13_load(
           nwsID = nwsID,
           meta = meta,
-          forceDownload = forceDownload,
+          newDownload = newDownload,
           baseUrl = baseUrl,
           verbose = verbose)
       
