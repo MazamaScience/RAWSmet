@@ -30,6 +30,9 @@ setRawsDataDir("~/Data/RAWS")
 ```
 
 ## Downloading RAWS data
+
+### Downloading data from individual stations
+
 **RAWSmet** is able to download live RAWS data from the WRCC in addition to 
 archival FW13 RAWS data. Data from these sources can be downloaded with their
 respective loading functions, `wrcc_loadYear()` and `fw13_load()`. Additionally,
@@ -78,6 +81,8 @@ head(enumclaw_fw13$meta)
 head(enumclaw_fw13$data)
 ```
 
+### Downloading data from multiple stations
+
 Additionally, one may download data from multiple stations with the 
 `wrcc_loadMultiple()` and `fw13_loadMultiple()` functions. The resulting object
 will be of type `raws_list` and will be a list of `raws_timeseries` objects.
@@ -90,13 +95,16 @@ For example,
 wrccIDs <- c("waWASH", 'waWENU', 'waWABE')
 
 # Load data from these 3 stations
-rawsList <- wrcc_loadMultiple(wrccIDs <- wrccIDs, meta <- wa_meta, year = 2020, password = MY_PASSWORD)
+rawsList <- wrcc_loadMultiple(wrccIDs <- wrccIDs, meta = wa_meta, year = 2020, password = MY_PASSWORD)
 
 dplyr::glimpse(rawsList)
 
 head(rawsList$waWENU$data)
 ```
 ## Utility functions
+
+### Filtering `raws_timeseries` objects
+
 **RAWSmet** provides many utility functions for working with `raws_timeseries` 
 objects. The first of these functions are for filtering `raws_timeseries` objects
 and `raws_list`'s. 
@@ -115,13 +123,17 @@ enumclaw_202009 <- enumclaw_wrcc %>%
     timezone = "America/Los_Angeles"
     )
 
-head(enumclaw_202009$data)
+print(sprintf("First observation: %s, last observation: %s", 
+              enumclaw_202009$data$datetime[1],
+              enumclaw_202009$data$datetime[nrow(enumclaw_202009$data)]))
 
 # raws_filter
 enumclaw_daytime <- enumclaw_wrcc %>%
   raws_filter(solarRadiation > 0)
 
-head(enumclaw_daytime$data)
+print(sprintf("Min solar radiation before filter: %s, min solar radiation after filter: %s",
+              min(enumclaw_wrcc$data$solarRadiation, na.rm = TRUE),
+              min(enumclaw_daytime$data$solarRadiation, na.rm = TRUE)))
 
 # ----- raws_list -----
 
@@ -136,6 +148,8 @@ rawsList_daytime <- rawsList %>%
   rawsList_filter(solarRadiation > 0)
 
 ```
+
+### Validating `raws_timeseries` objects
 
 The next type of utility functions are for validating `raws_timeseries` objects.
 
@@ -157,6 +171,8 @@ raws_isEmpty(enumclaw_empty)
 # Get a new raws_timeseries by removing duplicate observations
 enumclaw_wrcc_distinct <- raws_distinct(enumclaw_wrcc)
 ```
+
+### Extracting metadata/data from `raws_timeseries` objects
 
 The finaly type of utility functions are for extracting the `meta` and `data`
 dataframes from a `raws_timeseries` object.

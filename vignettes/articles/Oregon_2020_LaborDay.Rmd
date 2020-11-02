@@ -142,13 +142,13 @@ rawsList_addWindBarbs(
 
 ## Wind shift time series plots
 Lets take a closer look at some stations west of the cascades. With **RAWSmet**'s
-`windTimeseriesPlot()` and `timeseriesMultiplot`, we can see the change in the
+`windTimeseriesPlot()` and `timeseriesMultiplot()`, we can see the change in the
 wind pattern and the change in temperature and humidity over this time period.
 It is apparent that  over labor day weekend, the direction of the wind suddenly 
 changed to point east and gust speeds increased considerably. Furthermore, 
 these stations experienced an extreme drop in humidity and temperature increased
 overall.
-```{r windTimeseriesPlots, message = FALSE, fig.align = "center", fig.height = 10, fig.width = 10}
+```{r windTimeseriesPlots, message = FALSE, echo = FALSE, fig.align = "center", fig.height = 10, fig.width = 10}
 
 # Get data
 
@@ -194,6 +194,7 @@ in September 2020 to historical data for the winds in each September between 200
 and 2017. From the historical data it is clear that the winds in Goodwin Peak in 
 September typically come from the north. However, in September 2020, an unmistakable
 majority of the winds come from the east.
+
 ```{r windRosesOGOO, echo = FALSE, message = FALSE, fig.width = 5, fig.height = 5, fig.show = 'hold'}
 
 par(mfrow = c(1, 2))

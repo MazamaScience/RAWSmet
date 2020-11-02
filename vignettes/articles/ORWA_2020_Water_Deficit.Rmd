@@ -95,8 +95,6 @@ waList <- waList %>%
   # Remove any stations with no data
   rawsList_removeEmpty()
 ```
-While there are 205 stations in Oregon, only 135 of them contain data in this
-time range.
 
 To calculate the cumulative precipitation for each station, we will convert
 these two `raws_list`s to a tidy `rawsDF`. This is a single dataframe where each
