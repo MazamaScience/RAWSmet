@@ -188,17 +188,20 @@ gg <-
     name = "Precip (mm)",
     breaks = breaks,
     colors = colors,
-    values = values
+    values = values,
+    guide = guide_colorsteps(order = 1)
   ) +
   
   # Add points with zero precipitation in black
   geom_point(
     data = zeroPrecipDF,
     color = 'black',
-    alpha = 1, size = 4
+    alpha = 1, size = 4,
+    mapping = aes(fill = "No Precipitation")
   ) +
-
-  # TODO:  Add a second legend for "No precip" black dots
+  
+  # Add a second legend for "No precipitation" black dots
+  guides(fill = guide_legend("", override.aes = list(shape = 15, size = 7), order = 2)) +
 
   # Add a title.
   ggtitle(
