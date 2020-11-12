@@ -116,15 +116,18 @@ fw13_createTimeseriesObject <- function(
   mxGustSpeed <- mapply(speedConvert, tbl$measurementType, tbl$maxGustSpeed)
   
   # Convert precipitation to millimeters per hour
-  # precipConvert <- function(type, amount, duration) {
-  #   if (type == 1)
-  #     return((25.4 * amount))
-  #   else
-  #     return(amount)
-  # }
+  precipConvert <- function(type, amount) {
+    if (type == 1)
+      return(25.4 * amount)
+    else
+      return(amount)
+  }
   
-  # precipitation <- mapply(precipConvert, tbl$measurementType, tbl$precipAmount, tbl$precipDuration)
-  # precipitation[is.nan(precipitation)] <- 0
+  precipHourly <- c(NA, diff(tbl$precipAmount))
+  precipHourly[precipHourly < 0] <- 0
+  
+  precipitation <- mapply(precipConvert, tbl$measurementType, precipHourly)
+  precipitation[is.nan(precipitation)] <- 0
   
   # * Harmonize ----
   
@@ -148,7 +151,7 @@ fw13_createTimeseriesObject <- function(
       "windDirection" = .data$windDirection,
       "maxGustSpeed" = mxGustSpeed,
       "maxGustDirection" = .data$maxGustDirection,
-      "precipitation" = .data$precipAmount,
+      "precipitation" = precipitation,
       "solarRadiation" = .data$solarRadiation,
       "fuelMoisture" = .data$fuelMoisture,
       "fuelTemperature" = as.character(NA),
