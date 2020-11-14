@@ -129,6 +129,8 @@ fw13_createTimeseriesObject <- function(
   precipitation <- mapply(precipConvert, tbl$measurementType, precipHourly)
   precipitation[is.nan(precipitation)] <- 0
   
+  precipitation <- tbl$precipAmount
+  
   # * Harmonize ----
   
   # Define the set of standard columns that will always be returned
