@@ -56,6 +56,7 @@ The columns of the 'data' dataframe include:
 \examples{
 \dontrun{
 library(RAWSmet)
+setRawsDataDir("~/Data/RAWS")
 
 library(MazamaSpatialUtils)
 setSpatialDataDir("~/Data/Spatial")

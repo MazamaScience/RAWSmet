@@ -7,24 +7,24 @@
 rawsList_filter(rawsList = NULL, ...)
 }
 \arguments{
-\item{rawsList}{List of \emph{raws_timeseries} object.}
+\item{rawsList}{List of \emph{raws_timeseries} objects.}
 
-\item{...}{Logical predicates defined in terms of the variables in the 
+\item{...}{Logical predicates defined in terms of the variables in the
 \code{rawsObject$data}.}
 }
 \value{
-A list of subsets of the elements of the given list of 
+A list of subsets of the elements of the given list of
 \emph{raws_timeseries} objects.
 }
 \description{
-A generalized data filter for a list of \emph{raws_timeseries} 
-objects to choose rows/cases where conditions are true.  Multiple conditions are 
-combined with \code{&} or separated by a comma. Only rows where the condition 
+A generalized data filter for a list of \emph{raws_timeseries}
+objects to choose rows/cases where conditions are true.  Multiple conditions are
+combined with \code{&} or separated by a comma. Only rows where the condition
 evaluates to TRUE are kept.Rows where the condition evaluates to \code{NA}
 are dropped.
 }
 \examples{
-\donttest{
+\dontrun{
 library(RAWSmet)
 
 rawsList <- example_fw13Multiple

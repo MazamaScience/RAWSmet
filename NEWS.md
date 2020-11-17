@@ -1,3 +1,7 @@
+# RAWSmet 0.2.5
+
+* Fixed converstion to metric precipitation in `fw13_createTimeseriesObject()`.
+
 # RAWSmet 0.2.4
 
 * New "RAWSmet Usage" article.

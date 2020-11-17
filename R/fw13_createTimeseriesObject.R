@@ -23,10 +23,10 @@
 #'  \item{parse data text}
 #'  \item{standardized names}
 #' }
-#' 
-#' 
+#'
+#'
 #' The columns of the 'data' dataframe include:
-#' 
+#'
 #' \itemize{
 #'  \item{datetime: date and time of observation}
 #'  \item{temperature: temperature (°C)}
@@ -44,12 +44,13 @@
 #' @examples
 #' \dontrun{
 #' library(RAWSmet)
+#' setRawsDataDir("~/Data/RAWS")
 #'
 #' library(MazamaSpatialUtils)
 #' setSpatialDataDir("~/Data/Spatial")
-#' 
+#'
 #' nws_500726 <- fw13_createTimeseriesObject(nwsID = 500726)
-#' 
+#'
 #' }
 #'
 #' @seealso \code{\link{fw13_createMeta}}
@@ -64,47 +65,60 @@ fw13_createTimeseriesObject <- function(
   baseUrl = "https://cefa.dri.edu/raws/fw13/",
   verbose = FALSE
 ) {
-  
+
   # ----- Validate parameters --------------------------------------------------
-  
+
   MazamaCoreUtils::stopIfNull(nwsID)
-  
+
   # Guarantee it is zero padded six characters
   nwsID <- sprintf("%06s", as.character(nwsID))
-  
+
   # ----- Create 'meta' --------------------------------------------------------
-  
+
   if ( is.null(meta) ) {
     meta <- fw13_loadMeta(verbose = verbose)
   }
-  
+
   # Subset to a single record
   meta <- dplyr::filter(meta, nwsID == !!nwsID)
-  
-  # ----- Create 'data' --------------------------------------------------------
-  
-  # * Download/parse -----
-  
+
+  # ----- Download/parse data --------------------------------------------------
+
   tbl <- fw13_createRawDataframe(
     nwsID = nwsID,
     baseUrl = baseUrl
   )
 
-  # * Conversion to metric -----
-  
+  # ----- Convert to metric ----------------------------------------------------
+
+  # Details from: https://fam.nwcg.gov/fam-web/weatherfirecd/13.htm
+
   # measurementType: 1 = US, 2 = metric
-  
+  #
+  # Measurement Type code: 1=U.S.,2=Metric. Affects temperature (Fahrenheit or
+  # Celsius), wind (miles or kilometers per hour), and precipitation (decimal
+  # inches or millimeters - 1 = US (Precipitation amount – 24 hour), 2 = Metric
+  # (Precipitation amount – 24 hour), 3 = US (Precipitation amount – hourly),
+  # 4 = Metric (Precipitation amount – hourly).
+
   # Convert temperature from deg F to deg C
-  tempConvert <- function(type, temp) { 
-    if (type == 1) 
-      return(5/9 * (temp - 32)) 
-    else 
+  tempConvert <- function(type, temp) {
+    if (type == 1)
+      return(5/9 * (temp - 32))
+    else
       return(temp)
   }
-  
+
   temperature <- mapply(tempConvert, tbl$measurementType, tbl$dryBulbTemp)
-  
+
   # Convert wind speeds from miles-per-hour to meters-per-second
+  #
+  # Average windspeed over a 10-minute period (miles or kilometers per hour
+  # based on Measurement Type code).
+  #
+  # Speed of peak gust during the hour. (miles or kilometers per hour based on
+  # Measurement Type code).
+
   speedConvert <- function(type, speed) {
     if (type == 1)
       return(1609.344 * speed * 1/3600)
@@ -114,25 +128,29 @@ fw13_createTimeseriesObject <- function(
 
   windSpeed <- mapply(speedConvert, tbl$measurementType, tbl$avWindSpeed)
   mxGustSpeed <- mapply(speedConvert, tbl$measurementType, tbl$maxGustSpeed)
-  
+
   # Convert precipitation to millimeters per hour
+  #
+  # Precipitation amount based on Measurement Type code [col. 63]. Blanks=no
+  # precipitation. U.S. measurement: inches with implied decimal nn.nnn format;
+  # trace shown as 00005. Metric measurement: measured in millimeters, no
+  # implied decimal; trace shown as 00001.
+
   precipConvert <- function(type, amount) {
     if (type == 1)
-      return(25.4 * amount)
+      return(25.4 * amount/1000)
     else
       return(amount)
   }
-  
+
   precipHourly <- c(NA, diff(tbl$precipAmount))
   precipHourly[precipHourly < 0] <- 0
-  
+
   precipitation <- mapply(precipConvert, tbl$measurementType, precipHourly)
   precipitation[is.nan(precipitation)] <- 0
-  
-  precipitation <- tbl$precipAmount
-  
-  # * Harmonize ----
-  
+
+  # ----- Harmonize names ------------------------------------------------------
+
   # Define the set of standard columns that will always be returned
   standardDataVars <- c(
     "datetime", "temperature", "humidity",
@@ -141,7 +159,7 @@ fw13_createTimeseriesObject <- function(
     "fuelMoisture", "fuelTemperature",
     "monitorType"
   )
-  
+
   # TODO:  Use metric versions of data
   data <-
     tbl %>%
@@ -160,30 +178,42 @@ fw13_createTimeseriesObject <- function(
       "monitorType" = "FW13"
     ) %>%
     dplyr::select(all_of(standardDataVars))
-  
-  # * Convert datetime to UTC ----
+
+  # ----- Convert datetime to UTC ----------------------------------------------
 
   UTC_offset <-
     MazamaSpatialUtils::SimpleTimezones@data %>%
     dplyr::filter(.data$timezone == meta$timezone) %>%
     dplyr::pull("UTC_offset")
-  
+
   # NOTE:  The 'datetime' column is "local standard time all-year-round" for
   # NOTE:  which no timezone exists. So we have to convert it first to UTC
   # NOTE:  and then shift it by the UTC offset.
-  
+
   UTC_time <-
     MazamaCoreUtils::parseDatetime(data$datetime, timezone = "UTC") +
     lubridate::dhours(UTC_offset)
-  
+
   data$datetime <- UTC_time
-  
+
   # ----- Return ---------------------------------------------------------------
-  
+
   # Combine meta and data dataframes into a list
   raws <- list(meta = meta, data = data)
   class(raws) <- c("raws_timeseries", class(raws))
-  
+
   return(raws)
-  
+
+}
+
+
+# ===== DEBUGGING ==============================================================
+
+if ( FALSE ) {
+
+  nwsID = 500726
+  meta = NULL
+  baseUrl = "https://cefa.dri.edu/raws/fw13/"
+  verbose = FALSE
+
 }
