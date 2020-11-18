@@ -74,7 +74,7 @@ manipulating data in a pipeline chain using %&amp;gt;%." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5</span>
       </span>
     </div>
 
@@ -154,9 +154,9 @@ comprise a <em>raws_timeseries</em> object. These functions are designed to be u
 manipulating data in a pipeline chain using <code>%&gt;%</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>raws_extractData</span>(rawsObject = <span class='kw'>NULL</span>, forOpenair = <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>raws_extractData</span><span class='op'>(</span>rawsObject <span class='op'>=</span> <span class='cn'>NULL</span>, forOpenair <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'>raws_extractMeta</span>(rawsObject = <span class='kw'>NULL</span>)</pre>
+<span class='fu'>raws_extractMeta</span><span class='op'>(</span>rawsObject <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,20 +177,20 @@ manipulating data in a pipeline chain using <code>%&gt;%</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/MazamaScience/RAWSmet'>RAWSmet</a></span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/RAWSmet'>RAWSmet</a></span><span class='op'>)</span>
 
-<span class='kw'>data</span> <span class='op'>&lt;-</span> 
-  <span class='kw'>example_fw13SaddleMountain</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>raws_extractData</span>(forOpenair = <span class='fl'>TRUE</span>)
+<span class='va'>data</span> <span class='op'>&lt;-</span> 
+  <span class='va'>example_fw13SaddleMountain</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>raws_extractData</span><span class='op'>(</span>forOpenair <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
   
 <span class='co'># openair::timePlot(</span>
 <span class='co'>#  data,</span>
 <span class='co'>#  pollutant = "temperature"</span>
 <span class='co'># )</span>
    
-<span class='kw'>example_fw13SaddleMountain</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>raws_extractMeta</span>() <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>()
+<span class='va'>example_fw13SaddleMountain</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>raws_extractMeta</span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 1 x 11</span><span>
 #&gt;   nwsID wrccID nessID siteName longitude latitude timezone elevation countryCode
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      

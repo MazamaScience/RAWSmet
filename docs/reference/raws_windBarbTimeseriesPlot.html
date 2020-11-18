@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5</span>
       </span>
     </div>
 
@@ -150,19 +150,19 @@
     <p>Creates a visualization of wind speed and direction</p>
     </div>
 
-    <pre class="usage"><span class='fu'>raws_windBarbTimeseriesPlot</span>(
-  rawsObject = <span class='kw'>NULL</span>,
-  extraBarbLength = <span class='fl'>0</span>,
-  barbSize = <span class='fl'>1</span>,
-  barbColor = <span class='st'>"blue"</span>,
-  pointColor = <span class='st'>"black"</span>,
-  barbLocation = <span class='st'>"zero"</span>,
-  xlab = <span class='st'>"Time"</span>,
-  ylab = <span class='st'>"Wind Speed"</span>,
-  xlim = <span class='fl'>NA</span>,
-  ylim = <span class='fl'>NA</span>,
-  <span class='kw'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>raws_windBarbTimeseriesPlot</span><span class='op'>(</span>
+  rawsObject <span class='op'>=</span> <span class='cn'>NULL</span>,
+  extraBarbLength <span class='op'>=</span> <span class='fl'>0</span>,
+  barbSize <span class='op'>=</span> <span class='fl'>1</span>,
+  barbColor <span class='op'>=</span> <span class='st'>"blue"</span>,
+  pointColor <span class='op'>=</span> <span class='st'>"black"</span>,
+  barbLocation <span class='op'>=</span> <span class='st'>"zero"</span>,
+  xlab <span class='op'>=</span> <span class='st'>"Time"</span>,
+  ylab <span class='op'>=</span> <span class='st'>"Wind Speed"</span>,
+  xlim <span class='op'>=</span> <span class='cn'>NA</span>,
+  ylim <span class='op'>=</span> <span class='cn'>NA</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -219,13 +219,13 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/MazamaScience/RAWSmet'>RAWSmet</a></span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/RAWSmet'>RAWSmet</a></span><span class='op'>)</span>
 
-<span class='kw'>rawsObject</span> <span class='op'>&lt;-</span> 
- <span class='kw'>example_fw13SaddleMountain</span> <span class='op'>%&gt;%</span>
- <span class='fu'><a href='raws_filterDate.html'>raws_filterDate</a></span>(<span class='st'>"20170901"</span>, <span class='st'>"20170902"</span>)
+<span class='va'>rawsObject</span> <span class='op'>&lt;-</span> 
+ <span class='va'>example_fw13SaddleMountain</span> <span class='op'>%&gt;%</span>
+ <span class='fu'><a href='raws_filterDate.html'>raws_filterDate</a></span><span class='op'>(</span><span class='st'>"20170901"</span>, <span class='st'>"20170902"</span><span class='op'>)</span>
   
-<span class='fu'>raws_windBarbTimeseriesPlot</span>(<span class='kw'>rawsObject</span>, barbSize = <span class='fl'>5</span>, barbLocation = <span class='st'>"point"</span>, barbColor = <span class='st'>"blue"</span>)
+<span class='fu'>raws_windBarbTimeseriesPlot</span><span class='op'>(</span><span class='va'>rawsObject</span>, barbSize <span class='op'>=</span> <span class='fl'>5</span>, barbLocation <span class='op'>=</span> <span class='st'>"point"</span>, barbColor <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span>
 </div><div class='img'><img src='raws_windBarbTimeseriesPlot-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
 
 </div></pre>

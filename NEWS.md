@@ -1,6 +1,7 @@
 # RAWSmet 0.2.5
 
 * Fixed converstion to metric precipitation in `fw13_createTimeseriesObject()`.
+* Fixed bug in `rawsList_removeEmpty()`.
 
 # RAWSmet 0.2.4
 
