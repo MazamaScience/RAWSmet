@@ -60,6 +60,14 @@ fw13_CampFireList <-
 a <- lapply(fw13_CampFireList, raws_toRawsDF)
 fw13_CampFireDF <- dplyr::bind_rows(a)
 
+# VPD=(1-RH/100)*6.11 exp(17.27*T/(T+237.15))
+
+fw13_CampFireDF <-
+  fw13_CampFireDF %>%
+  dplyr::mutate(
+    VPD = (1 - humidity/100) * 6.11^(17.27 * temperature/(temperature + 237.15))
+  )
+
 # ----- WRCC Meta --------------------------------------------------------------
 
 wrcc_meta <-
@@ -78,9 +86,9 @@ raws_leaflet(wrcc_meta)
 wrcc_list <- wrcc_loadMultiple(
   wrccIDs = wrcc_meta$wrccID,
   meta = wrcc_meta,
-  year = 2018,
-  newDownload = TRUE,
-  password = MY_PASSWORD
+  year = 2018###,
+  ###newDownload = TRUE,
+  ###password = MY_PASSWORD
 )
 
 wrcc_CampFireList <-
@@ -95,9 +103,44 @@ wrcc_CampFireList <-
 b <- lapply(wrcc_CampFireList, raws_toRawsDF)
 wrcc_CampFireDF <- dplyr::bind_rows(b)
 
+wrcc_CampFireDF <-
+  wrcc_CampFireDF %>%
+  dplyr::mutate(
+    VPD = (1 - humidity/100) * 6.11^(17.27 * temperature/(temperature + 237.15))
+  )
 
 # ----- TODO -------------------------------------------------------------------
 
-# Calculate per-station VPD
-
 # Create timeseries plots showing the evolution of Andy's preferred parameters
+
+library(ggplot2)
+
+ggplot(wrcc_CampFireDF) +
+  geom_line(aes(x = datetime, y = VPD, color = wrccID))
+
+s <- MazamaCoreUtils::parseDatetime(20181101, timezone = "America/Los_Angeles")
+e <- MazamaCoreUtils::parseDatetime(20181108, timezone = "America/Los_Angeles")
+
+# Local time
+###lubridate::tz(wrcc_CampFireDF$datetime) <- "America/Los_Angeles"
+
+# To get the local time axis see:
+#   https://github.com/MazamaScience/AirMonitorPlots/blob/master/R/custom_datetimeScale.R
+
+# HACK:  In the mean time, just subtract 8 hours from UTC and call it LST
+wrcc_CampFireDF$datetime <- wrcc_CampFireDF$datetime + lubridate::dhours(8)
+
+wrcc_CampFireDF %>%
+  dplyr::filter(datetime >= s & datetime < e) %>%
+  ggplot() +
+  geom_point(
+    aes(x = datetime, y = VPD),
+    color = 'black',
+    alpha = 0.1,
+    shape = 'square'
+  ) +
+  ###scale_x_datetime(timezone = "UTC") +
+  theme_bw() +
+  xlab("LST") +
+  ggtitle("Vapor Pressure Deficit")
+
