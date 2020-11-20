@@ -18,6 +18,9 @@
 # and knowledge of the saturation vapor pressure at 0C.
 #
 # See: https://en.wikipedia.org/wiki/Clausius–Clapeyron_relation#Meteorology_and_climatology
+#
+# Excellent scientific paper on the importance of VPD:
+#   http://ocp.ldeo.columbia.edu/res/div/ocp/WestCLIM/PDFS/Seager_etal_VPD.pdf
 
 library(RAWSmet)
 setRawsDataDir("~/Data/RAWS")
