@@ -86,6 +86,47 @@ wrcc_loadYear <- function(
       # If local data exists, load and return it.
       rawsObject <- get(load(filePath))
       
+    } else {
+      
+      if ( verbose ) {
+        message(paste("Downloading and saving data to", filePath))
+      }
+      
+      # NOTE:  Extend start and end UTC dates by one day to capture full days in
+      # NOTE:  every timezone.
+      
+      # NOTE:  Surprising behavior from lubridate at the year boundary:
+      # NOTE:  
+      # NOTE:  > x <- ymd_hms("2020-01-01 00:00:00", tz = "UTC")
+      # NOTE:  > y <- ymd_hms("2020-01-01 00:00:01", tz = "UTC")
+      # NOTE:  > lubridate::ceiling_date(x, "year")
+      # NOTE:  [1] "2020-01-01 UTC"
+      # NOTE:  > lubridate::ceiling_date(y, "year")
+      # NOTE:  [1] "2021-01-01 UTC"
+      
+      startdate <- 
+        lubridate::ymd(paste0(year, "0601"), tz = "UTC") %>% 
+        lubridate::floor_date(unit = "year") - lubridate::ddays(1)
+      
+      enddate <- 
+        lubridate::ymd(paste0(year, "0601"), tz = "UTC") %>% 
+        lubridate::ceiling_date(unit = "year") + lubridate::ddays(1)
+      
+      # Download new data to override existing file
+      rawsObject <- wrcc_createTimeseriesObject(
+        wrccID = wrccID, 
+        meta = meta, 
+        startdate = strftime(startdate, "%Y%m%d%H", tz = "UTC"),
+        enddate = strftime(enddate, "%Y%m%d%H", tz = "UTC"),
+        password = password,
+        baseUrl = baseUrl
+      )
+      
+      # NOTE:  Do not trim data to the year. Leave an extra day on each end.
+      
+      # Save this data and overwrite existing file
+      save(rawsObject, file = filePath)
+      
     }
     
   } else {
@@ -94,8 +135,7 @@ wrcc_loadYear <- function(
     if ( is.na(newDownload) || newDownload == TRUE ) {
       
       if ( verbose ) {
-        if ( !newDownload )
-          message("Could not find local data.")
+        message("Could not find local data.")
         message(paste("Downloading and saving data to", filePath))
       }
       
@@ -133,6 +173,14 @@ wrcc_loadYear <- function(
 
       # Save this object so it may be loaded in the future
       save(rawsObject, file = filePath)
+      
+    } else {
+      
+      if ( verbose ) {
+        message(sprintf("Skipping wrccID: %s", wrccID))
+      }
+      
+      rawsObject <- NA
       
     }
     

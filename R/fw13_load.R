@@ -6,14 +6,24 @@
 #'
 #' @param nwsID NWS RAWS station identifier.
 #' @param meta Tibble of FW13 station metadata.
+#' @param newDownload Logical flag specifying whether or not to download and override existing data.
 #' @param baseUrl Base URL for data queries.
 #' @param verbose Logical flag controlling detailed progress statements.
-#' @param newDownload Logical flag stating whether or not to download and override existing data.
 #' 
 #' @return Timeseries object with 'meta' and 'data'.
 #'
 #' @description Loads FW13 station metadata and data from the \code{rawsDataDir}. 
 #' If the data is not in this directory, this will download and save the data. 
+#' 
+#' @note The `newDownload` parameter has three possible settings:
+#' \itemize{
+#' \item{\code{NA} -- Download data if it is not found in \code{rawsDataDir}}
+#' \item{\code{TRUE} -- Always download data, overwriting existing data in \code{rawsDataDir}.
+#' This is useful for updating data files with more recent data.}
+#' \item{\code{FALSE} -- Never download data. This is useful when working with
+#' \link{wrcc_loadMultiple} and archival data to avoid continually requesting
+#' data for stations which have no data over a particular time period.}
+#' }
 #' 
 #' @examples
 #' \dontrun{
@@ -38,7 +48,7 @@
 fw13_load <- function(
   nwsID = NULL,
   meta = NULL,
-  newDownload = FALSE,
+  newDownload = NA,
   baseUrl = "https://cefa.dri.edu/raws/fw13/",
   verbose = TRUE
 ) {
@@ -59,28 +69,56 @@ fw13_load <- function(
   fileName = sprintf("fw13_%s_%d.rda", nwsID, currentYear)
   filePath = file.path(dataDir, fileName)
   
-  if ( file.exists(filePath) && newDownload == FALSE ) {
+  if ( file.exists(filePath) ) {
     
-    if( verbose ) {
-      message(sprintf("Loading data from %s", filePath))
+    # Anything other than newDownload == TRUE means don't re-download
+    if ( is.na(newDownload) || newDownload == FALSE ) {
+      
+      if ( verbose ) {
+        message(sprintf("Loading data from %s", filePath))
+      }
+      
+      # If local data exists, load and return it.
+      rawsObject <- get(load(filePath))
+      
+    } else {
+      
+      if ( verbose ) {
+        message(paste("Downloading and saving data to", filePath))
+      }
+      
+      # Download new data to overwrite existing file
+      rawsObject <- fw13_createTimeseriesObject(nwsID = nwsID, meta = meta, baseUrl = baseUrl)
+      
+      # Save this data and overwrite existing file
+      save(rawsObject, file = filePath)
+      
     }
-    
-    # If local data exists, load and return it.
-    rawsObject <- get(load(filePath))
     
   } else {
     
-    if ( verbose ) {
-      if( !newDownload )
+    if ( is.na(newDownload) || newDownload == TRUE ) {
+      
+      if ( verbose ) {
         message("Could not find local data.")
-      message(paste("Downloading and saving data to", filePath))
+        message(paste("Downloading and saving data to", filePath))
+      }
+    
+      # If local data does not exist, download and return it.
+      rawsObject <- fw13_createTimeseriesObject(nwsID = nwsID, meta = meta, baseUrl = baseUrl)
+      
+      # Save this object so it may be loaded in the future
+      save(rawsObject, file = filePath)
+    
+    } else {
+      
+      if ( verbose ) {
+        message(sprintf("Skipping nwsID: %s", nwsID))
+      }
+      
+      rawsObject <- NA
+      
     }
-    
-    # If local data does not exist, download and return it.
-    rawsObject <- fw13_createTimeseriesObject(nwsID = nwsID, meta = meta, baseUrl = baseUrl)
-    
-    # Save this object so it may be loaded in the future
-    save(rawsObject, file = filePath)
     
   }
   
