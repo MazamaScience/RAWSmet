@@ -26,6 +26,7 @@ following values from \code{rawsObject$meta}:
  \item{longitude - longitude coordinate of the station}
  \item{latitude - latitude coordinate of the station}
  \item{elevation - elevation of the station}
+ \item{timezone - timezone of the station}
 }
 
 This version of the RAWS data is known as a \emph{rawsDF} object.

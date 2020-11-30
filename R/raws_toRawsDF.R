@@ -20,6 +20,7 @@
 #'  \item{longitude - longitude coordinate of the station}
 #'  \item{latitude - latitude coordinate of the station}
 #'  \item{elevation - elevation of the station}
+#'  \item{timezone - timezone of the station}
 #' }
 #' 
 #' This version of the RAWS data is known as a \emph{rawsDF} object.
@@ -87,7 +88,7 @@ raws_toRawsDF <- function(
     "siteName",
     "longitude",
     "latitude",
-    ###"timezone",
+    "timezone",
     "elevation"
     ###"countryCode",
     ###"stateCode",
@@ -118,7 +119,7 @@ raws_toRawsDF <- function(
       siteName = meta$siteName,
       longitude = meta$longitude,
       latitude = meta$latitude,
-      ###timezone = meta$timezone,
+      timezone = meta$timezone,
       elevation = meta$elevation
       ###countryCode = meta$countryCode,
       ###stateCode = meta$stateCode,
