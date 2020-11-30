@@ -2,6 +2,8 @@
 
 * `rawsList_toRawsDF()` now returns a *single* tidy dataframe containing data
 and metadata from each station in the given list.
+* Fix issue where loading functions were returning `NA` when no local data was 
+found and `newDownload = FALSE`.
 
 # RAWSmet 0.2.6
 
