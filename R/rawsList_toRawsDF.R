@@ -47,11 +47,12 @@ rawsList_toRawsDF <- function(
   
   MazamaCoreUtils::stopIfNull(rawsList)
   
+  if ( !rawsList_isRawsList(rawsList) )
+    stop("Parameter 'rawsList' is not a valid raws_list object.")
   
   # ----- Filter data ----------------------------------------------------------
   
   rawsList <- rawsList %>% purrr::map(function(x) raws_toRawsDF(x))
-  
   
   # ----- Return ---------------------------------------------------------------
   
