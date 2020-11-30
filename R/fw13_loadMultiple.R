@@ -15,6 +15,15 @@
 #' @description Loads FW13 station metadata and data from the \code{rawsDataDir}. If the
 #' data is not in this directory, this will download and save the data. 
 #' 
+#' @note The `newDownload` parameter has three possible settings:
+#' \itemize{
+#' \item{\code{NA} -- Download data if it is not found in \code{rawsDataDir}}
+#' \item{\code{TRUE} -- Always download data, overwriting existing data in \code{rawsDataDir}.
+#' This is useful for updating data files with more recent data.}
+#' \item{\code{FALSE} -- Never download data. This is useful when working with
+#' \link{wrcc_loadMultiple} and archival data to avoid continually requesting
+#' data for stations which have no data over a particular time period.}
+#' }
 #' @examples
 #' \donttest{
 #' library(MazamaSpatialUtils)
@@ -40,7 +49,7 @@
 fw13_loadMultiple <- function(
   nwsIDs = NULL,
   meta = NULL,
-  newDownload = FALSE,
+  newDownload = NA,
   baseUrl = "https://cefa.dri.edu/raws/fw13/",
   verbose = TRUE
 ) {
