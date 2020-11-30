@@ -1,6 +1,21 @@
+# RAWSmet 0.2.7
+
+* `rawsList_toRawsDF()` now returns a *single* tidy dataframe containing data
+and metadata from each station in the given list.
+
+# RAWSmet 0.2.6
+
+* Fixed `newDownload` logic in each loading function.
+* New utility functions for `rawsDF` objects such as `rawsDF_isRawsDF()`,
+`rawsDF_filter()` and `rawsDF_filterDate()`.
+* Added `rawsList_isRawsList()`
+* Added a `timezone` column to the structure of a `rawsDF` object.
+* New `rawsList_toRawsDF()` function converts a list of _raws_ objects to a list of
+tidy (`rawsDF`) dataframes.
+
 # RAWSmet 0.2.5
 
-* Fixed converstion to metric precipitation in `fw13_createTimeseriesObject()`.
+* Fixed conversion to metric precipitation in `fw13_createTimeseriesObject()`.
 * Fixed bug in `rawsList_removeEmpty()`.
 
 # RAWSmet 0.2.4
@@ -17,7 +32,7 @@ of `NA`. The new behavior is to **always download** when `newDownload = TRUE`,
 
 * New `raws_filterDate()` now returns a _raws_ object with no data records when
 no valid data existin within the requested time range.
-* New `raw_toRawsDF()` function convertions a _raws_ objejct (list with 'meta'
+* New `raw_toRawsDF()` function convertions a _raws_ object (list with 'meta'
 and 'data') into a tidy dataframe for use with **dplyr** and **ggplot2**.
 * Fixed bug in `wrcc_loadYear()` to allow it to load data from past years.
 * All examples accessing archival WRCC data now include `password = MY_PASSWORD` 
