@@ -176,11 +176,7 @@ wrcc_loadYear <- function(
       
     } else {
       
-      if ( verbose ) {
-        message(sprintf("Skipping wrccID: %s", wrccID))
-      }
-      
-      rawsObject <- NA
+      stop(sprintf("Skipping wrccID: %s", wrccID))
       
     }
     

@@ -112,11 +112,7 @@ fw13_load <- function(
     
     } else {
       
-      if ( verbose ) {
-        message(sprintf("Skipping nwsID: %s", nwsID))
-      }
-      
-      rawsObject <- NA
+      stop(sprintf("Skipping nwsID: %s", nwsID))
       
     }
     
