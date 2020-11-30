@@ -1,4 +1,4 @@
-pandoc: 2.10.1
+pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
@@ -9,5 +9,5 @@ articles:
   articles/Oregon_2020_LaborDay: Oregon_2020_LaborDay.html
   articles/RAWSmet_usage: RAWSmet_usage.html
   articles/Working_with_openair: Working_with_openair.html
-last_built: 2020-11-18T00:08Z
+last_built: 2020-11-30T21:12Z
 

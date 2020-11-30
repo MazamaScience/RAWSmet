@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.7</span>
       </span>
     </div>
 
@@ -144,6 +144,35 @@
       <small>Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="rawsmet-027" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.7">
+<a href="#rawsmet-027" class="anchor"></a>RAWSmet 0.2.7</h1>
+<ul>
+<li>
+<code><a href="../reference/rawsList_toRawsDF.html">rawsList_toRawsDF()</a></code> now returns a <em>single</em> tidy dataframe containing data and metadata from each station in the given list.</li>
+<li>Fix issue where loading functions were returning <code>NA</code> when no local data was found and <code>newDownload = FALSE</code>.</li>
+</ul>
+</div>
+    <div id="rawsmet-026" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.6">
+<a href="#rawsmet-026" class="anchor"></a>RAWSmet 0.2.6</h1>
+<ul>
+<li>Fixed <code>newDownload</code> logic in each loading function.</li>
+<li>New utility functions for <code>rawsDF</code> objects such as <code><a href="../reference/rawsDF_isRawsDF.html">rawsDF_isRawsDF()</a></code>, <code><a href="../reference/rawsDF_filter.html">rawsDF_filter()</a></code> and <code><a href="../reference/rawsDF_filterDate.html">rawsDF_filterDate()</a></code>.</li>
+<li>Added <code><a href="../reference/rawsList_isRawsList.html">rawsList_isRawsList()</a></code>
+</li>
+<li>Added a <code>timezone</code> column to the structure of a <code>rawsDF</code> object.</li>
+<li>New <code><a href="../reference/rawsList_toRawsDF.html">rawsList_toRawsDF()</a></code> function converts a list of <em>raws</em> objects to a list of tidy (<code>rawsDF</code>) dataframes.</li>
+</ul>
+</div>
+    <div id="rawsmet-025" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.5">
+<a href="#rawsmet-025" class="anchor"></a>RAWSmet 0.2.5</h1>
+<ul>
+<li>Fixed conversion to metric precipitation in <code><a href="../reference/fw13_createTimeseriesObject.html">fw13_createTimeseriesObject()</a></code>.</li>
+<li>Fixed bug in <code><a href="../reference/rawsList_removeEmpty.html">rawsList_removeEmpty()</a></code>.</li>
+</ul>
+</div>
     <div id="rawsmet-024" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.4">
 <a href="#rawsmet-024" class="anchor"></a>RAWSmet 0.2.4</h1>
@@ -159,7 +188,7 @@
 <a href="#rawsmet-023" class="anchor"></a>RAWSmet 0.2.3</h1>
 <ul>
 <li>New <code><a href="../reference/raws_filterDate.html">raws_filterDate()</a></code> now returns a <em>raws</em> object with no data records when no valid data existin within the requested time range.</li>
-<li>New <code>raw_toRawsDF()</code> function convertions a <em>raws</em> objejct (list with ‘meta’ and ‘data’) into a tidy dataframe for use with <strong>dplyr</strong> and <strong>ggplot2</strong>.</li>
+<li>New <code>raw_toRawsDF()</code> function convertions a <em>raws</em> object (list with ‘meta’ and ‘data’) into a tidy dataframe for use with <strong>dplyr</strong> and <strong>ggplot2</strong>.</li>
 <li>Fixed bug in <code><a href="../reference/wrcc_loadYear.html">wrcc_loadYear()</a></code> to allow it to load data from past years.</li>
 <li>All examples accessing archival WRCC data now include <code>password = MY_PASSWORD</code> so that users can set the <code>MY_PASSWORD</code> to their personal password and then run the examples.</li>
 <li>Added <code><a href="../reference/rawsList_removeEmpty.html">rawsList_removeEmpty()</a></code>.</li>

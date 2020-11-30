@@ -85,7 +85,7 @@ save(example_wrccSaddleMountain, file = &quot;data/example_wrccSaddleMountain.rd
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.7</span>
       </span>
     </div>
 
@@ -165,18 +165,18 @@ save(example_wrccSaddleMountain, file = &quot;data/example_wrccSaddleMountain.rd
 Washington, (wrccID: waWSAD) between August 8th and September 6th 2020.</p>
 <p>This dataset was generated on 2020-09-06 by running:</p>
 <pre>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/RAWSmet'>RAWSmet</a></span><span class='op'>)</span>
-<span class='fu'><a href='setRawsDataDir.html'>setRawsDataDir</a></span><span class='op'>(</span><span class='st'>"~/Data/RAWS"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/MazamaScience/RAWSmet'>RAWSmet</a></span>)
+<span class='fu'><a href='setRawsDataDir.html'>setRawsDataDir</a></span>(<span class='st'>"~/Data/RAWS"</span>)
 
-<span class='va'>wrccMeta</span> <span class='op'>&lt;-</span> <span class='fu'><a href='wrcc_loadMeta.html'>wrcc_loadMeta</a></span><span class='op'>(</span>stateCode <span class='op'>=</span> <span class='st'>"WA"</span><span class='op'>)</span>
-<span class='va'>example_wrccSaddleMountain</span> <span class='op'>&lt;-</span> <span class='fu'><a href='wrcc_loadYear.html'>wrcc_loadYear</a></span><span class='op'>(</span>wrccID <span class='op'>=</span> <span class='st'>"waWSAD"</span>, meta <span class='op'>=</span> <span class='va'>wrccMeta</span>, year <span class='op'>=</span> <span class='fl'>2020</span>, password <span class='op'>=</span> <span class='va'>MY_PASSWORD</span><span class='op'>)</span>
+<span class='kw'>wrccMeta</span> <span class='op'>&lt;-</span> <span class='fu'><a href='wrcc_loadMeta.html'>wrcc_loadMeta</a></span>(stateCode = <span class='st'>"WA"</span>)
+<span class='kw'>example_wrccSaddleMountain</span> <span class='op'>&lt;-</span> <span class='fu'><a href='wrcc_loadYear.html'>wrcc_loadYear</a></span>(wrccID = <span class='st'>"waWSAD"</span>, meta = <span class='kw'>wrccMeta</span>, year = <span class='fl'>2020</span>, password = <span class='kw'>MY_PASSWORD</span>)
   
-<span class='fu'><a href='https://rdrr.io/r/base/save.html'>save</a></span><span class='op'>(</span><span class='va'>example_wrccSaddleMountain</span>, file <span class='op'>=</span> <span class='st'>"data/example_wrccSaddleMountain.rda"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/save.html'>save</a></span>(<span class='kw'>example_wrccSaddleMountain</span>, file = <span class='st'>"data/example_wrccSaddleMountain.rda"</span>)
 </pre>
 
     </div>
 
-    <pre class="usage"><span class='va'>example_wrccSaddleMountain</span></pre>
+    <pre class="usage"><span class='kw'>example_wrccSaddleMountain</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>

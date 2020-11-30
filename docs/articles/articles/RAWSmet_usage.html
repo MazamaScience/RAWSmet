@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.7</span>
       </span>
     </div>
 
@@ -199,12 +199,12 @@
 <pre><code>## # A tibble: 6 x 12
 ##   datetime            temperature humidity windSpeed windDirection maxGustSpeed
 ##   &lt;dttm&gt;                    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;
-## 1 2020-01-01 00:00:00        8.33       NA      2.68           197         7.6 
-## 2 2020-01-01 01:00:00        8.89       NA      2.68           225         8.49
-## 3 2020-01-01 02:00:00        8.89       NA      2.24           223         9.39
-## 4 2020-01-01 03:00:00        9.44       NA      3.13           198         7.6 
-## 5 2020-01-01 04:00:00        8.89       NA      2.24           210         8.05
-## 6 2020-01-01 05:00:00        9.44       NA      2.24           207         7.15
+## 1 2019-12-31 16:00:00        10.6       NA      3.13           219         8.94
+## 2 2019-12-31 17:00:00        10.6       NA      3.13           228         7.6 
+## 3 2019-12-31 18:00:00        10         NA      2.24           220         7.15
+## 4 2019-12-31 19:00:00        10         NA      2.24           215         7.15
+## 5 2019-12-31 20:00:00        10         NA      1.79           220         8.05
+## 6 2019-12-31 21:00:00        10         NA      2.24           223         8.05
 ## # … with 6 more variables: maxGustDirection &lt;dbl&gt;, precipitation &lt;dbl&gt;,
 ## #   solarRadiation &lt;dbl&gt;, fuelMoisture &lt;dbl&gt;, fuelTemperature &lt;dbl&gt;,
 ## #   monitorType &lt;chr&gt;</code></pre>
@@ -253,7 +253,7 @@
 ##   ..- attr(*, "class")= chr [1:2] "raws_timeseries" "list"
 ##  $ waWENU:List of 2
 ##   ..$ meta: tibble [1 × 11] (S3: tbl_df/tbl/data.frame)
-##   ..$ data: tibble [7,279 × 12] (S3: tbl_df/tbl/data.frame)
+##   ..$ data: tibble [8,006 × 12] (S3: tbl_df/tbl/data.frame)
 ##   ..- attr(*, "class")= chr [1:2] "raws_timeseries" "list"
 ##  $ waWABE:List of 2
 ##   ..$ meta: tibble [1 × 11] (S3: tbl_df/tbl/data.frame)
@@ -266,12 +266,12 @@
 <pre><code>## # A tibble: 6 x 12
 ##   datetime            temperature humidity windSpeed windDirection maxGustSpeed
 ##   &lt;dttm&gt;                    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;
-## 1 2020-01-01 00:00:00        8.33       NA      2.68           197         7.6 
-## 2 2020-01-01 01:00:00        8.89       NA      2.68           225         8.49
-## 3 2020-01-01 02:00:00        8.89       NA      2.24           223         9.39
-## 4 2020-01-01 03:00:00        9.44       NA      3.13           198         7.6 
-## 5 2020-01-01 04:00:00        8.89       NA      2.24           210         8.05
-## 6 2020-01-01 05:00:00        9.44       NA      2.24           207         7.15
+## 1 2019-12-31 16:00:00        10.6       NA      3.13           219         8.94
+## 2 2019-12-31 17:00:00        10.6       NA      3.13           228         7.6 
+## 3 2019-12-31 18:00:00        10         NA      2.24           220         7.15
+## 4 2019-12-31 19:00:00        10         NA      2.24           215         7.15
+## 5 2019-12-31 20:00:00        10         NA      1.79           220         8.05
+## 6 2019-12-31 21:00:00        10         NA      2.24           223         8.05
 ## # … with 6 more variables: maxGustDirection &lt;dbl&gt;, precipitation &lt;dbl&gt;,
 ## #   solarRadiation &lt;dbl&gt;, fuelMoisture &lt;dbl&gt;, fuelTemperature &lt;dbl&gt;,
 ## #   monitorType &lt;chr&gt;</code></pre>

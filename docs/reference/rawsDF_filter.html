@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Load WRCC RAWS timeseries object from a local directory — wrcc_loadYear • RAWSmet</title>
+<title>General purpose data filtering for rawsDF objects — rawsDF_filter • RAWSmet</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,12 @@
 
 
 
-<meta property="og:title" content="Load WRCC RAWS timeseries object from a local directory — wrcc_loadYear" />
-<meta property="og:description" content="Loads WRCC station metadata and data from the rawsDataDir. If the
-data is not in this directory, this will download and save the data." />
+<meta property="og:title" content="General purpose data filtering for rawsDF objects — rawsDF_filter" />
+<meta property="og:description" content="A generalized data filter for rawsDF objects to 
+choose rows/cases where conditions are true.  Multiple conditions are 
+combined with &amp;amp; or separated by a comma. Only rows where the condition 
+evaluates to TRUE are kept.Rows where the condition evaluates to NA
+are dropped." />
 
 
 
@@ -142,99 +145,66 @@ data is not in this directory, this will download and save the data." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Load WRCC RAWS timeseries object from a local directory</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/wrcc_loadYear.R'><code>R/wrcc_loadYear.R</code></a></small>
-    <div class="hidden name"><code>wrcc_loadYear.Rd</code></div>
+    <h1>General purpose data filtering for rawsDF objects</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/rawsDF_filter.R'><code>R/rawsDF_filter.R</code></a></small>
+    <div class="hidden name"><code>rawsDF_filter.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Loads WRCC station metadata and data from the <code>rawsDataDir</code>. If the
-data is not in this directory, this will download and save the data.</p>
+    <p>A generalized data filter for <em>rawsDF</em> objects to 
+choose rows/cases where conditions are true.  Multiple conditions are 
+combined with <code>&amp;</code> or separated by a comma. Only rows where the condition 
+evaluates to TRUE are kept.Rows where the condition evaluates to <code>NA</code>
+are dropped.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>wrcc_loadYear</span>(
-  wrccID = <span class='kw'>NULL</span>,
-  meta = <span class='kw'>NULL</span>,
-  year = <span class='kw'>NULL</span>,
-  newDownload = <span class='fl'>NA</span>,
-  password = <span class='kw'>NULL</span>,
-  baseUrl = <span class='st'>"https://wrcc.dri.edu/cgi-bin/wea_list2.pl"</span>,
-  verbose = <span class='fl'>TRUE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>rawsDF_filter</span>(rawsDF = <span class='kw'>NULL</span>, <span class='kw'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>wrccID</th>
-      <td><p>RAWS station identifier (will be upcased)</p></td>
+      <th>rawsDF</th>
+      <td><p><em>rawsDF</em> object.</p></td>
     </tr>
     <tr>
-      <th>meta</th>
-      <td><p>Tibble of WRCC station metadata.</p></td>
-    </tr>
-    <tr>
-      <th>year</th>
-      <td><p>Year to access station data for.</p></td>
-    </tr>
-    <tr>
-      <th>newDownload</th>
-      <td><p>Logical flag specifying whether or not to download and override existing data.</p></td>
-    </tr>
-    <tr>
-      <th>password</th>
-      <td><p>Password required for access to archival data.</p></td>
-    </tr>
-    <tr>
-      <th>baseUrl</th>
-      <td><p>Base URL for data queries.</p></td>
-    </tr>
-    <tr>
-      <th>verbose</th>
-      <td><p>Logical flag controlling detailed progress statements.</p></td>
+      <th>...</th>
+      <td><p>Logical predicates defined in terms of the variables in the 
+<code>rawsDF</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Timeseries object with 'meta' and 'data'.</p>
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
-
-    <p>The `newDownload` parameter has three possible settings:</p><ul>
-<li><p><code>NA</code> -- Download data if it is not found in <code>rawsDataDir</code></p></li>
-<li><p><code>TRUE</code> -- Always download data, overwriting existing data in <code>rawsDataDir</code>.
-This is useful for updating data files with more recent data.</p></li>
-<li><p><code>FALSE</code> -- Never download data. This is useful when working with
-<a href='wrcc_loadMultiple.html'>wrcc_loadMultiple</a> and archival data to avoid continually requesting
-data for stations which have no data over a particular time period.</p></li>
-</ul>
-
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p><a href='https://cefa.dri.edu/raws/'>Program for Climate, Ecosystem and Fire Applications</a></p>
+    <p>A subset of the incoming <code>rawsDF</code>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>wrcc_createTimeseriesObject</code></p>
-<p><code>setRawsDataDir</code></p></div>
+    <div class='dont-index'><p><a href='rawsDF_filterDate.html'>rawsDF_filterDate</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/MazamaScience/RAWSmet'>RAWSmet</a></span>)
 
-<span class='fu'><a href='setRawsDataDir.html'>setRawsDataDir</a></span>(<span class='st'>"~/Data/RAWS/"</span>)
+<span class='kw'>rawsObject</span> <span class='op'>&lt;-</span> <span class='kw'>example_fw13SaddleMountain</span>
+<span class='kw'>rawsDF</span> <span class='op'>&lt;-</span> <span class='kw'>rawsObject</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='raws_toRawsDF.html'>raws_toRawsDF</a></span>()
 
-<span class='kw'>stationMeta</span> <span class='op'>&lt;-</span> <span class='fu'><a href='wrcc_loadMeta.html'>wrcc_loadMeta</a></span>(stateCode = <span class='st'>"WA"</span>)
-<span class='kw'>rawsObject</span> <span class='op'>&lt;-</span> <span class='fu'>wrcc_loadYear</span>(
-  wrccID = <span class='st'>"waWENU"</span>, 
-  meta = <span class='kw'>stationMeta</span>, 
-  year = <span class='fl'>2020</span>,
-  password = <span class='kw'>MY_PASSWORD</span>
-)
+<span class='kw'>daytime</span> <span class='op'>&lt;-</span> <span class='fu'>rawsDF_filter</span>(<span class='kw'>rawsDF</span>, <span class='kw'>solarRadiation</span> <span class='op'>&gt;</span> <span class='fl'>0</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>daytime</span>)
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 19</span><span>
+#&gt;   datetime            temperature humidity windSpeed windDirection maxGustSpeed
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dttm&gt;</span><span>                    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> 2017-01-01 </span><span style='color: #555555;'>08:00:00</span><span>       -</span><span style='color: #BB0000;'>1.67</span><span>     99       0.894            14         2.24
+#&gt; </span><span style='color: #555555;'>2</span><span> 2017-01-01 </span><span style='color: #555555;'>09:00:00</span><span>       -</span><span style='color: #BB0000;'>2.22</span><span>     99.5     0.894           222         3.58
+#&gt; </span><span style='color: #555555;'>3</span><span> 2017-01-02 </span><span style='color: #555555;'>01:00:00</span><span>       -</span><span style='color: #BB0000;'>4.44</span><span>     79.5     4.92             12         8.94
+#&gt; </span><span style='color: #555555;'>4</span><span> 2017-01-02 </span><span style='color: #555555;'>02:00:00</span><span>       -</span><span style='color: #BB0000;'>3.89</span><span>     75.5     5.81              2         9.39
+#&gt; </span><span style='color: #555555;'>5</span><span> 2017-01-02 </span><span style='color: #555555;'>03:00:00</span><span>       -</span><span style='color: #BB0000;'>3.33</span><span>     74       0                11         8.94
+#&gt; </span><span style='color: #555555;'>6</span><span> 2017-01-02 </span><span style='color: #555555;'>04:00:00</span><span>       -</span><span style='color: #BB0000;'>3.33</span><span>     74       0                11         0   
+#&gt; </span><span style='color: #555555;'># … with 13 more variables: maxGustDirection </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, precipitation </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   solarRadiation </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, fuelMoisture </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, fuelTemperature </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   monitorType </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, nwsID </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, wrccID </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, siteName </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   longitude </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, latitude </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, timezone </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, elevation </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'><span class='co'># }</span>
 
-<span class='kw'>dplyr</span>::<span class='fu'><a href='https://tibble.tidyverse.org/reference/glimpse.html'>glimpse</a></span>(<span class='kw'>rawsObject</span>)
-}
-
-</div></pre>
+</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Date filtering for raws_timeseries objects — raws_filterDate • RAWSmet</title>
+<title>Convert a list of raws_timeseries objects to a single rawsDF object — rawsList_toRawsDF • RAWSmet</title>
 
 
 <!-- jquery -->
@@ -39,16 +39,26 @@
 
 
 
-<meta property="og:title" content="Date filtering for raws_timeseries objects — raws_filterDate" />
-<meta property="og:description" content="Subsets a raws_timeseries object by date. This function
-always filters to day-boundaries.
-Dates can be anything that is understood by lubridate::ymd()
-including either of the following recommended formats:
+<meta property="og:title" content="Convert a list of raws_timeseries objects to a single rawsDF object — rawsList_toRawsDF" />
+<meta property="og:description" content="Converts a list of raws_timeseries objects (raws_list) 
+to a single, tidy dataframe each containing all variables from each raws_timeseries
+object's data dataframe along with the following values from their meta dataframes:
 
-&quot;YYYYmmdd&quot;
-&quot;YYYY-mm-dd&quot;
+nwsID - the nwsID of the station
+wrccID - the wrccID of the station
+siteName - the name of the station
+longitude - longitude coordinate of the station
+latitude - latitude coordinate of the station
+timezone - the timezone the station is in
+elevation - elevation of the station
 
-" />
+
+This version of the RAWS data is known as a rawsDF object.
+Replicating this set of variables for every record greatly inflates the size
+of the data but also makes it much more useful when working with the 
+dplyr and ggplot2 packages.
+Multiple rawsDF objects can be combined with dplyr::bind_rows() 
+and used to create multi-station plots." />
 
 
 
@@ -149,94 +159,71 @@ including either of the following recommended formats:
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Date filtering for <em>raws_timeseries</em> objects</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/raws_filterDate.R'><code>R/raws_filterDate.R</code></a></small>
-    <div class="hidden name"><code>raws_filterDate.Rd</code></div>
+    <h1>Convert a list of raws_timeseries objects to a single rawsDF object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/rawsList_toRawsDF.R'><code>R/rawsList_toRawsDF.R</code></a></small>
+    <div class="hidden name"><code>rawsList_toRawsDF.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Subsets a <em>raws_timeseries</em> object by date. This function
-always filters to day-boundaries.</p>
-<p>Dates can be anything that is understood by <code><a href='http://lubridate.tidyverse.org/reference/ymd.html'>lubridate::ymd()</a></code>
-including either of the following recommended formats:</p>
-<ul>
-<li><p><code>"YYYYmmdd"</code></p></li>
-<li><p><code>"YYYY-mm-dd"</code></p></li>
-</ul>
+    <p>Converts a list of <em>raws_timeseries</em> objects (<em>raws_list</em>) 
+to a single, tidy dataframe each containing all variables from each <em>raws_timeseries</em>
+object's <code>data</code> dataframe along with the following values from their <code>meta</code> dataframes:</p>
+<ol>
+<li><p>nwsID - the nwsID of the station</p></li>
+<li><p>wrccID - the wrccID of the station</p></li>
+<li><p>siteName - the name of the station</p></li>
+<li><p>longitude - longitude coordinate of the station</p></li>
+<li><p>latitude - latitude coordinate of the station</p></li>
+<li><p>timezone - the timezone the station is in</p></li>
+<li><p>elevation - elevation of the station</p></li>
+</ol>
 
+<p>This version of the RAWS data is known as a <em>rawsDF</em> object.</p>
+<p>Replicating this set of variables for every record greatly inflates the size
+of the data but also makes it much more useful when working with the 
+<span class="pkg">dplyr</span> and <code>ggplot2</code> packages.</p>
+<p>Multiple <em>rawsDF</em> objects can be combined with <code><a href='https://dplyr.tidyverse.org/reference/bind.html'>dplyr::bind_rows()</a></code> 
+and used to create multi-station plots.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>raws_filterDate</span>(
-  rawsObject = <span class='kw'>NULL</span>,
-  startdate = <span class='kw'>NULL</span>,
-  enddate = <span class='kw'>NULL</span>,
-  days = <span class='kw'>NULL</span>,
-  weeks = <span class='kw'>NULL</span>,
-  timezone = <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>rawsList_toRawsDF</span>(rawsList = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>rawsObject</th>
-      <td><p><em>raws_timeseries</em> object.</p></td>
-    </tr>
-    <tr>
-      <th>startdate</th>
-      <td><p>Desired start datetime (ISO 8601).</p></td>
-    </tr>
-    <tr>
-      <th>enddate</th>
-      <td><p>Desired end datetime (ISO 8601).</p></td>
-    </tr>
-    <tr>
-      <th>days</th>
-      <td><p>Number of days to include in the filterDate interval.</p></td>
-    </tr>
-    <tr>
-      <th>weeks</th>
-      <td><p>Number of weeks to include in the filterDate interval.</p></td>
-    </tr>
-    <tr>
-      <th>timezone</th>
-      <td><p>Olson timezone used to interpret dates.</p></td>
+      <th>rawsList</th>
+      <td><p>List of <em>raws_timeseries</em> objects.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A subset of the given <em>raws_timeseries</em> object.</p>
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
-
-    <p>The returned data will run from the beginning of <code>startdate</code> until
-the <strong>beginning</strong> of <code>enddate</code> -- <em>i.e.</em> no values associated
-with <code>enddate</code> will be returned.</p>
+    <p>A single tidy dataframe containing data and metadata for each
+<em>raws_timeseries</em> object in a <em>raws_list</em>.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='raws_filter.html'>raws_filter</a></p></div>
+    <div class='dont-index'><p><a href='raws_toRawsDF.html'>raws_toRawsDF</a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/MazamaScience/RAWSmet'>RAWSmet</a></span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/MazamaScience/RAWSmet'>RAWSmet</a></span>)
 
-<span class='kw'>rawsObject</span> <span class='op'>&lt;-</span> <span class='kw'>example_fw13SaddleMountain</span>
+<span class='kw'>rawsDF</span><span class='op'>&lt;-</span> <span class='kw'>example_fw13List</span> <span class='op'>%&gt;%</span> <span class='fu'>rawsList_toRawsDF</span>()
 
-<span class='kw'>data201708</span> <span class='op'>&lt;-</span> <span class='kw'>rawsObject</span> <span class='op'>%&gt;%</span> <span class='fu'>raws_filterDate</span>(<span class='fl'>20170801</span>, <span class='fl'>20170901</span>, timezone = <span class='st'>"America/Los_Angeles"</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>data201708</span><span class='op'>$</span><span class='kw'>data</span>)
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 12</span><span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>rawsDF</span>)
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 19</span><span>
 #&gt;   datetime            temperature humidity windSpeed windDirection maxGustSpeed
 #&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dttm&gt;</span><span>                    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> 2017-08-01 </span><span style='color: #555555;'>07:00:00</span><span>        38.3     36.5      2.68           288         4.47
-#&gt; </span><span style='color: #555555;'>2</span><span> 2017-08-01 </span><span style='color: #555555;'>08:00:00</span><span>        38.9     36.5      2.68           240         5.36
-#&gt; </span><span style='color: #555555;'>3</span><span> 2017-08-01 </span><span style='color: #555555;'>09:00:00</span><span>        39.4     37        1.34           259         4.47
-#&gt; </span><span style='color: #555555;'>4</span><span> 2017-08-01 </span><span style='color: #555555;'>10:00:00</span><span>        38.3     37        1.79           301         3.13
-#&gt; </span><span style='color: #555555;'>5</span><span> 2017-08-01 </span><span style='color: #555555;'>11:00:00</span><span>        35       37        1.34           292         2.24
-#&gt; </span><span style='color: #555555;'>6</span><span> 2017-08-01 </span><span style='color: #555555;'>12:00:00</span><span>        26.1     37        1.79           283         2.68
-#&gt; </span><span style='color: #555555;'># … with 6 more variables: maxGustDirection </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, precipitation </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> 2017-09-01 </span><span style='color: #555555;'>07:00:00</span><span>        35       46.5      2.68            58         5.81
+#&gt; </span><span style='color: #555555;'>2</span><span> 2017-09-01 </span><span style='color: #555555;'>08:00:00</span><span>        35.6     46        2.68            72         4.47
+#&gt; </span><span style='color: #555555;'>3</span><span> 2017-09-01 </span><span style='color: #555555;'>09:00:00</span><span>        35.6     46        2.68            61         4.92
+#&gt; </span><span style='color: #555555;'>4</span><span> 2017-09-01 </span><span style='color: #555555;'>10:00:00</span><span>        34.4     46        3.13            51         4.47
+#&gt; </span><span style='color: #555555;'>5</span><span> 2017-09-01 </span><span style='color: #555555;'>11:00:00</span><span>        30       46        1.79            67         3.58
+#&gt; </span><span style='color: #555555;'>6</span><span> 2017-09-01 </span><span style='color: #555555;'>12:00:00</span><span>        22.8     46        1.34           270         2.24
+#&gt; </span><span style='color: #555555;'># … with 13 more variables: maxGustDirection </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, precipitation </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
 #&gt; </span><span style='color: #555555;'>#   solarRadiation </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, fuelMoisture </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, fuelTemperature </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   monitorType </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'><span class='co'># }</span>
-
+#&gt; </span><span style='color: #555555;'>#   monitorType </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, nwsID </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, wrccID </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, siteName </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   longitude </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, latitude </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, timezone </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, elevation </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'>
 </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Remove package data directory — removeRawsDataDir • RAWSmet</title>
+<title>Date filtering for rawsDF objects — rawsDF_filterDate • RAWSmet</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,16 @@
 
 
 
-<meta property="og:title" content="Remove package data directory — removeRawsDataDir" />
-<meta property="og:description" content="Resets the package data dir to NULL. Used for internal testing." />
+<meta property="og:title" content="Date filtering for rawsDF objects — rawsDF_filterDate" />
+<meta property="og:description" content="Subsets a rawsDF object by date. This function
+always filters to day-boundaries.
+Dates can be anything that is understood by lubridate::ymd()
+including either of the following recommended formats:
+
+&quot;YYYYmmdd&quot;
+&quot;YYYY-mm-dd&quot;
+
+" />
 
 
 
@@ -141,27 +149,85 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Remove package data directory</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/RAWSmet.R'><code>R/RAWSmet.R</code></a></small>
-    <div class="hidden name"><code>removeRawsDataDir.Rd</code></div>
+    <h1>Date filtering for <em>rawsDF</em> objects</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/R/rawsDF_filterDate.R'><code>R/rawsDF_filterDate.R</code></a></small>
+    <div class="hidden name"><code>rawsDF_filterDate.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Resets the package data dir to NULL. Used for internal testing.</p>
+    <p>Subsets a <em>rawsDF</em> object by date. This function
+always filters to day-boundaries.</p>
+<p>Dates can be anything that is understood by <code><a href='http://lubridate.tidyverse.org/reference/ymd.html'>lubridate::ymd()</a></code>
+including either of the following recommended formats:</p>
+<ul>
+<li><p><code>"YYYYmmdd"</code></p></li>
+<li><p><code>"YYYY-mm-dd"</code></p></li>
+</ul>
+
     </div>
 
-    <pre class="usage"><span class='fu'>removeRawsDataDir</span>()</pre>
+    <pre class="usage"><span class='fu'>rawsDF_filterDate</span>(
+  rawsDF = <span class='kw'>NULL</span>,
+  startdate = <span class='kw'>NULL</span>,
+  enddate = <span class='kw'>NULL</span>,
+  days = <span class='kw'>NULL</span>,
+  weeks = <span class='kw'>NULL</span>,
+  timezone = <span class='kw'>NULL</span>
+)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>rawsDF</th>
+      <td><p><em>raws_timeseries</em> object.</p></td>
+    </tr>
+    <tr>
+      <th>startdate</th>
+      <td><p>Desired start datetime (ISO 8601).</p></td>
+    </tr>
+    <tr>
+      <th>enddate</th>
+      <td><p>Desired end datetime (ISO 8601).</p></td>
+    </tr>
+    <tr>
+      <th>days</th>
+      <td><p>Number of days to include in the filterDate interval.</p></td>
+    </tr>
+    <tr>
+      <th>weeks</th>
+      <td><p>Number of weeks to include in the filterDate interval.</p></td>
+    </tr>
+    <tr>
+      <th>timezone</th>
+      <td><p>Olson timezone used to interpret dates.</p></td>
+    </tr>
+    </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Silently returns previous value of data directory.</p>
+    <p>A subset of the given <em>rawsDF</em> object.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>The returned data will run from the beginning of <code>startdate</code> until
+the <strong>beginning</strong> of <code>enddate</code> -- <em>i.e.</em> no values associated
+with <code>enddate</code> will be returned.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>rawsDataDir</p>
-<p>getRawsDataDir</p>
-<p>setRawsDataDir</p></div>
+    <div class='dont-index'><p><a href='rawsDF_filter.html'>rawsDF_filter</a></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/MazamaScience/RAWSmet'>RAWSmet</a></span>)
+
+<span class='kw'>rawsObject</span> <span class='op'>&lt;-</span> <span class='kw'>example_fw13SaddleMountain</span>
+<span class='kw'>rawsDF</span> <span class='op'>&lt;-</span> <span class='kw'>rawsObject</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='raws_toRawsDF.html'>raws_toRawsDF</a></span>()
+
+<span class='kw'>data201708</span> <span class='op'>&lt;-</span> <span class='kw'>rawsDF</span> <span class='op'>%&gt;%</span> <span class='fu'>rawsDF_filterDate</span>(<span class='fl'>20170801</span>, <span class='fl'>20170901</span>, timezone = <span class='st'>"America/Los_Angeles"</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='kw'>data201708</span><span class='op'>$</span><span class='kw'>data</span>)
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Unknown or uninitialised column: `data`.</span></div><div class='output co'>#&gt; NULL</div><div class='input'><span class='co'># }</span>
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
