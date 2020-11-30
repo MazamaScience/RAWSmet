@@ -1,14 +1,13 @@
 #' @export
 #' @importFrom rlang .data
 #'
-#' @title Convert a list of raws_timeseries objects to a list of rawsDF object
+#' @title Convert a list of raws_timeseries objects to a single rawsDF object
 #'
 #' @param rawsList List of \emph{raws_timeseries} objects.
 #'
 #' @description Converts a list of \emph{raws_timeseries} objects (\emph{raws_list}) 
-#' to a list of single, tidy dataframes each containing all varaibles from their
-#' respective \code{raws_timeseries} object's \code{data} dataframe along with
-#' the following values from its \code{meta} dataframe:
+#' to a single, tidy dataframe each containing all variables from each \emph{raws_timeseries}
+#' object's \code{data} dataframe along with the following values from their \code{meta} dataframes:
 #' 
 #' \enumerate{
 #'  \item{nwsID - the nwsID of the station}
@@ -16,6 +15,7 @@
 #'  \item{siteName - the name of the station}
 #'  \item{longitude - longitude coordinate of the station}
 #'  \item{latitude - latitude coordinate of the station}
+#'  \item{timezone - the timezone the station is in}
 #'  \item{elevation - elevation of the station}
 #' }
 #' 
@@ -28,16 +28,16 @@
 #' Multiple \emph{rawsDF} objects can be combined with \code{dplyr::bind_rows()} 
 #' and used to create multi-station plots.
 #'
-#' @return A list of tidy dataframes containing data and metadata for each
+#' @return A single tidy dataframe containing data and metadata for each
 #' \emph{raws_timeseries} object in a \emph{raws_list}.
 #'
 #' @seealso \link{raws_toRawsDF}
 #' @examples
 #' library(RAWSmet)
 #'
-#' rawsDF_list <- example_fw13List %>% rawsList_toRawsDF()
+#' rawsDF<- example_fw13List %>% rawsList_toRawsDF()
 #' 
-#' dplyr::glimpse(rawsDF_list[[1]])
+#' head(rawsDF)
 #'
 rawsList_toRawsDF <- function(
   rawsList = NULL
@@ -56,6 +56,8 @@ rawsList_toRawsDF <- function(
   
   # ----- Return ---------------------------------------------------------------
   
-  return(rawsList)
+  tidyDF <- dplyr::bind_rows(rawsList)
+  
+  return(tidyDF)
   
 }

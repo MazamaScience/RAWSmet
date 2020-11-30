@@ -2,7 +2,7 @@
 % Please edit documentation in R/rawsList_toRawsDF.R
 \name{rawsList_toRawsDF}
 \alias{rawsList_toRawsDF}
-\title{Convert a list of raws_timeseries objects to a list of rawsDF object}
+\title{Convert a list of raws_timeseries objects to a single rawsDF object}
 \usage{
 rawsList_toRawsDF(rawsList = NULL)
 }
@@ -10,14 +10,13 @@ rawsList_toRawsDF(rawsList = NULL)
 \item{rawsList}{List of \emph{raws_timeseries} objects.}
 }
 \value{
-A list of tidy dataframes containing data and metadata for each
+A single tidy dataframe containing data and metadata for each
 \emph{raws_timeseries} object in a \emph{raws_list}.
 }
 \description{
 Converts a list of \emph{raws_timeseries} objects (\emph{raws_list}) 
-to a list of single, tidy dataframes each containing all varaibles from their
-respective \code{raws_timeseries} object's \code{data} dataframe along with
-the following values from its \code{meta} dataframe:
+to a single, tidy dataframe each containing all variables from each \emph{raws_timeseries}
+object's \code{data} dataframe along with the following values from their \code{meta} dataframes:
 
 \enumerate{
  \item{nwsID - the nwsID of the station}
@@ -25,6 +24,7 @@ the following values from its \code{meta} dataframe:
  \item{siteName - the name of the station}
  \item{longitude - longitude coordinate of the station}
  \item{latitude - latitude coordinate of the station}
+ \item{timezone - the timezone the station is in}
  \item{elevation - elevation of the station}
 }
 
@@ -40,9 +40,9 @@ and used to create multi-station plots.
 \examples{
 library(RAWSmet)
 
-rawsDF_list <- example_fw13List \%>\% rawsList_toRawsDF()
+rawsDF<- example_fw13List \%>\% rawsList_toRawsDF()
 
-dplyr::glimpse(rawsDF_list[[1]])
+head(rawsDF)
 
 }
 \seealso{
