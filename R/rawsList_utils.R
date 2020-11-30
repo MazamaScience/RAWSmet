@@ -33,6 +33,7 @@ rawsList_removeEmpty <- function(
 #' @title Test for correct structure for a \emph{raws_list} object
 #'
 #' @param rawsList \emph{rawsList} object
+#' @param verbose Logical flag controlling detailed progress statements.
 #'
 #' @description The \code{rawsList} is checked for the 'list' class name and
 #' each element of this list is checked for correct \code{raws_timeseries} object

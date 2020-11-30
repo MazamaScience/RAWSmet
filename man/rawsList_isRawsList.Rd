@@ -8,6 +8,8 @@ rawsList_isRawsList(rawsList = NULL, verbose = FALSE)
 }
 \arguments{
 \item{rawsList}{\emph{rawsList} object}
+
+\item{verbose}{Logical flag controlling detailed progress statements.}
 }
 \value{
 \code{TRUE} if \code{rawsObject} has the correct structure, 
