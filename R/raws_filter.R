@@ -1,39 +1,40 @@
 #' @export
 #' @importFrom rlang .data
 #' 
-#' @title General purpose data filtering forraws_timeseries objects
+#' @title General purpose data filtering for rawsDF objects
 #' 
-#' @param rawsObject \emph{raws_timeseries} object.
+#' @param rawsDF \emph{rawsDF} object.
 #' @param ... Logical predicates defined in terms of the variables in the 
-#' \code{rawsObject$data}.
+#' \code{rawsDF}.
 #' 
-#' @description A generalized data filter for \emph{raws_timeseries} objects to 
+#' @description A generalized data filter for \emph{rawsDF} objects to 
 #' choose rows/cases where conditions are true.  Multiple conditions are 
 #' combined with \code{&} or separated by a comma. Only rows where the condition 
 #' evaluates to TRUE are kept.Rows where the condition evaluates to \code{NA}
 #' are dropped.
 #' 
-#' @return A subset of the incoming \code{raws_timeseries}.
+#' @return A subset of the incoming \code{rawsDF}.
 #' 
-#' @seealso \link{raws_filterDate}
+#' @seealso \link{rawsDF_filterDate}
 #' @examples
 #' \donttest{
 #' library(RAWSmet)
 #' 
 #' rawsObject <- example_fw13SaddleMountain
+#' rawsDF <- rawsObject %>% raws_toRawsDF()
 #' 
-#' daytime <- raws_filter(rawsObject, solarRadiation > 0)
-#' head(daytime$data)
+#' daytime <- rawsDF_filter(rawsDF, solarRadiation > 0)
+#' head(daytime)
 #' }
 #' 
 raws_filter <- function(
-  rawsObject = NULL, 
+  rawsDF = NULL, 
   ...
 ) {
   
   # ----- Validate parameters --------------------------------------------------
   
-  MazamaCoreUtils::stopIfNull(rawsObject)
+  MazamaCoreUtils::stopIfNull(rawsDF)
   
   if ( !raws_isRaws(rawsObject) )
     stop("parameter 'rawsObject' is not a valid 'raws_timeseries' object")
