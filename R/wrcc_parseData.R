@@ -1,5 +1,6 @@
 #' @export
 #' @importFrom MazamaCoreUtils logger.trace logger.debug logger.warn logger.error
+#' @importFrom dplyr lag
 #'
 #' @title Parse RAWS data string
 #'
@@ -128,10 +129,24 @@ wrcc_parseData <- function(
  
   # ----- Convert precipitation from "cumulative since water year start" -------
   
-  tbl$precipitation <- c(NA, diff(tbl$precipitation))
-  # Handle water year reset.
-  tbl$precipitation[tbl$precipitation < 0] <- 0
+  precipHourly <- c(NA, diff(tbl$precipitation))
   
+  # Handle water year reset.
+  # NOTE: On the hour after the water year reset, precipHourly will be negative
+  #       To get the amount of precipitation on this hour, we must add this
+  #       negative value to the previous.
+  # 
+  #       For example:
+  #       precipitation precipHourly temp actualPrecip
+  #                   1           NA   NA           NA
+  #                   1            0    1            0
+  #                   2            1    2            1
+  #                   1           -1    1            1
+  temp <- precipHourly + dplyr::lag(tbl$precipitation)
+  precipHourly[precipHourly < 0 & !is.na(precipHourly)] <- temp[precipHourly < 0 & !is.na(precipHourly)]
+
+  tbl$precipitation <- precipHourly
+
   # ----- Return ---------------------------------------------------------------
   
   return(tbl)
