@@ -144,7 +144,20 @@ fw13_createTimeseriesObject <- function(
   }
 
   precipHourly <- c(NA, diff(tbl$precipAmount))
-  precipHourly[precipHourly < 0] <- 0
+  
+  # Handle daily precip reset.
+  # NOTE: On the first hour of each LST day, precipHourly will be negative
+  #       To get the amount of precipitation in the first hour of each day, 
+  #       we must add this negative value to the previous hourly measurement.
+  # 
+  #       For example:
+  #       precipitation precipHourly temp actualPrecip
+  #                   1           NA   NA           NA
+  #                   1            0    1            0
+  #                   2            1    2            1
+  #                   1           -1    1            1
+  temp <- precipHourly + dplyr::lag(tbl$precipAmount)
+  precipHourly[precipHourly < 0 & !is.na(precipHourly)] <- temp[precipHourly < 0 & !is.na(precipHourly)]
 
   precipitation <- mapply(precipConvert, tbl$measurementType, precipHourly)
   precipitation[is.nan(precipitation)] <- 0

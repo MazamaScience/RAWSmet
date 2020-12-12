@@ -134,7 +134,7 @@ wrcc_parseData <- function(
   # Handle water year reset.
   # NOTE: On the hour after the water year reset, precipHourly will be negative
   #       To get the amount of precipitation on this hour, we must add this
-  #       negative value to the previous.
+  #       negative value to the previous hourly measurement.
   # 
   #       For example:
   #       precipitation precipHourly temp actualPrecip
