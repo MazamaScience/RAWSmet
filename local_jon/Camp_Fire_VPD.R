@@ -49,7 +49,8 @@ raws_leaflet(fw13_meta)
 
 fw13_list <- fw13_loadMultiple(
   nwsIDs = fw13_meta$nwsID,
-  meta = fw13_meta
+  meta = fw13_meta,
+  newDownload = FALSE
 )
 
 fw13_CampFireList <-
