@@ -135,15 +135,35 @@ raws_toRawsDF <- function(
 
   # TODO: Check this formula!!
   dplyr::mutate(
-    VPD = (1 - humidity/100) * 6.11^(17.27 * temperature/(temperature + 237.15))
+    VPD = (1 - .data$humidity/100) * 6.11^(17.27 * .data$temperature/(.data$temperature + 237.15)),
+    VPD_stackExchange = (.data$humidity/100) * 0.6108 * exp(17.27 * .data$temperature / (.data$temperature + 237.3))
   )
 
   # * Add FFWI (Fosberg Fire Weather Index) -----
   #
   # See https://a.atmos.washington.edu/wrfrt/descript/definitions/fosbergindex.html
-
-  # TODO:  Add Fosberg index
-
+  
+  # Calculate m (equilibrium moisture content)
+  calcM <- function(h, t) {
+    if (h < 10)
+      return(0.03229 + 0.281073*h - 0.000578*h*t)
+    else if (h >= 10 && h <= 50)
+      return(2.22749 + 0.160107*h - 0.01478*t)
+    else
+      return(21.0606 + 0.005565*h^2 - 0.00035*h*t - 0.483199*h)
+  }
+  
+  m <- mapply(calcM, rawsDF$humidity, rawsDF$temperature)
+  
+  # Calculate n (moisture damping coefficient)
+  n <- 1 - 2*(m / 30) + 1.5*(m / 30)^2 - 0.5*(m / 30)^3
+  
+  # Calculate wind speed (in mph)
+  windSpeed_mph = 2.23694 * rawsDF$windSpeed
+  
+  rawsDF <- rawsDF %>% dplyr::mutate(
+    FFWI = n * ((1 + windSpeed_mph^2)^(0.5)) / 0.3002
+  ) 
 
   # ----- Return ---------------------------------------------------------------
 
