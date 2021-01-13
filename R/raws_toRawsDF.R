@@ -22,6 +22,13 @@
 #'  \item{elevation - elevation of the station}
 #'  \item{timezone - timezone of the station}
 #' }
+#' 
+#' Additionally, this dataframe contains the following parameters of interest:
+#' 
+#' \enumerate{
+#'  \item{Vapor Pressure Deficit (VPD): }
+#'  \item{Fosberg Fire Weather Index (FFWI): https://a.atmos.washington.edu/wrfrt/descript/definitions/fosbergindex.html}
+#' }
 #'
 #' This version of the RAWS data is known as a \emph{rawsDF} object.
 #'
@@ -135,13 +142,10 @@ raws_toRawsDF <- function(
 
   # TODO: Check this formula!!
   dplyr::mutate(
-    VPD = (1 - .data$humidity/100) * 6.11^(17.27 * .data$temperature/(.data$temperature + 237.15)),
-    VPD_stackExchange = (.data$humidity/100) * 0.6108 * exp(17.27 * .data$temperature / (.data$temperature + 237.3))
+    VPD = (1 - .data$humidity/100) * 6.11^(17.27 * .data$temperature/(.data$temperature + 237.15))
   )
 
   # * Add FFWI (Fosberg Fire Weather Index) -----
-  #
-  # See https://a.atmos.washington.edu/wrfrt/descript/definitions/fosbergindex.html
   
   # Calculate m (equilibrium moisture content)
   calcM <- function(h, t) {
