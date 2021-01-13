@@ -62,9 +62,6 @@ rawsDF_isRawsDF <- function(
   if ( !all(requiredNames %in% names(rawsDF)) )
     return(FALSE)
   
-  if ( any(duplicated(rawsDF$datetime)) )
-    warning("Duplicate timesteps found in parameter 'rawsDF' object.")
-  
   # Nothing failed so return TRUE
   return(TRUE)
   
