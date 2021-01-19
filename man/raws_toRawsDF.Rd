@@ -16,7 +16,7 @@ Tidy dataframe containing data and metadata.
 }
 \description{
 Converts a \emph{raws_timeseries} object to a single, tidy
-dataframe containing all varaibles from \code{rawsObject$data} along with the 
+dataframe containing all varaibles from \code{rawsObject$data} along with the
 following values from \code{rawsObject$meta}:
 
 \enumerate{
@@ -29,13 +29,29 @@ following values from \code{rawsObject$meta}:
  \item{timezone - timezone of the station}
 }
 
+Additionally, this dataframe contains the following parameters of interest:
+
+\enumerate{
+ \item{Vapor Pressure Deficit (VPD): 
+  \itemize{
+   \item{https://andrewsforest.oregonstate.edu/sites/default/files/lter/data/studies/ms01/dewpt_vpd_calculations.pdf}
+   \item{https://en.wikipedia.org/wiki/Clausius–Clapeyron_relation#Meteorology_and_climatology}
+   } 
+  }
+ \item{Fosberg Fire Weather Index (FFWI): 
+  \itemize{
+   \item{https://a.atmos.washington.edu/wrfrt/descript/definitions/fosbergindex.html}
+   } 
+ }
+}
+
 This version of the RAWS data is known as a \emph{rawsDF} object.
 
 Replicating this set of variables for every record greatly inflates the size
-of the data but also makes it much more useful when working with the 
+of the data but also makes it much more useful when working with the
 \pkg{dplyr} and \code{ggplot2} packages.
 
-Multiple \emph{rawsDF} objects can be combined with \code{dplyr::bind_rows()} 
+Multiple \emph{rawsDF} objects can be combined with \code{dplyr::bind_rows()}
 and used to create multi-station plots.
 }
 \examples{
@@ -46,8 +62,8 @@ setRawsDataDir("~/Data/RAWS/")
 
 stationMeta <- wrcc_loadMeta(stateCode = "WA")
 rawsObject <- wrcc_loadYear(
-  wrccID = "waWENU", 
-  meta = stationMeta, 
+  wrccID = "waWENU",
+  meta = stationMeta,
   year = 2020,
   password = MY_PASSWORD
 )

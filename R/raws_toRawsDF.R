@@ -26,8 +26,17 @@
 #' Additionally, this dataframe contains the following parameters of interest:
 #' 
 #' \enumerate{
-#'  \item{Vapor Pressure Deficit (VPD): }
-#'  \item{Fosberg Fire Weather Index (FFWI): https://a.atmos.washington.edu/wrfrt/descript/definitions/fosbergindex.html}
+#'  \item{Vapor Pressure Deficit (VPD): 
+#'   \itemize{
+#'    \item{https://andrewsforest.oregonstate.edu/sites/default/files/lter/data/studies/ms01/dewpt_vpd_calculations.pdf}
+#'    \item{https://en.wikipedia.org/wiki/Clausius–Clapeyron_relation#Meteorology_and_climatology}
+#'    } 
+#'   }
+#'  \item{Fosberg Fire Weather Index (FFWI): 
+#'   \itemize{
+#'    \item{https://a.atmos.washington.edu/wrfrt/descript/definitions/fosbergindex.html}
+#'    } 
+#'  }
 #' }
 #'
 #' This version of the RAWS data is known as a \emph{rawsDF} object.
@@ -134,15 +143,9 @@ raws_toRawsDF <- function(
     ) %>%
 
   # * Add VPD (Vapor Pressure Deficit) -----
-  #
-  # Per discussion with Brian Potter at USFS AirFire
-  #   VPD: VPD=(1-RH/100)*6.11 exp(17.27*T/(T+237.15)) where RH is 1-100 and T is in Celsius.
-  #
-  # Also see https://en.wikipedia.org/wiki/Clausius–Clapeyron_relation#Meteorology_and_climatology
-
-  # TODO: Check this formula!!
+  
   dplyr::mutate(
-    VPD = (1 - .data$humidity/100) * 6.11^(17.27 * .data$temperature/(.data$temperature + 237.15))
+    VPD = (1 - .data$humidity/100) * 6.1094*exp(17.625 * .data$temperature / (.data$temperature + 243.04))
   )
 
   # * Add FFWI (Fosberg Fire Weather Index) -----
