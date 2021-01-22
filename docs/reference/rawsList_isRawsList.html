@@ -74,7 +74,7 @@ structure." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -101,9 +101,6 @@ structure." />
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/articles/Developer_Style_Guide.html">Developer Style Guide</a>
-    </li>
-    <li>
-      <a href="../articles/articles/Identifying_Unique_Locations.html">Identifying Unique Locations</a>
     </li>
     <li>
       <a href="../articles/articles/ORWA_2020_Water_Deficit.html">Oregon/Washington 2020 Water Deficit</a>
@@ -154,7 +151,7 @@ each element of this list is checked for correct <code>raws_timeseries</code> ob
 structure.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>rawsList_isRawsList</span>(rawsList = <span class='kw'>NULL</span>, verbose = <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>rawsList_isRawsList</span><span class='op'>(</span>rawsList <span class='op'>=</span> <span class='cn'>NULL</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -176,10 +173,10 @@ structure.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/MazamaScience/RAWSmet'>RAWSmet</a></span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/RAWSmet'>RAWSmet</a></span><span class='op'>)</span>
 
-<span class='fu'>rawsList_isRawsList</span>(<span class='kw'>example_fw13List</span>)
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>rawsList_isRawsList</span>(<span class='kw'>example_wrccList</span>)
+<span class='fu'>rawsList_isRawsList</span><span class='op'>(</span><span class='va'>example_fw13List</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'>rawsList_isRawsList</span><span class='op'>(</span><span class='va'>example_wrccList</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='co'># }</span>
 
 </div></pre>

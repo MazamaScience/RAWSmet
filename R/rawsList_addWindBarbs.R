@@ -3,6 +3,7 @@
 #' @importFrom rlang .data
 #' 
 #' @title Add wind barbs to a map for multiple RAWS stations
+
 #' @param rawsList a list of raws_timeseries objects
 #' @param observationTime Time of observation in question. Only accepts POSIXct objects.
 #' @param skipMissing Logical flag to skip stations with data missing at the requested time.
@@ -13,8 +14,11 @@
 #' @param extraBarbLength add length to barbs
 #' @param barbSize size of the barb 
 #' @param ... additional arguments to be passed to \code{lines}
+
 #' @description Add a multi-sided polygon to a plot.
+
 #' @references https://commons.wikimedia.org/wiki/Wind_speed
+
 #' @examples
 #' \dontrun{
 #' library(maps)
@@ -94,4 +98,5 @@ rawsList_addWindBarbs <- function(
                  extraBarbLength = extraBarbLength, 
                  barbSize = barbSize)
   }
+  
 }

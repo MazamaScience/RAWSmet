@@ -1,6 +1,9 @@
 #' @keywords internal
+#'
 #' @import graphics
+#'
 #' @title Add wind barb to a timeseries plot
+#'
 #' @param x x-axis position
 #' @param y y-axis position
 #' @param speed wind speed in knots 
@@ -10,7 +13,9 @@
 #' @param barbColor color of the barbs
 #' @param barbLocation starting location for the barb. Currently accepts 'point' or 'zero'
 #' @param ... additional arguments to be passed to \code{arrows}
+#'
 #' @description Add a wind barb to the plot. Used internally in \link{addWindBarbs2}
+#'
 #' @references \url{https://commons.wikimedia.org/wiki/Wind_speed}
 
 addWindBarb2 <- function(

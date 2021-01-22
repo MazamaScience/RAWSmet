@@ -16,7 +16,7 @@ working with weather data gathered by RAWS stations simpler. Using this package
 in conjunction with the **openair** package can make some beautiful and 
 informative visualizations of RAWS data.
 
-[**Openair**](https://davidcarslaw.github.io/openair/) is an R package designed 
+[**openair**](https://davidcarslaw.github.io/openair/) is an R package designed 
 specifically for modeling air quality data. The package provides many different 
 tools for plotting wind and pollution roses, flexible time series plots, and more. 
 Additionally, **openair** can easily group data and plot it by different periods 

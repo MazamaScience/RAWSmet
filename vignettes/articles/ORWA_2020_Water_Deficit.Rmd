@@ -156,7 +156,7 @@ head(plotDF)
 Now `plotDF` contains all of the information we need to create a map of cumulative
 precipitation across Washington and Oregon. The following code will illustrate
 how this map is generated.
-```{r create_map, message = FALSE, warning = FALSE, fig.width = 5, fig.height = 10}
+```{r create_map, message = FALSE, warning = FALSE, fig.width = 8, fig.height = 10}
 
 library(ggmap)
 library(ggplot2)

@@ -61,17 +61,9 @@ fw13_CampFireList <-
 # > length(fw13_CampFireList)
 # [1] 20
 
-# TODO:  replae with rawsList_toRawsDF()
-a <- lapply(fw13_CampFireList, raws_toRawsDF)
-fw13_CampFireDF <- dplyr::bind_rows(a)
-
-# VPD=(1-RH/100)*6.11 exp(17.27*T/(T+237.15))
-
 fw13_CampFireDF <-
-  fw13_CampFireDF %>%
-  dplyr::mutate(
-    VPD = (1 - humidity/100) * 6.11^(17.27 * temperature/(temperature + 237.15))
-  )
+  fw13_CampFireList %>%
+  rawsList_toRawsDF()
 
 # ----- WRCC Meta --------------------------------------------------------------
 
@@ -91,9 +83,8 @@ raws_leaflet(wrcc_meta)
 wrcc_list <- wrcc_loadMultiple(
   wrccIDs = wrcc_meta$wrccID,
   meta = wrcc_meta,
-  year = 2018###,
-  ###newDownload = TRUE,
-  ###password = MY_PASSWORD
+  year = 2018,
+  newDownload = FALSE
 )
 
 wrcc_CampFireList <-
@@ -104,15 +95,9 @@ wrcc_CampFireList <-
 # > length(fw13_CampFireList)
 # [1] 20
 
-# TODO:  replae with rawsList_toRawsDF()
-b <- lapply(wrcc_CampFireList, raws_toRawsDF)
-wrcc_CampFireDF <- dplyr::bind_rows(b)
-
 wrcc_CampFireDF <-
-  wrcc_CampFireDF %>%
-  dplyr::mutate(
-    VPD = (1 - humidity/100) * 6.11^(17.27 * temperature/(temperature + 237.15))
-  )
+  wrcc_CampFireList %>%
+  rawsList_toRawsDF()
 
 # ----- TODO -------------------------------------------------------------------
 

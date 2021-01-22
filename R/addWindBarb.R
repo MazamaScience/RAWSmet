@@ -1,6 +1,9 @@
 #' @keywords internal
+#'
 #' @import graphics
+#'
 #' @title Add wind barb to a map
+#'
 #' @param x longitude
 #' @param y latitude
 #' @param speed wind speed in knots 
@@ -11,7 +14,9 @@
 #' @param extraBarbLength add length to barbs
 #' @param barbSize size of the barb 
 #' @param ... additional arguments to be passed to \code{lines}
+#'
 #' @description Add a wind barb to the plot. Used internally in \link{addWindBarbs}
+#'
 #' @references \url{https://commons.wikimedia.org/wiki/Wind_speed}
 
 # NOTE:  This is a non-exported function so we cant have an @example

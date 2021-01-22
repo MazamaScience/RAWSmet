@@ -42,11 +42,10 @@ Specification of \code{ylim} will override the choice of
 \code{autoRange}.
 }
 \examples{
-\donttest{
 library(RAWSmet)
 
-data <- 
-  example_fw13SaddleMountain \%>\% 
+data <-
+  example_fw13SaddleMountain \%>\%
   raws_filterDate(20170801, 20170901) \%>\%
   raws_extractData()
 
@@ -55,6 +54,5 @@ timeseriesMultiplot(
   pattern = c("humidity|temperature"),
   nrow = 2
 )
-}
 
 }

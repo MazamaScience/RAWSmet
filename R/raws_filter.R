@@ -7,13 +7,13 @@
 #' @param ... Logical predicates defined in terms of the variables in the 
 #' \code{rawsObject$data}.
 #' 
+#' @return A subset of the incoming \code{raws_timeseries}.
+#' 
 #' @description A generalized data filter for \emph{raws_timeseries} objects to 
 #' choose rows/cases where conditions are true.  Multiple conditions are 
 #' combined with \code{&} or separated by a comma. Only rows where the condition 
 #' evaluates to TRUE are kept.Rows where the condition evaluates to \code{NA}
 #' are dropped.
-#' 
-#' @return A subset of the incoming \code{raws_timeseries}.
 #' 
 #' @seealso \link{raws_filterDate}
 #' @examples

@@ -20,13 +20,10 @@ ggplot2 plot of wind and gust speeds
 Creates a visualization of wind and gust speeds and wind directions.
 }
 \examples{
-\donttest{
 library(RAWSmet)
 library(grid)
 library(ggplot2)
 
-plot <- windTimeseriesPlot(example_fw13SaddleMountain, 20170801, 20170802)
-plot
-}
+windTimeseriesPlot(example_fw13SaddleMountain, 20170801, 20170802)
 
 }

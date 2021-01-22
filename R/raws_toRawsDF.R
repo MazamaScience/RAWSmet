@@ -22,20 +22,20 @@
 #'  \item{elevation - elevation of the station}
 #'  \item{timezone - timezone of the station}
 #' }
-#' 
+#'
 #' Additionally, this dataframe contains the following parameters of interest:
-#' 
+#'
 #' \enumerate{
-#'  \item{Vapor Pressure Deficit (VPD): 
+#'  \item{Vapor Pressure Deficit (VPD):
 #'   \itemize{
 #'    \item{https://andrewsforest.oregonstate.edu/sites/default/files/lter/data/studies/ms01/dewpt_vpd_calculations.pdf}
 #'    \item{https://en.wikipedia.org/wiki/Clausius–Clapeyron_relation#Meteorology_and_climatology}
-#'    } 
+#'    }
 #'   }
-#'  \item{Fosberg Fire Weather Index (FFWI): 
+#'  \item{Fosberg Fire Weather Index (FFWI):
 #'   \itemize{
 #'    \item{https://a.atmos.washington.edu/wrfrt/descript/definitions/fosbergindex.html}
-#'    } 
+#'    }
 #'  }
 #' }
 #'
@@ -143,34 +143,36 @@ raws_toRawsDF <- function(
     ) %>%
 
   # * Add VPD (Vapor Pressure Deficit) -----
-  
+
   dplyr::mutate(
     VPD = (1 - .data$humidity/100) * 6.1094*exp(17.625 * .data$temperature / (.data$temperature + 243.04))
   )
 
   # * Add FFWI (Fosberg Fire Weather Index) -----
-  
+
   # Calculate m (equilibrium moisture content)
   calcM <- function(h, t) {
-    if (h < 10)
-      return(0.03229 + 0.281073*h - 0.000578*h*t)
-    else if (h >= 10 && h <= 50)
-      return(2.22749 + 0.160107*h - 0.01478*t)
-    else
-      return(21.0606 + 0.005565*h^2 - 0.00035*h*t - 0.483199*h)
+    if ( !is.numeric(h) || is.na(h) || is.infinite(h) ) {
+      return(NA)
+    } else {
+      if (h < 10)
+        return(0.03229 + 0.281073*h - 0.000578*h*t)
+      else if (h >= 10 && h <= 50)
+        return(2.22749 + 0.160107*h - 0.01478*t)
+      else
+        return(21.0606 + 0.005565*h^2 - 0.00035*h*t - 0.483199*h)
+    }
   }
-  
+
   m <- mapply(calcM, rawsDF$humidity, rawsDF$temperature)
-  
+
   # Calculate n (moisture damping coefficient)
   n <- 1 - 2*(m / 30) + 1.5*(m / 30)^2 - 0.5*(m / 30)^3
-  
+
   # Calculate wind speed (in mph)
   windSpeed_mph = 2.23694 * rawsDF$windSpeed
-  
-  rawsDF <- rawsDF %>% dplyr::mutate(
-    FFWI = n * ((1 + windSpeed_mph^2)^(0.5)) / 0.3002
-  ) 
+
+  rawsDF$FFWI <- n * ((1 + windSpeed_mph^2)^(0.5)) / 0.3002
 
   # ----- Return ---------------------------------------------------------------
 

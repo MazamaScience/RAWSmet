@@ -22,6 +22,7 @@ is executed to gather the necessary data between August 31st and September 14th,
 approximately a week before and after the start of the wildfires in Holiday Farm.
 ```{r assembleData, message = FALSE}
 library(RAWSmet)
+library(grid)      # To avoid Error: 'could not find function "unit"'
 
 setRawsDataDir("~/Data/RAWS")
 
@@ -39,7 +40,13 @@ if ( file.exists(filePath) ) {
   
   # Create required data
   stationList_OR <- 
-    wrcc_loadMultiple(wrccIDs = oregonMeta$wrccID, meta = oregonMeta, year = 2020, password = MY_PASSWORD) %>%
+    wrcc_loadMultiple(
+      wrccIDs = oregonMeta$wrccID, 
+      meta = oregonMeta, 
+      year = 2020, 
+      newDownload = FALSE,
+      password = MY_PASSWORD
+    ) %>%
     rawsList_filterDate(
       startdate = MazamaCoreUtils::parseDatetime(20200831, timezone = "America/Los_Angeles"),
       enddate = MazamaCoreUtils::parseDatetime(20200914, timezone = "America/Los_Angeles"))

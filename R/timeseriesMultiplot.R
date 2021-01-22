@@ -23,21 +23,19 @@
 #' \code{autoRange}.
 #'
 #' @examples
-#' \donttest{
 #' library(RAWSmet)
-#' 
-#' data <- 
-#'   example_fw13SaddleMountain %>% 
+#'
+#' data <-
+#'   example_fw13SaddleMountain %>%
 #'   raws_filterDate(20170801, 20170901) %>%
 #'   raws_extractData()
-#' 
+#'
 #' timeseriesMultiplot(
 #'   data,
 #'   pattern = c("humidity|temperature"),
 #'   nrow = 2
 #' )
-#' }
-#' 
+#'
 timeseriesMultiplot <- function(
   data = NULL,
   pattern = NULL,
@@ -48,15 +46,15 @@ timeseriesMultiplot <- function(
   ylim = NULL,
   style = "line"
 ) {
-  
+
   # ----- Validate parameters --------------------------------------------------
-  
+
   MazamaCoreUtils::stopIfNull(data)
-  
+
   # Check for existence of "datetime"
   if ( !"datetime" %in% names(data) || (!"POSIXct" %in% class(data$datetime)) )
     stop("Parameter 'data' must have a column named 'datetime' of class 'POSIXct'.")
-  
+
   # Check for existence of parameters
   if ( !is.null(parameters) ) {
     unknownParameters <- setdiff(parameters, names(data))
@@ -67,7 +65,7 @@ timeseriesMultiplot <- function(
       stop(err_msg)
     }
   }
-  
+
   # Remove columns with all NA values as they mess up the creation of axes
   containsDataMask <- lapply(data, function(x) { any(!is.na(x)) }) %>% unlist()
   noDataNames <- names(containsDataMask[!containsDataMask])
@@ -77,51 +75,51 @@ timeseriesMultiplot <- function(
     message(msg)
     data <- data[,containsDataMask]
   }
-  
+
   if ( is.null(nrow) && is.null(ncol) )
     ncol <- 1
-  
+
   # ----- Determine parameters to plot -----------------------------------------
-  
+
   if ( is.null(parameters) ) {
-    
+
     parameters <- sort(names(data))
-    
+
     # Subset if requested
     if ( !is.null(pattern) ) {
       parameters <- stringr::str_subset(parameters, pattern)
     }
-    
+
   }
-  
+
   # Otherwise just use the incoming parameters
-  
+
   # Make sure 'datetime' is included, but only once
   parameters <- unique(c("datetime", parameters))
-  
+
   tidyData <-
     data[,parameters] %>%
     tidyr::gather("parameter", "value", -.data$datetime)
-  
+
   # ----- Create plot ----------------------------------------------------------
-  
+
   # Y axis
   if ( autoRange && is.null(ylim) ) {
     scales <- "free_y"
   } else {
     scales <- "fixed"
   }
-  
+
   # Facets
   facets <- factor(tidyData$parameter, levels = parameters)
-  
+
   # NOTE:  Using ggplot in a package requires special attention:
   # NOTE:    https://ggplot2.tidyverse.org/reference/aes_.html
   # NOTE:    https://bookdown.org/rdpeng/RProgDA/non-standard-evaluation.html
-  
+
   gg <-
     ggplot(tidyData, aes_(x = ~datetime, y = ~value))
-  
+
   if ( style == "point" ) {
     gg <- gg + geom_point()
   } else if ( style == "line" ) {
@@ -129,16 +127,16 @@ timeseriesMultiplot <- function(
   } else {
     gg <- gg + geom_area()
   }
-  
+
   gg <- gg +
     facet_wrap(facets, nrow = nrow, ncol = ncol, scales = scales )
-  
+
   if ( !is.null(ylim) ) {
     gg <- gg + ylim(ylim)
   }
-  
+
   # ----- Return ---------------------------------------------------------------
-  
+
   return(gg)
-  
+
 }

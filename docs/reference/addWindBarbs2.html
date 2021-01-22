@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -99,9 +99,6 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/articles/Developer_Style_Guide.html">Developer Style Guide</a>
-    </li>
-    <li>
-      <a href="../articles/articles/Identifying_Unique_Locations.html">Identifying Unique Locations</a>
     </li>
     <li>
       <a href="../articles/articles/ORWA_2020_Water_Deficit.html">Oregon/Washington 2020 Water Deficit</a>
@@ -150,17 +147,17 @@
     <p>Add a multi-sided polygon to a plot.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>addWindBarbs2</span>(
-  <span class='kw'>x</span>,
-  <span class='kw'>y</span>,
-  <span class='kw'>speed</span>,
-  <span class='kw'>dir</span>,
-  extraBarbLength = <span class='fl'>0</span>,
-  barbSize = <span class='fl'>1</span>,
-  barbColor = <span class='st'>"blue"</span>,
-  barbLocation = <span class='st'>"zero"</span>,
-  <span class='kw'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>addWindBarbs2</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>y</span>,
+  <span class='va'>speed</span>,
+  <span class='va'>dir</span>,
+  extraBarbLength <span class='op'>=</span> <span class='fl'>0</span>,
+  barbSize <span class='op'>=</span> <span class='fl'>1</span>,
+  barbColor <span class='op'>=</span> <span class='st'>"blue"</span>,
+  barbLocation <span class='op'>=</span> <span class='st'>"zero"</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -209,15 +206,15 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/MazamaScience/RAWSmet'>RAWSmet</a></span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/RAWSmet'>RAWSmet</a></span><span class='op'>)</span>
 
-<span class='kw'>data</span> <span class='op'>&lt;-</span> 
-  <span class='kw'>example_fw13SaddleMountain</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='raws_filterDate.html'>raws_filterDate</a></span>(<span class='st'>"2017-09-01"</span>, <span class='st'>"2017-10-01"</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='raws_extract.html'>raws_extractData</a></span>()
+<span class='va'>data</span> <span class='op'>&lt;-</span> 
+  <span class='va'>example_fw13SaddleMountain</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='raws_filterDate.html'>raws_filterDate</a></span><span class='op'>(</span><span class='st'>"2017-09-01"</span>, <span class='st'>"2017-10-01"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='raws_extract.html'>raws_extractData</a></span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='kw'>data</span><span class='op'>$</span><span class='kw'>datetime</span>, <span class='kw'>data</span><span class='op'>$</span><span class='kw'>windSpeed</span>)
-</div><div class='input'><span class='fu'>addWindBarbs2</span>(<span class='kw'>data</span><span class='op'>$</span><span class='kw'>datetime</span>, <span class='kw'>data</span><span class='op'>$</span><span class='kw'>windSpeed</span>, <span class='kw'>data</span><span class='op'>$</span><span class='kw'>windSpeed</span>, <span class='kw'>data</span><span class='op'>$</span><span class='kw'>windDirection</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>$</span><span class='va'>datetime</span>, <span class='va'>data</span><span class='op'>$</span><span class='va'>windSpeed</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'>addWindBarbs2</span><span class='op'>(</span><span class='va'>data</span><span class='op'>$</span><span class='va'>datetime</span>, <span class='va'>data</span><span class='op'>$</span><span class='va'>windSpeed</span>, <span class='va'>data</span><span class='op'>$</span><span class='va'>windSpeed</span>, <span class='va'>data</span><span class='op'>$</span><span class='va'>windDirection</span><span class='op'>)</span>
 </div><div class='img'><img src='addWindBarbs2-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># }</span>
 
 </div></pre>

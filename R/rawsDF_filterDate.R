@@ -10,6 +10,8 @@
 #' @param weeks Number of weeks to include in the filterDate interval.
 #' @param timezone Olson timezone used to interpret dates.
 #' 
+#' @return A subset of the given \emph{rawsDF} object.
+#' 
 #' @description Subsets a \emph{rawsDF} object by date. This function
 #' always filters to day-boundaries.
 #' 
@@ -24,8 +26,6 @@
 #' @note The returned data will run from the beginning of \code{startdate} until
 #' the \strong{beginning} of \code{enddate} -- \emph{i.e.} no values associated
 #' with \code{enddate} will be returned.
-#' 
-#' @return A subset of the given \emph{rawsDF} object.
 #' 
 #' @seealso \link{rawsDF_filter}
 #' @examples

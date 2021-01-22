@@ -1,3 +1,17 @@
+# RAWSmet 0.3.0
+
+Version 0.3.x is a release version and ready for use. Patch level updates will
+address bug fixes and minor requests for improvement.
+
+* Minor tweaks to examples.
+
+# RAWSmet 0.2.8
+
+* Added `VPD` (Vapor Pressure Deficit) and `FFWI` (Fosberg Fire Weather Index) 
+columns during `raws_toRawsDF()` creation of the `rawsDF` tidy dataframe.
+* Proper handling of missing data in `FFWI` calculation in `raws_toRawsDF()`.
+* Minor updates to articles.
+
 # RAWSmet 0.2.7
 
 * `rawsList_toRawsDF()` now returns a *single* tidy dataframe containing data

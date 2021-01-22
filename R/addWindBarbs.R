@@ -1,5 +1,7 @@
 #' @export
+#' 
 #' @title Add wind barbs to a map
+#' 
 #' @param x vector of longitudes
 #' @param y vector of latitudes
 #' @param speed vector of wind speeds in knots
@@ -10,8 +12,11 @@
 #' @param extraBarbLength add length to barbs
 #' @param barbSize size of the barb 
 #' @param ... additional arguments to be passed to \code{lines}
+#' 
 #' @description Add a multi-sided polygon to a plot.
+#' 
 #' @references https://commons.wikimedia.org/wiki/Wind_speed
+#' 
 #' @examples
 #' \dontrun{
 #' library(maps)

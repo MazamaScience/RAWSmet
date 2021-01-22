@@ -32,16 +32,16 @@ following values from \code{rawsObject$meta}:
 Additionally, this dataframe contains the following parameters of interest:
 
 \enumerate{
- \item{Vapor Pressure Deficit (VPD): 
+ \item{Vapor Pressure Deficit (VPD):
   \itemize{
    \item{https://andrewsforest.oregonstate.edu/sites/default/files/lter/data/studies/ms01/dewpt_vpd_calculations.pdf}
    \item{https://en.wikipedia.org/wiki/Clausius–Clapeyron_relation#Meteorology_and_climatology}
-   } 
+   }
   }
- \item{Fosberg Fire Weather Index (FFWI): 
+ \item{Fosberg Fire Weather Index (FFWI):
   \itemize{
    \item{https://a.atmos.washington.edu/wrfrt/descript/definitions/fosbergindex.html}
-   } 
+   }
  }
 }
 

@@ -6,13 +6,13 @@
 #' @param nwsID NWS RAWS station identifier.
 #' @param baseUrl Base URL for data queries.
 #' 
+#' @return String containing RAWS data.
+#' 
 #' @description Request data for a particular station. Data are returned as a 
 #' single character string containing the RAWS output.
 #'
 #' Station identifiers can be found at https://cefa.dri.edu/raws/RAWSfw13list.xlsx
 #' and can be downloaded with \code{\link{fw13_createMeta}}.
-#' 
-#' @return String containing RAWS data.
 #' 
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 #' 

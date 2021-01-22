@@ -4,7 +4,7 @@
 #' @importFrom metR geom_arrow
 #' @importFrom grid arrow unit
 #' @importFrom rlang .data
-#' 
+#'
 #' @title Create a visualization of wind and gust speeds for a given station
 #'
 #' @param rawsObject \emph{raws_timeseries} object for which to create the plot for
@@ -16,58 +16,55 @@
 #' @description Creates a visualization of wind and gust speeds and wind directions.
 #'
 #' @examples
-#' \donttest{
 #' library(RAWSmet)
 #' library(grid)
 #' library(ggplot2)
-#' 
-#' plot <- windTimeseriesPlot(example_fw13SaddleMountain, 20170801, 20170802)
-#' plot
-#' }
+#'
+#' windTimeseriesPlot(example_fw13SaddleMountain, 20170801, 20170802)
 #'
 windTimeseriesPlot <- function(
   rawsObject = NULL,
   startDate = NULL,
   endDate = NULL
 ) {
-  
+
   # ----- Validate parameters --------------------------------------------------
-  
+
   if ( ! raws_isRaws(rawsObject) )
     stop("Parameter 'rawsObject' is not a valid raws_timeseries object.")
-  
+
   if ( raws_isEmpty(rawsObject) )
     stop("Parameter 'rawsObject' must not be empty")
-  
+
   if ( is.null(startDate) )
     startDate <- min(rawsObject$data$datetime)
-  
+
   if ( is.null(endDate) )
     endDate <- max(rawsObject$data$datetime)
-  
+
   # ----- Extract data and metadata --------------------------------------------
-  
-  meta <- 
+
+  meta <-
     raws_extractMeta(rawsObject)
-  
-  data <- 
-    raws_filterDate(rawsObject, startDate, endDate, timezone = meta$timezone) %>% 
+
+  data <-
+    raws_filterDate(rawsObject, startDate, endDate, timezone = meta$timezone) %>%
     raws_extractData()
-  
+
   # ----- Create plot ----------------------------------------------------------
-  
+
   if ( is.na(meta$wrccID) )
     stationID <- meta$nwsID
   else
     stationID <- meta$wrccID
-  
-  title <- sprintf("Observed Wind at %s, %s %s \n From %s LST to %s LST", 
-                  stationID, 
-                  meta$siteName, 
-                  meta$stateCode, 
-                  MazamaCoreUtils::parseDatetime(startDate, timezone = meta$timezone), 
+
+  title <- sprintf("Observed Wind at %s, %s %s \n From %s LST to %s LST",
+                  stationID,
+                  meta$siteName,
+                  meta$stateCode,
+                  MazamaCoreUtils::parseDatetime(startDate, timezone = meta$timezone),
                   MazamaCoreUtils::parseDatetime(endDate, timezone = meta$timezone))
-  
+
   gg <- ggplot2::ggplot(data, ggplot2::aes(x = .data$datetime, y = .data$windSpeed)) +
     ggplot2::geom_point(ggplot2::aes(y = .data$windSpeed, color = "Winds")) +
     ggplot2::geom_line(ggplot2::aes(y = .data$maxGustSpeed, color = "Gusts")) +
@@ -75,8 +72,8 @@ windTimeseriesPlot <- function(
     metR::geom_arrow(
       ggplot2::aes(mag = 1, angle =.data$windDirection),
       start = -90,
-      direction = "cw",              
-      arrow.ends = "last", 
+      direction = "cw",
+      arrow.ends = "last",
       show.legend = FALSE
     ) +
     ggplot2::ylim(min = -1, max = max(data$maxGustSpeed)) +
@@ -89,7 +86,7 @@ windTimeseriesPlot <- function(
         shape = c(16, NA)))
     ) +
     ggplot2::theme(legend.position = "bottom", plot.title = ggplot2::element_text(hjust = 0.5))
-  
+
   return(gg)
-  
+
 }

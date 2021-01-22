@@ -5,6 +5,9 @@
 #'
 #' @param rawsList List of \emph{raws_timeseries} objects.
 #'
+#' @return A single tidy dataframe containing data and metadata for each
+#' \emph{raws_timeseries} object in a \emph{raws_list}.
+#'
 #' @description Converts a list of \emph{raws_timeseries} objects (\emph{raws_list}) 
 #' to a single, tidy dataframe each containing all variables from each \emph{raws_timeseries}
 #' object's \code{data} dataframe along with the following values from their \code{meta} dataframes:
@@ -27,9 +30,6 @@
 #' 
 #' Multiple \emph{rawsDF} objects can be combined with \code{dplyr::bind_rows()} 
 #' and used to create multi-station plots.
-#'
-#' @return A single tidy dataframe containing data and metadata for each
-#' \emph{raws_timeseries} object in a \emph{raws_list}.
 #'
 #' @seealso \link{raws_toRawsDF}
 #' @examples

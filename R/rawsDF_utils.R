@@ -5,6 +5,9 @@
 #' 
 #' @param rawsDF \emph{rawsDF} object
 #' 
+#' @return \code{TRUE} if \code{rawsDF} has the correct structure, 
+#' \code{FALSE} otherwise.
+#' 
 #' @description The \code{rawsDF} is checked for the presence of core data columns
 #' 
 #' Core columns include:
@@ -30,9 +33,6 @@
 #'   \item{\code{timezone} -- timezone of the station}
 #'   \item{\code{elevation} -- elevation of station in m}
 #' }
-#' 
-#' @return \code{TRUE} if \code{rawsDF} has the correct structure, 
-#' \code{FALSE} otherwise.
 #' 
 #' @examples 
 #' \donttest{

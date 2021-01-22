@@ -10,6 +10,9 @@
 #' @param weeks Number of weeks to include in the filterDate interval.
 #' @param timezone Olson timezone used to interpret dates.
 #' 
+#' @return A list of subsets of the elements of the given list of 
+#' \emph{raws_timeseries} objects filtered by date.
+#' 
 #' @description Subsets a list of \emph{raws_timeseries} objects by date. 
 #' This function always filters to day-boundaries.
 #' 
@@ -24,9 +27,6 @@
 #' @note The returned data will run from the beginning of \code{startdate} until
 #' the \strong{beginning} of \code{enddate} -- \emph{i.e.} no values associated
 #' with \code{enddate} will be returned.
-#' 
-#' @return A list of subsets of the elements of the given list of 
-#' \emph{raws_timeseries} objects filtered by date.
 #' 
 #' @seealso \link{raws_filterDate}
 #' @seealso \link{rawsList_filter}

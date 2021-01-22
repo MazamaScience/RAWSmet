@@ -1,13 +1,12 @@
-pandoc: 2.7.3
+pandoc: 2.10.1
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   RAWSmet: RAWSmet.html
   articles/Developer_Style_Guide: Developer_Style_Guide.html
-  articles/Identifying_Unique_Locations: Identifying_Unique_Locations.html
   articles/ORWA_2020_Water_Deficit: ORWA_2020_Water_Deficit.html
   articles/Oregon_2020_LaborDay: Oregon_2020_LaborDay.html
   articles/RAWSmet_usage: RAWSmet_usage.html
   articles/Working_with_openair: Working_with_openair.html
-last_built: 2020-11-30T21:12Z
+last_built: 2021-01-22T22:09Z
 
