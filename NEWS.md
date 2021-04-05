@@ -1,3 +1,8 @@
+# RAWSmet 0.3.1
+
+* Corrected time shift from "Local Standard Time" (LST) to UTC. (We had 
+previously added `UTC_offset` when it needs to be subtracted from LST.)
+
 # RAWSmet 0.3.0
 
 Version 0.3.x is a release version and ready for use. Patch level updates will

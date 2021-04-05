@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -191,12 +191,12 @@
 <pre><code>## # A tibble: 6 x 12
 ##   datetime            temperature humidity windSpeed windDirection maxGustSpeed
 ##   &lt;dttm&gt;                    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;
-## 1 2019-12-31 16:00:00        10.6       NA      3.13           219         8.94
-## 2 2019-12-31 17:00:00        10.6       NA      3.13           228         7.6 
-## 3 2019-12-31 18:00:00        10         NA      2.24           220         7.15
-## 4 2019-12-31 19:00:00        10         NA      2.24           215         7.15
-## 5 2019-12-31 20:00:00        10         NA      1.79           220         8.05
-## 6 2019-12-31 21:00:00        10         NA      2.24           223         8.05
+## 1 2020-01-01 08:00:00        10.6       NA      3.13           219         8.94
+## 2 2020-01-01 09:00:00        10.6       NA      3.13           228         7.6 
+## 3 2020-01-01 10:00:00        10         NA      2.24           220         7.15
+## 4 2020-01-01 11:00:00        10         NA      2.24           215         7.15
+## 5 2020-01-01 12:00:00        10         NA      1.79           220         8.05
+## 6 2020-01-01 13:00:00        10         NA      2.24           223         8.05
 ## # … with 6 more variables: maxGustDirection &lt;dbl&gt;, precipitation &lt;dbl&gt;,
 ## #   solarRadiation &lt;dbl&gt;, fuelMoisture &lt;dbl&gt;, fuelTemperature &lt;dbl&gt;,
 ## #   monitorType &lt;chr&gt;</code></pre>
@@ -212,12 +212,12 @@
 <pre><code>## # A tibble: 6 x 12
 ##   datetime            temperature humidity windSpeed windDirection maxGustSpeed
 ##   &lt;dttm&gt;                    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;
-## 1 2004-01-06 03:00:00        8.33     28.5      4.92           170         8.94
-## 2 2004-01-06 04:00:00       11.1      28.5      5.36           167        10.3 
-## 3 2004-01-06 05:00:00       13.9      28.5      4.47           165        12.1 
-## 4 2004-01-06 07:00:00        9.44     29        3.13            29         4.02
-## 5 2004-01-06 08:00:00        8.33     34.5      3.13            25         4.92
-## 6 2004-01-06 09:00:00        6.67     34.5      3.13            22         4.92
+## 1 2004-01-06 19:00:00        8.33     28.5      4.92           170         8.94
+## 2 2004-01-06 20:00:00       11.1      28.5      5.36           167        10.3 
+## 3 2004-01-06 21:00:00       13.9      28.5      4.47           165        12.1 
+## 4 2004-01-06 23:00:00        9.44     29        3.13            29         4.02
+## 5 2004-01-07 00:00:00        8.33     34.5      3.13            25         4.92
+## 6 2004-01-07 01:00:00        6.67     34.5      3.13            22         4.92
 ## # … with 6 more variables: maxGustDirection &lt;dbl&gt;, precipitation &lt;dbl&gt;,
 ## #   solarRadiation &lt;dbl&gt;, fuelMoisture &lt;dbl&gt;, fuelTemperature &lt;chr&gt;,
 ## #   monitorType &lt;chr&gt;</code></pre>
@@ -232,34 +232,28 @@
 <span class="va">wrccIDs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"waWASH"</span>, <span class="st">'waWENU'</span>, <span class="st">'waWABE'</span><span class="op">)</span>
 
 <span class="co"># Load data from these 3 stations</span>
-<span class="va">rawsList</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/wrcc_loadMultiple.html">wrcc_loadMultiple</a></span><span class="op">(</span><span class="va">wrccIDs</span> <span class="op">&lt;-</span> <span class="va">wrccIDs</span>, meta <span class="op">=</span> <span class="va">wa_meta</span>, year <span class="op">=</span> <span class="fl">2020</span>, password <span class="op">=</span> <span class="va">MY_PASSWORD</span><span class="op">)</span>
-
-<span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">rawsList</span><span class="op">)</span></code></pre></div>
-<pre><code>## List of 3
-##  $ waWASH:List of 2
-##   ..$ meta: tibble [1 × 11] (S3: tbl_df/tbl/data.frame)
-##   ..$ data: tibble [8,374 × 12] (S3: tbl_df/tbl/data.frame)
-##   ..- attr(*, "class")= chr [1:2] "raws_timeseries" "list"
+<span class="va">rawsList</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/wrcc_loadMultiple.html">wrcc_loadMultiple</a></span><span class="op">(</span><span class="va">wrccIDs</span> <span class="op">&lt;-</span> <span class="va">wrccIDs</span>, meta <span class="op">=</span> <span class="va">wa_meta</span>, year <span class="op">=</span> <span class="fl">2020</span>, password <span class="op">=</span> <span class="va">MY_PASSWORD</span><span class="op">)</span></code></pre></div>
+<pre><code>## Warning in wrcc_downloadData(wrccID = wrccID, startdate = startdate, enddate =
+## enddate, : restarting interrupted promise evaluation</code></pre>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/glimpse.html">glimpse</a></span><span class="op">(</span><span class="va">rawsList</span><span class="op">)</span></code></pre></div>
+<pre><code>## List of 1
 ##  $ waWENU:List of 2
 ##   ..$ meta: tibble [1 × 11] (S3: tbl_df/tbl/data.frame)
 ##   ..$ data: tibble [8,374 × 12] (S3: tbl_df/tbl/data.frame)
 ##   ..- attr(*, "class")= chr [1:2] "raws_timeseries" "list"
-##  $ waWABE:List of 2
-##   ..$ meta: tibble [1 × 11] (S3: tbl_df/tbl/data.frame)
-##   ..$ data: tibble [8,376 × 12] (S3: tbl_df/tbl/data.frame)
-##   ..- attr(*, "class")= chr [1:2] "raws_timeseries" "list"
 ##  - attr(*, "class")= chr [1:2] "rawsList" "list"</code></pre>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">rawsList</span><span class="op">$</span><span class="va">waWENU</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 12
 ##   datetime            temperature humidity windSpeed windDirection maxGustSpeed
 ##   &lt;dttm&gt;                    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;        &lt;dbl&gt;
-## 1 2019-12-31 16:00:00        10.6       NA      3.13           219         8.94
-## 2 2019-12-31 17:00:00        10.6       NA      3.13           228         7.6 
-## 3 2019-12-31 18:00:00        10         NA      2.24           220         7.15
-## 4 2019-12-31 19:00:00        10         NA      2.24           215         7.15
-## 5 2019-12-31 20:00:00        10         NA      1.79           220         8.05
-## 6 2019-12-31 21:00:00        10         NA      2.24           223         8.05
+## 1 2020-01-01 08:00:00        10.6       NA      3.13           219         8.94
+## 2 2020-01-01 09:00:00        10.6       NA      3.13           228         7.6 
+## 3 2020-01-01 10:00:00        10         NA      2.24           220         7.15
+## 4 2020-01-01 11:00:00        10         NA      2.24           215         7.15
+## 5 2020-01-01 12:00:00        10         NA      1.79           220         8.05
+## 6 2020-01-01 13:00:00        10         NA      2.24           223         8.05
 ## # … with 6 more variables: maxGustDirection &lt;dbl&gt;, precipitation &lt;dbl&gt;,
 ## #   solarRadiation &lt;dbl&gt;, fuelMoisture &lt;dbl&gt;, fuelTemperature &lt;dbl&gt;,
 ## #   monitorType &lt;chr&gt;</code></pre>
@@ -272,7 +266,7 @@
 <h3 class="hasAnchor">
 <a href="#filtering-raws_timeseries-objects" class="anchor"></a>Filtering <code>raws_timeseries</code> objects</h3>
 <p><strong>RAWSmet</strong> provides many utility functions for working with <code>raws_timeseries</code> objects. The first of these functions are for filtering <code>raws_timeseries</code> objects and <code>raws_list</code>’s.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">startdate</span> <span class="op">&lt;-</span> <span class="fu">MazamaCoreUtils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MazamaCoreUtils/man/parseDatetime.html">parseDatetime</a></span><span class="op">(</span><span class="fl">20200901</span>, timezone <span class="op">=</span> <span class="st">"America/Los_Angeles"</span><span class="op">)</span>
 <span class="va">enddate</span> <span class="op">&lt;-</span> <span class="fu">MazamaCoreUtils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MazamaCoreUtils/man/parseDatetime.html">parseDatetime</a></span><span class="op">(</span><span class="fl">20201001</span>, timezone <span class="op">=</span> <span class="st">"America/Los_Angeles"</span><span class="op">)</span>
 
@@ -290,7 +284,7 @@
               <span class="va">enumclaw_202009</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">datetime</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,
               <span class="va">enumclaw_202009</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">datetime</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">enumclaw_202009</span><span class="op">$</span><span class="va">data</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "First observation: 2020-09-01 07:00:00, last observation: 2020-10-01 06:00:00"</code></pre>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># raws_filter</span>
 <span class="va">enumclaw_daytime</span> <span class="op">&lt;-</span> <span class="va">enumclaw_wrcc</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../../reference/raws_filter.html">raws_filter</a></span><span class="op">(</span><span class="va">solarRadiation</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span>
@@ -299,7 +293,7 @@
               <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">enumclaw_wrcc</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">solarRadiation</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
               <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">enumclaw_daytime</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">solarRadiation</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "Min solar radiation before filter: 0, min solar radiation after filter: 1"</code></pre>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># ----- raws_list -----</span>
 
 <span class="va">rawsList_202009</span> <span class="op">&lt;-</span> <span class="va">rawsList</span> <span class="op">%&gt;%</span>
@@ -316,28 +310,28 @@
 <h3 class="hasAnchor">
 <a href="#validating-raws_timeseries-objects" class="anchor"></a>Validating <code>raws_timeseries</code> objects</h3>
 <p>The next type of utility functions are for validating <code>raws_timeseries</code> objects.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Check if an object is a valid raws_timeseries</span>
 <span class="fu"><a href="../../reference/raws_isRaws.html">raws_isRaws</a></span><span class="op">(</span><span class="va">enumclaw_wrcc</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/raws_isRaws.html">raws_isRaws</a></span><span class="op">(</span><span class="va">enumclaw_fw13</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/raws_isRaws.html">raws_isRaws</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"some"</span>, <span class="st">"other"</span>, <span class="st">"object"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Check if a raws_timeseries is empty</span>
 <span class="fu"><a href="../../reference/raws_isEmpty.html">raws_isEmpty</a></span><span class="op">(</span><span class="va">enumclaw_wrcc</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Get an empty list by filtering by an impossible value</span>
 <span class="va">enumclaw_empty</span> <span class="op">&lt;-</span> <span class="va">enumclaw_wrcc</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../../reference/raws_filter.html">raws_filter</a></span><span class="op">(</span><span class="va">humidity</span> <span class="op">==</span> <span class="fl">1000</span><span class="op">)</span>
 
 <span class="fu"><a href="../../reference/raws_isEmpty.html">raws_isEmpty</a></span><span class="op">(</span><span class="va">enumclaw_empty</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Get a new raws_timeseries by removing duplicate observations</span>
 <span class="va">enumclaw_wrcc_distinct</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/raws_distinct.html">raws_distinct</a></span><span class="op">(</span><span class="va">enumclaw_wrcc</span><span class="op">)</span></code></pre></div>
 </div>
@@ -345,14 +339,14 @@
 <h3 class="hasAnchor">
 <a href="#extracting-metadatadata-from-raws_timeseries-objects" class="anchor"></a>Extracting metadata/data from <code>raws_timeseries</code> objects</h3>
 <p>The finaly type of utility functions are for extracting the <code>meta</code> and <code>data</code> dataframes from a <code>raws_timeseries</code> object.</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">enumclaw_meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/raws_extract.html">raws_extractMeta</a></span><span class="op">(</span><span class="va">enumclaw_wrcc</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">enumclaw_meta</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] "nwsID"       "wrccID"      "nessID"      "siteName"    "longitude"  
 ##  [6] "latitude"    "timezone"    "elevation"   "countryCode" "stateCode"  
 ## [11] "agency"</code></pre>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">enumclaw_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/raws_extract.html">raws_extractData</a></span><span class="op">(</span><span class="va">enumclaw_wrcc</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">enumclaw_data</span><span class="op">)</span></code></pre></div>
@@ -360,7 +354,7 @@
 ##  [5] "windDirection"    "maxGustSpeed"     "maxGustDirection" "precipitation"   
 ##  [9] "solarRadiation"   "fuelMoisture"     "fuelTemperature"  "monitorType"</code></pre>
 <p>Additionally, <code>raws_extractData</code> can format the <code>data</code> dataframe correctly for use with the <strong>openair</strong> package by passing <code>forOpenair = TRUE</code>.</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">enumclaw_data_openair</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/raws_extract.html">raws_extractData</a></span><span class="op">(</span><span class="va">enumclaw_wrcc</span>, forOpenair <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">enumclaw_data_openair</span><span class="op">)</span></code></pre></div>

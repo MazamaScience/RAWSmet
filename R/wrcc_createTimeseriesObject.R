@@ -32,7 +32,7 @@
 #' library(RAWSmet)
 #'
 #' waWALD <- wrcc_createTimeseriesObject(wrccID = 'waWALD')
-#' 
+#'
 #' }
 #'
 #' @seealso \code{\link{wrcc_downloadData}}
@@ -49,33 +49,33 @@ wrcc_createTimeseriesObject <- function(
   baseUrl = "https://wrcc.dri.edu/cgi-bin/wea_list2.pl",
   verbose = FALSE
 ) {
-  
+
   # ----- Validate parameters --------------------------------------------------
-  
+
   stopIfNull(wrccID)
 
   if ( length(wrccID) > 1 )
     stop("Parameter 'wrccID' must be of length 1")
-  
+
   # ----- Create 'meta' --------------------------------------------------------
-  
+
   if ( is.null(meta) ) {
-    
+
     if ( verbose )
       message(sprintf("Creating metadata for wrccID = %s...", wrccID))
 
     meta <- wrcc_createMeta(wrccIDs = wrccID)
-    
+
   } else {
-    
+
     meta <- dplyr::filter(meta, wrccID == !!wrccID)
-    
+
   }
-  
+
   # ----- Create 'data' --------------------------------------------------------
-  
+
   # * Download/parse -----
-  
+
   tbl <- wrcc_createRawDataframe(
     wrccID = wrccID,
     startdate = startdate,
@@ -83,12 +83,12 @@ wrcc_createTimeseriesObject <- function(
     password = password,
     baseUrl = baseUrl
   )
-  
+
   # * Harmonize ----
-  
+
   # Station can only have one 'monitorType'
   monitorType <- unique(tbl$monitorType)
-  
+
   # Define the set of standard columns that will always be returned
   standardDataVars <- c(
     "datetime", "temperature", "humidity",
@@ -97,12 +97,12 @@ wrcc_createTimeseriesObject <- function(
     "fuelMoisture", "fuelTemperature",
     "monitorType"
   )
-  
+
   # If any of the standard columns don't exist, replace them with NA
   for ( column in setdiff(standardDataVars, names(tbl))) {
     tbl[column] <- as.numeric(NA)
   }
-  
+
   data <-
     tbl %>%
     dplyr::mutate(
@@ -120,31 +120,33 @@ wrcc_createTimeseriesObject <- function(
       "monitorType" = .data$monitorType
     ) %>%
     dplyr::select(all_of(standardDataVars))
-    
-  
+
+
   # * Convert datetime to UTC ----
 
   UTC_offset <-
     MazamaSpatialUtils::SimpleTimezones@data %>%
     dplyr::filter(.data$timezone == meta$timezone) %>%
     dplyr::pull("UTC_offset")
-  
+
   # NOTE:  The 'datetime' column is "local standard time all-year-round" for
   # NOTE:  which no timezone exists. So we have to convert it first to UTC
   # NOTE:  and then shift it by the UTC offset.
-  
+  # NOTE:  When we subtract a UTC_offset of, e.g. -8 (PST), we will get the
+  # NOTE:  correct UTC time that is 8 hours later than the US West Coast clock time.
+
   UTC_time <-
-    MazamaCoreUtils::parseDatetime(data$datetime, timezone = "UTC") +
+    MazamaCoreUtils::parseDatetime(data$datetime, timezone = "UTC") -
     lubridate::dhours(UTC_offset)
-  
+
   data$datetime <- UTC_time
-  
+
   # ----- Return ---------------------------------------------------------------
 
   # Combine meta and data dataframes into a list
   raws <- list(meta = meta, data = data)
   class(raws) <- c("raws_timeseries", class(raws))
-  
+
   return(raws)
-  
+
 }

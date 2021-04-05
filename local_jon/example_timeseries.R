@@ -27,19 +27,19 @@ bend_1 <- fw13_load("352621", meta)
 range(bend_1$data$datetime)
 
 # Use "recipe style" pipeline to extract data for use with the *openair* package
-data_2017 <- 
-  bend_1 %>% 
+data_2017 <-
+  bend_1 %>%
   raws_filterDate(20170901, 20171101, timezone = "America/Los_Angeles") %>%
   raws_extractData(forOpenair = TRUE)
 
-# *openair* timeseries plot
+# *openair* timeseries plot (time axis in UTC)
 openair::timePlot(
   data_2017,
   pollutant = c("temperature", "humidity"),
   avg.time = "hour",
-  main = "Temperature and Humidity in Bend, OR, September 2017", 
+  main = "Temperature and Humidity in Bend, OR, September 2017",
   key = TRUE,
-  name.pol = c("temperature (°C)", "humidity (%)"), 
+  name.pol = c("temperature (°C)", "humidity (%)"),
   ylab = ""
 )
 

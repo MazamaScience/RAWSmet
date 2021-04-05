@@ -73,7 +73,7 @@ data is not in this directory, this will download and save the data." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -232,15 +232,12 @@ data for stations which have no data over a particular time period.</p></li>
                  meta <span class='op'>=</span> <span class='va'>stationMeta</span>, 
                  year <span class='op'>=</span> <span class='fl'>2020</span>, 
                  password <span class='op'>=</span> <span class='va'>MY_PASSWORD</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Loading data for waWENU (1/3)</span></div><div class='output co'>#&gt; <span class='message'>Loading data from /Users/jonathancallahan/Data/RAWS//wrcc_waWENU_2020.rda</span></div><div class='output co'>#&gt; <span class='message'>Loading data for waWASH (2/3)</span></div><div class='output co'>#&gt; <span class='message'>Loading data from /Users/jonathancallahan/Data/RAWS//wrcc_waWASH_2020.rda</span></div><div class='output co'>#&gt; <span class='message'>Loading data for waWALD (3/3)</span></div><div class='output co'>#&gt; <span class='message'>Could not find local data.</span></div><div class='output co'>#&gt; <span class='message'>Downloading and saving data to /Users/jonathancallahan/Data/RAWS//wrcc_waWALD_2020.rda</span></div><div class='output co'>#&gt; <span class='message'>Skipping waWALD: Error in wrcc_downloadData(wrccID = wrccID, startdate = startdate, enddate = enddate,  : </span>
+</div><div class='output co'>#&gt; <span class='message'>Loading data for waWENU (1/3)</span></div><div class='output co'>#&gt; <span class='message'>Loading data from /Users/jonathancallahan/Data/RAWS//wrcc_waWENU_2020.rda</span></div><div class='output co'>#&gt; <span class='message'>Loading data for waWASH (2/3)</span></div><div class='output co'>#&gt; <span class='message'>Could not find local data.</span></div><div class='output co'>#&gt; <span class='message'>Downloading and saving data to /Users/jonathancallahan/Data/RAWS//wrcc_waWASH_2020.rda</span></div><div class='output co'>#&gt; <span class='message'>Skipping waWASH: Error in wrcc_downloadData(wrccID = wrccID, startdate = startdate, enddate = enddate,  : </span>
+#&gt; <span class='message'>  object 'MY_PASSWORD' not found</span></div><div class='output co'>#&gt; <span class='message'>Loading data for waWALD (3/3)</span></div><div class='output co'>#&gt; <span class='message'>Could not find local data.</span></div><div class='output co'>#&gt; <span class='message'>Downloading and saving data to /Users/jonathancallahan/Data/RAWS//wrcc_waWALD_2020.rda</span></div><div class='output co'>#&gt; <span class='warning'>Warning: restarting interrupted promise evaluation</span></div><div class='output co'>#&gt; <span class='message'>Skipping waWALD: Error in wrcc_downloadData(wrccID = wrccID, startdate = startdate, enddate = enddate,  : </span>
 #&gt; <span class='message'>  object 'MY_PASSWORD' not found</span></div><div class='input'>
 <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/glimpse.html'>glimpse</a></span><span class='op'>(</span><span class='va'>stationData</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; List of 2
+</div><div class='output co'>#&gt; List of 1
 #&gt;  $ waWENU:List of 2
-#&gt;   ..$ meta: tibble [1 × 11] (S3: tbl_df/tbl/data.frame)
-#&gt;   ..$ data: tibble [8,374 × 12] (S3: tbl_df/tbl/data.frame)
-#&gt;   ..- attr(*, "class")= chr [1:2] "raws_timeseries" "list"
-#&gt;  $ waWASH:List of 2
 #&gt;   ..$ meta: tibble [1 × 11] (S3: tbl_df/tbl/data.frame)
 #&gt;   ..$ data: tibble [8,374 × 12] (S3: tbl_df/tbl/data.frame)
 #&gt;   ..- attr(*, "class")= chr [1:2] "raws_timeseries" "list"

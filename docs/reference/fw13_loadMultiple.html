@@ -73,7 +73,7 @@ data is not in this directory, this will download and save the data." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -218,7 +218,7 @@ data for stations which have no data over a particular time period.</p></li>
 </div><div class='output co'>#&gt; <span class='message'>Loading data from /Users/jonathancallahan/Data/RAWS//fw13_metadata.rda</span></div><div class='input'>
 <span class='va'>nwsIDs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"021503"</span>, <span class='st'>"500726"</span>, <span class='st'>"020401"</span><span class='op'>)</span>
 <span class='va'>stationData</span> <span class='op'>&lt;-</span> <span class='fu'>fw13_loadMultiple</span><span class='op'>(</span>nwsIDs <span class='op'>=</span> <span class='va'>nwsIDs</span>, meta <span class='op'>=</span> <span class='va'>stationMeta</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Loading data for 021503 (1/3)</span></div><div class='output co'>#&gt; <span class='message'>Loading data from /Users/jonathancallahan/Data/RAWS//fw13_021503_2021.rda</span></div><div class='output co'>#&gt; <span class='message'>Loading data for 500726 (2/3)</span></div><div class='output co'>#&gt; <span class='message'>Loading data from /Users/jonathancallahan/Data/RAWS//fw13_500726_2021.rda</span></div><div class='output co'>#&gt; <span class='message'>Loading data for 020401 (3/3)</span></div><div class='output co'>#&gt; <span class='message'>Loading data from /Users/jonathancallahan/Data/RAWS//fw13_020401_2021.rda</span></div><div class='input'>
+</div><div class='output co'>#&gt; <span class='message'>Loading data for 021503 (1/3)</span></div><div class='output co'>#&gt; <span class='message'>Could not find local data.</span></div><div class='output co'>#&gt; <span class='message'>Downloading and saving data to /Users/jonathancallahan/Data/RAWS//fw13_021503_2021.rda</span></div><div class='output co'>#&gt; <span class='message'>Loading data for 500726 (2/3)</span></div><div class='output co'>#&gt; <span class='message'>Could not find local data.</span></div><div class='output co'>#&gt; <span class='message'>Downloading and saving data to /Users/jonathancallahan/Data/RAWS//fw13_500726_2021.rda</span></div><div class='output co'>#&gt; <span class='message'>Loading data for 020401 (3/3)</span></div><div class='output co'>#&gt; <span class='message'>Could not find local data.</span></div><div class='output co'>#&gt; <span class='message'>Downloading and saving data to /Users/jonathancallahan/Data/RAWS//fw13_020401_2021.rda</span></div><div class='input'>
 <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/glimpse.html'>glimpse</a></span><span class='op'>(</span><span class='va'>stationData</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; List of 3
 #&gt;  $ 021503:List of 2

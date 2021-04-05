@@ -144,12 +144,12 @@ fw13_createTimeseriesObject <- function(
   }
 
   precipHourly <- c(NA, diff(tbl$precipAmount))
-  
+
   # Handle daily precip reset.
   # NOTE: On the first hour of each LST day, precipHourly will be negative
-  #       To get the amount of precipitation in the first hour of each day, 
+  #       To get the amount of precipitation in the first hour of each day,
   #       we must add this negative value to the previous hourly measurement.
-  # 
+  #
   #       For example:
   #       precipitation precipHourly temp actualPrecip
   #                   1           NA   NA           NA
@@ -202,9 +202,11 @@ fw13_createTimeseriesObject <- function(
   # NOTE:  The 'datetime' column is "local standard time all-year-round" for
   # NOTE:  which no timezone exists. So we have to convert it first to UTC
   # NOTE:  and then shift it by the UTC offset.
+  # NOTE:  When we subtract a UTC_offset of, e.g. -8 (PST), we will get the
+  # NOTE:  correct UTC time that is 8 hours later than the US West Coast clock time.
 
   UTC_time <-
-    MazamaCoreUtils::parseDatetime(data$datetime, timezone = "UTC") +
+    MazamaCoreUtils::parseDatetime(data$datetime, timezone = "UTC") -
     lubridate::dhours(UTC_offset)
 
   data$datetime <- UTC_time
