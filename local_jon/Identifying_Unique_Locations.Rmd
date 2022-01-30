@@ -1,0 +1,237 @@
+---
+title: "Identifying Unique Locations"
+author: "Mazama Science"
+date: "August 18, 2020"
+output: rmarkdown::html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Problem
+
+When working with environmental monitoring time series, one of the first things
+you have to do is create unique identifiers for each individual time series. In 
+an ideal world, each environmental time series would have both a 
+`locationID` and a `sensorID` that uniquely identify the spatial location and 
+specific instrument making measurements. A unique `timeseriesID` could
+be produced as `locationID_sensorID`. Location metadata associated with each
+time series would contain basic information needed for downstream analysis
+including at least:
+
+`timeseriesID, locationID, sensorID, longitude, latitude, ...`
+
+* Multiple sensors placed at a location could be be grouped by `locationID`.
+* An extended time series for a mobile sensor would group by `sensorID`.
+* Maps would be created using `longitude, latitude`.
+* Time series would be accessed from a secondary `data` table with `timeseriesID`.
+
+Unfortunately, we are rarely supplied with a truly unique and truly spatial 
+`locationID`. Instead we often use `sensorID` or an associated non-spatial
+identifier as a standin for `locationID`.
+
+Complications we have seen include:
+
+* GPS-reported longitude and latitude can have _jitter_ in the fourth or fifth 
+decimal place making it challenging to use them to create a unique `locationID`.
+* Sensors are sometimes _repositioned_ in what the scientist considers the "same 
+location".
+* Data for a single sensor goes through different processing pipelines using
+different identifiers and is later brought together as two separate timeseries.
+* The radius of what constitutes a "single location" depends on the 
+instrumentation and scientific question being asked.
+* Deriving location-based metadata from spatial datasets is computationally 
+intensive unless saved and identified with a unique `locationID`.
+* Automated searches for spatial metadata occasionally produce incorrect results
+because of the non-infinite resolution of spatial datasets and must be corrected
+by hand.
+
+## MazamaLocationUtils
+
+The **MazamaLocationUtils** package provides a solution to these problems
+by storing spatial metadata in simple tables in a standard directory. These 
+tables will be referred to as _collections_. Location lookups can be performed 
+with geodesic distance calculations where a location is assigned to a pre-existing
+_known location_ if it is within `radius` meters. These will be extremely fast.
+
+If no previously _known location_ is found, the relatively slow (seconds)
+creation of a new _known location_ metadata record can be performed and then 
+added to the growing collection.
+
+For collections of stationary environmental monitors that only number in the 
+thousands, this entire _collection_ (_i.e._ "database") can be stored as either a 
+`.rda` or `.csv` file and will be under a megabyte in size making it fast to 
+load. This small size also makes it possible to store multiple _known location_ 
+files, each created with different locations and different radii to address 
+the needs of different scientific studies.
+
+While initially exploring spatial metadata for RAWS sites, the
+`MazamaLocationUtils::table_findOverlappingLocations()` function will identify
+locations that seem too close to be considered "unique". It will ultimately
+be up to the user of the data to decide what to do with "overlapping" time
+series.
+
+The following examples demonstrate how to explore RAWS location metadata using
+functionality from **MazamaLocationUtils**.
+
+## Working with data from cefa.dri.edu/raws
+
+Well formamtted archival RAWS data is avaialable from https://cefa.dri.edu/raws.
+
+### Spatial metadata
+
+Metadata containing station IDs and location information can be accessed using
+the `fw13_createMetadtat()` function
+
+```{r fw13_createMetadata, message = FALSE}
+library(RAWSmet)
+
+library(MazamaSpatialUtils)
+setSpatialDataDir("~/Data/Spatial")
+
+meta <- fw13_createMeta(verbose = TRUE)
+head(meta)
+```
+
+This dataframe of `r nrow(meta)` records contains unique identifiers and locations.
+
+```{r are_locations_unique}
+nrow(meta)
+meta %>% dplyr::select(nwsID, longitude, latitude) %>% dplyr::n_distinct()
+```
+
+We can use the **MazamaLocationUtils** to discover those locations that
+are too close to be considered unique "known locations".
+
+If we assume that stations spaced <200 meters apart are measuring the same
+parcel of air, we can say that unique "known locations" for RAWS stations should
+have a radius of 100m. We can use the following code see if this is the case:
+
+```{r tooClose_100}
+tooCloseTbl <-
+  MazamaLocationUtils::table_findOverlappingLocations(meta, radius = 100)
+
+print(tooCloseTbl)
+
+# Extract siteName from meta dataframe
+for ( i in seq_len(nrow(tooCloseTbl)) ) {
+  rows <- as.numeric(tooCloseTbl[i, 1:2])
+  cat(sprintf("\n%5.1f meters apart:\n", tooCloseTbl$distance[i]))
+  print(meta[rows, c('longitude', 'latitude', 'siteName')])
+}
+```
+
+### Timeseries data 1 -- Overlapping timeseries
+
+Given that many of these `nwsID` pairs share the same `siteName`, we can create
+a timeseries plot do see which of two possible situations we all into:
+
+1. two RAWS instruments with overlapping measurements that should be considered 
+separate time series
+2. two RAWS instruments with non-overlapping measurements that can be considered
+a single time series
+
+Obtain timeseries objects (with separate `meta` and `data` dataframes) using the
+`nwsID` obtained from each record:
+
+```{r timeseries_identical}
+# CAMP CREEK stations are separated by 56.7 m, row #4 from tooCloseTbl
+#    ...
+#    4  1597  1598     56.7
+
+nwsID_1 <- meta$nwsID[1597]
+nwsID_2 <- meta$nwsID[1598]
+
+# Get timeseries data
+CampCreek_1 <- fw13_createTimeseriesObject(nwsID_1, meta)
+CampCreek_2 <- fw13_createTimeseriesObject(nwsID_2, meta)
+
+# Each timeseries object consists of 'meta' and 'data'.
+# We are only interested in the 'data' part:
+
+head(CampCreek_1$data)
+
+# ----- Plot them separately -----
+
+# Hint:  use pch = '.' to speed up graphical rendering
+
+layout(matrix(seq(2)))
+plot(CampCreek_1$data[,c('datetime', 'temperature')], 
+     col = 'black', pch = '.', main = "Camp Creek 1")
+plot(CampCreek_2$data[,c('datetime', 'temperature')], 
+     col = 'orange', pch = '.', main = "Camp Creek 2")
+layout(1)
+
+# ----- Plot them together -----
+
+# Set up x- and y-limits to cover both timeseries
+xlim <- range(c(
+  range(CampCreek_1$data$datetime, na.rm = TRUE),
+  range(CampCreek_2$data$datetime, na.rm = TRUE)
+))
+
+ylim <- range(c(
+  range(CampCreek_1$data[,'temperature'], na.rm = TRUE),
+  range(CampCreek_2$data[,'temperature'], na.rm = TRUE)
+))
+
+# Now plot the temperature timeseries to look for overlaps 
+# (use pch = 0 to speed up graphical rendering)
+plot(CampCreek_1$data[,c('datetime', 'temperature')], 
+     xlim = xlim, ylim = ylim, col = 'black', pch = '.',
+     main = "Camp Creek")
+points(CampCreek_2$data[,c('datetime', 'temperature')], 
+       col = 'orange', pch = '.')
+```
+
+### Timeseries data 2 -- Non-overlapping timeseries
+
+This next example shows non-overlapping timeseries
+
+```{r timeseries_non_identical}
+# MARIANNA/ST. FRANCSIS stations are separated by 56.7 m, row #5 from tooCloseTbl
+#    ...
+#    5   120   179     65.9
+
+nwsID_1 <- meta$nwsID[120]
+nwsID_2 <- meta$nwsID[179]
+
+# Get timeseries data
+Marianna <- fw13_createTimeseriesObject(nwsID_1, meta)
+St_Francis <- fw13_createTimeseriesObject(nwsID_2, meta)
+
+# Each timeseries object consists of 'meta' and 'data'.
+# We are only interested in the 'data' part:
+
+# ----- Plot them separately -----
+
+layout(matrix(seq(2)))
+plot(Marianna$data[,c('datetime', 'temperature')], 
+     col = 'black', pch = '.', main = "Marianna")
+plot(St_Francis$data[,c('datetime', 'temperature')], 
+     col = 'orange', pch = '.', main = "St. Francis")
+layout(1)
+
+# ----- Plot them together -----
+
+# Set up x- and y-limits to cover both timeseries
+xlim <- range(c(
+  range(Marianna$data$datetime, na.rm = TRUE),
+  range(St_Francis$data$datetime, na.rm = TRUE)
+))
+
+ylim <- range(c(
+  range(Marianna$data[,'temperature'], na.rm = TRUE),
+  range(St_Francis$data[,'temperature'], na.rm = TRUE)
+))
+
+# Now plot the temperature timeseries to look for overlaps 
+# (use pch = 0 to speed up graphical rendering)
+plot(Marianna$data[,c('datetime', 'temperature')], 
+     xlim = xlim, ylim = ylim, col = 'black', pch = '.')
+points(St_Francis$data[,c('datetime', 'temperature')], 
+       col = 'orange', pch = '.', main = "Marianna/St. Francis")
+```
+
+
