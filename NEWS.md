@@ -1,3 +1,10 @@
+# RAWSmet 0.4.0
+
+Version 0.4 utilizes the **MazamaTimeSeries** package to provide a lot of core
+functionality associated with manipulation of time series data.
+
+
+
 # RAWSmet 0.3.1
 
 * Corrected time shift from "Local Standard Time" (LST) to UTC. (We had 

@@ -1,7 +1,7 @@
 ---
 title: "Introduction to RAWSmet"
 author: "Mazama Science"
-date: "August 18, 2020"
+date: "Jan 30, 2022"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{RAWSmet}
@@ -20,19 +20,19 @@ knitr::opts_chunk$set(
 )
 ```
 
-The **RAWSmet** R package is being developed for the USFS AirFire gruop to help 
-modelers andscientists more easily work weather data from RAWS stations across 
-North America.
+The **RAWSmet** R package is being developed for the USFS AirFire group to help 
+modelers and scientists more easily work with weather data from RAWS stations 
+across North America.
 
 The package makes it easier to obtain data, perform analyses and generate 
 reports. It includes functionality to:
   
-* access metadata and archival timeseries data from https://cefa.dri.edu/raws
-* access metadata and latest month timeseries data from https://raws.dri.edu
-* save and reload .RData versions of these in a rawsDataDir
-* determine which locations obtained from metadata are too close to be 
+* Access metadata and archival timeseries data from https://cefa.dri.edu/raws
+* Access metadata and latest month timeseries data from https://raws.dri.edu
+* Save and reload .rda versions of these in a `rawsDataDir`
+* Determine which locations obtained from metadata are too close to be 
 considered “unique” locations
-* convert between UTC and local timezones
-* apply various algorithms to the data 5rolling means, aggregation, _etc._
-* provide interactive timeseries and maps through RStudio’s Viewer pane
-* create a variety of publication ready maps and timeseries plots
+* Convert between UTC and local timezones
+* Apply various algorithms to the data 5rolling means, aggregation, _etc._
+* Provide interactive timeseries and maps through RStudio’s Viewer pane
+* Create a variety of publication ready maps and timeseries plots
