@@ -42,10 +42,10 @@ Add a multi-sided polygon to a plot.
 \donttest{
 library(RAWSmet)
 
-data <- 
+data <-
   example_fw13SaddleMountain \%>\%
   raws_filterDate("2017-09-01", "2017-10-01") \%>\%
-  raws_extractData()
+  raws_getData()
 
 plot(data$datetime, data$windSpeed)
 addWindBarbs2(data$datetime, data$windSpeed, data$windSpeed, data$windDirection)

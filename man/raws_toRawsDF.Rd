@@ -22,7 +22,7 @@ following values from \code{rawsObject$meta}:
 \enumerate{
  \item{nwsID - the nwsID of the station}
  \item{wrccID - the wrccID of the station}
- \item{siteName - the name of the station}
+ \item{locationName - the name of the station}
  \item{longitude - longitude coordinate of the station}
  \item{latitude - latitude coordinate of the station}
  \item{elevation - elevation of the station}

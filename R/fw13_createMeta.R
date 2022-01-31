@@ -14,18 +14,26 @@
 #' into a standardized dataframe. Metdata columns include:
 #'
 #' \itemize{
-#' \item{\code{nwsID} -- NWS RAWS station identifier}
-#' \item{\code{longitude} -- decimal degrees East}
-#' \item{\code{latitude} -- decimal degrees North}
-#' \item{\code{elevation} -- in meters}
-#' \item{\code{siteName} -- human readable site name}
-#' \item{\code{countryCode} -- ISO 3166-1 alpha-2 country code}
-#' \item{\code{stateCode} -- ISO 3166-2 alpha-2 state code}
-#' \item{\code{timezone} -- Olson timezone}
+#'   \item{\code{deviceDeploymentID} -- unique identifier}
+#'   \item{\code{deviceID} -- device identifier}
+#'   \item{\code{locationID} -- location identifier}
+#'   \item{\code{locationName} -- English language name}
+#'   \item{\code{longitude} -- decimal degrees E}
+#'   \item{\code{latitude} -- decimal degrees N}
+#'   \item{\code{elevation} -- elevation of station in m}
+#'   \item{\code{countryCode} -- ISO 3166-1 alpha-2}
+#'   \item{\code{stateCode} -- ISO 3166-2 alpha-2}
+#'   \item{\code{timezone} -- Olson time zone}
+#'   \item{\code{nwsID} -- NWS station identifier (for FW13 data)}
+#'   \item{\code{wrccID} -- WRCC station identifier (for WRCC data)}
+#'   \item{\code{agencyName} -- responsible agency (in WRCC data)}
 #' }
 #'
 #' @examples
 #' \dontrun{
+#' # Fail gracefully if any resources are not available
+#' try({
+#'
 #' library(RAWSmet)
 #'
 #' library(MazamaSpatialUtils)
@@ -33,6 +41,8 @@
 #'
 #' meta <- fw13_createMeta(verbose = TRUE)
 #' dplyr::glimpse(meta)
+#'
+#' }, silent = FALSE)
 #' }
 #'
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
@@ -54,44 +64,74 @@ fw13_createMeta <- function(
 
   # ----- Download station metadata --------------------------------------------
 
-
   filePath <- file.path(tempdir(), "RAWSfw13list.xlsx")
   utils::download.file("https://cefa.dri.edu/raws/RAWSfw13list.xlsx", destfile = filePath)
 
-  col_names <- c("nwsID", "latitude", "longitude", "elevation", "siteName")
+  col_names <- c("nwsID", "latitude", "longitude", "elevation", "locationName")
   col_types <- c("text", "numeric", "numeric", "numeric", "text")
 
   desiredColumns <- c(
-    "nwsID",
+    "deviceDeploymentID",
+    "deviceID",
+    "locationID",
+    "locationName",
     "longitude",
     "latitude",
     "elevation",
-    "siteName",
-    "countryCode"
+    "countryCode",
+    "stateCode",
+    "timezone",
+    "nwsID",
+    "wrccID",
+    "agencyName"
   )
 
   meta <-
+
+    # Read in contents of xlsx file
     readxl::read_xlsx(
       path = filePath,
       col_names = col_names,
       col_types = col_types,
       skip = 1
     ) %>%
+
+    # Add locationID and deviceID
     dplyr::mutate(
-      nwsID = stringr::str_pad(.data$nwsID, 6, pad = "0"),
-      countryCode = "US"
+      locationID = MazamaLocationUtils::location_createID(.data$longitude, .data$latitude),
+      deviceID = stringr::str_pad(.data$nwsID, 6, pad = "0")
     ) %>%
+
+    # Add all other required columns
+    dplyr::mutate(
+      deviceDeploymentID = paste0(.data$locationID, "_", .data$deviceID),
+      countryCode = "US",
+      stateCode = as.character(NA),
+      timezone = as.character(NA),
+      nwsID = .data$deviceID,
+      wrccID = as.character(NA),
+      agencyName = as.character(NA)
+    ) %>%
+
+    # Reorder columns
     dplyr::select(all_of(desiredColumns))
 
-  # > dplyr::glimpse(meta)
+  # > dplyr::glimpse(meta, width = 75)
   # Rows: 1,791
-  # Columns: 6
-  # $ nwsID       <chr> "021503", "500726", "020401", "500742", "032101", "010702"…
-  # $ longitude   <dbl> -114.32750, -141.47000, -109.11167, -146.22000, -92.81917,…
-  # $ latitude    <dbl> 34.13083, 62.83000, 33.84278, 65.02000, 35.57278, 34.34389…
-  # $ elevation   <dbl> 360, 1800, 8188, 1100, 1600, 989, 804, 850, 1855, 1850, 48…
-  # $ siteName    <chr> "AHAKAHV PRESERVE", "ALCAN HWY MI 1244", "ALPINE", "ANGEL …
-  # $ countryCode <chr> "US", "US", "US", "US", "US", "US", "US", "US", "US", "US"…
+  # Columns: 13
+  # $ deviceDeploymentID <chr> "f607cead84c92505_021503", "68bd6497ac6c9cd9_5
+  # $ deviceID           <chr> "021503", "500726", "020401", "500742", "03210
+  # $ locationID         <chr> "f607cead84c92505", "68bd6497ac6c9cd9", "31ccb
+  # $ locationName       <chr> "AHAKAHV PRESERVE", "ALCAN HWY MI 1244", "ALPI
+  # $ longitude          <dbl> -114.32750, -141.47000, -109.11167, -146.22000
+  # $ latitude           <dbl> 34.13083, 62.83000, 33.84278, 65.02000, 35.572
+  # $ elevation          <dbl> 360, 1800, 8188, 1100, 1600, 989, 804, 850, 18
+  # $ countryCode        <chr> "US", "US", "US", "US", "US", "US", "US", "US"
+  # $ stateCode          <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
+  # $ timezone           <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
+  # $ nwsID              <chr> "021503", "500726", "020401", "500742", "03210
+  # $ wrccID             <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
+  # $ agencyName         <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
 
   # ----- Add spatial metadata -------------------------------------------------
 
@@ -116,33 +156,6 @@ fw13_createMeta <- function(
     countryCodes = c("US"),
     useBuffering = TRUE
   )
-
-  # ----- Add empty columns ----------------------------------------------------
-
-  # NOTE: These columns exist in WRCC metadata so we add these to keep
-  #       the columns of RAWS metadata consistent
-  meta$nessID <- as.character(NA)
-  meta$wrccID <- as.character(NA)
-  meta$agency <- as.character(NA)
-
-
-  # ----- Reorder columns ----------------------------------------------------
-
-  meta <-
-    dplyr::select(
-      .data = meta,
-      nwsID = .data$nwsID,
-      wrccID = .data$wrccID,
-      nessID = .data$nessID,
-      siteName = .data$siteName,
-      longitude = .data$longitude,
-      latitude = .data$latitude,
-      timezone = .data$timezone,
-      elevation = .data$elevation,
-      countryCode = .data$countryCode,
-      stateCode = .data$stateCode,
-      agency = .data$agency
-    )
 
   # ----- Clean up and Return --------------------------------------------------
 

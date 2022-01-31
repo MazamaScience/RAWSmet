@@ -101,7 +101,7 @@ rawsDF_filterDate <- function(
     
     message(sprintf(
       "rawsDF (%s) does not contain requested date range", 
-      rawsDF$siteName
+      rawsDF$locationName
     ))
     
     data <- rawsDF[0,]

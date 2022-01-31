@@ -43,6 +43,9 @@
 #'
 #' @examples
 #' \dontrun{
+#' # Fail gracefully if any resources are not available
+#' try({
+#'
 #' library(RAWSmet)
 #' setRawsDataDir("~/Data/RAWS")
 #'
@@ -51,10 +54,11 @@
 #'
 #' nws_500726 <- fw13_createTimeseriesObject(nwsID = 500726)
 #'
+#' }, silent = FALSE)
 #' }
 #'
 #' @seealso \code{\link{fw13_createMeta}}
-#' @seealso \code{\link{fw13_createRawDataframe}}
+#' @seealso \code{\link{fw13_parseData}}
 #'
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 #' @references \href{https://fam.nwcg.gov/fam-web/weatherfirecd/13.htm}{FW13 Data Format}
@@ -84,10 +88,43 @@ fw13_createTimeseriesObject <- function(
 
   # ----- Download/parse data --------------------------------------------------
 
-  tbl <- fw13_createRawDataframe(
-    nwsID = nwsID,
-    baseUrl = baseUrl
-  )
+  tbl <-
+    fw13_downloadData(
+      nwsID = nwsID,
+      baseUrl = baseUrl
+    ) %>%
+    fw13_parseData()
+
+  # > dplyr::glimpse(tbl, width = 75)
+  # Rows: 72,832
+  # Columns: 27
+  # $ recordType          <chr> "W13", "W13", "W13", "W13", "W13", "W13", "W1
+  # $ nwsID               <chr> "021503", "021503", "021503", "021503", "0215
+  # $ observationDate     <chr> "20100730", "20100730", "20100730", "20100730
+  # $ observationTime     <chr> "1100", "1200", "1300", "1400", "1500", "1600
+  # $ observationType     <chr> "R", "R", "R", "R", "R", "R", "R", "R", "R",
+  # $ weatherCode         <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N
+  # $ dryBulbTemp         <dbl> 99, 99, 102, 103, 104, 104, 104, 102, 96, 92,
+  # $ atmosMoisture       <dbl> 37, 32, 22, 29, 28, 27, 28, 30, 37, 42, 37, 4
+  # $ windDirection       <dbl> 192, 223, 230, 202, 215, 220, 204, 195, 187,
+  # $ avWindSpeed         <dbl> 6, 7, 8, 7, 7, 6, 5, 4, 4, 4, 4, 3, 6, 6, 2,
+  # $ fuelMoisture        <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N
+  # $ maxTemp             <dbl> 99, 99, 102, 103, 104, 104, 104, 104, 104, 10
+  # $ minTemp             <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  # $ maxRelHumidity      <dbl> 37, 37, 37, 37, 37, 37, 37, 37, 37, 42, 42, 4
+  # $ minRelHumidity      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  # $ precipDuration      <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  # $ precipAmount        <dbl> NA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  # $ wetFlag             <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N
+  # $ herbaceousGreenness <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N
+  # $ shrubGreenness      <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, N
+  # $ moistureType        <chr> "2", "2", "2", "2", "2", "2", "2", "2", "2",
+  # $ measurementType     <chr> "1", "1", "1", "1", "1", "1", "1", "1", "1",
+  # $ seasonCode          <chr> "3", "3", "3", "3", "3", "3", "3", "3", "3",
+  # $ solarRadiation      <dbl> 698, 909, 967, 917, 812, 660, 480, 297, 92, 6
+  # $ maxGustDirection    <dbl> 206, 214, 220, 246, 213, 213, 233, 241, 202,
+  # $ maxGustSpeed        <dbl> 11, 11, 13, 12, 14, 13, 10, 8, 8, 7, 9, 6, 12
+  # $ snowFlag            <chr> "N", "N", "N", "N", "N", "N", "N", "N", "N",
 
   # ----- Convert to metric ----------------------------------------------------
 
@@ -156,8 +193,8 @@ fw13_createTimeseriesObject <- function(
   #                   1            0    1            0
   #                   2            1    2            1
   #                   1           -1    1            1
-  temp <- precipHourly + dplyr::lag(tbl$precipAmount)
-  precipHourly[precipHourly < 0 & !is.na(precipHourly)] <- temp[precipHourly < 0 & !is.na(precipHourly)]
+  bop <- precipHourly + dplyr::lag(tbl$precipAmount)
+  precipHourly[precipHourly < 0 & !is.na(precipHourly)] <- bop[precipHourly < 0 & !is.na(precipHourly)]
 
   precipitation <- mapply(precipConvert, tbl$measurementType, precipHourly)
   precipitation[is.nan(precipitation)] <- 0
@@ -215,7 +252,7 @@ fw13_createTimeseriesObject <- function(
 
   # Combine meta and data dataframes into a list
   raws <- list(meta = meta, data = data)
-  class(raws) <- c("raws_timeseries", class(raws))
+  class(raws) <- c("raws_timeseries", "sts", class(raws))
 
   return(raws)
 

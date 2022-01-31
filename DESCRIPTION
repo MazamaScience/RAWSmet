@@ -27,6 +27,7 @@ Imports:
     maps,
     MazamaCoreUtils,
     MazamaSpatialUtils (>= 0.6.4),
+    MazamaTimeSeries,
     metR,
     purrr,
     readr,
@@ -44,4 +45,4 @@ Suggests:
 Encoding: UTF-8
 VignetteBuilder: knitr
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2

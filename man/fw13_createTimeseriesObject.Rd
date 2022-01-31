@@ -55,6 +55,9 @@ The columns of the 'data' dataframe include:
 }
 \examples{
 \dontrun{
+# Fail gracefully if any resources are not available
+try({
+
 library(RAWSmet)
 setRawsDataDir("~/Data/RAWS")
 
@@ -63,6 +66,7 @@ setSpatialDataDir("~/Data/Spatial")
 
 nws_500726 <- fw13_createTimeseriesObject(nwsID = 500726)
 
+}, silent = FALSE)
 }
 
 }
@@ -74,5 +78,5 @@ nws_500726 <- fw13_createTimeseriesObject(nwsID = 500726)
 \seealso{
 \code{\link{fw13_createMeta}}
 
-\code{\link{fw13_createRawDataframe}}
+\code{\link{fw13_parseData}}
 }

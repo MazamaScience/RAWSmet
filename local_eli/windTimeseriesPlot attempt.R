@@ -6,18 +6,18 @@ fw13Meta <-fw13_loadMeta()
 nwsID = "451702"
 
 timezone = fw13Meta$timezone[fw13Meta$nwsID == "451702"]
-siteName = fw13Meta$siteName[fw13Meta$nwsID == "451702"]
+locationName = fw13Meta$locationName[fw13Meta$nwsID == "451702"]
 stateCode = fw13Meta$stateCode[fw13Meta$nwsID == "451702"]
 
 startDate = MazamaCoreUtils::parseDatetime(20050801, timezone = timezone)
 endDate = MazamaCoreUtils::parseDatetime(20050803, timezone = timezone)
 
-data <- fw13_load(nwsID = "451702", meta = fw13Meta) %>% raws_filterDate(startDate, endDate) %>% raws_extractData()
+data <- fw13_load(nwsID = "451702", meta = fw13Meta) %>% raws_filterDate(startDate, endDate) %>% raws_getData()
 
 
 data$windDirection <- data$windDirection + 90
 
-title = sprintf("Observed Wind at %s, %s %s \n From %s LST to %s LST", nwsID, siteName, stateCode, startDate, endDate)
+title = sprintf("Observed Wind at %s, %s %s \n From %s LST to %s LST", nwsID, locationName, stateCode, startDate, endDate)
 gg <- ggplot(data, aes(x = datetime, y = windSpeed)) +
   geom_point(aes(y = windSpeed, color = "Winds")) +
   geom_line(aes(y = maxGustSpeed, color = "Gusts")) +

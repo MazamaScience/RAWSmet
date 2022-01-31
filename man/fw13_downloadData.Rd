@@ -15,7 +15,7 @@ fw13_downloadData(nwsID = NULL, baseUrl = "https://cefa.dri.edu/raws/fw13/")
 String containing RAWS data.
 }
 \description{
-Request data for a particular station. Data are returned as a 
+Request data for a particular station. Data are returned as a
 single character string containing the RAWS output.
 
 Station identifiers can be found at https://cefa.dri.edu/raws/RAWSfw13list.xlsx
@@ -23,10 +23,15 @@ and can be downloaded with \code{\link{fw13_createMeta}}.
 }
 \examples{
 \dontrun{
+# Fail gracefully if any resources are not available
+try({
+
 library(RAWSmet)
 
 fileString <- fw13_downloadData(nwsID = 500742)
 print(readr::read_lines(fileString)[1:10])
+
+}, silent = FALSE)
 }
 }
 \references{

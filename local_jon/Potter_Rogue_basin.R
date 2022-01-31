@@ -102,6 +102,6 @@ raws_leaflet(wrcc_meta)
 Wanderers_Peak <- wrcc_load("orOWAN", year = 2020)
 
 Wanderers_Peak %>%
-  raws_extractData() %>%
+  raws_getData() %>%
   timeseriesMultiplot()
 

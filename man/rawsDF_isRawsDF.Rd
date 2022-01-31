@@ -33,7 +33,7 @@ Core columns include:
   \item{\code{monitorType} -- FW13 or WRCC depending on data source}
   \item{\code{nwsID} -- NWS station identifier (for FW13 data)}
   \item{\code{wrccID} -- WRCC station identifier (for WRCC data)}
-  \item{\code{siteName} -- English language station name}
+  \item{\code{locationName} -- English language station name}
   \item{\code{longitude} -- decimal degrees E}
   \item{\code{latitude} -- decimal degrees N}
   \item{\code{timezone} -- timezone of the station}

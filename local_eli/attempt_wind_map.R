@@ -21,7 +21,7 @@ for ( station in allDataWA ) {
   august2015AvgList[[station$meta$nwsID]] <-
     dplyr::tibble(
       nwsID = station$meta$nwsID,
-      stationName = station$meta$siteName,
+      stationName = station$meta$locationName,
       lat = lat,
       lon = lon,
       newlat = lat + dy,

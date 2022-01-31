@@ -13,7 +13,7 @@ for ( i in 1:nrow(meta) ) {
     
     # Get data for each September
     stationData <- stationTSObject %>%
-      raws_extractData(forOpenair = TRUE) %>%
+      raws_getData(forOpenair = TRUE) %>%
       dplyr::filter(lubridate::month(datetime) == 9)
     
     allData_westernOregon <- rbind(allData_westernOregon, stationData)
@@ -28,9 +28,9 @@ orOGOO <-
     enddate = MazamaCoreUtils::parseDatetime(20200924, timezone = "America/Los_Angeles")
   )
 
-orOGOOData <- orOGOO %>% raws_extractData(forOpenair = TRUE)
+orOGOOData <- orOGOO %>% raws_getData(forOpenair = TRUE)
 
 fw13_data <-
   fw13_load(nwsID = "352545") %>%
-  raws_extractData(forOpenair = TRUE) %>%
+  raws_getData(forOpenair = TRUE) %>%
   dplyr::filter(lubridate::month(datetime) == 9)

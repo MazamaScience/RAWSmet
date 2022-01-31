@@ -28,7 +28,7 @@
 #' data <-
 #'   example_fw13SaddleMountain %>%
 #'   raws_filterDate(20170801, 20170901) %>%
-#'   raws_extractData()
+#'   raws_getData()
 #'
 #' timeseriesMultiplot(
 #'   data,

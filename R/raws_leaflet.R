@@ -49,9 +49,9 @@ raws_leaflet <- function(
 
   MazamaCoreUtils::stopIfNull(meta)
 
-  requiredNames <- c('nwsID', 'wrccID', 'siteName',
+  requiredNames <- c('nwsID', 'wrccID', 'locationName',
                      'longitude', 'latitude', 'elevation',
-                     'agency', 'countryCode', 'stateCode', 'timezone')
+                     'agencyName', 'countryCode', 'stateCode', 'timezone')
 
   missingNames <- setdiff(requiredNames, names(meta))
 
@@ -66,10 +66,10 @@ raws_leaflet <- function(
 
   # Create popup text
   meta$popupText <- paste(
-    "<strong>", meta$siteName, "</strong><br>",
+    "<strong>", meta$locationName, "</strong><br>",
     "NWS ID:", meta$nwsID, "<br>",
     "WRCC ID:", meta$wrccID, "<br>",
-    "Agency:", meta$agency, "<br>",
+    "Agency:", meta$agencyName, "<br>",
     "Elevation:", round(meta$elevation), "m<br>",
     "Country Code:", meta$countryCode, "<br>",
     "State Code:", meta$stateCode, "<br>",

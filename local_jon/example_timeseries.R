@@ -30,7 +30,7 @@ range(bend_1$data$datetime)
 data_2017 <-
   bend_1 %>%
   raws_filterDate(20170901, 20171101, timezone = "America/Los_Angeles") %>%
-  raws_extractData(forOpenair = TRUE)
+  raws_getData(forOpenair = TRUE)
 
 # *openair* timeseries plot (time axis in UTC)
 openair::timePlot(

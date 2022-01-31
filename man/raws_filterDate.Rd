@@ -8,9 +8,10 @@ raws_filterDate(
   rawsObject = NULL,
   startdate = NULL,
   enddate = NULL,
-  days = NULL,
-  weeks = NULL,
-  timezone = NULL
+  timezone = NULL,
+  unit = "sec",
+  ceilingStart = FALSE,
+  ceilingEnd = FALSE
 )
 }
 \arguments{
@@ -20,11 +21,17 @@ raws_filterDate(
 
 \item{enddate}{Desired end datetime (ISO 8601).}
 
-\item{days}{Number of days to include in the filterDate interval.}
-
-\item{weeks}{Number of weeks to include in the filterDate interval.}
-
 \item{timezone}{Olson timezone used to interpret dates.}
+
+\item{unit}{Units used to determine time at end-of-day.}
+
+\item{ceilingStart}{Logical instruction to apply
+\code{\link[lubridate]{ceiling_date}} to the \code{startdate} rather than
+\code{\link[lubridate]{floor_date}}}
+
+\item{ceilingEnd}{Logical instruction to apply
+\code{\link[lubridate]{ceiling_date}} to the \code{enddate} rather than
+\code{\link[lubridate]{floor_date}}}
 }
 \value{
 A subset of the given \emph{raws_timeseries} object.
@@ -44,7 +51,9 @@ including either of the following recommended formats:
 \note{
 The returned data will run from the beginning of \code{startdate} until
 the \strong{beginning} of \code{enddate} -- \emph{i.e.} no values associated
-with \code{enddate} will be returned.
+with \code{enddate} will be returned. The exception being when
+\code{enddate} is less than 24 hours after \code{startdate}. In that case, a
+single day is returned.
 }
 \examples{
 \donttest{

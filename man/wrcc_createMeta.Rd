@@ -24,21 +24,21 @@ wrcc_createMeta(
 Dataframe of station metadata.
 }
 \description{
-Assembles individual station metadata from a WRCC webservice 
+Assembles individual station metadata from a WRCC webservice
 into a standardized dataframe. Metdata columns include:
 
 \itemize{
 \item{\code{countryCode} -- ISO 3166-1 alpha-2 country code}
 \item{\code{stateCode} -- ISO 3166-2 alpha-2 state code}
 \item{\code{wrccID} -- WRCC RAWS station identifier}
-\item{\code{siteName} -- human readable site name}
+\item{\code{locationName} -- human readable site name}
 \item{\code{longitude} -- decimal degrees East}
 \item{\code{latitude} -- decimal degrees North}
 \item{\code{elevation} -- in meters}
 \item{\code{timezone} -- Olson timezone}
 }
 
-Because of the large number of web requests required to assemble this 
+Because of the large number of web requests required to assemble this
 metadata, it is recommended that the file be saved and reused by calling
 \code{wrcc_loadMeta()}.
 }

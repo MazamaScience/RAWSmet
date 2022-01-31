@@ -54,10 +54,10 @@ raws_windBarbTimeseriesPlot <- function(
   # ----- Extract data and metadata --------------------------------------------
 
   meta <- 
-    raws_extractMeta(rawsObject)
+    raws_getMeta(rawsObject)
   
   data <- 
-    raws_extractData(rawsObject)
+    raws_getData(rawsObject)
   
   
   # ----- Calculate plot axis limits -------------------------------------------
@@ -86,7 +86,7 @@ raws_windBarbTimeseriesPlot <- function(
   
   title <- sprintf("Observed Wind at %s, %s %s \n From %s LST to %s LST", 
                    stationID, 
-                   meta$siteName, 
+                   meta$locationName, 
                    meta$stateCode, 
                    min(data$datetime), 
                    max(data$datetime))

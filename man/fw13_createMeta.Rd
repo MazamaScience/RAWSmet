@@ -18,22 +18,30 @@ fw13_createMeta(
 Dataframe of station metadata.
 }
 \description{
-Assembles individual station metadata from a CEFA webservice 
+Assembles individual station metadata from a CEFA webservice
 into a standardized dataframe. Metdata columns include:
 
 \itemize{
-\item{\code{nwsID} -- NWS RAWS station identifier}
-\item{\code{longitude} -- decimal degrees East}
-\item{\code{latitude} -- decimal degrees North}
-\item{\code{elevation} -- in meters}
-\item{\code{siteName} -- human readable site name}
-\item{\code{countryCode} -- ISO 3166-1 alpha-2 country code}
-\item{\code{stateCode} -- ISO 3166-2 alpha-2 state code}
-\item{\code{timezone} -- Olson timezone}
+  \item{\code{deviceDeploymentID} -- unique identifier}
+  \item{\code{deviceID} -- device identifier}
+  \item{\code{locationID} -- location identifier}
+  \item{\code{locationName} -- English language name}
+  \item{\code{longitude} -- decimal degrees E}
+  \item{\code{latitude} -- decimal degrees N}
+  \item{\code{elevation} -- elevation of station in m}
+  \item{\code{countryCode} -- ISO 3166-1 alpha-2}
+  \item{\code{stateCode} -- ISO 3166-2 alpha-2}
+  \item{\code{timezone} -- Olson time zone}
+  \item{\code{nwsID} -- NWS station identifier (for FW13 data)}
+  \item{\code{wrccID} -- WRCC station identifier (for WRCC data)}
+  \item{\code{agencyName} -- responsible agency (in WRCC data)}
 }
 }
 \examples{
 \dontrun{
+# Fail gracefully if any resources are not available
+try({
+
 library(RAWSmet)
 
 library(MazamaSpatialUtils)
@@ -41,6 +49,8 @@ setSpatialDataDir("~/Data/Spatial")
 
 meta <- fw13_createMeta(verbose = TRUE)
 dplyr::glimpse(meta)
+
+}, silent = FALSE)
 }
 
 }

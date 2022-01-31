@@ -16,7 +16,7 @@
 #' \enumerate{
 #'  \item{nwsID - the nwsID of the station}
 #'  \item{wrccID - the wrccID of the station}
-#'  \item{siteName - the name of the station}
+#'  \item{locationName - the name of the station}
 #'  \item{longitude - longitude coordinate of the station}
 #'  \item{latitude - latitude coordinate of the station}
 #'  \item{elevation - elevation of the station}
@@ -93,22 +93,22 @@ raws_toRawsDF <- function(
   # NOTE:  Use only metadata useful in plotting to avoid unnecessary bloat
 
   # > names(rawsObject$meta)
-  # [1] "nwsID"       "wrccID"      "nessID"      "siteName"    "longitude"
+  # [1] "nwsID"       "wrccID"      "nessID"      "locationName"    "longitude"
   # [6] "latitude"    "timezone"    "elevation"   "countryCode" "stateCode"
-  # [11] "agency"
+  # [11] "agencyName"
 
   metaColumns <- c(
     "nwsID",
     "wrccID",
     ###"nessID",
-    "siteName",
+    "locationName",
     "longitude",
     "latitude",
     "timezone",
     "elevation"
     ###"countryCode",
     ###"stateCode",
-    ###"agency"
+    ###"agencyName"
   )
 
   meta <- rawsObject$meta[1, metaColumns]
@@ -132,14 +132,14 @@ raws_toRawsDF <- function(
       nwsID = meta$nwsID,
       wrccID = meta$wrccID,
       ###nessID = meta$nessID,
-      siteName = meta$siteName,
+      locationName = meta$locationName,
       longitude = meta$longitude,
       latitude = meta$latitude,
       timezone = meta$timezone,
       elevation = meta$elevation
       ###countryCode = meta$countryCode,
       ###stateCode = meta$stateCode,
-      ###agency = meta$agency
+      ###agencyName = meta$agencyName
     ) %>%
 
   # * Add VPD (Vapor Pressure Deficit) -----

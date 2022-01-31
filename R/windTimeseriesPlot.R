@@ -45,11 +45,11 @@ windTimeseriesPlot <- function(
   # ----- Extract data and metadata --------------------------------------------
 
   meta <-
-    raws_extractMeta(rawsObject)
+    raws_getMeta(rawsObject)
 
   data <-
     raws_filterDate(rawsObject, startDate, endDate, timezone = meta$timezone) %>%
-    raws_extractData()
+    raws_getData()
 
   # ----- Create plot ----------------------------------------------------------
 
@@ -60,7 +60,7 @@ windTimeseriesPlot <- function(
 
   title <- sprintf("Observed Wind at %s, %s %s \n From %s LST to %s LST",
                   stationID,
-                  meta$siteName,
+                  meta$locationName,
                   meta$stateCode,
                   MazamaCoreUtils::parseDatetime(startDate, timezone = meta$timezone),
                   MazamaCoreUtils::parseDatetime(endDate, timezone = meta$timezone))

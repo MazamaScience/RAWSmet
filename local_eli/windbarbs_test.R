@@ -1,7 +1,7 @@
 data <- 
   example_fw13SaddleMountain %>%
   raws_filterDate("2017-09-01", "2017-09-01") %>%
-  raws_extractData()
+  raws_getData()
 
 plot(data$datetime, data$windSpeed)
 

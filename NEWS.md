@@ -1,9 +1,15 @@
 # RAWSmet 0.4.0
 
 Version 0.4 utilizes the **MazamaTimeSeries** package to provide a lot of core
-functionality associated with manipulation of time series data.
+functionality associated with manipulation of "single time series" aka " _sts_
+objects.
 
-
+* Added dependency on **MazamaTimeSeries**.
+* Updated `fw13_createMeta()` to be compatible with _sts_ objects.
+* Removed `fw13_createRawDataframe()` and added `fw13_parseData()` so that the
+two-step process is now explicit.
+* Changed `raws_ExtractMeta/Data()` to `raws_getMeta/Data()`.
+* Updated `raws_filterDate()` with new arguments to match `sts_filterDate()`.
 
 # RAWSmet 0.3.1
 

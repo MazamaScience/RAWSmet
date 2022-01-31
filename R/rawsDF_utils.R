@@ -27,7 +27,7 @@
 #'   \item{\code{monitorType} -- FW13 or WRCC depending on data source}
 #'   \item{\code{nwsID} -- NWS station identifier (for FW13 data)}
 #'   \item{\code{wrccID} -- WRCC station identifier (for WRCC data)}
-#'   \item{\code{siteName} -- English language station name}
+#'   \item{\code{locationName} -- English language station name}
 #'   \item{\code{longitude} -- decimal degrees E}
 #'   \item{\code{latitude} -- decimal degrees N}
 #'   \item{\code{timezone} -- timezone of the station}
@@ -57,7 +57,7 @@ rawsDF_isRawsDF <- function(
                      'windDirection', 'maxGustSpeed', 'maxGustDirection', 
                      'precipitation', 'solarRadiation', 'fuelMoisture', 
                      'fuelTemperature', 'monitorType', 'nwsID', 'wrccID', 
-                     'siteName', 'longitude', 'latitude', 'timezone', 'elevation')
+                     'locationName', 'longitude', 'latitude', 'timezone', 'elevation')
   
   if ( !all(requiredNames %in% names(rawsDF)) )
     return(FALSE)

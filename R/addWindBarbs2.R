@@ -20,11 +20,11 @@
 #' @examples
 #' \donttest{
 #' library(RAWSmet)
-#' 
-#' data <- 
+#'
+#' data <-
 #'   example_fw13SaddleMountain %>%
 #'   raws_filterDate("2017-09-01", "2017-10-01") %>%
-#'   raws_extractData()
+#'   raws_getData()
 #'
 #' plot(data$datetime, data$windSpeed)
 #' addWindBarbs2(data$datetime, data$windSpeed, data$windSpeed, data$windDirection)
@@ -39,25 +39,25 @@ addWindBarbs2 <- function(x,
                          barbColor = "blue",
                          barbLocation = "zero",
                          ...) {
-  
-  # Make sure all vector lengths match
-  lengths <- c(length(x), 
-               length(y), 
-               length(speed), 
-               length(dir))
-  
-  vectorLength <- max(lengths)
-  
-  # TODO:  check to make sure lengths are all multiples
-  
-  x <- rep_len(x, length.out = vectorLength)
-  y <- rep_len(y, length.out = vectorLength)
-  speed <- rep_len(speed, length.out = vectorLength)
-  dir <- rep_len(dir, length.out = vectorLength)
-  
-  for (i in 1:vectorLength) {
-    addWindBarb2(x[i], y[i], speed[i], dir[i],
-                extraBarbLength, barbSize, barbColor, barbLocation, ...)
-  }
-  
+
+  # # Make sure all vector lengths match
+  # lengths <- c(length(x),
+  #              length(y),
+  #              length(speed),
+  #              length(dir))
+  #
+  # vectorLength <- max(lengths)
+  #
+  # # TODO:  check to make sure lengths are all multiples
+  #
+  # x <- rep_len(x, length.out = vectorLength)
+  # y <- rep_len(y, length.out = vectorLength)
+  # speed <- rep_len(speed, length.out = vectorLength)
+  # dir <- rep_len(dir, length.out = vectorLength)
+  #
+  # for (i in 1:vectorLength) {
+  #   addWindBarb2(x[i], y[i], speed[i], dir[i],
+  #               extraBarbLength, barbSize, barbColor, barbLocation, ...)
+  # }
+
 }
