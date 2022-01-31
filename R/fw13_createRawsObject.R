@@ -52,7 +52,7 @@
 #' library(MazamaSpatialUtils)
 #' setSpatialDataDir("~/Data/Spatial")
 #'
-#' nws_500726 <- fw13_createTimeseriesObject(nwsID = 500726)
+#' nws_500726 <- fw13_createRawsObject(nwsID = 500726)
 #'
 #' }, silent = FALSE)
 #' }
@@ -63,7 +63,7 @@
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 #' @references \href{https://fam.nwcg.gov/fam-web/weatherfirecd/13.htm}{FW13 Data Format}
 
-fw13_createTimeseriesObject <- function(
+fw13_createRawsObject <- function(
   nwsID = NULL,
   meta = NULL,
   baseUrl = "https://cefa.dri.edu/raws/fw13/",

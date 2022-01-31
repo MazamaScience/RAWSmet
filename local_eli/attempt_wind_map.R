@@ -6,7 +6,7 @@ library(leaflet.minicharts)
 fw13Meta <- fw13_createMeta()
 
 waStationIDs <- fw13Meta$nwsID[fw13Meta$stateCode == "WA" & !is.na(fw13Meta$stateCode)]
-allDataWA <- lapply(waStationIDs, fw13_createTimeseriesObject, fw13Meta)
+allDataWA <- lapply(waStationIDs, fw13_createRawsObject, fw13Meta)
 
 august2015AvgList <- list()
 for ( station in allDataWA ) {

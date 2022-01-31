@@ -38,7 +38,7 @@
 #' \donttest{
 #' library(RAWSmet)
 #' 
-#' rawsDF <- example_fw13SaddleMountain %>% raws_toRawsDF()
+#' rawsDF <- example_fw13_Saddle_Mountain %>% raws_toRawsDF()
 #' 
 #' rawsDF_isRawsDF(rawsDF)
 #' }

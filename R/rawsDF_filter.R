@@ -20,7 +20,7 @@
 #' \donttest{
 #' library(RAWSmet)
 #' 
-#' rawsObject <- example_fw13SaddleMountain
+#' rawsObject <- example_fw13_Saddle_Mountain
 #' rawsDF <- rawsObject %>% raws_toRawsDF()
 #' 
 #' daytime <- rawsDF_filter(rawsDF, solarRadiation > 0)

@@ -27,7 +27,7 @@ fw13_load(
 Timeseries object with 'meta' and 'data'.
 }
 \description{
-Loads FW13 station metadata and data from the \code{rawsDataDir}. 
+Loads FW13 station metadata and data from the \code{rawsDataDir}.
 If the data is not in this directory, this will download and save the data.
 }
 \note{
@@ -43,18 +43,23 @@ data for stations which have no data over a particular time period.}
 }
 \examples{
 \dontrun{
+# Fail gracefully if any resources are not available
+try({
+
 library(RAWSmet)
 setRawsDataDir("~/Data/RAWS/")
 
 # For creation of metadata
 library(MazamaSpatialUtils)
 setSpatialDataDir("~/Data/Spatial")
-loadSpatialData("NaturalEarthAdm1")
+loadSpatialData("NaturalEarthAdm1.rda")
 
 meta <- fw13_loadMeta()
 
 rawsObject <- fw13_load(nwsID = 451702, meta = meta)
 head(rawsObject$data)
+
+}, silent = FALSE)
 }
 
 }
@@ -62,7 +67,7 @@ head(rawsObject$data)
 \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 }
 \seealso{
-\code{fw13_createTimeseriesObject}
+\code{fw13_createRawsObject}
 
 \code{setRawsDataDir}
 }

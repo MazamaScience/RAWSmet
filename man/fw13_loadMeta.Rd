@@ -26,6 +26,9 @@ the data is not in this directory, this will download and save the data.
 }
 \examples{
 \dontrun{
+# Fail gracefully if any resources are not available
+try({
+
 library(RAWSmet)
 
 setRawsDataDir("~/Data/RAWS/")
@@ -33,6 +36,8 @@ setRawsDataDir("~/Data/RAWS/")
 stationMeta <- fw13_loadMeta()
 
 dplyr::glimpse(stationMeta)
+
+}, silent = FALSE)
 }
 
 }

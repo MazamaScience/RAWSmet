@@ -1,7 +1,7 @@
 #' @export
 #' @importFrom rlang .data
 #' @importFrom dplyr filter
-#' 
+#'
 #' @title Load multiple FW13 RAWS timeseries objects from a local directory
 #'
 #' @param nwsIDs Vector of NWS RAWS station identifiers.
@@ -13,8 +13,8 @@
 #' @return List of timeseries objects each containing 'meta' and 'data'.
 #'
 #' @description Loads FW13 station metadata and data from the \code{rawsDataDir}. If the
-#' data is not in this directory, this will download and save the data. 
-#' 
+#' data is not in this directory, this will download and save the data.
+#'
 #' @note The `newDownload` parameter has three possible settings:
 #' \itemize{
 #' \item{\code{NA} -- Download data if it is not found in \code{rawsDataDir}}
@@ -25,23 +25,28 @@
 #' data for stations which have no data over a particular time period.}
 #' }
 #' @examples
-#' \donttest{
+#' \dontrun{
+#' # Fail gracefully if any resources are not available
+#' try({
+#'
 #' library(MazamaSpatialUtils)
 #' setSpatialDataDir("~/Data/Spatial")
 #' loadSpatialData("NaturalEarthAdm1")
-#' 
+#'
 #' library(RAWSmet)
 #' setRawsDataDir("~/Data/RAWS/")
 #'
 #' stationMeta <- fw13_loadMeta()
-#' 
+#'
 #' nwsIDs <- c("021503", "500726", "020401")
 #' stationData <- fw13_loadMultiple(nwsIDs = nwsIDs, meta = stationMeta)
-#' 
+#'
 #' dplyr::glimpse(stationData)
+#'
+#' }, silent = FALSE)
 #' }
 #'
-#' @seealso \code{fw13_createTimeseriesObject}
+#' @seealso \code{fw13_createRawsObject}
 #' @seealso \code{fw13_load}
 #' @seealso \code{setRawsDataDir}
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
@@ -53,26 +58,26 @@ fw13_loadMultiple <- function(
   baseUrl = "https://cefa.dri.edu/raws/fw13/",
   verbose = TRUE
 ) {
-  
+
   # ----- Validate parameters --------------------------------------------------
-  
+
   MazamaCoreUtils::stopIfNull(nwsIDs)
-  
+
   dataDir <- getRawsDataDir()
-  
+
   # ----- Load data for each station -------------------------------------------
-  
+
   stationList <- list()
   counter <- 1
-  
+
   for ( nwsID in nwsIDs ) {
-    
+
     if ( verbose )
       message(sprintf("Loading data for %s (%d/%d)", nwsID, counter, length(nwsIDs)))
-    
+
     res <- try({
-      
-      # Load or download data for each station 
+
+      # Load or download data for each station
       stationTimeseriesObject <-
         fw13_load(
           nwsID = nwsID,
@@ -80,20 +85,20 @@ fw13_loadMultiple <- function(
           newDownload = newDownload,
           baseUrl = baseUrl,
           verbose = verbose)
-      
+
       # Add this station's raws_timeseries object to the list
       stationList[[nwsID]] <- stationTimeseriesObject
-      
+
     }, silent = verbose)
-    
+
     counter <- counter + 1
-    
+
   }
-  
+
   class(stationList) <- c("rawsList", class(stationList))
-  
+
   # ----- Return ---------------------------------------------------------------
-  
+
   return(stationList)
-  
+
 }

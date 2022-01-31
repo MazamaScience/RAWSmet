@@ -6,7 +6,7 @@ library(MazamaSpatialUtils)
 setSpatialDataDir("~/Data/Spatial")
 
 meta <- fw13_loadMeta()
-fw13_WENU <- fw13_createTimeseriesObject(nwsID = 451702, meta = meta)
+fw13_WENU <- fw13_createRawsObject(nwsID = 451702, meta = meta)
 
 dateRange <- MazamaCoreUtils::dateRange(20170901, 20171001, timezone = "UTC")
 

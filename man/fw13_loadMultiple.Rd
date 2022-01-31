@@ -42,7 +42,10 @@ data for stations which have no data over a particular time period.}
 }
 }
 \examples{
-\donttest{
+\dontrun{
+# Fail gracefully if any resources are not available
+try({
+
 library(MazamaSpatialUtils)
 setSpatialDataDir("~/Data/Spatial")
 loadSpatialData("NaturalEarthAdm1")
@@ -56,6 +59,8 @@ nwsIDs <- c("021503", "500726", "020401")
 stationData <- fw13_loadMultiple(nwsIDs = nwsIDs, meta = stationMeta)
 
 dplyr::glimpse(stationData)
+
+}, silent = FALSE)
 }
 
 }
@@ -63,7 +68,7 @@ dplyr::glimpse(stationData)
 \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 }
 \seealso{
-\code{fw13_createTimeseriesObject}
+\code{fw13_createRawsObject}
 
 \code{fw13_load}
 

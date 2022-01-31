@@ -53,8 +53,8 @@ Core \code{data} columns include:
 \donttest{
 library(RAWSmet)
 
-raws_isRaws(example_fw13SaddleMountain)
-raws_isRaws(example_wrccSaddleMountain)
+raws_isRaws(example_fw13_Saddle_Mountain)
+raws_isRaws(example_wrcc_Saddle_Mountain)
 }
 
 }

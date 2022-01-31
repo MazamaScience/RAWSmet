@@ -20,7 +20,7 @@
 #' library(grid)
 #' library(ggplot2)
 #'
-#' windTimeseriesPlot(example_fw13SaddleMountain, 20170801, 20170802)
+#' windTimeseriesPlot(example_fw13_Saddle_Mountain, 20170801, 20170802)
 #'
 windTimeseriesPlot <- function(
   rawsObject = NULL,

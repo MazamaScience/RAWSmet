@@ -43,7 +43,7 @@ Add a multi-sided polygon to a plot.
 library(RAWSmet)
 
 data <-
-  example_fw13SaddleMountain \%>\%
+  example_fw13_Saddle_Mountain \%>\%
   raws_filterDate("2017-09-01", "2017-10-01") \%>\%
   raws_getData()
 

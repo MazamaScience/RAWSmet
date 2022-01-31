@@ -24,7 +24,7 @@
 #' \donttest{
 #' library(RAWSmet)
 #'
-#' wa_meta <- example_wrccMeta
+#' wa_meta <- example_wrcc_meta
 #' raws_leaflet(wa_meta)
 
 #' }

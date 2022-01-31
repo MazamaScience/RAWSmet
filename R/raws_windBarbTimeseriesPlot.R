@@ -23,7 +23,7 @@
 #' library(RAWSmet)
 #' 
 #' rawsObject <- 
-#'  example_fw13SaddleMountain %>%
+#'  example_fw13_Saddle_Mountain %>%
 #'  raws_filterDate("20170901", "20170902")
 #'   
 #' raws_windBarbTimeseriesPlot(rawsObject, barbSize = 5, barbLocation = "point", barbColor = "blue")

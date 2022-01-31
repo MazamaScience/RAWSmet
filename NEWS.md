@@ -10,6 +10,7 @@ objects.
 two-step process is now explicit.
 * Changed `raws_ExtractMeta/Data()` to `raws_getMeta/Data()`.
 * Updated `raws_filterDate()` with new arguments to match `sts_filterDate()`.
+* Rebuild example datasets with new metadata columns.
 
 # RAWSmet 0.3.1
 

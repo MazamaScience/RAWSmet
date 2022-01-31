@@ -59,7 +59,7 @@ single day is returned.
 \donttest{
 library(RAWSmet)
 
-rawsObject <- example_fw13SaddleMountain
+rawsObject <- example_fw13_Saddle_Mountain
 
 data201708 <- rawsObject \%>\% raws_filterDate(20170801, 20170901, timezone = "America/Los_Angeles")
 head(data201708$data)

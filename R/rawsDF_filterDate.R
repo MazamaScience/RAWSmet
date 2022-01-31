@@ -32,7 +32,7 @@
 #' \donttest{
 #' library(RAWSmet)
 #' 
-#' rawsObject <- example_fw13SaddleMountain
+#' rawsObject <- example_fw13_Saddle_Mountain
 #' rawsDF <- rawsObject %>% raws_toRawsDF()
 #' 
 #' data201708 <- rawsDF %>% rawsDF_filterDate(20170801, 20170901, timezone = "America/Los_Angeles")
