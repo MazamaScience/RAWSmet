@@ -52,7 +52,7 @@ fw13_meta <-
   dplyr::filter(stateCode == "OR")
 
 # Have a look:
-raws_leaflet(fw13_meta)
+meta_leaflet(fw13_meta)
 
 # * 2) Filter by boundaries -----
 
@@ -64,7 +64,7 @@ Rogue_fw13_meta <-
   )
 
 # Have a look:
-raws_leaflet(Rogue_fw13_meta)
+meta_leaflet(Rogue_fw13_meta)
 
 # Looks good!
 
@@ -83,7 +83,7 @@ Rogue_fw13_meta <-
   dplyr::filter(stringr::str_detect(HUCName, "Rogue|Applegate|Illinois"))
 
 # Have a look:
-raws_leaflet(Rogue_fw13_meta)
+meta_leaflet(Rogue_fw13_meta)
 
 # NOTE:  Unfortunately, this misses "FLYNN PRARIE" and "RED MOUND" which are not
 # NOTE:  "technically" within the watershed boundaries but are probably sites of
@@ -97,7 +97,7 @@ wrcc_meta <-
   wrcc_loadMeta(stateCode = "OR")
 
 # Have a look:
-raws_leaflet(wrcc_meta)
+meta_leaflet(wrcc_meta)
 
 Wanderers_Peak <- wrcc_load("orOWAN", year = 2020)
 

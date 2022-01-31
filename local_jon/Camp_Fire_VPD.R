@@ -41,7 +41,7 @@ fw13_meta <-
                   latitude >= ylim[1] & latitude < ylim[2])
 
 # Have a look:
-raws_leaflet(fw13_meta)
+meta_leaflet(fw13_meta)
 
 # Looks good!
 
@@ -73,7 +73,7 @@ wrcc_meta <-
                   latitude >= ylim[1] & latitude < ylim[2])
 
 # Have a look:
-raws_leaflet(wrcc_meta)
+meta_leaflet(wrcc_meta)
 
 # Looks good!
 

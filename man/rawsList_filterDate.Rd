@@ -27,11 +27,11 @@ rawsList_filterDate(
 \item{timezone}{Olson timezone used to interpret dates.}
 }
 \value{
-A list of subsets of the elements of the given list of 
+A list of subsets of the elements of the given list of
 \emph{raws_timeseries} objects filtered by date.
 }
 \description{
-Subsets a list of \emph{raws_timeseries} objects by date. 
+Subsets a list of \emph{raws_timeseries} objects by date.
 This function always filters to day-boundaries.
 
 Dates can be anything that is understood by \code{lubridate::ymd()}
@@ -51,17 +51,15 @@ with \code{enddate} will be returned.
 \donttest{
 library(RAWSmet)
 
-rawsList <- example_fw13List
-
-data201708 <- 
-  rawsList \%>\% 
+september_week1 <-
+  example_fw13List \%>\%
   rawsList_filterDate(
-    startdate = 20170801, 
-    enddate = 20170901, 
+    startdate = 20170901,
+    enddate = 20170908,
     timezone = "America/Los_Angeles"
   )
-  
-head(data201708)
+
+head(september_week1)
 }
 
 }

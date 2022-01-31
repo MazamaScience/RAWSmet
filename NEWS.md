@@ -11,6 +11,9 @@ two-step process is now explicit.
 * Changed `raws_ExtractMeta/Data()` to `raws_getMeta/Data()`.
 * Updated `raws_filterDate()` with new arguments to match `sts_filterDate()`.
 * Rebuild example datasets with new metadata columns.
+* Removed `rawsDF_~()` functionality. This could be included in an add-on
+**RAWSmetPlots** package if ggplot functionality is desired.
+* Removed ggplot-based functions: `timeseriesMultiplot()` and `windTimeseriesPlot()`.
 
 # RAWSmet 0.3.1
 

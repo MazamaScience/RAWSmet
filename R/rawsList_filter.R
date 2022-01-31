@@ -21,9 +21,9 @@
 #' \dontrun{
 #' library(RAWSmet)
 #'
-#' rawsList <- example_fw13Multiple
-#'
-#' daytime <- rawsList_filter(rawsList, solarRadiation > 0)
+#' daytimeList <-
+#'   example_fw13List %>%
+#'   rawsList_filter(solarRadiation > 0)
 #' }
 #'
 rawsList_filter <- function(

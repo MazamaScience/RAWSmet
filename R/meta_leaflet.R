@@ -25,16 +25,16 @@
 #' library(RAWSmet)
 #'
 #' wa_meta <- example_wrcc_meta
-#' raws_leaflet(wa_meta)
+#' meta_leaflet(wa_meta)
 
 #' }
 #'
-#' @rdname raws_leaflet
+#' @rdname meta_leaflet
 #' @seealso \code{\link{wrcc_createMeta}}
 #' @seealso \code{\link{fw13_createMeta}}
 #' @references \href{https://raws.dri.edu/}{RAWS USA Climate Archive}
 
-raws_leaflet <- function(
+meta_leaflet <- function(
   meta = NULL,
   radius = 3.5,
   stroke = TRUE,
