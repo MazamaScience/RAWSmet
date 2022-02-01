@@ -15,14 +15,19 @@
 #' into a standardized dataframe. Metdata columns include:
 #'
 #' \itemize{
-#' \item{\code{countryCode} -- ISO 3166-1 alpha-2 country code}
-#' \item{\code{stateCode} -- ISO 3166-2 alpha-2 state code}
-#' \item{\code{wrccID} -- WRCC RAWS station identifier}
-#' \item{\code{locationName} -- human readable site name}
-#' \item{\code{longitude} -- decimal degrees East}
-#' \item{\code{latitude} -- decimal degrees North}
-#' \item{\code{elevation} -- in meters}
-#' \item{\code{timezone} -- Olson timezone}
+#'   \item{\code{deviceDeploymentID} -- unique identifier}
+#'   \item{\code{deviceID} -- device identifier}
+#'   \item{\code{locationID} -- location identifier}
+#'   \item{\code{locationName} -- English language name}
+#'   \item{\code{longitude} -- decimal degrees E}
+#'   \item{\code{latitude} -- decimal degrees N}
+#'   \item{\code{elevation} -- elevation of station in m}
+#'   \item{\code{countryCode} -- ISO 3166-1 alpha-2}
+#'   \item{\code{stateCode} -- ISO 3166-2 alpha-2}
+#'   \item{\code{timezone} -- Olson time zone}
+#'   \item{\code{nwsID} -- NWS station identifier (for FW13 data)}
+#'   \item{\code{wrccID} -- WRCC station identifier (for WRCC data)}
+#'   \item{\code{agencyName} -- responsible agency (in WRCC data)}
 #' }
 #'
 #' Because of the large number of web requests required to assemble this
@@ -34,10 +39,15 @@
 #'
 #' @examples
 #' \dontrun{
+#' # Fail gracefully if any resources are not available
+#' try({
+#'
 #' library(RAWSmet)
 #'
 #' wa_meta <- wrcc_createMeta(stateCode = 'WA', verbose = TRUE)
 #' dplyr::glimpse(wa_meta)
+##'
+#' }, silent = FALSE)
 #' }
 #'
 #' @references \href{https://raws.dri.edu/}{RAWS USA Climate Archive}
@@ -52,16 +62,17 @@ wrcc_createMeta <- function(
   # ----- Validate parameters --------------------------------------------------
 
   if ( is.null(stateCode) && is.null(wrccIDs) )
-    stop("Either 'stateCode' or 'wrccIDs' must be specified.")
+    stop("either 'stateCode' or 'wrccIDs' must be specified")
 
   if ( ! is.null(stateCode) && ! toupper(stateCode) %in% MazamaSpatialUtils::US_stateCodes$stateCode )
-    stop("Parameter 'stateCode' is not a valid state code")
+    stop("parameter 'stateCode' is not a valid state code")
+
+  if ( !is.null(stateCode) )
+    stateCode <- tolower(stateCode)
 
   # ----- Get station IDs ------------------------------------------------------
 
   if ( is.null(wrccIDs) ) {
-
-    stateCode <- tolower(stateCode)
 
     # NOTE: California, Idaho, and Montana are split into multiple lists so we
     #       must concatenate these lists.
@@ -80,7 +91,7 @@ wrcc_createMeta <- function(
         rbind(MazamaCoreUtils::html_getLinks(centralUrl)) %>%
         rbind(MazamaCoreUtils::html_getLinks(southUrl))
 
-    } else if ( stateCode == 'id') {
+    } else if ( stateCode == 'id' ) {
 
       # Get the north and south urls
       northUrl <- paste0(baseUrl, "nidwmtlst.html")
@@ -121,7 +132,8 @@ wrcc_createMeta <- function(
 
       # Get the links
       stationLinks <- MazamaCoreUtils::html_getLinks(url)
-    }
+
+    } # END partial-/multi-state combinations
 
     # Get the name of the state
     stateName <- MazamaSpatialUtils::US_stateCodeToName(stateCode)
@@ -132,14 +144,13 @@ wrcc_createMeta <- function(
       dplyr::filter(stringr::str_detect(.data$linkName, stateName)) %>% # Get stations in the requested state
       dplyr::pull(.data$linkUrl) %>%                                    # Get only the link URLs
       stringr::str_subset("rawMAIN.pl\\?") %>%                          # only keep those with "rawMAIN.pl?"
-      stringr::str_match(".+MAIN.pl\\?(.+)") %>%                        # pull out everything after "MAIN.pl?"
-      magrittr::extract(, 2)                                            # keep the second column of the matrix
+      stringr::str_replace("/cgi-bin/rawMAIN.pl\\?", "")                # keep everything after "MAIN.pl?"
 
     # Stop if there are no stations in the given state
     if ( rlang::is_empty(wrccIDs) )
       stop(sprintf("Could not find any stations in the state with state code '%s'", stateCode))
 
-  } #END of wrccIDs from stateCode
+  } # END of wrccIDs from stateCode
 
   # ----- Loop over wrccIDs -------------------------------------------------
 
@@ -168,9 +179,16 @@ wrcc_createMeta <- function(
     latitudeDMS <- metaTable$X2[metaTable$X1 == "Latitude"]
     longitudeDMS <- metaTable$X2[metaTable$X1 == "Longitude"]
     elevation <- metaTable$X2[metaTable$X1 == "Elevation"]
-    nessID <- metaTable$X4[metaTable$X3 == "NESS ID" & !is.na(metaTable$X3)]
-    nwsID <- metaTable$X4[metaTable$X3 == "NWS ID" & !is.na(metaTable$X3)]
-    agencyName <- metaTable$X4[metaTable$X3 == "Agency" & !is.na(metaTable$X3)]
+
+    if ( "X3" %in% names(metaTable) ) {
+      nessID <- metaTable$X4[metaTable$X3 == "NESS ID" & !is.na(metaTable$X3)]
+      nwsID <- metaTable$X4[metaTable$X3 == "NWS ID" & !is.na(metaTable$X3)]
+      agencyName <- metaTable$X4[metaTable$X3 == "Agency" & !is.na(metaTable$X3)]
+    } else {
+      nessID <- as.character(NA)
+      nwsID <- as.character(NA)
+      agencyName <- as.character(NA)
+    }
 
     # * Convert to internal standard -----
 
@@ -206,28 +224,33 @@ wrcc_createMeta <- function(
 
     locationName <- stringr::str_trim(stringr::str_sub(locationName, 1, nchar(locationName) - nchar(stateName)))
 
-    # Check if identifies are valid
-    # NOTE:  Identifiers will not be a character if the table is missing.
-    # NOTE:  Identifiers will be empty strings ("") if the table exists but the
-    # NOTE:  value is empty.
-    if ( !is.character(nessID) || nessID == "")
-      nessID = NA
-    if ( !is.character(nwsID) || nwsID == "")
-      nwsID = NA
-    if ( !is.character(agencyName) || agencyName == "")
-      agencyName = NA
+    # * Create deviceDeploymentID -----
+
+    # Use nwsID as deviceID if possible (this matches fw13_createMeta())
+    deviceID <- nwsID
+    if ( is.na(deviceID) || deviceID == "" )
+      deviceID <- wrccID
+
+    locationID <- MazamaLocationUtils::location_createID(longitude, latitude)
+    deviceDeploymentID <- paste0(locationID, "_", deviceID)
+
+    # * Assemble tibble -----
 
     recordList[[wrccID]] <-
       dplyr::tibble(
-        "nwsID" = nwsID,
-        "wrccID" = wrccID,
-        "nessID" = nessID,
+        "deviceDeploymentID" = deviceDeploymentID,
+        "deviceID" = deviceID,
+        "locationID" = locationID,
         "locationName" = locationName,
         "longitude" = longitude,
         "latitude" = latitude,
         "elevation" = elevation,
         "countryCode" = "US",
         "stateCode" = toupper(stateCode),
+        "timezone" = as.character(NA),
+        "nwsID" = nwsID,
+        "wrccID" = wrccID,
+        "nessID" = nessID,
         "agencyName" = agencyName
       )
 
@@ -244,24 +267,8 @@ wrcc_createMeta <- function(
   # Now add the timezone
   meta$timezone <- MazamaSpatialUtils::getTimezone(meta$longitude, meta$latitude)
 
-  # Reorder columns
-  meta <-
-    dplyr::select(
-      .data = meta,
-      nwsID = .data$nwsID,
-      wrccID = .data$wrccID,
-      nessID = .data$nessID,
-      locationName = .data$locationName,
-      longitude = .data$longitude,
-      latitude = .data$latitude,
-      timezone = .data$timezone,
-      elevation = .data$elevation,
-      countryCode = .data$countryCode,
-      stateCode = .data$stateCode,
-      agencyName = .data$agencyName
-    )
+  # ----- Return ---------------------------------------------------------------
 
-  # Return
   return(meta)
 
 }

@@ -22,26 +22,26 @@
 "example_fw13_meta"
 
 
-#' #' @title Example WRCC station metadata
-#' #' @format A dataframe with 121 rows and 11 columns of data.
-#' #' @description The \code{example_wrcc_meta} dataset provides a small subset of
-#' #' WRCC station metadata containing only stations in Washington state.
-#' #'
-#' #' This dataset was generated on 2020-09-06 by running:
-#' #'
-#' #' \preformatted{
-#' #' library(RAWSmet)
-#' #' library(MazamaSpatialUtils)
-#' #'
-#' #' setSpatialDataDir("~/Data/Spatial")
-#' #' loadSpatialData("NaturalEarthAdm1")
-#' #'
-#' #' example_wrcc_meta <- wrcc_createMeta(stateCode = "WA")
-#' #'
-#' #' save(example_wrcc_meta, file = "data/example_wrcc_meta.rda")
-#' #' }
-#' #'
-#' "example_wrcc_meta"
+#' @title Example WRCC station metadata
+#' @format A dataframe with 121 rows and 11 columns of data.
+#' @description The \code{example_wrcc_meta} dataset provides a small subset of
+#' WRCC station metadata containing only stations in Washington state.
+#'
+#' This dataset was generated on 2020-09-06 by running:
+#'
+#' \preformatted{
+#' library(RAWSmet)
+#' library(MazamaSpatialUtils)
+#'
+#' setSpatialDataDir("~/Data/Spatial")
+#' loadSpatialData("NaturalEarthAdm1")
+#'
+#' example_wrcc_meta <- wrcc_createMeta(stateCode = "WA")
+#'
+#' save(example_wrcc_meta, file = "data/example_wrcc_meta.rda")
+#' }
+#'
+"example_wrcc_meta"
 
 
 #' @title Example FW13 timeseries data

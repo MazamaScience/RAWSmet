@@ -14,6 +14,8 @@ two-step process is now explicit.
 * Removed `rawsDF_~()` functionality. This could be included in an add-on
 **RAWSmetPlots** package if ggplot functionality is desired.
 * Removed ggplot-based functions: `timeseriesMultiplot()` and `windTimeseriesPlot()`.
+* Updated `wrcc_createMeta()` to be compatible with _sts_ objects.
+* `wrcc_parseData` now enforces significant digits.
 
 # RAWSmet 0.3.1
 

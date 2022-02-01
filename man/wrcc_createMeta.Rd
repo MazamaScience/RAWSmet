@@ -28,14 +28,19 @@ Assembles individual station metadata from a WRCC webservice
 into a standardized dataframe. Metdata columns include:
 
 \itemize{
-\item{\code{countryCode} -- ISO 3166-1 alpha-2 country code}
-\item{\code{stateCode} -- ISO 3166-2 alpha-2 state code}
-\item{\code{wrccID} -- WRCC RAWS station identifier}
-\item{\code{locationName} -- human readable site name}
-\item{\code{longitude} -- decimal degrees East}
-\item{\code{latitude} -- decimal degrees North}
-\item{\code{elevation} -- in meters}
-\item{\code{timezone} -- Olson timezone}
+  \item{\code{deviceDeploymentID} -- unique identifier}
+  \item{\code{deviceID} -- device identifier}
+  \item{\code{locationID} -- location identifier}
+  \item{\code{locationName} -- English language name}
+  \item{\code{longitude} -- decimal degrees E}
+  \item{\code{latitude} -- decimal degrees N}
+  \item{\code{elevation} -- elevation of station in m}
+  \item{\code{countryCode} -- ISO 3166-1 alpha-2}
+  \item{\code{stateCode} -- ISO 3166-2 alpha-2}
+  \item{\code{timezone} -- Olson time zone}
+  \item{\code{nwsID} -- NWS station identifier (for FW13 data)}
+  \item{\code{wrccID} -- WRCC station identifier (for WRCC data)}
+  \item{\code{agencyName} -- responsible agency (in WRCC data)}
 }
 
 Because of the large number of web requests required to assemble this
@@ -44,10 +49,15 @@ metadata, it is recommended that the file be saved and reused by calling
 }
 \examples{
 \dontrun{
+# Fail gracefully if any resources are not available
+try({
+
 library(RAWSmet)
 
 wa_meta <- wrcc_createMeta(stateCode = 'WA', verbose = TRUE)
 dplyr::glimpse(wa_meta)
+
+}, silent = FALSE)
 }
 
 }
