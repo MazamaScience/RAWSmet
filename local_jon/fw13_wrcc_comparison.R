@@ -19,7 +19,7 @@ plot(cefa_data[,c('datetime','temperature')], ylim = c(0,100), type = 's')
 # Required for wrcc_createTimseriesObject??
 ###loadSpatialData("NaturalEarthAdm1")
 
-wrcc_WENU <- wrcc_createTimeseriesObject(
+wrcc_WENU <- wrcc_createRawsObject(
   "waWENU", 
   startdate = 20200901,
   enddate = 20201001,

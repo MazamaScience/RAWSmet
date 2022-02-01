@@ -19,7 +19,7 @@ and September 7th.
 First, we will use **RAWSmet**'s `wrcc_loadMeta()` function to gather the 
 appropriate metadata and for the RAWS stations in Oregon and Washington. Additionally,
 we must set the directory that stores RAWS data by using `setRawsDataDir()`.  
-**RAWSmet** functions will save any data downloaded by `wrcc_load~()` or `fw13_load~()`
+**RAWSmet** functions will save any data downloaded by `wrcc_load~()` or `cefa_load~()`
 functions to this directory and will retrieve it if requested again.
 ```{r intro, message = FALSE}
 library(RAWSmet)
@@ -34,10 +34,10 @@ or_meta <- wrcc_loadMeta("OR")
 head(wa_meta)
 ```
 Just to double check that we are accessing the correct stations, we can easily 
-plot them on a map with `raws_leaflet()`.
-```{r raws_leaflet}
+plot them on a map with `meta_leaflet()`.
+```{r meta_leaflet}
 orwa_meta <- or_meta %>% rbind(wa_meta)
-raws_leaflet(orwa_meta)
+meta_leaflet(orwa_meta)
 ```
 The `wrcc_loadYear()` function may be used to gather yearly data for a specific
 station. This function will create a `raws_timeseries` object with `meta` and `data`

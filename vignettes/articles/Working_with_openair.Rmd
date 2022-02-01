@@ -84,8 +84,8 @@ not need to be downloaded again in the future.
 
 ## Preparing data for openair
 
-Throughout this section, we will be using **RAWSmet**'s `fw13_load()` and 
-`fw13_loadMeta()` functions. These functions will either load the specified 
+Throughout this section, we will be using **RAWSmet**'s `cefa_load()` and 
+`cefa_loadMeta()` functions. These functions will either load the specified 
 data from `rawsDataDir` or download and save it to the `rawsDataDir` if it 
 does not exist. You may also use `wrcc_loadYear()` and `wrcc_loadMeta()` for RAWS
 data from the WRCC. 
@@ -93,25 +93,25 @@ data from the WRCC.
 Before using RAWS data with **openair**, we must ensure that the data is 
 downloaded correctly and is in the correct format. 
 
-First, create or load all of the FW13 station metadata using `fw13_loadMeta()`.
+First, create or load all of the FW13 station metadata using `cefa_loadMeta()`.
 
-```{r fw13_createTimeseriesObject, message = FALSE}
+```{r cefa_createRawsObject, message = FALSE}
 library(RAWSmet)
 library(MazamaSpatialUtils)
 
 setSpatialDataDir("~/Data/Spatial")
 setRawsDataDir("~/Data/RAWS")
 
-meta <- fw13_loadMeta()
+meta <- cefa_loadMeta()
 head(meta)
 ```
 
-The `raws_leaflet()` function provides an interactive map to help find the ID 
+The `meta_leaflet()` function provides an interactive map to help find the ID 
 associated with a particular location. Just click on a dot to find the associated
 ID:
 
-```{r raws_leaflet}
-raws_leaflet(meta)
+```{r meta_leaflet}
+meta_leaflet(meta)
 ```
 
 We will choose the station in Enumclaw, Washington (451702) and create or load a
@@ -120,7 +120,7 @@ station metadata and another of cleaned weather data.
 
 ```{r view_ts_object}
 # nwsID 451702 is Enumclaw, WA
-enumclawTSObj <- fw13_load(nwsID = 451702, meta = meta)
+enumclawTSObj <- cefa_load(nwsID = 451702, meta = meta)
 
 names(enumclawTSObj)
 # View station metadata
@@ -164,15 +164,15 @@ range(enumclawTSObj_200508$data$datetime)
 ```
 
 **Openair** requires that dates and times of observations are stored in a column 
-called `date`. However, **RAWSmet** names this column `datetime`. Use `raws_extractData()`
+called `date`. However, **RAWSmet** names this column `datetime`. Use `raws_getData()`
 with `forOpenair = TRUE` to extract the `data` dataframe from a RAWS timeseries 
 object with a new column called `date` containing the same values as `datetime`.
 
 ```{r rename_datetime, message = FALSE}
 
 
-enumclawData_2005 <-raws_extractData(enumclawTSObj_2005, forOpenair = TRUE)
-enumclawData_200508 <-raws_extractData(enumclawTSObj_2005, forOpenair = TRUE)
+enumclawData_2005 <-raws_getData(enumclawTSObj_2005, forOpenair = TRUE)
+enumclawData_200508 <-raws_getData(enumclawTSObj_2005, forOpenair = TRUE)
 
 ```
 
@@ -181,22 +181,22 @@ can also be strung neatly together by using the pipe `%>%` operator. The same da
 may be generated like so:
 ```{r generate_with_pipe, message = FALSE}
 
-meta <- fw13_loadMeta()
+meta <- cefa_loadMeta()
 
 enumclawData_2005 <- 
-  fw13_load(nwsID = 451702, meta = meta) %>%
+  cefa_load(nwsID = 451702, meta = meta) %>%
   raws_filterDate(20050101, 20060101, timezone = "America/Los_Angeles") %>%
-  raws_extractData(forOpenair = TRUE)
+  raws_getData(forOpenair = TRUE)
 
 enumclawData_200508 <- 
-  fw13_load(nwsID = 451702, meta = meta) %>%
+  cefa_load(nwsID = 451702, meta = meta) %>%
   raws_filterDate(20050801, 20050901, timezone = "America/Los_Angeles") %>%
-  raws_extractData(forOpenair = TRUE)
+  raws_getData(forOpenair = TRUE)
 
 # We will also extract a dataframe of ALL of the station's data
 enumclawData_ALL <-
-  fw13_load(nwsID = 451702, meta = meta) %>%
-  raws_extractData(forOpenair = TRUE)
+  cefa_load(nwsID = 451702, meta = meta) %>%
+  raws_getData(forOpenair = TRUE)
 ```
 
 After renaming the datetime column and filtering by dates of interest, we are 

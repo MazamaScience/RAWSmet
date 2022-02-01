@@ -53,10 +53,10 @@ library(RAWSmet)
 
 setRawsDataDir("~/Data/RAWS/")
 
-stationMeta <- wrcc_loadMeta(stateCode = "WA")
+wa_meta <- wrcc_loadMeta(stateCode = "WA")
 rawsObject <- wrcc_loadYear(
-  wrccID = "waWENU", 
-  meta = stationMeta, 
+  wrccID = "waWENU",
+  meta = wa_meta,
   year = 2020,
   password = MY_PASSWORD
 )
@@ -69,7 +69,7 @@ dplyr::glimpse(rawsObject)
 \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 }
 \seealso{
-\code{wrcc_createTimeseriesObject}
+\code{wrcc_createRawsObject}
 
 \code{setRawsDataDir}
 }

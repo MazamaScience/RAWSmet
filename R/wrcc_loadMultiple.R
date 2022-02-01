@@ -28,28 +28,35 @@
 #' }
 #' @examples
 #' \donttest{
+#' \dontrun{
+#' # Fail gracefully if any resources are not available
+#' try({
+#'
 #' library(MazamaSpatialUtils)
+#'
 #' setSpatialDataDir("~/Data/Spatial")
 #' loadSpatialData("NaturalEarthAdm1")
 #'
 #' library(RAWSmet)
-#' setRawsDataDir("~/Data/RAWS/")
+#' setRawsDataDir("~/Data/RAWS")
 #'
-#' stationMeta <- wrcc_loadMeta(stateCode = "WA")
+#' wa_meta <- wrcc_loadMeta(stateCode = "WA")
 #'
 #' wrccIDs <- c("waWENU", "waWASH", "waWALD")
 #' stationData <-
 #'   wrcc_loadMultiple(
 #'     wrccIDs = wrccIDs,
-#'     meta = stationMeta,
+#'     meta = wa_meta,
 #'     year = 2020,
 #'     password = MY_PASSWORD
 #'   )
 #'
 #' dplyr::glimpse(stationData)
+#'
+#' }, silent = FALSE)
 #' }
 #'
-#' @seealso \code{wrcc_createTimeseriesObject}
+#' @seealso \code{wrcc_createRawsObject}
 #' @seealso \code{wrcc_load}
 #' @seealso \code{setRawsDataDir}
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}

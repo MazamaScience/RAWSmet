@@ -31,7 +31,8 @@
 #' \dontrun{
 #' library(RAWSmet)
 #'
-#' waWALD <- wrcc_createTimeseriesObject(wrccID = 'waWALD')
+#' waWALD <-
+#'   wrcc_createRawsObject(wrccID = 'waWALD')
 #'
 #' }
 #'
@@ -40,7 +41,7 @@
 #'
 #' @references \href{https://raws.dri.edu/}{RAWS USA Climate Archive}
 
-wrcc_createTimeseriesObject <- function(
+wrcc_createRawsObject <- function(
   wrccID = NULL,
   meta = NULL,
   startdate = strftime(lubridate::now(tzone = "UTC"), "%Y%m0101", tz = "UTC"),
@@ -76,13 +77,15 @@ wrcc_createTimeseriesObject <- function(
 
   # * Download/parse -----
 
-  tbl <- wrcc_createRawDataframe(
-    wrccID = wrccID,
-    startdate = startdate,
-    enddate = enddate,
-    password = password,
-    baseUrl = baseUrl
-  )
+  tbl <-
+    wrcc_downloadData(
+      wrccID = wrccID,
+      startdate = startdate,
+      enddate = enddate,
+      password = password,
+      baseUrl = baseUrl
+    ) %>%
+    wrcc_parseData()
 
   # * Harmonize ----
 
@@ -145,7 +148,7 @@ wrcc_createTimeseriesObject <- function(
 
   # Combine meta and data dataframes into a list
   raws <- list(meta = meta, data = data)
-  class(raws) <- c("raws_timeseries", class(raws))
+  class(raws) <- c("raws_timeseries", "sts", class(raws))
 
   return(raws)
 

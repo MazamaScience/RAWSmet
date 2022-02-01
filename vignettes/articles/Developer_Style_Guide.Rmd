@@ -68,7 +68,7 @@ functions are _**well described verbs**_ that describe what they do as in:
 
 ```
 setRawsDataDir()
-fw13_load()
+cefa_load()
 wrcc_loadMultiple()
 raws_filterDate()
 addWindBarbs()

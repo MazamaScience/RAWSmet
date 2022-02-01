@@ -38,6 +38,8 @@ tbl <-
   wrcc_downloadData(wrccID = 'WSWA') \%>\%
   wrcc_parseData()
 
+dplyr::glimpse(tbl)
+
 }, silent = FALSE)
 }
 }

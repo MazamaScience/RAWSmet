@@ -47,35 +47,11 @@ This is useful for updating data files with more recent data.}
 data for stations which have no data over a particular time period.}
 }
 }
-\examples{
-\donttest{
-library(MazamaSpatialUtils)
-setSpatialDataDir("~/Data/Spatial")
-loadSpatialData("NaturalEarthAdm1")
-
-library(RAWSmet)
-setRawsDataDir("~/Data/RAWS/")
-
-stationMeta <- wrcc_loadMeta(stateCode = "WA")
-
-wrccIDs <- c("waWENU", "waWASH", "waWALD")
-stationData <-
-  wrcc_loadMultiple(
-    wrccIDs = wrccIDs,
-    meta = stationMeta,
-    year = 2020,
-    password = MY_PASSWORD
-  )
-
-dplyr::glimpse(stationData)
-}
-
-}
 \references{
 \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 }
 \seealso{
-\code{wrcc_createTimeseriesObject}
+\code{wrcc_createRawsObject}
 
 \code{wrcc_load}
 

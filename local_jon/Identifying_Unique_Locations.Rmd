@@ -82,15 +82,15 @@ Well formamtted archival RAWS data is avaialable from https://cefa.dri.edu/raws.
 ### Spatial metadata
 
 Metadata containing station IDs and location information can be accessed using
-the `fw13_createMetadtat()` function
+the `cefa_createMetadtat()` function
 
-```{r fw13_createMetadata, message = FALSE}
+```{r cefa_createMetadata, message = FALSE}
 library(RAWSmet)
 
 library(MazamaSpatialUtils)
 setSpatialDataDir("~/Data/Spatial")
 
-meta <- fw13_createMeta(verbose = TRUE)
+meta <- cefa_createMeta(verbose = TRUE)
 head(meta)
 ```
 
@@ -144,8 +144,8 @@ nwsID_1 <- meta$nwsID[1597]
 nwsID_2 <- meta$nwsID[1598]
 
 # Get timeseries data
-CampCreek_1 <- fw13_createTimeseriesObject(nwsID_1, meta)
-CampCreek_2 <- fw13_createTimeseriesObject(nwsID_2, meta)
+CampCreek_1 <- cefa_createRawsObject(nwsID_1, meta)
+CampCreek_2 <- cefa_createRawsObject(nwsID_2, meta)
 
 # Each timeseries object consists of 'meta' and 'data'.
 # We are only interested in the 'data' part:
@@ -198,8 +198,8 @@ nwsID_1 <- meta$nwsID[120]
 nwsID_2 <- meta$nwsID[179]
 
 # Get timeseries data
-Marianna <- fw13_createTimeseriesObject(nwsID_1, meta)
-St_Francis <- fw13_createTimeseriesObject(nwsID_2, meta)
+Marianna <- cefa_createRawsObject(nwsID_1, meta)
+St_Francis <- cefa_createRawsObject(nwsID_2, meta)
 
 # Each timeseries object consists of 'meta' and 'data'.
 # We are only interested in the 'data' part:

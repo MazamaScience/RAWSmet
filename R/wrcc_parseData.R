@@ -33,6 +33,8 @@
 #'   wrcc_downloadData(wrccID = 'WSWA') %>%
 #'   wrcc_parseData()
 #'
+#' dplyr::glimpse(tbl)
+#'
 #' }, silent = FALSE)
 #' }
 
@@ -101,6 +103,15 @@ wrcc_parseData <- function(
 
   tbl$monitorType <- monitorType
 
+  # ----- Add missing columns --------------------------------------------------
+
+  if ( !"fuelTemperature" %in% columnNames )
+    tbl$fuelTemperature <- as.numeric(NA)
+
+  if ( !"fuelMoisture" %in% columnNames )
+    tbl$fuelMoisture <- as.numeric(NA)
+
+
   # ----- Convert to metric units ----------------------------------------------
 
   # Precip
@@ -115,10 +126,12 @@ wrcc_parseData <- function(
     stop(sprintf("Need to handle temperature units of \"%s\" in wrcc_parseData()"))
   }
 
-  # Fuel Temperature
-  unit <- columnUnits[which(columnNames == "fuelTemperature")]
-  if ( length(unit) > 0 && unit != "degC" ) {
-    stop(sprintf("Need to handle fuelTemperature units of \"%s\" in wrcc_parseData()"))
+  if ( "fuelTemperature" %in% columnNames ) {
+    # Fuel Temperature
+    unit <- columnUnits[which(columnNames == "fuelTemperature")]
+    if ( length(unit) > 0 && unit != "degC" ) {
+      stop(sprintf("Need to handle fuelTemperature units of \"%s\" in wrcc_parseData()"))
+    }
   }
 
   # Wind Speed
@@ -175,11 +188,11 @@ wrcc_parseData <- function(
   tbl <-
     tbl %>%
     dplyr::mutate(
-      precipitation = round(.data$preciptation, 0),
+      precipitation = round(.data$precipitation, 0),
       windSpeed = round(.data$windSpeed, 2),
       windDirection = round(.data$windDirection, 0),
-      temperature = round(.data$temperature, 2),
-      fuelTemperature = round(.data$fuelTemperature, 2),
+      temperature = round(.data$temperature, 1),
+      fuelTemperature = round(.data$fuelTemperature, 1),
       humidity = round(.data$humidity, 0),
       batteryVoltage = round(.data$batteryVoltage, 1),
       fuelMoisture = round(.data$fuelMoisture, 1),

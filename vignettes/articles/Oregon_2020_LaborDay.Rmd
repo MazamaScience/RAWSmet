@@ -27,7 +27,7 @@ library(grid)      # To avoid Error: 'could not find function "unit"'
 setRawsDataDir("~/Data/RAWS")
 
 # Load WRCC station metadata for Oregon
-oregonMeta <- wrcc_loadMeta(stateCode = "OR")
+or_meta <- wrcc_loadMeta(stateCode = "OR")
 
 filePath <- file.path(getRawsDataDir(), "stationList_OR.rda")
 
@@ -41,8 +41,8 @@ if ( file.exists(filePath) ) {
   # Create required data
   stationList_OR <- 
     wrcc_loadMultiple(
-      wrccIDs = oregonMeta$wrccID, 
-      meta = oregonMeta, 
+      wrccIDs = or_meta$wrccID, 
+      meta = or_meta, 
       year = 2020, 
       newDownload = FALSE,
       password = MY_PASSWORD
@@ -65,8 +65,8 @@ can be seen on the following map:
 ```{r oregonStations, message = FALSE}
 wrccIDs <- names(stationList_OR)
 
-meta <- oregonMeta %>% dplyr::filter(wrccID %in% wrccIDs)
-RAWSmet::raws_leaflet(meta)
+meta <- or_meta %>% dplyr::filter(wrccID %in% wrccIDs)
+RAWSmet::meta_leaflet(meta)
 ```
 
 ## Wind shift maps
@@ -167,8 +167,8 @@ orOGOO <-
   stationList_OR[["orOGOO"]] %>%
   raws_filterDate(20200904, 20200908)
 
-orOBRRData <- orOBRR %>% raws_extractData()
-orOGOOData <- orOGOO %>% raws_extractData()
+orOBRRData <- orOBRR %>% raws_getData()
+orOGOOData <- orOGOO %>% raws_getData()
 
 # Create plots
 
@@ -222,15 +222,15 @@ if ( file.exists(filePath) ) {
       startdate = MazamaCoreUtils::parseDatetime(20200901, timezone = "America/Los_Angeles"),
       enddate = MazamaCoreUtils::parseDatetime(20200930, timezone = "America/Los_Angeles")
     ) %>%
-    raws_extractData(forOpenair = TRUE)
+    raws_getData(forOpenair = TRUE)
   
   save(wrccData_orOGOO, file = filePath)
 }
 
 
 fw13Data_orOGOO <-
-  fw13_load(nwsID = "352545") %>%
-  raws_extractData(forOpenair = TRUE) %>%
+  cefa_load(nwsID = "352545") %>%
+  raws_getData(forOpenair = TRUE) %>%
   dplyr::filter(lubridate::month(datetime) == 9)
 
 fw13Plot <- openair::windRose(mydata = fw13Data_orOGOO,
