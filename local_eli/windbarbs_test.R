@@ -1,5 +1,5 @@
 data <- 
-  example_fw13_Saddle_Mountain %>%
+  example_cefa_Saddle_Mountain %>%
   raws_filterDate("2017-09-01", "2017-09-01") %>%
   raws_getData()
 

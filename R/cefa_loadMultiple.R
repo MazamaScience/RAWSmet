@@ -36,22 +36,22 @@
 #' library(RAWSmet)
 #' setRawsDataDir("~/Data/RAWS/")
 #'
-#' stationMeta <- fw13_loadMeta()
+#' stationMeta <- cefa_loadMeta()
 #'
 #' nwsIDs <- c("021503", "500726", "020401")
-#' stationData <- fw13_loadMultiple(nwsIDs = nwsIDs, meta = stationMeta)
+#' stationData <- cefa_loadMultiple(nwsIDs = nwsIDs, meta = stationMeta)
 #'
 #' dplyr::glimpse(stationData)
 #'
 #' }, silent = FALSE)
 #' }
 #'
-#' @seealso \code{fw13_createRawsObject}
-#' @seealso \code{fw13_load}
+#' @seealso \code{cefa_createRawsObject}
+#' @seealso \code{cefa_load}
 #' @seealso \code{setRawsDataDir}
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 
-fw13_loadMultiple <- function(
+cefa_loadMultiple <- function(
   nwsIDs = NULL,
   meta = NULL,
   newDownload = NA,
@@ -79,7 +79,7 @@ fw13_loadMultiple <- function(
 
       # Load or download data for each station
       stationTimeseriesObject <-
-        fw13_load(
+        cefa_load(
           nwsID = nwsID,
           meta = meta,
           newDownload = newDownload,

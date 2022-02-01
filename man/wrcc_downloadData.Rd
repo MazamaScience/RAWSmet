@@ -34,6 +34,9 @@ Station identifiers can be found at https://raws.dri.edu/.
 }
 \examples{
 \dontrun{
+# Fail gracefully if any resources are not available
+try({
+
 library(RAWSmet)
 
 fileString <- wrcc_downloadData(wrccID = 'WENU')
@@ -46,6 +49,8 @@ fileString <- wrcc_downloadData(
   enddate = 20200901,
   password = "MY_PASSWORD"
 )
+
+}, silent = FALSE)
 }
 }
 \references{

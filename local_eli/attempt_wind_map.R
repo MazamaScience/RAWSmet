@@ -3,10 +3,10 @@ library(dplyr)
 library(leaflet)
 library(leaflet.minicharts)
 
-fw13Meta <- fw13_createMeta()
+cefaMeta <- cefa_createMeta()
 
-waStationIDs <- fw13Meta$nwsID[fw13Meta$stateCode == "WA" & !is.na(fw13Meta$stateCode)]
-allDataWA <- lapply(waStationIDs, fw13_createRawsObject, fw13Meta)
+waStationIDs <- cefaMeta$nwsID[cefaMeta$stateCode == "WA" & !is.na(cefaMeta$stateCode)]
+allDataWA <- lapply(waStationIDs, cefa_createRawsObject, cefaMeta)
 
 august2015AvgList <- list()
 for ( station in allDataWA ) {

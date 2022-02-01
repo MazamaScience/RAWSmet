@@ -1,18 +1,18 @@
 library(ggplot2)
 library(metR)
 
-fw13Meta <-fw13_loadMeta()
+cefaMeta <-cefa_loadMeta()
 
 nwsID = "451702"
 
-timezone = fw13Meta$timezone[fw13Meta$nwsID == "451702"]
-locationName = fw13Meta$locationName[fw13Meta$nwsID == "451702"]
-stateCode = fw13Meta$stateCode[fw13Meta$nwsID == "451702"]
+timezone = cefaMeta$timezone[cefaMeta$nwsID == "451702"]
+locationName = cefaMeta$locationName[cefaMeta$nwsID == "451702"]
+stateCode = cefaMeta$stateCode[cefaMeta$nwsID == "451702"]
 
 startDate = MazamaCoreUtils::parseDatetime(20050801, timezone = timezone)
 endDate = MazamaCoreUtils::parseDatetime(20050803, timezone = timezone)
 
-data <- fw13_load(nwsID = "451702", meta = fw13Meta) %>% raws_filterDate(startDate, endDate) %>% raws_getData()
+data <- cefa_load(nwsID = "451702", meta = cefaMeta) %>% raws_filterDate(startDate, endDate) %>% raws_getData()
 
 
 data$windDirection <- data$windDirection + 90

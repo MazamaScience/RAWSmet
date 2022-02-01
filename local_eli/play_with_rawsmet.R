@@ -2,10 +2,10 @@ library(RAWSmet)
 library(openair)
 library(dplyr)
 
-fw13Meta <- fw13_createMeta()
+cefaMeta <- cefa_createMeta()
 
-enumclawFW13 <- fw13_createRawsObject(nwsID = 451702, meta)
-quilceneFW13 <- fw13_createRawsObject(nwsID = 450207, meta)
+enumclawFW13 <- cefa_createRawsObject(nwsID = 451702, meta)
+quilceneFW13 <- cefa_createRawsObject(nwsID = 450207, meta)
 
 augustData <- filter(enumclawFW13$data, stringr::str_sub(datetime, 6, 7) == "08")
 novembData <- filter(enumclawFW13$data, stringr::str_sub(datetime, 6, 7) == "11")

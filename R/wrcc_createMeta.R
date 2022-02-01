@@ -25,8 +25,9 @@
 #'   \item{\code{countryCode} -- ISO 3166-1 alpha-2}
 #'   \item{\code{stateCode} -- ISO 3166-2 alpha-2}
 #'   \item{\code{timezone} -- Olson time zone}
-#'   \item{\code{nwsID} -- NWS station identifier (for FW13 data)}
-#'   \item{\code{wrccID} -- WRCC station identifier (for WRCC data)}
+#'   \item{\code{nwsID} -- NWS station identifier}
+#'   \item{\code{wrccID} -- WRCC station identifier (in WRCC data)}
+#'   \item{\code{nessID} -- NESS station identifier (in WRCC data)}
 #'   \item{\code{agencyName} -- responsible agency (in WRCC data)}
 #' }
 #'
@@ -226,7 +227,7 @@ wrcc_createMeta <- function(
 
     # * Create deviceDeploymentID -----
 
-    # Use nwsID as deviceID if possible (this matches fw13_createMeta())
+    # Use nwsID as deviceID if possible (this matches cefa_createMeta())
     deviceID <- nwsID
     if ( is.na(deviceID) || deviceID == "" )
       deviceID <- wrccID

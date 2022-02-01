@@ -1,6 +1,6 @@
 #' @title Example FW13 station metadata
 #' @format A dataframe with 66 rows and 11 columns of data.
-#' @description The \code{example_fw13_meta} dataset provides a small subset of
+#' @description The \code{example_cefa_meta} dataset provides a small subset of
 #' FW13 station metadata containing only stations in Washington state.
 #'
 #' This dataset was generated on 2022-01-31 by running:
@@ -12,14 +12,14 @@
 #'
 #' setSpatialDataDir("~/Data/Spatial")
 #'
-#' allfw13Meta <- fw13_createMeta()
+#' cefa_meta <- cefa_createMeta()
 #'
-#' example_fw13_meta <- dplyr::filter(allfw13Meta, stateCode == "WA")
+#' example_cefa_meta <- dplyr::filter(cefa_meta, stateCode == "WA")
 #'
-#' save(example_fw13_meta, file = "data/example_fw13_meta.rda")
+#' save(example_cefa_meta, file = "data/example_cefa_meta.rda")
 #' }
 #'
-"example_fw13_meta"
+"example_cefa_meta"
 
 
 #' @title Example WRCC station metadata
@@ -47,7 +47,7 @@
 #' @title Example FW13 timeseries data
 #' @format A \emph{raws_timeseries object} containing \code{meta} and \code{data} dataframes.
 #' \code{meta} has 1 row and 11 columns and \code{data} has 8744 rows and 13 columns.
-#' @description The \code{example_fw13_Saddle_Mountain} dataset provides a quickly loadable
+#' @description The \code{example_cefa_Saddle_Mountain} dataset provides a quickly loadable
 #' \emph{raws_timeseries} object containing FW13 data for the station in Saddle Mountain,
 #' Washington, (nwsID: 452701) in 2017.
 #'
@@ -56,15 +56,15 @@
 #' \preformatted{
 #' library(RAWSmet)
 #'
-#' fw13Meta <- fw13_createMeta()
-#' example_fw13_Saddle_Mountain <-
-#'   fw13_createRawsObject(nwsID = "452701", meta = fw13Meta) %>%
+#' cefa_meta <- cefa_createMeta()
+#' example_cefa_Saddle_Mountain <-
+#'   cefa_createRawsObject(nwsID = "452701", meta = cefa_meta) %>%
 #'   raws_filterDate(20170101, 20180101, timezone = "America/Los_Angeles")
 #'
-#' save(example_fw13_Saddle_Mountain, file = "data/example_fw13_Saddle_Mountain.rda")
+#' save(example_cefa_Saddle_Mountain, file = "data/example_cefa_Saddle_Mountain.rda")
 #' }
 #'
-"example_fw13_Saddle_Mountain"
+"example_cefa_Saddle_Mountain"
 
 
 #' #' @title Example WRCC timeseries data
@@ -111,7 +111,7 @@
 
 #' @title Example list of FW13 timeseries data
 #' @format A list of two \emph{raws_timeseries} objects each containing \code{meta} and \code{data} dataframes.
-#' @description The \code{example_fw13List} dataset provides a quickly loadable list of
+#' @description The \code{example_cefaList} dataset provides a quickly loadable list of
 #' \emph{raws_timeseries} objects containing FW13 data for the station in Saddle Mountain, and Wellpinit
 #' Washington, (nwsIDs: 452701, 452918) from September 2017.
 #'
@@ -123,11 +123,11 @@
 #' setRawsDataDir("~/Data/RAWS/")
 #'
 #' nwsIDs <- c("452701", "452918")
-#' example_fw13List <-
-#'   fw13_loadMultiple(nwsIDs = nwsIDs) %>%
+#' example_cefaList <-
+#'   cefa_loadMultiple(nwsIDs = nwsIDs) %>%
 #'   rawsList_filterDate(20170901, 20171001, timezone = "America/Los_Angeles")
 #'
-#' save(example_fw13List, file = "data/example_fw13List.rda")
+#' save(example_cefaList, file = "data/example_cefaList.rda")
 #' }
 #'
-"example_fw13List"
+"example_cefaList"

@@ -38,8 +38,9 @@ into a standardized dataframe. Metdata columns include:
   \item{\code{countryCode} -- ISO 3166-1 alpha-2}
   \item{\code{stateCode} -- ISO 3166-2 alpha-2}
   \item{\code{timezone} -- Olson time zone}
-  \item{\code{nwsID} -- NWS station identifier (for FW13 data)}
-  \item{\code{wrccID} -- WRCC station identifier (for WRCC data)}
+  \item{\code{nwsID} -- NWS station identifier}
+  \item{\code{wrccID} -- WRCC station identifier (in WRCC data)}
+  \item{\code{nessID} -- NESS station identifier (in WRCC data)}
   \item{\code{agencyName} -- responsible agency (in WRCC data)}
 }
 

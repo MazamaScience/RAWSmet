@@ -1,5 +1,5 @@
 setSpatialDataDir("~/Data/Spatial")
-tsObj <- fw13_createRawsObject(nwsID = 451702)
+tsObj <- cefa_createRawsObject(nwsID = 451702)
 start <- MazamaCoreUtils::parseDatetime(20051101, timezone = "UTC")
 end <- MazamaCoreUtils::parseDatetime(20051110, timezone = "UTC")
 tsObj$data$date <- tsObj$data$datetime

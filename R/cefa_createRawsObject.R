@@ -52,18 +52,18 @@
 #' library(MazamaSpatialUtils)
 #' setSpatialDataDir("~/Data/Spatial")
 #'
-#' nws_500726 <- fw13_createRawsObject(nwsID = 500726)
+#' nws_500726 <- cefa_createRawsObject(nwsID = 500726)
 #'
 #' }, silent = FALSE)
 #' }
 #'
-#' @seealso \code{\link{fw13_createMeta}}
-#' @seealso \code{\link{fw13_parseData}}
+#' @seealso \code{\link{cefa_createMeta}}
+#' @seealso \code{\link{cefa_parseData}}
 #'
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 #' @references \href{https://fam.nwcg.gov/fam-web/weatherfirecd/13.htm}{FW13 Data Format}
 
-fw13_createRawsObject <- function(
+cefa_createRawsObject <- function(
   nwsID = NULL,
   meta = NULL,
   baseUrl = "https://cefa.dri.edu/raws/fw13/",
@@ -80,7 +80,7 @@ fw13_createRawsObject <- function(
   # ----- Create 'meta' --------------------------------------------------------
 
   if ( is.null(meta) ) {
-    meta <- fw13_loadMeta(verbose = verbose)
+    meta <- cefa_loadMeta(verbose = verbose)
   }
 
   # Subset to a single record
@@ -89,11 +89,11 @@ fw13_createRawsObject <- function(
   # ----- Download/parse data --------------------------------------------------
 
   tbl <-
-    fw13_downloadData(
+    cefa_downloadData(
       nwsID = nwsID,
       baseUrl = baseUrl
     ) %>%
-    fw13_parseData()
+    cefa_parseData()
 
   # > dplyr::glimpse(tbl, width = 75)
   # Rows: 72,832
@@ -265,7 +265,7 @@ if ( FALSE ) {
 
   nwsID = 500726
   meta = NULL
-  baseUrl = "https://cefa.dri.edu/raws/fw13/"
+  baseUrl = "https://cefa.dri.edu/raws/cefa/"
   verbose = FALSE
 
 }

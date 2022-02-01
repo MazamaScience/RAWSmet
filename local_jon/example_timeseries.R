@@ -13,13 +13,13 @@ library(RAWSmet)
 setRawsDataDir("~/Data/RAWS")
 
 # Download/reload metadata from the "FW13" site
-meta <- fw13_loadMeta(verbose = TRUE)
+meta <- cefa_loadMeta(verbose = TRUE)
 
 # See what stations are available
 meta_leaflet(meta)
 
 # Use a nwsID to download historical data
-bend_1 <- fw13_load("352621", meta)
+bend_1 <- cefa_load("352621", meta)
 
 # "raws" objects are a list with 'meta' and 'data'
 

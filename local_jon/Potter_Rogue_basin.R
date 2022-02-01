@@ -47,43 +47,43 @@ plot(Rogue, col = 'blue', add = TRUE)
 library(RAWSmet)
 setRawsDataDir("~/Data/RAWS")
 
-fw13_meta <- 
-  fw13_loadMeta() %>%
+cefa_meta <- 
+  cefa_loadMeta() %>%
   dplyr::filter(stateCode == "OR")
 
 # Have a look:
-meta_leaflet(fw13_meta)
+meta_leaflet(cefa_meta)
 
 # * 2) Filter by boundaries -----
 
 # Let's filter with lon/lat boundaries
-Rogue_fw13_meta <-
-  fw13_meta %>%
+Rogue_cefa_meta <-
+  cefa_meta %>%
   dplyr::filter(
     longitude > -125 & longitude < -122 & latitude > 42 & latitude < 43
   )
 
 # Have a look:
-meta_leaflet(Rogue_fw13_meta)
+meta_leaflet(Rogue_cefa_meta)
 
 # Looks good!
 
 # * 1) Filter by basin names -----
 
 # What RAWS sites existin within the Rogue watershed?
-fw13_meta$HUCName <- 
+cefa_meta$HUCName <- 
   MazamaSpatialUtils::getHUCName(
-    fw13_meta$longitude, 
-    fw13_meta$latitude,
+    cefa_meta$longitude, 
+    cefa_meta$latitude,
     dataset = "WBDHU8"
   )
 
-Rogue_fw13_meta <-
-  fw13_meta %>%
+Rogue_cefa_meta <-
+  cefa_meta %>%
   dplyr::filter(stringr::str_detect(HUCName, "Rogue|Applegate|Illinois"))
 
 # Have a look:
-meta_leaflet(Rogue_fw13_meta)
+meta_leaflet(Rogue_cefa_meta)
 
 # NOTE:  Unfortunately, this misses "FLYNN PRARIE" and "RED MOUND" which are not
 # NOTE:  "technically" within the watershed boundaries but are probably sites of

@@ -26,7 +26,7 @@ are dropped.
 \donttest{
 library(RAWSmet)
 
-rawsObject <- example_fw13_Saddle_Mountain
+rawsObject <- example_cefa_Saddle_Mountain
 
 daytime <- raws_filter(rawsObject, solarRadiation > 0)
 head(daytime$data)

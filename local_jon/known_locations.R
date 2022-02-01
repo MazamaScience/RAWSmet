@@ -8,7 +8,7 @@ MazamaLocationUtils::mazama_initialize()
 
 library(RAWSmet)
 
-meta <- fw13_loadMeta()
+meta <- cefa_loadMeta()
 
 known_locations <- MazamaLocationUtils::table_initializeExisting(meta, radius = 1000)
 

@@ -14,12 +14,12 @@ Dataframe of RAWS raw station data.
 }
 \description{
 Raw character data from WRCC are parsed into a tibble.
-The incoming \code{fileString} can be read in directly from WRCC using 
+The incoming \code{fileString} can be read in directly from WRCC using
 \code{wrcc_downloadData()} or from a local file using \code{readr::read_file()}.
 
-The type of monitor represented by this fileString is inferred from the 
-column names using \code{wrcc_identifyMonitorType()} and appropriate column 
-types are assigned. The character data are then processed, read into a tibble 
+The type of monitor represented by this fileString is inferred from the
+column names using \code{wrcc_identifyMonitorType()} and appropriate column
+types are assigned. The character data are then processed, read into a tibble
 and augmented in the following ways:
 
 \enumerate{
@@ -29,10 +29,16 @@ and augmented in the following ways:
 }
 \examples{
 \dontrun{
+# Fail gracefully if any resources are not available
+try({
+
 library(RAWSmet)
 
-fileString <- wrcc_downloadData(wrccID = 'WENU')
-tbl <- wrcc_parseData(fileString)
+tbl <-
+  wrcc_downloadData(wrccID = 'WSWA') \%>\%
+  wrcc_parseData()
+
+}, silent = FALSE)
 }
 }
 \references{

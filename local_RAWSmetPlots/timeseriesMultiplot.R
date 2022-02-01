@@ -26,7 +26,7 @@
 #' library(RAWSmet)
 #'
 #' data <-
-#'   example_fw13_Saddle_Mountain %>%
+#'   example_cefa_Saddle_Mountain %>%
 #'   raws_filterDate(20170801, 20170901) %>%
 #'   raws_getData()
 #'

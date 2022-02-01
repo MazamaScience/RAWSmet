@@ -35,7 +35,7 @@
 #' library(RAWSmet)
 #'
 #' september_week1 <-
-#'   example_fw13List %>%
+#'   example_cefaList %>%
 #'   rawsList_filterDate(
 #'     startdate = 20170901,
 #'     enddate = 20170908,

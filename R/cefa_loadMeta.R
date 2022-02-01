@@ -20,18 +20,18 @@
 #'
 #' setRawsDataDir("~/Data/RAWS/")
 #'
-#' stationMeta <- fw13_loadMeta()
+#' stationMeta <- cefa_loadMeta()
 #'
 #' dplyr::glimpse(stationMeta)
 #'
 #' }, silent = FALSE)
 #' }
 #'
-#' @seealso \code{fw13_createMeta}
+#' @seealso \code{cefa_createMeta}
 #' @seealso \code{setRawsDataDir}
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 
-fw13_loadMeta <- function(
+cefa_loadMeta <- function(
   metadataUrl = "https://cefa.dri.edu/raws/RAWSfw13list.xlsx",
   newDownload = FALSE,
   verbose = TRUE
@@ -43,7 +43,7 @@ fw13_loadMeta <- function(
 
   # ----- Check for local data -------------------------------------------------
 
-  fileName = "fw13_metadata.rda"
+  fileName = "cefa_metadata.rda"
   filePath = file.path(dataDir, fileName)
 
   if ( file.exists(filePath) && newDownload == FALSE ) {
@@ -64,7 +64,7 @@ fw13_loadMeta <- function(
     }
 
     # If local data does not exist, download and return it.
-    metadata <- fw13_createMeta(metadataUrl = metadataUrl, verbose = verbose)
+    metadata <- cefa_createMeta(metadataUrl = metadataUrl, verbose = verbose)
 
     # Save this object so it may be loaded in the future
     save(metadata, file = filePath)

@@ -28,7 +28,7 @@ manipulating data in a pipeline chain using \code{\%>\%}.
 library(RAWSmet)
 
 data <-
-  example_fw13_Saddle_Mountain \%>\%
+  example_cefa_Saddle_Mountain \%>\%
   raws_getData(forOpenair = TRUE)
 
 # openair::timePlot(
@@ -36,7 +36,7 @@ data <-
 #  pollutant = "temperature"
 # )
 
-example_fw13_Saddle_Mountain \%>\%
+example_cefa_Saddle_Mountain \%>\%
   raws_getMeta() \%>\%
   head()
 }

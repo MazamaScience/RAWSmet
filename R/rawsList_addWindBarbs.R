@@ -31,7 +31,7 @@
 #' # Noon on 09-01-2017
 #' observationTime <- MazamaCoreUtils::parseDatetime(2017090112, timezone = "America/Los_Angeles")
 #' 
-#' rawsList_addWindBarbs(rawsList = example_fw13List, observationTime = observationTime)
+#' rawsList_addWindBarbs(rawsList = example_cefaList, observationTime = observationTime)
 #'}
 #'
 rawsList_addWindBarbs <- function(

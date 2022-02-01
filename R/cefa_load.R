@@ -38,19 +38,19 @@
 #' setSpatialDataDir("~/Data/Spatial")
 #' loadSpatialData("NaturalEarthAdm1.rda")
 #'
-#' meta <- fw13_loadMeta()
+#' meta <- cefa_loadMeta()
 #'
-#' rawsObject <- fw13_load(nwsID = 451702, meta = meta)
+#' rawsObject <- cefa_load(nwsID = 451702, meta = meta)
 #' head(rawsObject$data)
 #'
 #' }, silent = FALSE)
 #' }
 #'
-#' @seealso \code{fw13_createRawsObject}
+#' @seealso \code{cefa_createRawsObject}
 #' @seealso \code{setRawsDataDir}
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 
-fw13_load <- function(
+cefa_load <- function(
   nwsID = NULL,
   meta = NULL,
   newDownload = NA,
@@ -71,7 +71,7 @@ fw13_load <- function(
   # NOTE:  We save the file with the currentYear. This guarantees that updated
   # NOTE:  files will be obtained at least every year.
 
-  fileName = sprintf("fw13_%s_%d.rda", nwsID, currentYear)
+  fileName = sprintf("cefa_%s_%d.rda", nwsID, currentYear)
   filePath = file.path(dataDir, fileName)
 
   if ( file.exists(filePath) ) {
@@ -93,7 +93,7 @@ fw13_load <- function(
       }
 
       # Download new data to overwrite existing file
-      rawsObject <- fw13_createRawsObject(nwsID = nwsID, meta = meta, baseUrl = baseUrl)
+      rawsObject <- cefa_createRawsObject(nwsID = nwsID, meta = meta, baseUrl = baseUrl)
 
       # Save this data and overwrite existing file
       save(rawsObject, file = filePath)
@@ -110,7 +110,7 @@ fw13_load <- function(
       }
 
       # If local data does not exist, download and return it.
-      rawsObject <- fw13_createRawsObject(nwsID = nwsID, meta = meta, baseUrl = baseUrl)
+      rawsObject <- cefa_createRawsObject(nwsID = nwsID, meta = meta, baseUrl = baseUrl)
 
       # Save this object so it may be loaded in the future
       save(rawsObject, file = filePath)

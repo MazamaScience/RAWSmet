@@ -1,20 +1,20 @@
-# What is up with the fw13 version?
+# What is up with the cefa version?
 
 library(RAWSmet)
 library(MazamaSpatialUtils)
 
 setSpatialDataDir("~/Data/Spatial")
 
-meta <- fw13_loadMeta()
-fw13_WENU <- fw13_createRawsObject(nwsID = 451702, meta = meta)
+meta <- cefa_loadMeta()
+cefa_WENU <- cefa_createRawsObject(nwsID = 451702, meta = meta)
 
 dateRange <- MazamaCoreUtils::dateRange(20170901, 20171001, timezone = "UTC")
 
-fw13_data <- 
-  fw13_WENU$data %>%
+cefa_data <- 
+  cefa_WENU$data %>%
   dplyr::filter(datetime >= dateRange[1] & datetime <= dateRange[2])
 
-plot(fw13_data[,c('datetime','temperature')], ylim = c(0,100), type = 's')
+plot(cefa_data[,c('datetime','temperature')], ylim = c(0,100), type = 's')
 
 # Required for wrcc_createTimseriesObject??
 ###loadSpatialData("NaturalEarthAdm1")

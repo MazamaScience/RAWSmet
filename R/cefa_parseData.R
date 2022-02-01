@@ -10,7 +10,7 @@
 #'
 #' @description
 #' Parse raw character data from CEFA into a tibble. The incoming \code{fileString}
-#' can be read in directly from CEFA using \code{fw13_downloadData()} or from a
+#' can be read in directly from CEFA using \code{cefa_downloadData()} or from a
 #' local file using \code{readr::read_file()}.
 #'
 #' @examples
@@ -21,20 +21,20 @@
 #' library(RAWSmet)
 #'
 #' tbl <-
-#'   fw13_downloadData(nwsID = 500742) %>%
-#'   fw13_parseData()
+#'   cefa_downloadData(nwsID = 500742) %>%
+#'   cefa_parseData()
 #'
 #' dplyr::glimpse(tbl)
 #'
 #' }, silent = FALSE)
 #' }
 #'
-#' @seealso \code{\link{fw13_downloadData}}
+#' @seealso \code{\link{cefa_downloadData}}
 #'
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 #' @references \href{https://fam.nwcg.gov/fam-web/weatherfirecd/13.htm}{FW13 Data Format}
 
-fw13_parseData <- function(
+cefa_parseData <- function(
   fileString = NULL
 ) {
 

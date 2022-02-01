@@ -46,7 +46,7 @@ rawsList_removeEmpty <- function(
 #' \donttest{
 #' library(RAWSmet)
 #' 
-#' rawsList_isRawsList(example_fw13List)
+#' rawsList_isRawsList(example_cefaList)
 #' rawsList_isRawsList(example_wrccList)
 #' }
 #' 

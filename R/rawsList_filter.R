@@ -22,7 +22,7 @@
 #' library(RAWSmet)
 #'
 #' daytimeList <-
-#'   example_fw13List %>%
+#'   example_cefaList %>%
 #'   rawsList_filter(solarRadiation > 0)
 #' }
 #'

@@ -26,6 +26,7 @@
 #'   \item{\code{timezone} -- Olson time zone}
 #'   \item{\code{nwsID} -- NWS station identifier (for FW13 data)}
 #'   \item{\code{wrccID} -- WRCC station identifier (for WRCC data)}
+#'   \item{\code{nessID} -- NESS station identifier (in WRCC data)}
 #'   \item{\code{agencyName} -- responsible agency (in WRCC data)}
 #' }
 #'
@@ -39,7 +40,7 @@
 #' library(MazamaSpatialUtils)
 #' setSpatialDataDir("~/Data/Spatial")
 #'
-#' meta <- fw13_createMeta(verbose = TRUE)
+#' meta <- cefa_createMeta(verbose = TRUE)
 #' dplyr::glimpse(meta)
 #'
 #' }, silent = FALSE)
@@ -47,7 +48,7 @@
 #'
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 
-fw13_createMeta <- function(
+cefa_createMeta <- function(
   metadataUrl = "https://cefa.dri.edu/raws/RAWSfw13list.xlsx",
   verbose = TRUE
 ) {
@@ -83,6 +84,7 @@ fw13_createMeta <- function(
     "timezone",
     "nwsID",
     "wrccID",
+    "nessID",
     "agencyName"
   )
 
@@ -110,6 +112,7 @@ fw13_createMeta <- function(
       timezone = as.character(NA),
       nwsID = .data$deviceID,
       wrccID = as.character(NA),
+      nessID = as.character(NA),
       agencyName = as.character(NA)
     ) %>%
 
@@ -131,6 +134,7 @@ fw13_createMeta <- function(
   # $ timezone           <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
   # $ nwsID              <chr> "021503", "500726", "020401", "500742", "03210
   # $ wrccID             <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
+  # $ nessID             <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
   # $ agencyName         <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA
 
   # ----- Add spatial metadata -------------------------------------------------

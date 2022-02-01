@@ -12,7 +12,7 @@
 #' single character string containing the RAWS output.
 #'
 #' Station identifiers can be found at https://cefa.dri.edu/raws/RAWSfw13list.xlsx
-#' and can be downloaded with \code{\link{fw13_createMeta}}.
+#' and can be downloaded with \code{\link{cefa_createMeta}}.
 #'
 #' @references \href{https://cefa.dri.edu/raws/}{Program for Climate, Ecosystem and Fire Applications}
 #'
@@ -23,13 +23,13 @@
 #'
 #' library(RAWSmet)
 #'
-#' fileString <- fw13_downloadData(nwsID = 500742)
+#' fileString <- cefa_downloadData(nwsID = 500742)
 #' print(readr::read_lines(fileString)[1:10])
 #'
 #' }, silent = FALSE)
 #' }
 
-fw13_downloadData <- function(
+cefa_downloadData <- function(
   nwsID = NULL,
   baseUrl = "https://cefa.dri.edu/raws/fw13/"
 ) {

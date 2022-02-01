@@ -23,12 +23,12 @@
 #' library(RAWSmet)
 #' 
 #' setRawsDataDir("~/Data/RAWS")
-#' fw13Meta <- fw13_loadMeta()
+#' cefaMeta <- cefa_loadMeta()
 #' 
 #' maps::map('state', "washington")
 #' 
-#' station1 <- fw13_load(nwsID = 451702, meta = fw13Meta) %>% raws_filterDate(20100623, 20100623)
-#' station2 <- fw13_load(nwsID = 452319, meta = fw13Meta) %>% raws_filterDate(20100623, 20100623)
+#' station1 <- cefa_load(nwsID = 451702, meta = cefaMeta) %>% raws_filterDate(20100623, 20100623)
+#' station2 <- cefa_load(nwsID = 452319, meta = cefaMeta) %>% raws_filterDate(20100623, 20100623)
 #' 
 #' lat <- c(station1$meta$latitude, station2$meta$latitude) 
 #' lon <- c(station1$meta$longitude, station2$meta$longitude) 

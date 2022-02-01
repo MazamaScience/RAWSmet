@@ -60,7 +60,7 @@ single day is returned.
 library(RAWSmet)
 
 data201708 <-
-  example_fw13_Saddle_Mountain \%>\%
+  example_cefa_Saddle_Mountain \%>\%
   raws_filterDate(20170801, 20170901, timezone = "America/Los_Angeles")
 
 head(data201708$data)

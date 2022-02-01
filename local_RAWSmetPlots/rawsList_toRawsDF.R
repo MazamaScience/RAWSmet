@@ -35,7 +35,7 @@
 #' #' @examples
 #' #' library(RAWSmet)
 #' #'
-#' #' rawsDF<- example_fw13List %>% rawsList_toRawsDF()
+#' #' rawsDF<- example_cefaList %>% rawsList_toRawsDF()
 #' #'
 #' #' head(rawsDF)
 #' #'

@@ -21,7 +21,7 @@ is empty.
 \donttest{
 library(RAWSmet)
 
-raws_isEmpty(example_fw13_Saddle_Mountain)
+raws_isEmpty(example_cefa_Saddle_Mountain)
 raws_isEmpty(example_wrcc_Saddle_Mountain)
 }
 

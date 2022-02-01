@@ -16,6 +16,8 @@ two-step process is now explicit.
 * Removed ggplot-based functions: `timeseriesMultiplot()` and `windTimeseriesPlot()`.
 * Updated `wrcc_createMeta()` to be compatible with _sts_ objects.
 * `wrcc_parseData` now enforces significant digits.
+* Renamed `fw13` to `cefa` throughout the package to adhere to the convention of
+naming things by data provider, CEFA, rather than by format, FW13.
 
 # RAWSmet 0.3.1
 

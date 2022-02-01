@@ -35,34 +35,34 @@ ylim <- c(38.5, 41.5)
 
 # ----- FW13 Meta --------------------------------------------------------------
 
-fw13_meta <-
-  fw13_loadMeta() %>%
+cefa_meta <-
+  cefa_loadMeta() %>%
   dplyr::filter(longitude >= xlim[1] & longitude < xlim[2] &
                   latitude >= ylim[1] & latitude < ylim[2])
 
 # Have a look:
-meta_leaflet(fw13_meta)
+meta_leaflet(cefa_meta)
 
 # Looks good!
 
 # ----- Load FW13 data ---------------------------------------------------------
 
-fw13_list <- fw13_loadMultiple(
-  nwsIDs = fw13_meta$nwsID,
-  meta = fw13_meta,
+cefa_list <- cefa_loadMultiple(
+  nwsIDs = cefa_meta$nwsID,
+  meta = cefa_meta,
   newDownload = FALSE
 )
 
-fw13_CampFireList <-
-  fw13_list %>%
+cefa_CampFireList <-
+  cefa_list %>%
   rawsList_filterDate("2018-10-01", "2018-11-15", timezone = "America/Los_Angeles") %>%
   rawsList_removeEmpty()
 
-# > length(fw13_CampFireList)
+# > length(cefa_CampFireList)
 # [1] 20
 
-fw13_CampFireDF <-
-  fw13_CampFireList %>%
+cefa_CampFireDF <-
+  cefa_CampFireList %>%
   rawsList_toRawsDF()
 
 # ----- WRCC Meta --------------------------------------------------------------
@@ -92,7 +92,7 @@ wrcc_CampFireList <-
   rawsList_filterDate("2018-10-01", "2018-11-15", timezone = "America/Los_Angeles") %>%
   rawsList_removeEmpty()
 
-# > length(fw13_CampFireList)
+# > length(cefa_CampFireList)
 # [1] 20
 
 wrcc_CampFireDF <-

@@ -1,7 +1,7 @@
-fw13Meta <- fw13_loadMeta()
+cefaMeta <- cefa_loadMeta()
 
 # Get all stations with valid data on the west side of the cascades
-meta <- fw13Meta %>%
+meta <- cefaMeta %>%
   dplyr::filter(stateCode == "OR") %>%
   dplyr::filter(longitude < -122.33)
 
@@ -9,7 +9,7 @@ allData_westernOregon <- data.frame()
 
 for ( i in 1:nrow(meta) ) {
   res <- try({
-    stationTSObject <- fw13_load(nwsID = meta[1,]$nwsID, meta = fw13Meta)
+    stationTSObject <- cefa_load(nwsID = meta[1,]$nwsID, meta = cefaMeta)
     
     # Get data for each September
     stationData <- stationTSObject %>%
@@ -30,7 +30,7 @@ orOGOO <-
 
 orOGOOData <- orOGOO %>% raws_getData(forOpenair = TRUE)
 
-fw13_data <-
-  fw13_load(nwsID = "352545") %>%
+cefa_data <-
+  cefa_load(nwsID = "352545") %>%
   raws_getData(forOpenair = TRUE) %>%
   dplyr::filter(lubridate::month(datetime) == 9)

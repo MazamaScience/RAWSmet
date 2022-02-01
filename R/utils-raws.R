@@ -47,7 +47,7 @@
 #' \donttest{
 #' library(RAWSmet)
 #'
-#' raws_isRaws(example_fw13_Saddle_Mountain)
+#' raws_isRaws(example_cefa_Saddle_Mountain)
 #' raws_isRaws(example_wrcc_Saddle_Mountain)
 #' }
 #'
@@ -122,7 +122,7 @@ raws_isRaws <- function(
 #' \donttest{
 #' library(RAWSmet)
 #'
-#' raws_isEmpty(example_fw13_Saddle_Mountain)
+#' raws_isEmpty(example_cefa_Saddle_Mountain)
 #' raws_isEmpty(example_wrcc_Saddle_Mountain)
 #' }
 #'
@@ -179,7 +179,7 @@ raws_distinct <- function(
 #' library(RAWSmet)
 #'
 #' data <-
-#'   example_fw13_Saddle_Mountain %>%
+#'   example_cefa_Saddle_Mountain %>%
 #'   raws_getData(forOpenair = TRUE)
 #'
 #' # openair::timePlot(
@@ -187,7 +187,7 @@ raws_distinct <- function(
 #' #  pollutant = "temperature"
 #' # )
 #'
-#' example_fw13_Saddle_Mountain %>%
+#' example_cefa_Saddle_Mountain %>%
 #'   raws_getMeta() %>%
 #'   head()
 #' }
