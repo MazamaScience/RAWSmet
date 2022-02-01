@@ -40,6 +40,7 @@ library(RAWSmet)
 
 fileString <- wrcc_downloadData(wrccID = 'WENU')
 monitorTypeList <- wrcc_identifyMonitorType(fileString)
+str(monitorTypeList)
 }
 }
 \references{

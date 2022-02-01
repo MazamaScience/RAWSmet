@@ -34,14 +34,14 @@
 #' loadSpatialData("NaturalEarthAdm1")
 #'
 #' library(RAWSmet)
-#' setRawsDataDir("~/Data/RAWS/")
+#' setRawsDataDir("~/Data/RAWS")
 #'
 #' stationMeta <- cefa_loadMeta()
 #'
 #' nwsIDs <- c("021503", "500726", "020401")
 #' stationData <- cefa_loadMultiple(nwsIDs = nwsIDs, meta = stationMeta)
 #'
-#' dplyr::glimpse(stationData)
+#' dplyr::glimpse(stationData, width = 75)
 #'
 #' }, silent = FALSE)
 #' }

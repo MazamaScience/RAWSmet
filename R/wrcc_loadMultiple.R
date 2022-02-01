@@ -27,7 +27,6 @@
 #' data for stations which have no data over a particular time period.}
 #' }
 #' @examples
-#' \donttest{
 #' \dontrun{
 #' # Fail gracefully if any resources are not available
 #' try({

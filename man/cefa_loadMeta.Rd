@@ -29,13 +29,17 @@ the data is not in this directory, this will download and save the data.
 # Fail gracefully if any resources are not available
 try({
 
+# For creation of metadata
+library(MazamaSpatialUtils)
+setSpatialDataDir("~/Data/Spatial")
+loadSpatialData("NaturalEarthAdm1.rda")
+
 library(RAWSmet)
+setRawsDataDir("~/Data/RAWS")
 
-setRawsDataDir("~/Data/RAWS/")
+cefa_meta <- cefa_loadMeta()
 
-stationMeta <- cefa_loadMeta()
-
-dplyr::glimpse(stationMeta)
+dplyr::glimpse(cefa_meta, width = 75)
 
 }, silent = FALSE)
 }

@@ -24,7 +24,7 @@
 #'   cefa_downloadData(nwsID = 500742) %>%
 #'   cefa_parseData()
 #'
-#' dplyr::glimpse(tbl)
+#' dplyr::glimpse(tbl, width = 75)
 #'
 #' }, silent = FALSE)
 #' }

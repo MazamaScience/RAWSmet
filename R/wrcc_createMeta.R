@@ -46,8 +46,9 @@
 #' library(RAWSmet)
 #'
 #' wa_meta <- wrcc_createMeta(stateCode = 'WA', verbose = TRUE)
-#' dplyr::glimpse(wa_meta)
-##'
+#'
+#' dplyr::glimpse(wa_meta, width = 75)
+#'
 #' }, silent = FALSE)
 #' }
 #'

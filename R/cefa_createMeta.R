@@ -41,7 +41,7 @@
 #' setSpatialDataDir("~/Data/Spatial")
 #'
 #' meta <- cefa_createMeta(verbose = TRUE)
-#' dplyr::glimpse(meta)
+#' dplyr::glimpse(meta, width = 75)
 #'
 #' }, silent = FALSE)
 #' }

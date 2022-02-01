@@ -51,6 +51,7 @@
 #'
 #' library(MazamaSpatialUtils)
 #' setSpatialDataDir("~/Data/Spatial")
+#' loadSpatialData("NaturalEarthAdm1.rda")
 #'
 #' nws_500726 <- cefa_createRawsObject(nwsID = 500726)
 #'

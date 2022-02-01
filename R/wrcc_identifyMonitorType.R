@@ -29,24 +29,25 @@
 #' @examples
 #' \dontrun{
 #' library(RAWSmet)
-#' 
+#'
 #' fileString <- wrcc_downloadData(wrccID = 'WENU')
 #' monitorTypeList <- wrcc_identifyMonitorType(fileString)
+#' str(monitorTypeList)
 #' }
 
 wrcc_identifyMonitorType <- function(
   fileString = NULL
 ) {
-  
+
   # ----- Validate parameters --------------------------------------------------
-  
+
   MazamaCoreUtils::stopIfNull(fileString)
-  
+
   if ( class(fileString)[1] != "character" )
     stop(paste0('WRCC fileString is of type %s', class(fileString)[1]))
-  
+
   # ----- Extract  header lines from the incoming fileString -------------------
-  
+
   # NOTE:  Here are some example headers from WRCC ASCII output:
   # NOTE:
   # NOTE:  [1] "  Enumclaw  Washington "
@@ -58,25 +59,25 @@ wrcc_identifyMonitorType <- function(
   # NOTE:  [2] ":       LST	 mm  	 m/s 	 Deg 	Deg C	  %  	volts	 Deg 	 m/s 	 W/m2"
   # NOTE:  [3] ": Date/Time	 Precip	  Wind 	 Wind  	 Av Air	  Rel  	Battery	   Dir 	Mx Gust	 Solar "
   # NOTE:  [4] ":YYMMDDhhmm	       	  Speed	 Direc 	  Temp 	Humidty	Voltage	 MxGust	 Speed 	  Rad. "
-  
+
   lines <- readr::read_lines(fileString)
-  
+
   # Strip spaces from the beginning and end but retain "\t" (This is why we can't use stringr::str_trim)
   lines <- stringr::str_replace(lines, '^ *', '')
-  
+
   # Extract the header
   header <- lines[2:4]
-  
+
   # Get each column from the header and trim whitespaces and the extra ':'
   line1Split <- stringr::str_split(header[1], '\t')[[1]] %>% stringr::str_replace_all(':', '') %>% stringr::str_replace_all(' ', '')
   line2Split <- stringr::str_split(header[2], '\t')[[1]] %>% stringr::str_replace_all(':', '') %>% stringr::str_replace_all(' ', '')
   line3Split <- stringr::str_split(header[3], '\t')[[1]] %>% stringr::str_replace_all(':', '') %>% stringr::str_replace_all(' ', '')
 
   # ----- Harmonize unit name variations ---------------------------------------
-  
+
   # NOTE:  Some WRCC stations have different names for many of the standard columns.
   # NOTE:  The following vectors are the different variations of these names.
-  
+
   mmVariations <- c("mm")
   inVariations <- c("in")
   m_sVariations <- c("m/s")
@@ -84,10 +85,10 @@ wrcc_identifyMonitorType <- function(
   degVariations <- c("Deg")
   degCVariations <- c("DegC", "Deg C")
   degFVariations <- c("DegF", "Deg F")
-  
+
   # Units come from the first line
   rawUnits <- line1Split
-  
+
   columnUnits <- rawUnits
   # Replace any column names differing from the standard with its standardized name
   for ( var in mmVariations )
@@ -104,12 +105,12 @@ wrcc_identifyMonitorType <- function(
     columnUnits <- columnUnits %>% stringr::str_replace(var, "degC")
   for ( var in degFVariations )
     columnUnits <- columnUnits %>% stringr::str_replace(var, "degF")
-  
+
   # ----- Harmonize column name variations -------------------------------------
-  
+
   # NOTE:  Some WRCC stations have different names for many of the standard columns.
   # NOTE:  The following vectors are the different variations of these names.
-  
+
   datetimeVariations <- c("Date/TimeYYMMDDhhmm")
   precipVariations <- c("Precip")
   windSpeedVariations <- c("WindSpeed")
@@ -122,10 +123,10 @@ wrcc_identifyMonitorType <- function(
   dirMxGustVariations <- c("DirMxGust")
   mxGustSpeedVariations <- c("MxGustSpeed")
   solarRadVariations <- c("SolarRad.")
-  
+
   # Concatenate the second and third line
   rawNames <- paste0(line2Split, line3Split)
-  
+
   columnNames <- rawNames
   # Replace any column names differing from the standard with its standardized name
   for ( var in datetimeVariations )
@@ -149,22 +150,22 @@ wrcc_identifyMonitorType <- function(
   for ( var in dirMxGustVariations )
     columnNames <- columnNames %>% stringr::str_replace(var, "maxGustDirection")
   for ( var in mxGustSpeedVariations )
-    columnNames <- columnNames %>% stringr::str_replace(var, "maxGustSpeed")  
+    columnNames <- columnNames %>% stringr::str_replace(var, "maxGustSpeed")
   for ( var in solarRadVariations )
     columnNames <- columnNames %>% stringr::str_replace(var, "solarRadiation")
-  
+
   columnTypes <- 'c'
   columnTypes <- stringr::str_pad(columnTypes, length(rawNames), 'right', 'd')
-  
-  # NOTE: Some headers have multiple columns named ''. Further down the line this 
+
+  # NOTE: Some headers have multiple columns named ''. Further down the line this
   #       confused readr::read_tsv so we must rename them to something unique.
   columnNames[columnNames == ''] <- paste0("_", seq(length(columnNames[columnNames == ''])))
-  
+
   # Default to "UNKONWN" type of monitor
   # monitorType <- "UNKNOWN"
 
   # ----- Return ---------------------------------------------------------------
-  
+
   monitorTypeList <- list(
     monitorType = "WRCC_REGULARIZED",
     rawNames = rawNames,
@@ -172,5 +173,5 @@ wrcc_identifyMonitorType <- function(
     columnTypes = columnTypes,
     columnUnits = columnUnits
   )
-  
+
 }

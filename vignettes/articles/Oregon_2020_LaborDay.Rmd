@@ -44,7 +44,7 @@ if ( file.exists(filePath) ) {
       wrccIDs = or_meta$wrccID, 
       meta = or_meta, 
       year = 2020, 
-      newDownload = FALSE,
+      newDownload = TRUE,
       password = MY_PASSWORD
     ) %>%
     rawsList_filterDate(

@@ -24,19 +24,28 @@ wrcc_loadMeta(
 Dataframe containing station metadata.
 }
 \description{
-Loads WRCC station metadata for a given state from the 
-\code{rawsDataDir}. If the data is not in this directory, this will download 
+Loads WRCC station metadata for a given state from the
+\code{rawsDataDir}. If the data is not in this directory, this will download
 and save the data.
 }
 \examples{
 \dontrun{
-library(RAWSmet)
+# Fail gracefully if any resources are not available
+try({
 
-setRawsDataDir("~/Data/RAWS/")
+# For creation of metadata
+library(MazamaSpatialUtils)
+setSpatialDataDir("~/Data/Spatial")
+loadSpatialData("NaturalEarthAdm1.rda")
+
+library(RAWSmet)
+setRawsDataDir("~/Data/RAWS")
 
 wa_meta <- wrcc_loadMeta(stateCode = "WA")
 
 dplyr::glimpse(wa_meta, width = 80)
+
+}, silent = FALSE)
 }
 
 }

@@ -30,13 +30,13 @@
 #' # Fail gracefully if any resources are not available
 #' try({
 #'
-#' library(RAWSmet)
-#' setRawsDataDir("~/Data/RAWS/")
-#'
 #' # For creation of metadata
 #' library(MazamaSpatialUtils)
 #' setSpatialDataDir("~/Data/Spatial")
 #' loadSpatialData("NaturalEarthAdm1.rda")
+#'
+#' library(RAWSmet)
+#' setRawsDataDir("~/Data/RAWS")
 #'
 #' meta <- cefa_loadMeta()
 #'
