@@ -47,11 +47,11 @@ This dataset was generated on 2020-10-1 by running:
 
 library(RAWSmet)
 
-setRawsDataDir(~/Data/RAWS/)
+setRawsDataDir(&quot;~/Data/RAWS&quot;)
 
 wrccIDs &amp;lt;- c(&quot;waWSAD&quot;, &quot;waWWLP&quot;)
 example_wrccList &amp;lt;- wrcc_loadMultiple(wrccIDs = wrccIDs, year = 2020, password = MY_PASSWORD)
-  
+
 save(example_wrccList, file = &quot;data/example_wrccList.rda&quot;)
 
 " />
@@ -86,7 +86,7 @@ save(example_wrccList, file = &quot;data/example_wrccList.rda&quot;)
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -94,7 +94,7 @@ save(example_wrccList, file = &quot;data/example_wrccList.rda&quot;)
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -115,9 +115,6 @@ save(example_wrccList, file = &quot;data/example_wrccList.rda&quot;)
       <a href="../articles/articles/Developer_Style_Guide.html">Developer Style Guide</a>
     </li>
     <li>
-      <a href="../articles/articles/ORWA_2020_Water_Deficit.html">Oregon/Washington 2020 Water Deficit</a>
-    </li>
-    <li>
       <a href="../articles/articles/Oregon_2020_LaborDay.html">September 2020 Oregon Wildfires</a>
     </li>
     <li>
@@ -135,7 +132,7 @@ save(example_wrccList, file = &quot;data/example_wrccList.rda&quot;)
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MazamaScience/RAWSmet/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -163,14 +160,14 @@ save(example_wrccList, file = &quot;data/example_wrccList.rda&quot;)
 Washington, (wrccIDs: waWSAD, waWWLP) between September 30th and October 1st 2020.</p>
 <p>This dataset was generated on 2020-10-1 by running:</p>
 <pre>
-library(RAWSmet)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/RAWSmet'>RAWSmet</a></span><span class='op'>)</span>
 
-setRawsDataDir(~/Data/RAWS/)
+<span class='fu'><a href='setRawsDataDir.html'>setRawsDataDir</a></span><span class='op'>(</span><span class='st'>"~/Data/RAWS"</span><span class='op'>)</span>
 
-wrccIDs &lt;- c("waWSAD", "waWWLP")
-example_wrccList &lt;- wrcc_loadMultiple(wrccIDs = wrccIDs, year = 2020, password = MY_PASSWORD)
-  
-save(example_wrccList, file = "data/example_wrccList.rda")
+<span class='va'>wrccIDs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"waWSAD"</span>, <span class='st'>"waWWLP"</span><span class='op'>)</span>
+<span class='va'>example_wrccList</span> <span class='op'>&lt;-</span> <span class='fu'><a href='wrcc_loadMultiple.html'>wrcc_loadMultiple</a></span><span class='op'>(</span>wrccIDs <span class='op'>=</span> <span class='va'>wrccIDs</span>, year <span class='op'>=</span> <span class='fl'>2020</span>, password <span class='op'>=</span> <span class='va'>MY_PASSWORD</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/save.html'>save</a></span><span class='op'>(</span><span class='va'>example_wrccList</span>, file <span class='op'>=</span> <span class='st'>"data/example_wrccList.rda"</span><span class='op'>)</span>
 </pre>
 
     </div>

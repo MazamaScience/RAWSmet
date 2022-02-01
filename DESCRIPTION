@@ -6,8 +6,6 @@ Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")),
     person("Eli", "Grosman", email="eligrosman1@gmail.com", role=c("aut"))
     )
-Author: Jonathan Callahan [aut, cre],
-    Eli Grosman [aut]
 Maintainer: Jonathan Callahan <jonathan.s.callahan@gmail.com>
 Description: A suite of utility functions for discovering, downloading and
     processing data from Remote Automatic Weather Stations (RAWS).
@@ -26,13 +24,11 @@ Imports:
     MazamaCoreUtils,
     MazamaSpatialUtils (>= 0.6.4),
     MazamaTimeSeries,
-    metR,
     purrr,
     readr,
     readxl,
     rlang,
-    stringr,
-    tidyr,
+    stringr
 Suggests:
     knitr,
     markdown,

@@ -87,7 +87,9 @@ rawsList_filterDate <- function(
 
   # ----- Filter each element in "rawsList" ---------------------------------
 
-  rawsList <- rawsList %>% purrr::map(~ raws_filterDate(.x, startdate, enddate, days))
+  rawsList <-
+    rawsList %>%
+    purrr::map(~ raws_filterDate(.x, startdate, enddate, days))
 
   # ----- Return ---------------------------------------------------------------
 

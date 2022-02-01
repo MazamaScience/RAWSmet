@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Date filtering for a list of raws_timeseries objects — rawsList_filterDate" />
-<meta property="og:description" content="Subsets a list of raws_timeseries objects by date. 
+<meta property="og:description" content="Subsets a list of raws_timeseries objects by date.
 This function always filters to day-boundaries.
 Dates can be anything that is understood by lubridate::ymd()
 including either of the following recommended formats:
@@ -80,7 +80,7 @@ including either of the following recommended formats:
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@ including either of the following recommended formats:
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -109,9 +109,6 @@ including either of the following recommended formats:
       <a href="../articles/articles/Developer_Style_Guide.html">Developer Style Guide</a>
     </li>
     <li>
-      <a href="../articles/articles/ORWA_2020_Water_Deficit.html">Oregon/Washington 2020 Water Deficit</a>
-    </li>
-    <li>
       <a href="../articles/articles/Oregon_2020_LaborDay.html">September 2020 Oregon Wildfires</a>
     </li>
     <li>
@@ -129,7 +126,7 @@ including either of the following recommended formats:
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MazamaScience/RAWSmet/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -152,9 +149,9 @@ including either of the following recommended formats:
     </div>
 
     <div class="ref-description">
-    <p>Subsets a list of <em>raws_timeseries</em> objects by date. 
+    <p>Subsets a list of <em>raws_timeseries</em> objects by date.
 This function always filters to day-boundaries.</p>
-<p>Dates can be anything that is understood by <code><a href='http://lubridate.tidyverse.org/reference/ymd.html'>lubridate::ymd()</a></code>
+<p>Dates can be anything that is understood by <code><a href='https://lubridate.tidyverse.org/reference/ymd.html'>lubridate::ymd()</a></code>
 including either of the following recommended formats:</p>
 <ul>
 <li><p><code>"YYYYmmdd"</code></p></li>
@@ -203,7 +200,7 @@ including either of the following recommended formats:</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list of subsets of the elements of the given list of 
+    <p>A list of subsets of the elements of the given list of
 <em>raws_timeseries</em> objects filtered by date.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
@@ -219,55 +216,77 @@ with <code>enddate</code> will be returned.</p>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/RAWSmet'>RAWSmet</a></span><span class='op'>)</span>
 
-<span class='va'>rawsList</span> <span class='op'>&lt;-</span> <span class='va'>example_fw13List</span>
-
-<span class='va'>data201708</span> <span class='op'>&lt;-</span> 
-  <span class='va'>rawsList</span> <span class='op'>%&gt;%</span> 
+<span class='va'>september_week1</span> <span class='op'>&lt;-</span>
+  <span class='va'>example_cefaList</span> <span class='op'>%&gt;%</span>
   <span class='fu'>rawsList_filterDate</span><span class='op'>(</span>
-    startdate <span class='op'>=</span> <span class='fl'>20170801</span>, 
-    enddate <span class='op'>=</span> <span class='fl'>20170901</span>, 
+    startdate <span class='op'>=</span> <span class='fl'>20170901</span>,
+    enddate <span class='op'>=</span> <span class='fl'>20170908</span>,
     timezone <span class='op'>=</span> <span class='st'>"America/Los_Angeles"</span>
   <span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>rawsObject (SADDLE MOUNTAIN) does not contain requested date range</span></div><div class='output co'>#&gt; <span class='message'>rawsObject (WELLPINIT) does not contain requested date range</span></div><div class='input'>  
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>data201708</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>september_week1</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $`452701`
 #&gt; $meta
-#&gt; <span style='color: #555555;'># A tibble: 1 x 11</span><span>
-#&gt;   nwsID wrccID nessID siteName longitude latitude timezone elevation countryCode
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      
-#&gt; </span><span style='color: #555555;'>1</span><span> 4527… </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>     SADDLE …     -</span><span style='color: #BB0000;'>120.</span><span>     46.7 America…       650 US         
-#&gt; </span><span style='color: #555555;'># … with 2 more variables: stateCode </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, agency </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 1 × 14</span>
+#&gt;   deviceDeploymen… deviceID locationID locationName longitude latitude elevation
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> 84a66be3fc5b535… 452701   84a66be3f… SADDLE MOUN…     -<span style='color: #BB0000;'>120.</span>     46.7       650
+#&gt; <span style='color: #949494;'># … with 7 more variables: countryCode &lt;chr&gt;, stateCode &lt;chr&gt;, timezone &lt;chr&gt;,</span>
+#&gt; <span style='color: #949494;'>#   nwsID &lt;chr&gt;, wrccID &lt;chr&gt;, nessID &lt;chr&gt;, agencyName &lt;chr&gt;</span>
 #&gt; 
 #&gt; $data
-#&gt; </span><span style='color: #555555;'># A tibble: 0 x 12</span><span>
-#&gt; </span><span style='color: #555555;'># … with 12 variables: datetime </span><span style='color: #555555;font-style: italic;'>&lt;dttm&gt;</span><span style='color: #555555;'>, temperature </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, humidity </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   windSpeed </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, windDirection </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, maxGustSpeed </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   maxGustDirection </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, precipitation </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, solarRadiation </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   fuelMoisture </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, fuelTemperature </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, monitorType </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 168 × 12</span>
+#&gt;    datetime            temperature humidity windSpeed windDirection maxGustSpeed
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dttm&gt;</span>                    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> 2017-09-01 <span style='color: #949494;'>07:00:00</span>        21.7     40       2.68            244         6.71
+#&gt; <span style='color: #BCBCBC;'> 2</span> 2017-09-01 <span style='color: #949494;'>08:00:00</span>        20.6     40       0.894           302         4.92
+#&gt; <span style='color: #BCBCBC;'> 3</span> 2017-09-01 <span style='color: #949494;'>09:00:00</span>        17.8     40       2.68            258         4.47
+#&gt; <span style='color: #BCBCBC;'> 4</span> 2017-09-01 <span style='color: #949494;'>10:00:00</span>        16.7     40       3.13            254         3.58
+#&gt; <span style='color: #BCBCBC;'> 5</span> 2017-09-01 <span style='color: #949494;'>11:00:00</span>        15       41.5     1.34            247         3.13
+#&gt; <span style='color: #BCBCBC;'> 6</span> 2017-09-01 <span style='color: #949494;'>12:00:00</span>        14.4     41.5     0.894           112         3.13
+#&gt; <span style='color: #BCBCBC;'> 7</span> 2017-09-01 <span style='color: #949494;'>13:00:00</span>        11.1     46.5     0.447           316         2.24
+#&gt; <span style='color: #BCBCBC;'> 8</span> 2017-09-01 <span style='color: #949494;'>14:00:00</span>        10.6     46.5     1.34            244         2.24
+#&gt; <span style='color: #BCBCBC;'> 9</span> 2017-09-01 <span style='color: #949494;'>15:00:00</span>        15       46.5     1.34            276         1.79
+#&gt; <span style='color: #BCBCBC;'>10</span> 2017-09-01 <span style='color: #949494;'>16:00:00</span>        21.1     46.5     0.447           319         1.34
+#&gt; <span style='color: #949494;'># … with 158 more rows, and 6 more variables: maxGustDirection &lt;dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   precipitation &lt;dbl&gt;, solarRadiation &lt;dbl&gt;, fuelMoisture &lt;dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   fuelTemperature &lt;chr&gt;, monitorType &lt;chr&gt;</span>
 #&gt; 
 #&gt; attr(,"class")
-#&gt; [1] "raws_timeseries" "list"           
+#&gt; [1] "raws_timeseries" "sts"             "list"           
 #&gt; 
 #&gt; $`452918`
 #&gt; $meta
-#&gt; </span><span style='color: #555555;'># A tibble: 1 x 11</span><span>
-#&gt;   nwsID wrccID nessID siteName longitude latitude timezone elevation countryCode
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      
-#&gt; </span><span style='color: #555555;'>1</span><span> 4529… </span><span style='color: #BB0000;'>NA</span><span>     </span><span style='color: #BB0000;'>NA</span><span>     WELLPIN…     -</span><span style='color: #BB0000;'>118.</span><span>     47.9 America…      </span><span style='text-decoration: underline;'>2</span><span>240 US         
-#&gt; </span><span style='color: #555555;'># … with 2 more variables: stateCode </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, agency </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 1 × 14</span>
+#&gt;   deviceDeploymen… deviceID locationID locationName longitude latitude elevation
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>            <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> 6459d6d61050ae9… 452918   6459d6d61… WELLPINIT        -<span style='color: #BB0000;'>118.</span>     47.9      <span style='text-decoration: underline;'>2</span>240
+#&gt; <span style='color: #949494;'># … with 7 more variables: countryCode &lt;chr&gt;, stateCode &lt;chr&gt;, timezone &lt;chr&gt;,</span>
+#&gt; <span style='color: #949494;'>#   nwsID &lt;chr&gt;, wrccID &lt;chr&gt;, nessID &lt;chr&gt;, agencyName &lt;chr&gt;</span>
 #&gt; 
 #&gt; $data
-#&gt; </span><span style='color: #555555;'># A tibble: 0 x 12</span><span>
-#&gt; </span><span style='color: #555555;'># … with 12 variables: datetime </span><span style='color: #555555;font-style: italic;'>&lt;dttm&gt;</span><span style='color: #555555;'>, temperature </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, humidity </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   windSpeed </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, windDirection </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, maxGustSpeed </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   maxGustDirection </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, precipitation </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, solarRadiation </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   fuelMoisture </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, fuelTemperature </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>, monitorType </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 168 × 12</span>
+#&gt;    datetime            temperature humidity windSpeed windDirection maxGustSpeed
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dttm&gt;</span>                    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> 2017-09-01 <span style='color: #949494;'>07:00:00</span>        20       40       1.34            129        2.24 
+#&gt; <span style='color: #BCBCBC;'> 2</span> 2017-09-01 <span style='color: #949494;'>08:00:00</span>        18.3     40       2.24            117        2.68 
+#&gt; <span style='color: #BCBCBC;'> 3</span> 2017-09-01 <span style='color: #949494;'>09:00:00</span>        17.2     40       1.34            108        2.24 
+#&gt; <span style='color: #BCBCBC;'> 4</span> 2017-09-01 <span style='color: #949494;'>10:00:00</span>        15.6     40       0.447            84        1.79 
+#&gt; <span style='color: #BCBCBC;'> 5</span> 2017-09-01 <span style='color: #949494;'>11:00:00</span>        14.4     40       0                43        1.79 
+#&gt; <span style='color: #BCBCBC;'> 6</span> 2017-09-01 <span style='color: #949494;'>12:00:00</span>        13.3     41       0               123        0.894
+#&gt; <span style='color: #BCBCBC;'> 7</span> 2017-09-01 <span style='color: #949494;'>13:00:00</span>        12.8     42.5     0.447            68        1.34 
+#&gt; <span style='color: #BCBCBC;'> 8</span> 2017-09-01 <span style='color: #949494;'>14:00:00</span>        13.3     42.5     0               290        0    
+#&gt; <span style='color: #BCBCBC;'> 9</span> 2017-09-01 <span style='color: #949494;'>15:00:00</span>        17.8     42.5     0               221        0.894
+#&gt; <span style='color: #BCBCBC;'>10</span> 2017-09-01 <span style='color: #949494;'>16:00:00</span>        19.4     42.5     0.894           237        1.79 
+#&gt; <span style='color: #949494;'># … with 158 more rows, and 6 more variables: maxGustDirection &lt;dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   precipitation &lt;dbl&gt;, solarRadiation &lt;dbl&gt;, fuelMoisture &lt;dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   fuelTemperature &lt;chr&gt;, monitorType &lt;chr&gt;</span>
 #&gt; 
 #&gt; attr(,"class")
-#&gt; [1] "raws_timeseries" "list"           
+#&gt; [1] "raws_timeseries" "sts"             "list"           
 #&gt; </div><div class='input'><span class='co'># }</span>
 
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

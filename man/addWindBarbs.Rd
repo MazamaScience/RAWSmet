@@ -54,8 +54,8 @@ maps::map('state', "washington")
 station1 <- cefa_load(nwsID = 451702, meta = cefaMeta) \%>\% raws_filterDate(20100623, 20100623)
 station2 <- cefa_load(nwsID = 452319, meta = cefaMeta) \%>\% raws_filterDate(20100623, 20100623)
 
-lat <- c(station1$meta$latitude, station2$meta$latitude) 
-lon <- c(station1$meta$longitude, station2$meta$longitude) 
+lat <- c(station1$meta$latitude, station2$meta$latitude)
+lon <- c(station1$meta$longitude, station2$meta$longitude)
 speed <- c(station1$data[1,]$windSpeed, station2$data[1,]$windSpeed)
 dir <- c(station1$data[1,]$windDirection, station2$data[1,]$windDirection)
 

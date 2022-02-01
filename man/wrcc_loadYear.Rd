@@ -49,6 +49,9 @@ data for stations which have no data over a particular time period.}
 }
 \examples{
 \dontrun{
+# Fail gracefully if any resources are not available
+try({
+
 library(RAWSmet)
 
 setRawsDataDir("~/Data/RAWS/")
@@ -62,6 +65,8 @@ rawsObject <- wrcc_loadYear(
 )
 
 dplyr::glimpse(rawsObject)
+
+}, silent = FALSE)
 }
 
 }

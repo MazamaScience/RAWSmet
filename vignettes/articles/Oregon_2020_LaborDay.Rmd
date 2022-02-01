@@ -44,12 +44,13 @@ if ( file.exists(filePath) ) {
       wrccIDs = or_meta$wrccID, 
       meta = or_meta, 
       year = 2020, 
-      newDownload = TRUE,
+      newDownload = FALSE,
       password = MY_PASSWORD
     ) %>%
     rawsList_filterDate(
       startdate = MazamaCoreUtils::parseDatetime(20200831, timezone = "America/Los_Angeles"),
-      enddate = MazamaCoreUtils::parseDatetime(20200914, timezone = "America/Los_Angeles"))
+      enddate = MazamaCoreUtils::parseDatetime(20200914, timezone = "America/Los_Angeles")
+    )
   
   # Save this data so it does not need to be generated again in the future
   save(stationList_OR, file = filePath)
@@ -147,52 +148,6 @@ rawsList_addWindBarbs(
 
 ```
 
-## Wind shift time series plots
-Lets take a closer look at some stations west of the cascades. With **RAWSmet**'s
-`windTimeseriesPlot()` and `timeseriesMultiplot()`, we can see the change in the
-wind pattern and the change in temperature and humidity over this time period.
-It is apparent that  over labor day weekend, the direction of the wind suddenly 
-changed to point east and gust speeds increased considerably. Furthermore, 
-these stations experienced an extreme drop in humidity and temperature increased
-overall.
-```{r windTimeseriesPlots, message = FALSE, echo = FALSE, fig.align = "center", fig.height = 10, fig.width = 10}
-
-# Get data
-
-orOBRR <- 
-  stationList_OR[["orOBRR"]] %>%
-  raws_filterDate(20200904, 20200908)
-
-orOGOO <- 
-  stationList_OR[["orOGOO"]] %>%
-  raws_filterDate(20200904, 20200908)
-
-orOBRRData <- orOBRR %>% raws_getData()
-orOGOOData <- orOGOO %>% raws_getData()
-
-# Create plots
-
-orOBRRwindTimeseries <- windTimeseriesPlot(orOBRR)
-orOGOOwindTimeseries <- windTimeseriesPlot(orOGOO)
-
-orOBRRtimeseriesMultiplot <-
-  timeseriesMultiplot(orOBRRData, pattern = c("humidity|temperature"), nrow = 2) + 
-  ggplot2::ggtitle(sprintf("Temperature and Humidity in %s, %s", 
-                           orOBRR$meta$wrccID, orOBRR$meta$siteName)) +
-  ggplot2::xlab("Time") +
-  ggplot2::ylab("Temperature (°C), Humidity (%)") +
-  ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
-
-orOGOOtimeseriesMultiplot <-
-  timeseriesMultiplot(orOGOOData, pattern = c("humidity|temperature"), nrow = 2) +
-  ggplot2::ggtitle(sprintf("Temperature and Humidity in %s, %s", 
-                           orOGOO$meta$wrccID, orOGOO$meta$siteName)) +
-  ggplot2::xlab("Time") +
-  ggplot2::ylab("Temperature (°C), Humidity (%)") +
-  ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
-
-gridExtra::grid.arrange(orOBRRwindTimeseries, orOGOOwindTimeseries, orOBRRtimeseriesMultiplot, orOGOOtimeseriesMultiplot)
-```
 
 ## Wind rose plots
 Using **openair**'s `windRose()` plot, we can take a closer look at the wind 
@@ -228,12 +183,12 @@ if ( file.exists(filePath) ) {
 }
 
 
-fw13Data_orOGOO <-
+cefaData_orOGOO <-
   cefa_load(nwsID = "352545") %>%
   raws_getData(forOpenair = TRUE) %>%
   dplyr::filter(lubridate::month(datetime) == 9)
 
-fw13Plot <- openair::windRose(mydata = fw13Data_orOGOO,
+cefaPlot <- openair::windRose(mydata = cefaData_orOGOO,
                               ws = "windSpeed",
                               wd = "windDirection",
                               main = "Goodwin peak, September 2005-2017.")

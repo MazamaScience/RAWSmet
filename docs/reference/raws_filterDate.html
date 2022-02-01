@@ -80,7 +80,7 @@ including either of the following recommended formats:
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@ including either of the following recommended formats:
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -109,9 +109,6 @@ including either of the following recommended formats:
       <a href="../articles/articles/Developer_Style_Guide.html">Developer Style Guide</a>
     </li>
     <li>
-      <a href="../articles/articles/ORWA_2020_Water_Deficit.html">Oregon/Washington 2020 Water Deficit</a>
-    </li>
-    <li>
       <a href="../articles/articles/Oregon_2020_LaborDay.html">September 2020 Oregon Wildfires</a>
     </li>
     <li>
@@ -129,7 +126,7 @@ including either of the following recommended formats:
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MazamaScience/RAWSmet/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -154,7 +151,7 @@ including either of the following recommended formats:
     <div class="ref-description">
     <p>Subsets a <em>raws_timeseries</em> object by date. This function
 always filters to day-boundaries.</p>
-<p>Dates can be anything that is understood by <code><a href='http://lubridate.tidyverse.org/reference/ymd.html'>lubridate::ymd()</a></code>
+<p>Dates can be anything that is understood by <code><a href='https://lubridate.tidyverse.org/reference/ymd.html'>lubridate::ymd()</a></code>
 including either of the following recommended formats:</p>
 <ul>
 <li><p><code>"YYYYmmdd"</code></p></li>
@@ -167,9 +164,10 @@ including either of the following recommended formats:</p>
   rawsObject <span class='op'>=</span> <span class='cn'>NULL</span>,
   startdate <span class='op'>=</span> <span class='cn'>NULL</span>,
   enddate <span class='op'>=</span> <span class='cn'>NULL</span>,
-  days <span class='op'>=</span> <span class='cn'>NULL</span>,
-  weeks <span class='op'>=</span> <span class='cn'>NULL</span>,
-  timezone <span class='op'>=</span> <span class='cn'>NULL</span>
+  timezone <span class='op'>=</span> <span class='cn'>NULL</span>,
+  unit <span class='op'>=</span> <span class='st'>"sec"</span>,
+  ceilingStart <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  ceilingEnd <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -188,16 +186,24 @@ including either of the following recommended formats:</p>
       <td><p>Desired end datetime (ISO 8601).</p></td>
     </tr>
     <tr>
-      <th>days</th>
-      <td><p>Number of days to include in the filterDate interval.</p></td>
-    </tr>
-    <tr>
-      <th>weeks</th>
-      <td><p>Number of weeks to include in the filterDate interval.</p></td>
-    </tr>
-    <tr>
       <th>timezone</th>
       <td><p>Olson timezone used to interpret dates.</p></td>
+    </tr>
+    <tr>
+      <th>unit</th>
+      <td><p>Units used to determine time at end-of-day.</p></td>
+    </tr>
+    <tr>
+      <th>ceilingStart</th>
+      <td><p>Logical instruction to apply
+<code><a href='https://lubridate.tidyverse.org/reference/round_date.html'>ceiling_date</a></code> to the <code>startdate</code> rather than
+<code><a href='https://lubridate.tidyverse.org/reference/round_date.html'>floor_date</a></code></p></td>
+    </tr>
+    <tr>
+      <th>ceilingEnd</th>
+      <td><p>Logical instruction to apply
+<code><a href='https://lubridate.tidyverse.org/reference/round_date.html'>ceiling_date</a></code> to the <code>enddate</code> rather than
+<code><a href='https://lubridate.tidyverse.org/reference/round_date.html'>floor_date</a></code></p></td>
     </tr>
     </table>
 
@@ -208,7 +214,9 @@ including either of the following recommended formats:</p>
 
     <p>The returned data will run from the beginning of <code>startdate</code> until
 the <strong>beginning</strong> of <code>enddate</code> -- <em>i.e.</em> no values associated
-with <code>enddate</code> will be returned.</p>
+with <code>enddate</code> will be returned. The exception being when
+<code>enddate</code> is less than 24 hours after <code>startdate</code>. In that case, a
+single day is returned.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='raws_filter.html'>raws_filter</a></p></div>
@@ -217,24 +225,25 @@ with <code>enddate</code> will be returned.</p>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/RAWSmet'>RAWSmet</a></span><span class='op'>)</span>
 
-<span class='va'>rawsObject</span> <span class='op'>&lt;-</span> <span class='va'>example_fw13SaddleMountain</span>
+<span class='va'>data201708</span> <span class='op'>&lt;-</span>
+  <span class='va'>example_cefa_Saddle_Mountain</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>raws_filterDate</span><span class='op'>(</span><span class='fl'>20170801</span>, <span class='fl'>20170901</span>, timezone <span class='op'>=</span> <span class='st'>"America/Los_Angeles"</span><span class='op'>)</span>
 
-<span class='va'>data201708</span> <span class='op'>&lt;-</span> <span class='va'>rawsObject</span> <span class='op'>%&gt;%</span> <span class='fu'>raws_filterDate</span><span class='op'>(</span><span class='fl'>20170801</span>, <span class='fl'>20170901</span>, timezone <span class='op'>=</span> <span class='st'>"America/Los_Angeles"</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>data201708</span><span class='op'>$</span><span class='va'>data</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 6 x 12</span><span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 6 × 12</span>
 #&gt;   datetime            temperature humidity windSpeed windDirection maxGustSpeed
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;dttm&gt;</span><span>                    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> 2017-08-01 </span><span style='color: #555555;'>07:00:00</span><span>        38.3     36.5      2.68           288         4.47
-#&gt; </span><span style='color: #555555;'>2</span><span> 2017-08-01 </span><span style='color: #555555;'>08:00:00</span><span>        38.9     36.5      2.68           240         5.36
-#&gt; </span><span style='color: #555555;'>3</span><span> 2017-08-01 </span><span style='color: #555555;'>09:00:00</span><span>        39.4     37        1.34           259         4.47
-#&gt; </span><span style='color: #555555;'>4</span><span> 2017-08-01 </span><span style='color: #555555;'>10:00:00</span><span>        38.3     37        1.79           301         3.13
-#&gt; </span><span style='color: #555555;'>5</span><span> 2017-08-01 </span><span style='color: #555555;'>11:00:00</span><span>        35       37        1.34           292         2.24
-#&gt; </span><span style='color: #555555;'>6</span><span> 2017-08-01 </span><span style='color: #555555;'>12:00:00</span><span>        26.1     37        1.79           283         2.68
-#&gt; </span><span style='color: #555555;'># … with 6 more variables: maxGustDirection </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, precipitation </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   solarRadiation </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, fuelMoisture </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, fuelTemperature </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   monitorType </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span></div><div class='input'><span class='co'># }</span>
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;dttm&gt;</span>                    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> 2017-08-01 <span style='color: #949494;'>07:00:00</span>        20.6     36.5      1.34           281         3.58
+#&gt; <span style='color: #BCBCBC;'>2</span> 2017-08-01 <span style='color: #949494;'>08:00:00</span>        20       36.5      2.68           290         3.58
+#&gt; <span style='color: #BCBCBC;'>3</span> 2017-08-01 <span style='color: #949494;'>09:00:00</span>        23.9     36.5      4.02           232         4.92
+#&gt; <span style='color: #BCBCBC;'>4</span> 2017-08-01 <span style='color: #949494;'>10:00:00</span>        23.3     36.5      3.13           248         5.36
+#&gt; <span style='color: #BCBCBC;'>5</span> 2017-08-01 <span style='color: #949494;'>11:00:00</span>        22.2     36.5      3.58           232         4.92
+#&gt; <span style='color: #BCBCBC;'>6</span> 2017-08-01 <span style='color: #949494;'>12:00:00</span>        22.8     36.5      3.58           242         5.36
+#&gt; <span style='color: #949494;'># … with 6 more variables: maxGustDirection &lt;dbl&gt;, precipitation &lt;dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   solarRadiation &lt;dbl&gt;, fuelMoisture &lt;dbl&gt;, fuelTemperature &lt;chr&gt;,</span>
+#&gt; <span style='color: #949494;'>#   monitorType &lt;chr&gt;</span></div><div class='input'><span class='co'># }</span>
 
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

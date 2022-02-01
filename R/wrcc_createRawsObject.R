@@ -77,15 +77,18 @@ wrcc_createRawsObject <- function(
 
   # * Download/parse -----
 
-  tbl <-
+  # Let a stop() from wrcc_downloadData stop things at this point
+  fileString <-
     wrcc_downloadData(
       wrccID = wrccID,
       startdate = startdate,
       enddate = enddate,
       password = password,
       baseUrl = baseUrl
-    ) %>%
-    wrcc_parseData()
+    )
+
+  # Assuming we didn't stop, parse the fileString
+  tbl <- wrcc_parseData(fileString)
 
   # * Harmonize ----
 

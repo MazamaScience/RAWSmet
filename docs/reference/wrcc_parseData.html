@@ -41,11 +41,11 @@
 
 <meta property="og:title" content="Parse RAWS data string — wrcc_parseData" />
 <meta property="og:description" content="Raw character data from WRCC are parsed into a tibble.
-The incoming fileString can be read in directly from WRCC using 
+The incoming fileString can be read in directly from WRCC using
 wrcc_downloadData() or from a local file using readr::read_file().
-The type of monitor represented by this fileString is inferred from the 
-column names using wrcc_identifyMonitorType() and appropriate column 
-types are assigned. The character data are then processed, read into a tibble 
+The type of monitor represented by this fileString is inferred from the
+column names using wrcc_identifyMonitorType() and appropriate column
+types are assigned. The character data are then processed, read into a tibble
 and augmented in the following ways:
 
 Spaces at the beginning and end of each line are removed.
@@ -83,7 +83,7 @@ All header lines beginning with ':' are removed.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -91,7 +91,7 @@ All header lines beginning with ':' are removed.
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -112,9 +112,6 @@ All header lines beginning with ':' are removed.
       <a href="../articles/articles/Developer_Style_Guide.html">Developer Style Guide</a>
     </li>
     <li>
-      <a href="../articles/articles/ORWA_2020_Water_Deficit.html">Oregon/Washington 2020 Water Deficit</a>
-    </li>
-    <li>
       <a href="../articles/articles/Oregon_2020_LaborDay.html">September 2020 Oregon Wildfires</a>
     </li>
     <li>
@@ -132,7 +129,7 @@ All header lines beginning with ':' are removed.
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MazamaScience/RAWSmet/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -156,11 +153,11 @@ All header lines beginning with ':' are removed.
 
     <div class="ref-description">
     <p>Raw character data from WRCC are parsed into a tibble.
-The incoming <code>fileString</code> can be read in directly from WRCC using 
+The incoming <code>fileString</code> can be read in directly from WRCC using
 <code><a href='wrcc_downloadData.html'>wrcc_downloadData()</a></code> or from a local file using <code><a href='https://readr.tidyverse.org/reference/read_file.html'>readr::read_file()</a></code>.</p>
-<p>The type of monitor represented by this fileString is inferred from the 
-column names using <code><a href='wrcc_identifyMonitorType.html'>wrcc_identifyMonitorType()</a></code> and appropriate column 
-types are assigned. The character data are then processed, read into a tibble 
+<p>The type of monitor represented by this fileString is inferred from the
+column names using <code><a href='wrcc_identifyMonitorType.html'>wrcc_identifyMonitorType()</a></code> and appropriate column
+types are assigned. The character data are then processed, read into a tibble
 and augmented in the following ways:</p>
 <ol>
 <li><p>Spaces at the beginning and end of each line are removed.</p></li>
@@ -189,10 +186,18 @@ and augmented in the following ways:</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='co'># Fail gracefully if any resources are not available</span>
+<span class='kw'><a href='https://rdrr.io/r/base/try.html'>try</a></span><span class='op'>(</span><span class='op'>{</span>
+
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/RAWSmet'>RAWSmet</a></span><span class='op'>)</span>
 
-<span class='va'>fileString</span> <span class='op'>&lt;-</span> <span class='fu'><a href='wrcc_downloadData.html'>wrcc_downloadData</a></span><span class='op'>(</span>wrccID <span class='op'>=</span> <span class='st'>'WENU'</span><span class='op'>)</span>
-<span class='va'>tbl</span> <span class='op'>&lt;-</span> <span class='fu'>wrcc_parseData</span><span class='op'>(</span><span class='va'>fileString</span><span class='op'>)</span>
+<span class='va'>tbl</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='wrcc_downloadData.html'>wrcc_downloadData</a></span><span class='op'>(</span>wrccID <span class='op'>=</span> <span class='st'>'WSWA'</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>wrcc_parseData</span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://pillar.r-lib.org/reference/glimpse.html'>glimpse</a></span><span class='op'>(</span><span class='va'>tbl</span><span class='op'>)</span>
+
+<span class='op'>}</span>, silent <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>

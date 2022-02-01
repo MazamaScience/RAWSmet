@@ -68,6 +68,7 @@ stationData <-
     wrccIDs = wrccIDs,
     meta = wa_meta,
     year = 2020,
+    newDownload = NA,
     password = MY_PASSWORD
   )
 

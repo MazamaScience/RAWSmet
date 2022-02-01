@@ -29,6 +29,9 @@
 #'
 #' @examples
 #' \dontrun{
+#' # Fail gracefully if any resources are not available
+#' try({
+#'
 #' library(RAWSmet)
 #'
 #' setRawsDataDir("~/Data/RAWS/")
@@ -42,6 +45,8 @@
 #' )
 #'
 #' dplyr::glimpse(rawsObject)
+#'
+#' }, silent = FALSE)
 #' }
 #'
 #' @seealso \code{wrcc_createRawsObject}

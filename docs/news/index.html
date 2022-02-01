@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -79,7 +79,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -100,9 +100,6 @@
       <a href="../articles/articles/Developer_Style_Guide.html">Developer Style Guide</a>
     </li>
     <li>
-      <a href="../articles/articles/ORWA_2020_Water_Deficit.html">Oregon/Washington 2020 Water Deficit</a>
-    </li>
-    <li>
       <a href="../articles/articles/Oregon_2020_LaborDay.html">September 2020 Oregon Wildfires</a>
     </li>
     <li>
@@ -120,7 +117,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MazamaScience/RAWSmet/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -141,6 +138,26 @@
       <small>Source: <a href='https://github.com/MazamaScience/RAWSmet/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="rawsmet-040" class="section level1">
+<h1 class="page-header" data-toc-text="0.4.0">
+<a href="#rawsmet-040" class="anchor"></a>RAWSmet 0.4.0</h1>
+<p>Version 0.4 utilizes the <strong>MazamaTimeSeries</strong> package to provide a lot of core functionality associated with manipulation of “single time series” aka " <em>sts</em> objects.</p>
+<ul>
+<li>Added dependency on <strong>MazamaTimeSeries</strong>.</li>
+<li>Updated <code>fw13_createMeta()</code> to be compatible with <em>sts</em> objects.</li>
+<li>Removed <code>fw13_createRawDataframe()</code> and added <code>fw13_parseData()</code> so that the two-step process is now explicit.</li>
+<li>Changed <code>raws_ExtractMeta/Data()</code> to <code>raws_getMeta/Data()</code>.</li>
+<li>Updated <code><a href="../reference/raws_filterDate.html">raws_filterDate()</a></code> with new arguments to match <code>sts_filterDate()</code>.</li>
+<li>Rebuild example datasets with new metadata columns.</li>
+<li>Removed <code>rawsDF_~()</code> functionality. This could be included in an add-on <strong>RAWSmetPlots</strong> package if ggplot functionality is desired.</li>
+<li>Removed ggplot-based functions: <code>timeseriesMultiplot()</code> and <code>windTimeseriesPlot()</code>.</li>
+<li>Updated <code><a href="../reference/wrcc_createMeta.html">wrcc_createMeta()</a></code> to be compatible with <em>sts</em> objects.</li>
+<li>
+<code>wrcc_parseData</code> now enforces significant digits.</li>
+<li>Renamed <code>fw13</code> to <code>cefa</code> throughout the package to adhere to the convention of naming things by data provider, CEFA, rather than by format, FW13.</li>
+<li>Updated vignettes and articles to use new functions.</li>
+</ul>
+</div>
     <div id="rawsmet-031" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.1">
 <a href="#rawsmet-031" class="anchor"></a>RAWSmet 0.3.1</h1>
@@ -160,8 +177,8 @@
 <h1 class="page-header" data-toc-text="0.2.8">
 <a href="#rawsmet-028" class="anchor"></a>RAWSmet 0.2.8</h1>
 <ul>
-<li>Added <code>VPD</code> (Vapor Pressure Deficit) and <code>FFWI</code> (Fosberg Fire Weather Index) columns during <code><a href="../reference/raws_toRawsDF.html">raws_toRawsDF()</a></code> creation of the <code>rawsDF</code> tidy dataframe.</li>
-<li>Proper handling of missing data in <code>FFWI</code> calculation in <code><a href="../reference/raws_toRawsDF.html">raws_toRawsDF()</a></code>.</li>
+<li>Added <code>VPD</code> (Vapor Pressure Deficit) and <code>FFWI</code> (Fosberg Fire Weather Index) columns during <code>raws_toRawsDF()</code> creation of the <code>rawsDF</code> tidy dataframe.</li>
+<li>Proper handling of missing data in <code>FFWI</code> calculation in <code>raws_toRawsDF()</code>.</li>
 <li>Minor updates to articles.</li>
 </ul>
 </div>
@@ -170,7 +187,7 @@
 <a href="#rawsmet-027" class="anchor"></a>RAWSmet 0.2.7</h1>
 <ul>
 <li>
-<code><a href="../reference/rawsList_toRawsDF.html">rawsList_toRawsDF()</a></code> now returns a <em>single</em> tidy dataframe containing data and metadata from each station in the given list.</li>
+<code>rawsList_toRawsDF()</code> now returns a <em>single</em> tidy dataframe containing data and metadata from each station in the given list.</li>
 <li>Fix issue where loading functions were returning <code>NA</code> when no local data was found and <code>newDownload = FALSE</code>.</li>
 </ul>
 </div>
@@ -179,18 +196,18 @@
 <a href="#rawsmet-026" class="anchor"></a>RAWSmet 0.2.6</h1>
 <ul>
 <li>Fixed <code>newDownload</code> logic in each loading function.</li>
-<li>New utility functions for <code>rawsDF</code> objects such as <code><a href="../reference/rawsDF_isRawsDF.html">rawsDF_isRawsDF()</a></code>, <code><a href="../reference/rawsDF_filter.html">rawsDF_filter()</a></code> and <code><a href="../reference/rawsDF_filterDate.html">rawsDF_filterDate()</a></code>.</li>
+<li>New utility functions for <code>rawsDF</code> objects such as <code>rawsDF_isRawsDF()</code>, <code>rawsDF_filter()</code> and <code>rawsDF_filterDate()</code>.</li>
 <li>Added <code><a href="../reference/rawsList_isRawsList.html">rawsList_isRawsList()</a></code>
 </li>
 <li>Added a <code>timezone</code> column to the structure of a <code>rawsDF</code> object.</li>
-<li>New <code><a href="../reference/rawsList_toRawsDF.html">rawsList_toRawsDF()</a></code> function converts a list of <em>raws</em> objects to a list of tidy (<code>rawsDF</code>) dataframes.</li>
+<li>New <code>rawsList_toRawsDF()</code> function converts a list of <em>raws</em> objects to a list of tidy (<code>rawsDF</code>) dataframes.</li>
 </ul>
 </div>
     <div id="rawsmet-025" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.5">
 <a href="#rawsmet-025" class="anchor"></a>RAWSmet 0.2.5</h1>
 <ul>
-<li>Fixed conversion to metric precipitation in <code><a href="../reference/fw13_createTimeseriesObject.html">fw13_createTimeseriesObject()</a></code>.</li>
+<li>Fixed conversion to metric precipitation in <code>fw13_createTimeseriesObject()</code>.</li>
 <li>Fixed bug in <code><a href="../reference/rawsList_removeEmpty.html">rawsList_removeEmpty()</a></code>.</li>
 </ul>
 </div>
@@ -223,7 +240,7 @@
 <li>Tweak downloading messages.</li>
 <li>Data access error messages are now displayed by <code><a href="../reference/wrcc_loadMultiple.html">wrcc_loadMultiple()</a></code>.</li>
 <li>
-<code><a href="../reference/raws_extract.html">raws_extractData(forOpenair = TRUE)</a></code> now adds <code>date</code>, <code>ws</code> and <code>wd</code> variables based on <code>datetime</code>, <code>windSpeed</code> and <code>windDirection</code>.</li>
+<code>raws_extractData(forOpenair = TRUE)</code> now adds <code>date</code>, <code>ws</code> and <code>wd</code> variables based on <code>datetime</code>, <code>windSpeed</code> and <code>windDirection</code>.</li>
 </ul>
 </div>
     <div id="rawsmet-021" class="section level1">
@@ -250,10 +267,10 @@
 <a href="#rawsmet-019" class="anchor"></a>RAWSmet 0.1.9</h1>
 <ul>
 <li>Many examples have been updated to run with <code>example_</code> data so they can be tested.</li>
-<li>New <code><a href="../reference/windTimeseriesPlot.html">windTimeseriesPlot()</a></code>
+<li>New <code>windTimeseriesPlot()</code>
 </li>
 <li>Completely refactored <code><a href="../reference/wrcc_identifyMonitorType.html">wrcc_identifyMonitorType()</a></code> to handle <strong>46!!</strong> different data formats coming from WRCC.</li>
-<li>Columns with all <code>NA</code> are dropped by <code><a href="../reference/timeseriesMultiplot.html">timeseriesMultiplot()</a></code>.</li>
+<li>Columns with all <code>NA</code> are dropped by <code>timeseriesMultiplot()</code>.</li>
 </ul>
 </div>
     <div id="rawsmet-018" class="section level1">
@@ -279,7 +296,7 @@
 <a href="#rawsmet-016" class="anchor"></a>RAWSmet 0.1.6</h1>
 <ul>
 <li>Improved <code>wrcc_createMetadata()</code> to handle combined-state metadata pages at WRCC.</li>
-<li>New <code><a href="../reference/timeseriesMultiplot.html">timeseriesMultiplot()</a></code> function plots the <code>$data</code> portion of <em>raws_timeseries</em> objects.</li>
+<li>New <code>timeseriesMultiplot()</code> function plots the <code>$data</code> portion of <em>raws_timeseries</em> objects.</li>
 </ul>
 </div>
     <div id="rawsmet-015" class="section level1">
@@ -287,12 +304,12 @@
 <a href="#rawsmet-015" class="anchor"></a>RAWSmet 0.1.5</h1>
 <ul>
 <li>Added utility functions: <code><a href="../reference/raws_distinct.html">raws_distinct()</a></code>, <code><a href="../reference/raws_filter.html">raws_filter()</a></code>, <code><a href="../reference/raws_filterDate.html">raws_filterDate()</a></code>, <code><a href="../reference/raws_isEmpty.html">raws_isEmpty()</a></code>, <code><a href="../reference/raws_isRaws.html">raws_isRaws()</a></code> to aid in building “recipe style” pipelines.</li>
-<li>Added <code><a href="../reference/fw13_load.html">fw13_load()</a></code> and <code>wrcc_load()</code> functions to create and save timeseries data in the <code>rawsDataDir</code> directory.</li>
-<li>Added <code><a href="../reference/fw13_loadMeta.html">fw13_loadMeta()</a></code> and <code><a href="../reference/wrcc_loadMeta.html">wrcc_loadMeta()</a></code> functions to create and save metadata in the <code>rawsDataDir</code> directory.</li>
+<li>Added <code>fw13_load()</code> and <code>wrcc_load()</code> functions to create and save timeseries data in the <code>rawsDataDir</code> directory.</li>
+<li>Added <code>fw13_loadMeta()</code> and <code><a href="../reference/wrcc_loadMeta.html">wrcc_loadMeta()</a></code> functions to create and save metadata in the <code>rawsDataDir</code> directory.</li>
 <li>
-<code>wrcc_leaflet()</code> renamed to <code><a href="../reference/raws_leaflet.html">raws_leaflet()</a></code>.</li>
+<code>wrcc_leaflet()</code> renamed to <code>raws_leaflet()</code>.</li>
 <li>
-<code><a href="../reference/fw13_createTimeseriesObject.html">fw13_createTimeseriesObject()</a></code> now converts data to metric units.</li>
+<code>fw13_createTimeseriesObject()</code> now converts data to metric units.</li>
 </ul>
 </div>
     <div id="rawsmet-014" class="section level1">
@@ -316,9 +333,9 @@
 <p>Reading data in FW13 format from <a href="https://cefa.dri.edu/raws/" class="uri">https://cefa.dri.edu/raws/</a></p>
 <ul>
 <li><code>fw13_createMetadata()</code></li>
-<li><code><a href="../reference/fw13_createRawDataframe.html">fw13_createRawDataframe()</a></code></li>
-<li><code><a href="../reference/fw13_createTimeseriesObject.html">fw13_createTimeseriesObject()</a></code></li>
-<li><code><a href="../reference/fw13_downloadData.html">fw13_downloadData()</a></code></li>
+<li><code>fw13_createRawDataframe()</code></li>
+<li><code>fw13_createTimeseriesObject()</code></li>
+<li><code>fw13_downloadData()</code></li>
 </ul>
 </div>
     <div id="rawsmet-011" class="section level1">
@@ -331,7 +348,7 @@
 <li><code>raws_createTimeseriesObject()</code></li>
 <li><code>raws_downloadData()</code></li>
 <li><code>raws_identifyMonitorType()</code></li>
-<li><code><a href="../reference/raws_leaflet.html">raws_leaflet()</a></code></li>
+<li><code>raws_leaflet()</code></li>
 <li><code>raws_parseData()</code></li>
 </ul>
 </div>

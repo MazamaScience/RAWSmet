@@ -43,6 +43,9 @@ Add a multi-sided polygon to a plot.
 }
 \examples{
 \dontrun{
+# Fail gracefully if any resources are not available
+try({
+
 library(maps)
 library(RAWSmet)
 
@@ -54,6 +57,8 @@ maps::map('state', "washington")
 observationTime <- MazamaCoreUtils::parseDatetime(2017090112, timezone = "America/Los_Angeles")
 
 rawsList_addWindBarbs(rawsList = example_cefaList, observationTime = observationTime)
+
+}, silent = FALSE)
 }
 
 }

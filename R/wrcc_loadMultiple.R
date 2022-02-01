@@ -47,6 +47,7 @@
 #'     wrccIDs = wrccIDs,
 #'     meta = wa_meta,
 #'     year = 2020,
+#'     newDownload = NA,
 #'     password = MY_PASSWORD
 #'   )
 #'
@@ -102,7 +103,8 @@ wrcc_loadMultiple <- function(
           newDownload = newDownload,
           password = password,
           baseUrl = baseUrl,
-          verbose = verbose)
+          verbose = verbose
+        )
 
     }, silent = verbose)
 

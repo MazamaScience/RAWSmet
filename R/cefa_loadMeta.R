@@ -47,7 +47,7 @@ cefa_loadMeta <- function(
 
   # ----- Check for local data -------------------------------------------------
 
-  fileName = "cefa_metadata.rda"
+  fileName = "cefa_meta.rda"
   filePath = file.path(dataDir, fileName)
 
   if ( file.exists(filePath) && newDownload == FALSE ) {

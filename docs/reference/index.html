@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -79,7 +79,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -100,9 +100,6 @@
       <a href="../articles/articles/Developer_Style_Guide.html">Developer Style Guide</a>
     </li>
     <li>
-      <a href="../articles/articles/ORWA_2020_Water_Deficit.html">Oregon/Washington 2020 Water Deficit</a>
-    </li>
-    <li>
       <a href="../articles/articles/Oregon_2020_LaborDay.html">September 2020 Oregon Wildfires</a>
     </li>
     <li>
@@ -120,7 +117,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MazamaScience/RAWSmet/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -181,21 +178,63 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="example_fw13List.html">example_fw13List</a></code> </p>
+          <p><code><a href="cefa_createMeta.html">cefa_createMeta()</a></code> </p>
+        </td>
+        <td><p>Obtain metadata for every station.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="cefa_createRawsObject.html">cefa_createRawsObject()</a></code> </p>
+        </td>
+        <td><p>Obtain RAWS data and create a timeseries object.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="cefa_downloadData.html">cefa_downloadData()</a></code> </p>
+        </td>
+        <td><p>Download RAWS FW13 data</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="cefa_load.html">cefa_load()</a></code> </p>
+        </td>
+        <td><p>Load FW13 RAWS timeseries object from a local directory</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="cefa_loadMeta.html">cefa_loadMeta()</a></code> </p>
+        </td>
+        <td><p>Load FW13 RAWS station metadata from a local directory</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="cefa_loadMultiple.html">cefa_loadMultiple()</a></code> </p>
+        </td>
+        <td><p>Load multiple FW13 RAWS timeseries objects from a local directory</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="cefa_parseData.html">cefa_parseData()</a></code> </p>
+        </td>
+        <td><p>Parse RAWS FW13 characterString</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="example_cefaList.html">example_cefaList</a></code> </p>
         </td>
         <td><p>Example list of FW13 timeseries data</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="example_fw13Meta.html">example_fw13Meta</a></code> </p>
+          <p><code><a href="example_cefa_Saddle_Mountain.html">example_cefa_Saddle_Mountain</a></code> </p>
         </td>
-        <td><p>Example FW13 station metadata</p></td>
+        <td><p>Example FW13 timeseries data</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="example_fw13SaddleMountain.html">example_fw13SaddleMountain</a></code> </p>
+          <p><code><a href="example_cefa_meta.html">example_cefa_meta</a></code> </p>
         </td>
-        <td><p>Example FW13 timeseries data</p></td>
+        <td><p>Example FW13 station metadata</p></td>
       </tr><tr>
         
         <td>
@@ -205,57 +244,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="example_wrccMeta.html">example_wrccMeta</a></code> </p>
-        </td>
-        <td><p>Example WRCC station metadata</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="example_wrccSaddleMountain.html">example_wrccSaddleMountain</a></code> </p>
+          <p><code><a href="example_wrcc_Saddle_Mountain.html">example_wrcc_Saddle_Mountain</a></code> </p>
         </td>
         <td><p>Example WRCC timeseries data</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="fw13_createMeta.html">fw13_createMeta()</a></code> </p>
+          <p><code><a href="example_wrcc_meta.html">example_wrcc_meta</a></code> </p>
         </td>
-        <td><p>Obtain metadata for every station.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="fw13_createRawDataframe.html">fw13_createRawDataframe()</a></code> </p>
-        </td>
-        <td><p>Obtain RAWS FW13 data and parse into a tibble</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="fw13_createTimeseriesObject.html">fw13_createTimeseriesObject()</a></code> </p>
-        </td>
-        <td><p>Obtain RAWS data and create a timeseries object.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="fw13_downloadData.html">fw13_downloadData()</a></code> </p>
-        </td>
-        <td><p>Download RAWS FW13 data</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="fw13_load.html">fw13_load()</a></code> </p>
-        </td>
-        <td><p>Load FW13 RAWS timeseries object from a local directory</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="fw13_loadMeta.html">fw13_loadMeta()</a></code> </p>
-        </td>
-        <td><p>Load FW13 RAWS station metadata from a local directory</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="fw13_loadMultiple.html">fw13_loadMultiple()</a></code> </p>
-        </td>
-        <td><p>Load multiple FW13 RAWS timeseries objects from a local directory</p></td>
+        <td><p>Example WRCC station metadata</p></td>
       </tr><tr>
         
         <td>
@@ -265,21 +262,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="rawsDF_filter.html">rawsDF_filter()</a></code> </p>
+          <p><code><a href="meta_leaflet.html">meta_leaflet()</a></code> </p>
         </td>
-        <td><p>General purpose data filtering for rawsDF objects</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="rawsDF_filterDate.html">rawsDF_filterDate()</a></code> </p>
-        </td>
-        <td><p>Date filtering for <em>rawsDF</em> objects</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="rawsDF_isRawsDF.html">rawsDF_isRawsDF()</a></code> </p>
-        </td>
-        <td><p>Test for correct structure for a <em>rawsDF</em> object</p></td>
+        <td><p>Create a map of RAWS stations</p></td>
       </tr><tr>
         
         <td>
@@ -319,21 +304,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="rawsList_toRawsDF.html">rawsList_toRawsDF()</a></code> </p>
-        </td>
-        <td><p>Convert a list of raws_timeseries objects to a single rawsDF object</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="raws_distinct.html">raws_distinct()</a></code> </p>
         </td>
         <td><p>Retain only distinct data records in <code>rawsObject$data</code></p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="raws_extract.html">raws_extractData()</a></code> <code><a href="raws_extract.html">raws_extractMeta()</a></code> </p>
-        </td>
-        <td><p>Extract dataframes from <em>raws_timeseries</em> objects</p></td>
       </tr><tr>
         
         <td>
@@ -349,6 +322,12 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="raws_getDataframe.html">raws_getData()</a></code> <code><a href="raws_getDataframe.html">raws_getMeta()</a></code> </p>
+        </td>
+        <td><p>Extract dataframes from <em>raws_timeseries</em> objects</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="raws_isEmpty.html">raws_isEmpty()</a></code> </p>
         </td>
         <td><p>Test for an empty <em>raws_timeseries</em> object</p></td>
@@ -358,18 +337,6 @@
           <p><code><a href="raws_isRaws.html">raws_isRaws()</a></code> </p>
         </td>
         <td><p>Test for correct structure for a <em>raws_timeseries</em> object</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="raws_leaflet.html">raws_leaflet()</a></code> </p>
-        </td>
-        <td><p>Create a map of RAWS stations</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="raws_toRawsDF.html">raws_toRawsDF()</a></code> </p>
-        </td>
-        <td><p>Convert a raws_timeseries object to a rawsDF object</p></td>
       </tr><tr>
         
         <td>
@@ -385,31 +352,13 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="timeseriesMultiplot.html">timeseriesMultiplot()</a></code> </p>
-        </td>
-        <td><p>Faceted plot of a <em>raws_timeseries</em> tibble</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="windTimeseriesPlot.html">windTimeseriesPlot()</a></code> </p>
-        </td>
-        <td><p>Create a visualization of wind and gust speeds for a given station</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="wrcc_createMeta.html">wrcc_createMeta()</a></code> </p>
         </td>
         <td><p>Obtain metadata for each station in a state.</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="wrcc_createRawDataframe.html">wrcc_createRawDataframe()</a></code> </p>
-        </td>
-        <td><p>Obtain RAWS data and parse into a tibble</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="wrcc_createTimeseriesObject.html">wrcc_createTimeseriesObject()</a></code> </p>
+          <p><code><a href="wrcc_createRawsObject.html">wrcc_createRawsObject()</a></code> </p>
         </td>
         <td><p>Obtain RAWS data and create a timeseries object.</p></td>
       </tr><tr>

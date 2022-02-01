@@ -40,20 +40,26 @@
 
 
 <meta property="og:title" content="Obtain metadata for each station in a state. — wrcc_createMeta" />
-<meta property="og:description" content="Assembles individual station metadata from a WRCC webservice 
+<meta property="og:description" content="Assembles individual station metadata from a WRCC webservice
 into a standardized dataframe. Metdata columns include:
 
-countryCode -- ISO 3166-1 alpha-2 country code
-stateCode -- ISO 3166-2 alpha-2 state code
-wrccID -- WRCC RAWS station identifier
-siteName -- human readable site name
-longitude -- decimal degrees East
-latitude -- decimal degrees North
-elevation -- in meters
-timezone -- Olson timezone
+deviceDeploymentID -- unique identifier
+deviceID -- device identifier
+locationID -- location identifier
+locationName -- English language name
+longitude -- decimal degrees E
+latitude -- decimal degrees N
+elevation -- elevation of station in m
+countryCode -- ISO 3166-1 alpha-2
+stateCode -- ISO 3166-2 alpha-2
+timezone -- Olson time zone
+nwsID -- NWS station identifier
+wrccID -- WRCC station identifier (in WRCC data)
+nessID -- NESS station identifier (in WRCC data)
+agencyName -- responsible agency (in WRCC data)
 
 
-Because of the large number of web requests required to assemble this 
+Because of the large number of web requests required to assemble this
 metadata, it is recommended that the file be saved and reused by calling
 wrcc_loadMeta()." />
 
@@ -87,7 +93,7 @@ wrcc_loadMeta()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -95,7 +101,7 @@ wrcc_loadMeta()." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -116,9 +122,6 @@ wrcc_loadMeta()." />
       <a href="../articles/articles/Developer_Style_Guide.html">Developer Style Guide</a>
     </li>
     <li>
-      <a href="../articles/articles/ORWA_2020_Water_Deficit.html">Oregon/Washington 2020 Water Deficit</a>
-    </li>
-    <li>
       <a href="../articles/articles/Oregon_2020_LaborDay.html">September 2020 Oregon Wildfires</a>
     </li>
     <li>
@@ -136,7 +139,7 @@ wrcc_loadMeta()." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MazamaScience/RAWSmet/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -159,20 +162,26 @@ wrcc_loadMeta()." />
     </div>
 
     <div class="ref-description">
-    <p>Assembles individual station metadata from a WRCC webservice 
+    <p>Assembles individual station metadata from a WRCC webservice
 into a standardized dataframe. Metdata columns include:</p>
 <ul>
-<li><p><code>countryCode</code> -- ISO 3166-1 alpha-2 country code</p></li>
-<li><p><code>stateCode</code> -- ISO 3166-2 alpha-2 state code</p></li>
-<li><p><code>wrccID</code> -- WRCC RAWS station identifier</p></li>
-<li><p><code>siteName</code> -- human readable site name</p></li>
-<li><p><code>longitude</code> -- decimal degrees East</p></li>
-<li><p><code>latitude</code> -- decimal degrees North</p></li>
-<li><p><code>elevation</code> -- in meters</p></li>
-<li><p><code>timezone</code> -- Olson timezone</p></li>
+<li><p><code>deviceDeploymentID</code> -- unique identifier</p></li>
+<li><p><code>deviceID</code> -- device identifier</p></li>
+<li><p><code>locationID</code> -- location identifier</p></li>
+<li><p><code>locationName</code> -- English language name</p></li>
+<li><p><code>longitude</code> -- decimal degrees E</p></li>
+<li><p><code>latitude</code> -- decimal degrees N</p></li>
+<li><p><code>elevation</code> -- elevation of station in m</p></li>
+<li><p><code>countryCode</code> -- ISO 3166-1 alpha-2</p></li>
+<li><p><code>stateCode</code> -- ISO 3166-2 alpha-2</p></li>
+<li><p><code>timezone</code> -- Olson time zone</p></li>
+<li><p><code>nwsID</code> -- NWS station identifier</p></li>
+<li><p><code>wrccID</code> -- WRCC station identifier (in WRCC data)</p></li>
+<li><p><code>nessID</code> -- NESS station identifier (in WRCC data)</p></li>
+<li><p><code>agencyName</code> -- responsible agency (in WRCC data)</p></li>
 </ul>
 
-<p>Because of the large number of web requests required to assemble this 
+<p>Because of the large number of web requests required to assemble this
 metadata, it is recommended that the file be saved and reused by calling
 <code><a href='wrcc_loadMeta.html'>wrcc_loadMeta()</a></code>.</p>
     </div>
@@ -218,10 +227,16 @@ metadata, it is recommended that the file be saved and reused by calling
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='co'># Fail gracefully if any resources are not available</span>
+<span class='kw'><a href='https://rdrr.io/r/base/try.html'>try</a></span><span class='op'>(</span><span class='op'>{</span>
+
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/RAWSmet'>RAWSmet</a></span><span class='op'>)</span>
 
 <span class='va'>wa_meta</span> <span class='op'>&lt;-</span> <span class='fu'>wrcc_createMeta</span><span class='op'>(</span>stateCode <span class='op'>=</span> <span class='st'>'WA'</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/glimpse.html'>glimpse</a></span><span class='op'>(</span><span class='va'>wa_meta</span><span class='op'>)</span>
+
+<span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://pillar.r-lib.org/reference/glimpse.html'>glimpse</a></span><span class='op'>(</span><span class='va'>wa_meta</span>, width <span class='op'>=</span> <span class='fl'>75</span><span class='op'>)</span>
+
+<span class='op'>}</span>, silent <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='op'>}</span>
 
 </div></pre>

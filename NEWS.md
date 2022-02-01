@@ -18,6 +18,7 @@ two-step process is now explicit.
 * `wrcc_parseData` now enforces significant digits.
 * Renamed `fw13` to `cefa` throughout the package to adhere to the convention of
 naming things by data provider, CEFA, rather than by format, FW13.
+* Updated vignettes and articles to use new functions.
 
 # RAWSmet 0.3.1
 
