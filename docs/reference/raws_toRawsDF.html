@@ -46,7 +46,7 @@ following values from rawsObject$meta:
 
 nwsID - the nwsID of the station
 wrccID - the wrccID of the station
-siteName - the name of the station
+locationName - the name of the station
 longitude - longitude coordinate of the station
 latitude - latitude coordinate of the station
 elevation - elevation of the station
@@ -103,7 +103,7 @@ and used to create multi-station plots." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -111,7 +111,7 @@ and used to create multi-station plots." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -132,9 +132,6 @@ and used to create multi-station plots." />
       <a href="../articles/articles/Developer_Style_Guide.html">Developer Style Guide</a>
     </li>
     <li>
-      <a href="../articles/articles/ORWA_2020_Water_Deficit.html">Oregon/Washington 2020 Water Deficit</a>
-    </li>
-    <li>
       <a href="../articles/articles/Oregon_2020_LaborDay.html">September 2020 Oregon Wildfires</a>
     </li>
     <li>
@@ -152,7 +149,7 @@ and used to create multi-station plots." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MazamaScience/RAWSmet/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -181,7 +178,7 @@ following values from <code>rawsObject$meta</code>:</p>
 <ol>
 <li><p>nwsID - the nwsID of the station</p></li>
 <li><p>wrccID - the wrccID of the station</p></li>
-<li><p>siteName - the name of the station</p></li>
+<li><p>locationName - the name of the station</p></li>
 <li><p>longitude - longitude coordinate of the station</p></li>
 <li><p>latitude - latitude coordinate of the station</p></li>
 <li><p>elevation - elevation of the station</p></li>
@@ -247,7 +244,7 @@ and used to create multi-station plots.</p>
 
 <span class='va'>rawsDF</span> <span class='op'>&lt;-</span> <span class='fu'>raws_toRawsDF</span><span class='op'>(</span><span class='va'>rawsObject</span><span class='op'>)</span>
 
-<span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/glimpse.html'>glimpse</a></span><span class='op'>(</span><span class='va'>rawsDF</span><span class='op'>)</span>
+<span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://pillar.r-lib.org/reference/glimpse.html'>glimpse</a></span><span class='op'>(</span><span class='va'>rawsDF</span><span class='op'>)</span>
 <span class='op'>}</span>
 
 </div></pre>

@@ -1,18 +1,18 @@
 # From Brian Potter:
 #
-# When we start building the SW OR website, we'll need to pull specified RAWS, 
-# extract specific measures, and plot them either as time series or as maps. We 
-# haven't had the discussion yet about what that format will be, but that's 
-# where I see this package as being relevant. Otherwise right now, I'd only be 
+# When we start building the SW OR website, we'll need to pull specified RAWS,
+# extract specific measures, and plot them either as time series or as maps. We
+# haven't had the discussion yet about what that format will be, but that's
+# where I see this package as being relevant. Otherwise right now, I'd only be
 # using it to poke at the LNU Complex and what it shows for the big growth days.
 #
-# You may have heard me talk about the marine layer project/onshore flow/westside 
-# fire. That's  SW OR. We got funding to purchase and deploy 3 new RAWS in the 
-# Rogue drainage. They will complement the existing RAWS so that we can monitor 
-# and understand events where onshore flow brings marine air into the drainage. 
-# That situation is a big challenge on fires, so knowing when a fire will be 
-# above or below the marine layer will be really helpful. Our next step is 
-# building an interface for all the RAWS in that drainage, possibly with some UW 
+# You may have heard me talk about the marine layer project/onshore flow/westside
+# fire. That's  SW OR. We got funding to purchase and deploy 3 new RAWS in the
+# Rogue drainage. They will complement the existing RAWS so that we can monitor
+# and understand events where onshore flow brings marine air into the drainage.
+# That situation is a big challenge on fires, so knowing when a fire will be
+# above or below the marine layer will be really helpful. Our next step is
+# building an interface for all the RAWS in that drainage, possibly with some UW
 # WRF data to overlay or otherwise combine.
 
 
@@ -47,7 +47,7 @@ plot(Rogue, col = 'blue', add = TRUE)
 library(RAWSmet)
 setRawsDataDir("~/Data/RAWS")
 
-cefa_meta <- 
+cefa_meta <-
   cefa_loadMeta() %>%
   dplyr::filter(stateCode == "OR")
 
@@ -71,9 +71,9 @@ meta_leaflet(Rogue_cefa_meta)
 # * 1) Filter by basin names -----
 
 # What RAWS sites existin within the Rogue watershed?
-cefa_meta$HUCName <- 
+cefa_meta$HUCName <-
   MazamaSpatialUtils::getHUCName(
-    cefa_meta$longitude, 
+    cefa_meta$longitude,
     cefa_meta$latitude,
     dataset = "WBDHU8"
   )
@@ -87,21 +87,22 @@ meta_leaflet(Rogue_cefa_meta)
 
 # NOTE:  Unfortunately, this misses "FLYNN PRARIE" and "RED MOUND" which are not
 # NOTE:  "technically" within the watershed boundaries but are probably sites of
-# NOTE:  interest. But it's not terrible to have added HUCName as "spatial 
+# NOTE:  interest. But it's not terrible to have added HUCName as "spatial
 # NOTE:  metadata".
 
 
 # ----- TBD --------------------------------------------------------------------
 
-wrcc_meta <- 
+wrcc_meta <-
   wrcc_loadMeta(stateCode = "OR")
 
 # Have a look:
 meta_leaflet(wrcc_meta)
 
-Wanderers_Peak <- wrcc_load("orOWAN", year = 2020)
+Wanderers_Peak <- wrcc_loadYear("orOWAN", year = 2020)
 
 Wanderers_Peak %>%
   raws_getData() %>%
-  timeseriesMultiplot()
+  dplyr::select(.data$datetime, .data$temperature) %>%
+  plot()
 

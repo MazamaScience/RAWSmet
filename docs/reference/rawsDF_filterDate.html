@@ -80,7 +80,7 @@ including either of the following recommended formats:
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
       </span>
     </div>
 
@@ -88,7 +88,7 @@ including either of the following recommended formats:
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -109,9 +109,6 @@ including either of the following recommended formats:
       <a href="../articles/articles/Developer_Style_Guide.html">Developer Style Guide</a>
     </li>
     <li>
-      <a href="../articles/articles/ORWA_2020_Water_Deficit.html">Oregon/Washington 2020 Water Deficit</a>
-    </li>
-    <li>
       <a href="../articles/articles/Oregon_2020_LaborDay.html">September 2020 Oregon Wildfires</a>
     </li>
     <li>
@@ -129,7 +126,7 @@ including either of the following recommended formats:
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/MazamaScience/RAWSmet/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -154,7 +151,7 @@ including either of the following recommended formats:
     <div class="ref-description">
     <p>Subsets a <em>rawsDF</em> object by date. This function
 always filters to day-boundaries.</p>
-<p>Dates can be anything that is understood by <code><a href='http://lubridate.tidyverse.org/reference/ymd.html'>lubridate::ymd()</a></code>
+<p>Dates can be anything that is understood by <code><a href='https://lubridate.tidyverse.org/reference/ymd.html'>lubridate::ymd()</a></code>
 including either of the following recommended formats:</p>
 <ul>
 <li><p><code>"YYYYmmdd"</code></p></li>
@@ -217,10 +214,13 @@ with <code>enddate</code> will be returned.</p>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/RAWSmet'>RAWSmet</a></span><span class='op'>)</span>
 
-<span class='va'>rawsObject</span> <span class='op'>&lt;-</span> <span class='va'>example_fw13SaddleMountain</span>
+<span class='va'>rawsObject</span> <span class='op'>&lt;-</span> <span class='va'>example_cefa_Saddle_Mountain</span>
 <span class='va'>rawsDF</span> <span class='op'>&lt;-</span> <span class='va'>rawsObject</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='raws_toRawsDF.html'>raws_toRawsDF</a></span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='va'>data201708</span> <span class='op'>&lt;-</span> <span class='va'>rawsDF</span> <span class='op'>%&gt;%</span> <span class='fu'>rawsDF_filterDate</span><span class='op'>(</span><span class='fl'>20170801</span>, <span class='fl'>20170901</span>, timezone <span class='op'>=</span> <span class='st'>"America/Los_Angeles"</span><span class='op'>)</span>
+<span class='va'>data201708</span> <span class='op'>&lt;-</span>
+  <span class='va'>rawsDF</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>rawsDF_filterDate</span><span class='op'>(</span><span class='fl'>20170801</span>, <span class='fl'>20170901</span>, timezone <span class='op'>=</span> <span class='st'>"America/Los_Angeles"</span><span class='op'>)</span>
+
 <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>data201708</span><span class='op'>$</span><span class='va'>data</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: Unknown or uninitialised column: `data`.</span></div><div class='output co'>#&gt; NULL</div><div class='input'><span class='co'># }</span>
 

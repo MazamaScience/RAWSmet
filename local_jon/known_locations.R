@@ -10,11 +10,13 @@ library(RAWSmet)
 
 meta <- cefa_loadMeta()
 
-known_locations <- MazamaLocationUtils::table_initializeExisting(meta, radius = 1000)
+known_locations <-
+  meta %>%
+  MazamaLocationUtils::table_initializeExisting(distanceThreshold = 1000)
 
 dplyr::glimpse(known_locations)
 
-deviceDeploymentID <- 
+deviceDeploymentID <-
   sprintf(
     "%s_%s",
     known_locations$locationID,

@@ -120,13 +120,13 @@ station metadata and another of cleaned weather data.
 
 ```{r view_ts_object}
 # nwsID 451702 is Enumclaw, WA
-enumclawTSObj <- cefa_load(nwsID = 451702, meta = meta)
+Enumclaw <- cefa_load(nwsID = 451702, meta = meta)
 
-names(enumclawTSObj)
+names(Enumclaw)
 # View station metadata
-enumclawTSObj$meta
+Enumclaw$meta
 # View sample of raw data
-head(enumclawTSObj$data)
+head(Enumclaw$data)
 ```
 
 Note that this RAWS timeseries object contains *all* of the data gathered by the 
@@ -142,25 +142,25 @@ Also note that the data stored in these RAWS timeseries objects are in UTC.
 # 20060101 will be parsed as Jan 1st. 2006
 
 # Get all observations between these dates
-enumclawTSObj_2005 <- 
-  raws_filterDate(enumclawTSObj, 
+Enumclaw_2005 <- 
+  raws_filterDate(Enumclaw, 
                   startdate = 20050101,
                   enddate = 20060101,
                   timezone = "America/Los_Angeles")
 
-range(enumclawTSObj_2005$data$datetime)
+range(Enumclaw_2005$data$datetime)
 
 # 20050801 will be parsed as Aug. 1st, 2005
 # 20050901 will be parsed as Sep. 1st, 2005
 
 # Get all observations between these dates
-enumclawTSObj_200508 <- 
-  raws_filterDate(enumclawTSObj,
+Enumclaw_200508 <- 
+  raws_filterDate(Enumclaw,
                   startdate = 20050801,
                   enddate = 20060901,
                   timezone = "America/Los_Angeles")
 
-range(enumclawTSObj_200508$data$datetime)
+range(Enumclaw_200508$data$datetime)
 ```
 
 **Openair** requires that dates and times of observations are stored in a column 
@@ -171,8 +171,8 @@ object with a new column called `date` containing the same values as `datetime`.
 ```{r rename_datetime, message = FALSE}
 
 
-enumclawData_2005 <-raws_getData(enumclawTSObj_2005, forOpenair = TRUE)
-enumclawData_200508 <-raws_getData(enumclawTSObj_2005, forOpenair = TRUE)
+enumclawData_2005 <-raws_getData(Enumclaw_2005, forOpenair = TRUE)
+enumclawData_200508 <-raws_getData(Enumclaw_2005, forOpenair = TRUE)
 
 ```
 

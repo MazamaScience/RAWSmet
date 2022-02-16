@@ -21,9 +21,9 @@ Imports:
     lubridate,
     magrittr,
     maps,
-    MazamaCoreUtils,
-    MazamaSpatialUtils (>= 0.6.4),
-    MazamaTimeSeries,
+    MazamaCoreUtils (>= 0.4.10),
+    MazamaSpatialUtils (>= 0.7.6),
+    MazamaTimeSeries (>= 0.2.2),
     purrr,
     readr,
     readxl,
@@ -32,7 +32,7 @@ Imports:
 Suggests:
     knitr,
     markdown,
-    MazamaLocationUtils (>= 0.1.11),
+    MazamaLocationUtils (>= 0.3.3),
     testthat (>= 2.1.0),
     rmarkdown,
     roxygen2

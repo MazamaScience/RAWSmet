@@ -32,15 +32,11 @@ reports. It includes functionality to:
 * determine which locations obtained from metadata are too close to be 
 considered “unique” locations
 * convert between UTC and local timezones
-* apply various algorithms to the data: 5rolling means, aggregation, _etc._
+* apply various algorithms to the data: rolling means, aggregation, _etc._
 * provide interactive timeseries and maps through RStudio’s Viewer pane
 * create a variety of publication ready maps and timeseries plots
 
 ## Installation
-
-This package is designed to be used with [R](https://cran.r-project.org) 
-(>= 3.5) and [RStudio](https://www.rstudio.com) so make sure you have those 
-installed first.
 
 Users will want to install the **remotes** package to have access to the latest 
 version of the package from GitHub.

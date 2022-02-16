@@ -13,13 +13,13 @@ wa_meta <- wrcc_loadMeta("WA")
 or_meta <- wrcc_loadMeta("OR")
 
 # Load all stations in Oregon
-orList <- 
+orList <-
   # Load data
   wrcc_loadMultiple(
     wrccIDs = or_meta$wrccID,
     meta = or_meta,
     year = 2020,
-    newDownload = TRUE,
+    newDownload = FALSE,
     password = MY_PASSWORD
   ) %>%
   # Filter to the desired time range
@@ -50,7 +50,7 @@ plotDF <-
   ) %>%
   dplyr::slice_max(datetime, with_ties = FALSE) %>%
   dplyr::ungroup()
-  
+
 # ----- Map it -----------------------------------------------------------------
 
 library(ggmap)
@@ -60,20 +60,21 @@ library(ggplot2)
 breaks = c(-Inf, 5, 10, 20, 50, Inf)
 
 # 5 colors
-RColorBrewer::brewer.pal(5, "BrBG")
+colors <- RColorBrewer::brewer.pal(5, "BrBG")
 
 # 5 color positions [0-1]
 values <- c(.005, .01, .02, .05, 1)
 
+# TODO:  This isn't working.
 
-gg <- 
+gg <-
   ggmap::qmplot(
     longitude,
     latitude,
-    data = plotDF, 
-    geom = "blank", 
-    zoom = 7, 
-    maptype = "terrain-background",
+    data = plotDF,
+    geom = "blank",
+    zoom = 7,
+    maptype = "terrain-background"
     ###maptype = "toner-lite"
   ) +
   geom_point(aes(color = total_precip), alpha = 1, size = 8) +
@@ -86,6 +87,6 @@ gg <-
   ggtitle(
     label = "Total Precip Aug 01-Sep 07, 2020"
   )
-  
+
 print(gg)
 
