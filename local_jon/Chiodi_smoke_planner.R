@@ -122,31 +122,31 @@ dailyMin <-
     minCount = 3
   ) %>%
   sts_extractData() %>%
-  dplyr::mutate(across(-1, round, 1))
+  dplyr::mutate(across(where(is.numeric), round, 1))
 
 dailyMax <-
   raws %>%
   sts_summarize(
     unit = "day",
-    FUN = mean,
+    FUN = max,
     na.rm = TRUE,
     minCount = 3
   ) %>%
   sts_extractData() %>%
-  dplyr::mutate(across(-1, round, 1))
+  dplyr::mutate(across(where(is.numeric), round, 1))
 
 # ----- Calculate daytime mean -------------------------------------------------
 
-dayMin <-
-  raws_day %>%
-  sts_summarize(
-    unit = "day",
-    FUN = min,
-    na.rm = TRUE,
-    minCount = 3
-  ) %>%
-  sts_extractData() %>%
-  dplyr::mutate(across(-1, round, 1))
+# dayMin <-
+#   raws_day %>%
+#   sts_summarize(
+#     unit = "day",
+#     FUN = min,
+#     na.rm = TRUE,
+#     minCount = 3
+#   ) %>%
+#   sts_extractData() %>%
+#   dplyr::mutate(across(where(is.numeric), round, 1))
 
 dayMean <-
   raws_day %>%
@@ -157,34 +157,34 @@ dayMean <-
     minCount = 3
   ) %>%
   sts_extractData() %>%
-  dplyr::mutate(across(-1, round, 1))
+  dplyr::mutate(across(where(is.numeric), round, 1))
 
-dayMax <-
-  raws_day %>%
-  sts_summarize(
-    unit = "day",
-    FUN = max,
-    na.rm = TRUE,
-    minCount = 3
-  ) %>%
-  sts_extractData() %>%
-  dplyr::mutate(across(-1, round, 1))
+# dayMax <-
+#   raws_day %>%
+#   sts_summarize(
+#     unit = "day",
+#     FUN = max,
+#     na.rm = TRUE,
+#     minCount = 3
+#   ) %>%
+#   sts_extractData() %>%
+#   dplyr::mutate(across(where(is.numeric), round, 1))
 
 # ----- Calculate nighttime mean -----------------------------------------------
 
-nightMin <-
-  raws_day %>%
-  sts_summarize(
-    unit = "day",
-    FUN = min,
-    na.rm = TRUE,
-    minCount = 3
-  ) %>%
-  sts_extractData() %>%
-  dplyr::mutate(across(-1, round, 1))
+# nightMin <-
+#   raws_night %>%
+#   sts_summarize(
+#     unit = "day",
+#     FUN = min,
+#     na.rm = TRUE,
+#     minCount = 3
+#   ) %>%
+#   sts_extractData() %>%
+#   dplyr::mutate(across(where(is.numeric), round, 1))
 
 nightMean <-
-  raws_day %>%
+  raws_night %>%
   sts_summarize(
     unit = "day",
     FUN = mean,
@@ -192,24 +192,24 @@ nightMean <-
     minCount = 3
   ) %>%
   sts_extractData() %>%
-  dplyr::mutate(across(-1, round, 1))
+  dplyr::mutate(across(where(is.numeric), round, 1))
 
-nightMax <-
-  raws_day %>%
-  sts_summarize(
-    unit = "day",
-    FUN = max,
-    na.rm = TRUE,
-    minCount = 3
-  ) %>%
-  sts_extractData() %>%
-  dplyr::mutate(across(-1, round, 1))
+# nightMax <-
+#   raws_night %>%
+#   sts_summarize(
+#     unit = "day",
+#     FUN = max,
+#     na.rm = TRUE,
+#     minCount = 3
+#   ) %>%
+#   sts_extractData() %>%
+#   dplyr::mutate(across(where(is.numeric), round, 1))
 
 # ----- Regular time axis ------------------------------------------------------
 
 # Create the full time axis
 datetime <-
-  seq(min(dayMean$datetime), max(dayMean$datetime), by = "day") %>%
+  seq(min(dailyMin$datetime), max(dailyMin$datetime), by = "day") %>%
   # NOTE:  round_date() is required unless we use LST
   lubridate::round_date(unit = "day")
 dailyDF <- data.frame(datetime = datetime)
@@ -222,31 +222,31 @@ dailyMin <-
 
 dailyMax <-
   dailyDF %>%
-  dplyr::left_join(dayMin, by = "datetime")
-
-dayMin <-
-  dailyDF %>%
   dplyr::left_join(dailyMax, by = "datetime")
+
+# dayMin <-
+#   dailyDF %>%
+#   dplyr::left_join(dayMin, by = "datetime")
 
 dayMean <-
   dailyDF %>%
   dplyr::left_join(dayMean, by = "datetime")
 
-dayMax <-
-  dailyDF %>%
-  dplyr::left_join(dayMax, by = "datetime")
+# dayMax <-
+#   dailyDF %>%
+#   dplyr::left_join(dayMax, by = "datetime")
 
-nightMin <-
-  dailyDF %>%
-  dplyr::left_join(nightMin, by = "datetime")
+# nightMin <-
+#   dailyDF %>%
+#   dplyr::left_join(nightMin, by = "datetime")
 
 nightMean <-
   dailyDF %>%
   dplyr::left_join(nightMean, by = "datetime")
 
-nightMax <-
-  dailyDF %>%
-  dplyr::left_join(nightMax, by = "datetime")
+# nightMax <-
+#   dailyDF %>%
+#   dplyr::left_join(nightMax, by = "datetime")
 
 
 # ----- Create JSON ------------------------------------------------------------
