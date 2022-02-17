@@ -35,7 +35,9 @@ setRawsDataDir("~/Data/RAWS")
 meta <- cefa_loadMeta(verbose = TRUE)
 
 # See what stations are available
-meta_leaflet(meta)
+meta %>%
+  dplyr::filter(stateCode %in% c("OR", "WA", "ID", "MT")) %>%
+  meta_leaflet()
 
 # Use a nwsID to download historical data
 Tumalo_Ridge <- cefa_load("352621", meta)
@@ -49,25 +51,9 @@ Tumalo_Ridge <- cefa_load("352621", meta)
 # > pryr::object_size(Tumalo_Ridge)
 # 14,566,296 B
 
-# ----- Find day/night daily averages ------------------------------------------
-
 raws <- Tumalo_Ridge
 
-# > dplyr::glimpse(raws$data, width = 75)
-# Rows: 113,746
-# Columns: 12
-# $ datetime         <dttm> 2004-11-15 19:00:00, 2004-11-15 20:00:00, 2004-…
-# $ temperature      <dbl> 0.0000000, 10.5555556, 10.5555556, 11.1111111, 1…
-# $ humidity         <dbl> 77.5, 77.5, 77.5, 76.0, 76.0, 73.0, 70.0, 68.0, …
-# $ windSpeed        <dbl> 4.47040, 3.57632, 3.12928, 2.68224, 1.78816, 1.7…
-# $ windDirection    <dbl> 0, 173, 173, 181, 189, 272, 44, 230, 134, 170, 1…
-# $ maxGustSpeed     <dbl> 9.38784, 7.15264, 6.70560, 5.81152, 4.91744, 4.4…
-# $ maxGustDirection <dbl> 0, 174, 175, 171, 172, 258, 59, 198, 122, 166, 1…
-# $ precipitation    <dbl> NA, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.…
-# $ solarRadiation   <dbl> 188, 222, 190, 217, 98, 31, 4, 0, 0, 0, 0, 0, 0,…
-# $ fuelMoisture     <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-# $ fuelTemperature  <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
-# $ monitorType      <chr> "FW13", "FW13", "FW13", "FW13", "FW13", "FW13", …
+# ----- Find day/night daily averages ------------------------------------------
 
 timeInfo <- MazamaTimeSeries::timeInfo(
   raws$data$datetime,
@@ -92,18 +78,77 @@ timeInfo <- MazamaTimeSeries::timeInfo(
 
 raws_day <- raws_night <- raws
 
+# > dplyr::glimpse(raws$data, width = 75)
+# Rows: 113,746
+# Columns: 12
+# $ datetime         <dttm> 2004-11-15 19:00:00, 2004-11-15 20:00:00, 2004-…
+# $ temperature      <dbl> 0.0000000, 10.5555556, 10.5555556, 11.1111111, 1…
+# $ humidity         <dbl> 77.5, 77.5, 77.5, 76.0, 76.0, 73.0, 70.0, 68.0, …
+# $ windSpeed        <dbl> 4.47040, 3.57632, 3.12928, 2.68224, 1.78816, 1.7…
+# $ windDirection    <dbl> 0, 173, 173, 181, 189, 272, 44, 230, 134, 170, 1…
+# $ maxGustSpeed     <dbl> 9.38784, 7.15264, 6.70560, 5.81152, 4.91744, 4.4…
+# $ maxGustDirection <dbl> 0, 174, 175, 171, 172, 258, 59, 198, 122, 166, 1…
+# $ precipitation    <dbl> NA, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.…
+# $ solarRadiation   <dbl> 188, 222, 190, 217, 98, 31, 4, 0, 0, 0, 0, 0, 0,…
+# $ fuelMoisture     <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+# $ fuelTemperature  <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, …
+# $ monitorType      <chr> "FW13", "FW13", "FW13", "FW13", "FW13", "FW13", …
+
+# TODO: Option to use localStandardTime_UTC for day definitions
+
+raws$data <-
+  raws$data %>%
+  # Remove non-numeric and all-missing columns
+  dplyr::select(-c("fuelMoisture", "fuelTemperature", "monitorType"))
+
 raws_day$data <-
   raws$data %>%
-  dplyr::select(-c("fuelMoisture", "fuelTemperature", "monitorType")) %>%
+  # Daytime only
   dplyr::slice(which(timeInfo$day))
 
 raws_night$data <-
   raws$data %>%
-  dplyr::select(-c("fuelMoisture", "fuelTemperature", "monitorType")) %>%
+  # Nighttime only
   dplyr::slice(which(timeInfo$night))
 
+# ----- Calculate full-day min/max ---------------------------------------------
 
-dailyMeanBrick <-
+dailyMin <-
+  raws %>%
+  sts_summarize(
+    unit = "day",
+    FUN = min,
+    na.rm = TRUE,
+    minCount = 3
+  ) %>%
+  sts_extractData() %>%
+  dplyr::mutate(across(-1, round, 1))
+
+dailyMax <-
+  raws %>%
+  sts_summarize(
+    unit = "day",
+    FUN = mean,
+    na.rm = TRUE,
+    minCount = 3
+  ) %>%
+  sts_extractData() %>%
+  dplyr::mutate(across(-1, round, 1))
+
+# ----- Calculate daytime mean -------------------------------------------------
+
+dayMin <-
+  raws_day %>%
+  sts_summarize(
+    unit = "day",
+    FUN = min,
+    na.rm = TRUE,
+    minCount = 3
+  ) %>%
+  sts_extractData() %>%
+  dplyr::mutate(across(-1, round, 1))
+
+dayMean <-
   raws_day %>%
   sts_summarize(
     unit = "day",
@@ -114,94 +159,131 @@ dailyMeanBrick <-
   sts_extractData() %>%
   dplyr::mutate(across(-1, round, 1))
 
-# TODO:  merge with uniform daily time axis
+dayMax <-
+  raws_day %>%
+  sts_summarize(
+    unit = "day",
+    FUN = max,
+    na.rm = TRUE,
+    minCount = 3
+  ) %>%
+  sts_extractData() %>%
+  dplyr::mutate(across(-1, round, 1))
 
-# TODO:  output json
+# ----- Calculate nighttime mean -----------------------------------------------
 
-# TODO:  same for night
+nightMin <-
+  raws_day %>%
+  sts_summarize(
+    unit = "day",
+    FUN = min,
+    na.rm = TRUE,
+    minCount = 3
+  ) %>%
+  sts_extractData() %>%
+  dplyr::mutate(across(-1, round, 1))
+
+nightMean <-
+  raws_day %>%
+  sts_summarize(
+    unit = "day",
+    FUN = mean,
+    na.rm = TRUE,
+    minCount = 3
+  ) %>%
+  sts_extractData() %>%
+  dplyr::mutate(across(-1, round, 1))
+
+nightMax <-
+  raws_day %>%
+  sts_summarize(
+    unit = "day",
+    FUN = max,
+    na.rm = TRUE,
+    minCount = 3
+  ) %>%
+  sts_extractData() %>%
+  dplyr::mutate(across(-1, round, 1))
+
+# ----- Regular time axis ------------------------------------------------------
+
+# Create the full time axis
+datetime <-
+  seq(min(dayMean$datetime), max(dayMean$datetime), by = "day") %>%
+  # NOTE:  round_date() is required unless we use LST
+  lubridate::round_date(unit = "day")
+dailyDF <- data.frame(datetime = datetime)
+
+# Merge data onto regular axis
+
+dailyMin <-
+  dailyDF %>%
+  dplyr::left_join(dailyMin, by = "datetime")
+
+dailyMax <-
+  dailyDF %>%
+  dplyr::left_join(dayMin, by = "datetime")
+
+dayMin <-
+  dailyDF %>%
+  dplyr::left_join(dailyMax, by = "datetime")
+
+dayMean <-
+  dailyDF %>%
+  dplyr::left_join(dayMean, by = "datetime")
+
+dayMax <-
+  dailyDF %>%
+  dplyr::left_join(dayMax, by = "datetime")
+
+nightMin <-
+  dailyDF %>%
+  dplyr::left_join(nightMin, by = "datetime")
+
+nightMean <-
+  dailyDF %>%
+  dplyr::left_join(nightMean, by = "datetime")
+
+nightMax <-
+  dailyDF %>%
+  dplyr::left_join(nightMax, by = "datetime")
 
 
+# ----- Create JSON ------------------------------------------------------------
 
+jsonObj <-
+  list(
+    start = strftime(dayMin$datetime[1], "%Y-%m-%d"),
+    lat = raws$meta$latitude,
+    lon = raws$meta$longitude,
+    missing = NULL,
+    grid = NULL,
+    land = NULL,
+    data = list(
+      TEMPERATURE_DAYTIME_AVE = dayMean$temperature,
+      TEMPERATURE_NIGHTTIME_AVE = nightMean$temperature,
+      TEMPERATURE_MAX = dailyMax$temperature,
+      TEMPERATURE_MIN = dailyMin$temperature,
+      #
+      HUMIDITY_DAYTIME_AVE = dayMean$humidity,
+      HUMIDITY_NIGHTTIME_AVE = nightMean$humidity,
+      HUMIDITY_MAX = dailyMax$humidity,
+      HUMIDITY_MIN = dailyMin$humidity,
+      #
+      WINDSPEED_DAYTIME_AVE = dayMean$windSpeed,
+      WINDSPEED_NIGHTTIME_AVE = nightMean$windSpeed,
+      WINDSPEED_MAX = dailyMax$windSpeed,
+      WINDSPEED_MIN = dailyMin$windSpeed
+    )
+  )
 
+jsonString <- jsonlite::toJSON(
+  jsonObj,
+  auto_unbox = TRUE,
+  null = 'null',
+  na = 'null',
+  pretty = TRUE
+)
 
-
-# ===== INTERNAL FUNCTIONS =====================================================
-
-#' @param sts \emph{sts} object.
-#' @param timezone Olson timezone used to interpret dates.
-#' @param unit Unit used to summarize by (\emph{e.g.} "day").
-#' @param FUN Function used to summarize time series.
-#' @param ... Additional arguments to be passed to \code{FUN}
-
-sts_summarize <- function(
-  sts,
-  timezone = NULL,
-  unit = c("day", "week", "month", "year"),
-  FUN = NULL,
-  ...,
-  minCount = NULL
-) {
-
-  # ----- Validate parameters --------------------------------------------------
-
-  MazamaCoreUtils::stopIfNull(sts)
-  unit <- match.arg(unit)
-  MazamaCoreUtils::stopIfNull(FUN)
-  MazamaCoreUtils::stopIfNull(minCount)
-
-  if ( sts_isEmpty(sts) )
-    stop("'sts' has no data")
-
-  if ( length(unique(sts$meta$timezone)) > 1 )
-    stop("'sts' has muliple timezones")
-
-  # # Use internal function to determine the timezone to use
-  # timezone <- .determineTimezone(sts, NULL, timezone, verbose = TRUE)
-  timezone <- sts$meta$timezone[1]
-
-  # ----- Summarize by time period ---------------------------------------------
-
-  # See:  https://www.statology.org/aggregate-daily-data-in-r/
-  # See:  https://www3.nd.edu/~steve/computing_with_data/24_dplyr/dplyr.html
-  # See:  https://dplyr.tidyverse.org/articles/colwise.html
-
-  customFUN <- function(x, ...) {
-    if ( sum(!is.na(x)) >= minCount ) {
-      return(FUN(x, ...))
-    } else {
-      return(NA)
-    }
-  }
-
-  newData <-
-
-    sts$data %>%
-
-    # Create 'timeUnit' in the desired timezone as a grouping variable
-    dplyr::mutate(
-      timeUnit = lubridate::floor_date(lubridate::with_tz(.data$datetime, tz = timezone), unit)
-    ) %>%
-    dplyr::select(-.data$datetime) %>%
-    dplyr::group_by(.data$timeUnit) %>%
-
-    # Summarize using FUN (will ignore 'timeUnit' column)
-    dplyr::summarize(across(everything(), customFUN, ...)) %>%
-
-    # Replace +/-Inf and NaN with NA
-    dplyr::mutate(across(everything(), function(x) { x[!is.finite(x)] <- NA; return(x) })) %>%
-
-    # New, daily 'datetime'
-    dplyr::rename(datetime = .data$timeUnit)
-
-
-  # ----- Create the 'sts' object ----------------------------------------------
-
-  sts$data <- newData
-
-  # ----- Return ---------------------------------------------------------------
-
-  return(invisible(sts))
-
-}
-
+cat(jsonString, file = "cefa_353621.json")
 
