@@ -34,10 +34,10 @@ setRawsDataDir("~/Data/RAWS")
 # Download/reload metadata from the CEFA site ("fw13" data)
 meta <- cefa_loadMeta(verbose = TRUE)
 
-# See what stations are available
-meta %>%
-  dplyr::filter(stateCode %in% c("OR", "WA", "ID", "MT")) %>%
-  meta_leaflet()
+# # See what stations are available
+# meta %>%
+#   dplyr::filter(stateCode %in% c("OR", "WA", "ID", "MT")) %>%
+#   meta_leaflet()
 
 # Use a nwsID to download historical data
 Tumalo_Ridge <- cefa_load("352621", meta)
@@ -170,6 +170,17 @@ dayMean <-
 #   sts_extractData() %>%
 #   dplyr::mutate(across(where(is.numeric), round, 1))
 
+dayStd <-
+  raws_day %>%
+  sts_summarize(
+    unit = "day",
+    FUN = sd,
+    na.rm = TRUE,
+    minCount = 3
+  ) %>%
+  sts_extractData() %>%
+  dplyr::mutate(across(where(is.numeric), round, 1))
+
 # ----- Calculate nighttime mean -----------------------------------------------
 
 # nightMin <-
@@ -236,6 +247,10 @@ dayMean <-
 #   dailyDF %>%
 #   dplyr::left_join(dayMax, by = "datetime")
 
+dayStd <-
+  dailyDF %>%
+  dplyr::left_join(dayStd, by = "datetime")
+
 # nightMin <-
 #   dailyDF %>%
 #   dplyr::left_join(nightMin, by = "datetime")
@@ -248,32 +263,58 @@ nightMean <-
 #   dailyDF %>%
 #   dplyr::left_join(nightMax, by = "datetime")
 
+# ----- Calculate UV -----------------------------------------------------------
+
+calculateUV <- function(
+  windSpeed,
+  windDir
+) {
+  # NOTE:  Go from Atmospheric 0 = N, clockwise increase to U = E, V = N
+  physicsAngle <- pi * (90 - windDir) / 180
+  return(list(
+    U = round(windSpeed * cos(physicsAngle), 2),
+    V = round(windSpeed * sin(physicsAngle), 2)
+  ))
+}
+
+uv_daytime_ave <- calculateUV(dayMean$windSpeed, dayMean$windDir)
+uv_nighttime_ave <- calculateUV(nightMean$windSpeed, nightMean$windDir)
 
 # ----- Create JSON ------------------------------------------------------------
 
 jsonObj <-
   list(
-    start = strftime(dayMin$datetime[1], "%Y-%m-%d"),
+    start = strftime(dailyDF$datetime[1], "%Y-%m-%d"),
     lat = raws$meta$latitude,
     lon = raws$meta$longitude,
+    elev = raws$meta$elevation,
     missing = NULL,
     grid = NULL,
     land = NULL,
     data = list(
-      TEMPERATURE_DAYTIME_AVE = dayMean$temperature,
-      TEMPERATURE_NIGHTTIME_AVE = nightMean$temperature,
-      TEMPERATURE_MAX = dailyMax$temperature,
-      TEMPERATURE_MIN = dailyMin$temperature,
+      # NOTE:  Report temperature in deg Kelvin
+      TEMP2_DAYTIME_AVE = dayMean$temperature + 273.15,
+      TEMP2_NIGHTTIME_AVE = nightMean$temperature + 273.15,
+      TEMP2_MAX = dailyMax$temperature + 273.15,
+      TEMP2_MIN = dailyMin$temperature + 273.15,
       #
-      HUMIDITY_DAYTIME_AVE = dayMean$humidity,
-      HUMIDITY_NIGHTTIME_AVE = nightMean$humidity,
-      HUMIDITY_MAX = dailyMax$humidity,
-      HUMIDITY_MIN = dailyMin$humidity,
+      RH2_DAYTIME_AVE = dayMean$humidity,
+      RH2_NIGHTTIME_AVE = nightMean$humidity,
+      RH2_MAX = dailyMax$humidity,
+      RH2_MIN = dailyMin$humidity,
       #
       WINDSPEED_DAYTIME_AVE = dayMean$windSpeed,
       WINDSPEED_NIGHTTIME_AVE = nightMean$windSpeed,
       WINDSPEED_MAX = dailyMax$windSpeed,
-      WINDSPEED_MIN = dailyMin$windSpeed
+      WINDSPEED_MIN = dailyMin$windSpeed,
+      #
+      U_DAYTIME_AVE = uv_daytime_ave[['U']],
+      U_NIGHTTIME_AVE = uv_nighttime_ave[['U']],
+      #
+      V_DAYTIME_AVE = uv_daytime_ave[['V']],
+      V_NIGHTTIME_AVE = uv_nighttime_ave[['V']],
+      #
+      WDIR_DAYTIME_STD = dayStd$windDirection
     )
   )
 
@@ -286,4 +327,6 @@ jsonString <- jsonlite::toJSON(
 )
 
 cat(jsonString, file = "cefa_353621.json")
+
+# ===== INTERNAL FUNCTIONS =====================================================
 
