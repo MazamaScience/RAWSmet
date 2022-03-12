@@ -20,6 +20,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -32,18 +34,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="articles/RAWSmet.html">Get started</a>
 </li>
@@ -58,16 +54,19 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/articles/Developer_Style_Guide.html">Developer Style Guide</a>
+      <a href="articles/Developer_Style_Guide.html">Developer Style Guide</a>
     </li>
     <li>
-      <a href="articles/articles/Oregon_2020_LaborDay.html">September 2020 Oregon Wildfires</a>
+      <a href="articles/Oregon_2020_LaborDay.html">September 2020 Oregon Wildfires</a>
     </li>
     <li>
-      <a href="articles/articles/RAWSmet_usage.html">RAWSmet usage</a>
+      <a href="articles/RAWSmet_usage.html">RAWSmet usage</a>
     </li>
     <li>
-      <a href="articles/articles/Working_with_openair.html">Working With openair</a>
+      <a href="articles/Raw_Data_Validation.html">Raw Data Validation</a>
+    </li>
+    <li>
+      <a href="articles/Working_with_openair.html">Working With openair</a>
     </li>
   </ul>
 </li>
@@ -77,7 +76,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/MazamaScience/RAWSmet/">
+  <a href="https://github.com/MazamaScience/RAWSmet/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -96,20 +95,20 @@
   <div class="contents col-md-9">
 
 
-<div id="rawsmet-r-package" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#rawsmet-r-package" class="anchor"></a>RAWSmet R Package</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="rawsmet-r-package">RAWSmet R Package<a class="anchor" aria-label="anchor" href="#rawsmet-r-package"></a>
+</h1></div>
 <pre><code>Utilities for working with Remote Automatic Weather Station (RAWS) data</code></pre>
-<div id="background" class="section level2">
-<h2 class="hasAnchor">
-<a href="#background" class="anchor"></a>Background</h2>
-<p>The USFS Pacific Wildland Fire Sciences Lab <a href="https://www.airfire.org">AirFire</a> team works to model wildland fire emissions and has created the BlueSky Modeling Framework. This system integrates a wide collection of models along a smoke modeling pipeline (fire information &gt; fuel loadings &gt; consumption modeling &gt; emissions modeling &gt; time rate of emissions modeling &gt; plume height estimations &gt; smoke trajectory and dispersion modeling). The resulting model output has been integrated into many different smoke prediction systems and scientific modeling efforts.</p>
+<div class="section level2">
+<h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
+</h2>
+<p>The USFS Pacific Wildland Fire Sciences Lab <a href="https://www.airfire.org" class="external-link">AirFire</a> team works to model wildland fire emissions and has created the BlueSky Modeling Framework. This system integrates a wide collection of models along a smoke modeling pipeline (fire information &gt; fuel loadings &gt; consumption modeling &gt; emissions modeling &gt; time rate of emissions modeling &gt; plume height estimations &gt; smoke trajectory and dispersion modeling). The resulting model output has been integrated into many different smoke prediction systems and scientific modeling efforts.</p>
 <p>The <strong>RAWSmet</strong> R package is being developed for AirFire to help modelers and scientists more easily work with weather data from RAWS stations across North America.</p>
 <p>The package makes it easier to obtain data, perform analyses and generate reports. It includes functionality to:</p>
 <ul>
-<li>access metadata and timeseries data from <a href="https://cefa.dri.edu/raws" class="uri">https://cefa.dri.edu/raws</a>
+<li>access metadata and timeseries data from <a href="https://cefa.dri.edu/raws" class="external-link uri">https://cefa.dri.edu/raws</a>
 </li>
-<li>access metadata and timeseries data from <a href="https://raws.dri.edu" class="uri">https://raws.dri.edu</a>
+<li>access metadata and timeseries data from <a href="https://raws.dri.edu" class="external-link uri">https://raws.dri.edu</a>
 </li>
 <li>save and reload .RData versions of these in a rawsDataDir</li>
 <li>determine which locations obtained from metadata are too close to be considered “unique” locations</li>
@@ -120,28 +119,28 @@
 <li>create a variety of publication ready maps and timeseries plots</li>
 </ul>
 </div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>Users will want to install the <strong>remotes</strong> package to have access to the latest version of the package from GitHub.</p>
 <p>The following packages should be installed by typing the following at the RStudio console:</p>
-<pre><code><a href="https://rdrr.io/r/utils/install.packages.html"># Note that vignettes require knitr and rmarkdown
-install.packages('knitr')
-install.packages('rmarkdown')
-install.packages('MazamaSpatialUtils')
-install.packages('MazamaLocationUtils')
-devtools::install_github('MazamaScience/RAWSmet')</a></code></pre>
+<pre><code><span class="co"># Note that vignettes require knitr and rmarkdown</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'knitr'</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'rmarkdown'</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'MazamaSpatialUtils'</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">'MazamaLocationUtils'</span><span class="op">)</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">'MazamaScience/RAWSmet'</span><span class="op">)</span></code></pre>
 <p>Any work with spatial data, <em>e.g.</em> assigning states, counties and timezones, will require installation of required spatial datasets. To get these datasets you should type the following at the RStudio console:</p>
-<pre><code><a href="https://github.com/MazamaScience/MazamaSpatialUtils">library(MazamaSpatialUtils)
-dir.create('~/Data/Spatial', recursive = TRUE)
-setSpatialDataDir('~/Data/Spatial')
-installSpatialData()</a></code></pre>
+<pre><code><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/MazamaSpatialUtils" class="external-link">MazamaSpatialUtils</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="st">'~/Data/Spatial'</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/MazamaSpatialUtils/man/setSpatialDataDir.html" class="external-link">setSpatialDataDir</a></span><span class="op">(</span><span class="st">'~/Data/Spatial'</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/MazamaSpatialUtils/man/installSpatialData.html" class="external-link">installSpatialData</a></span><span class="op">(</span><span class="op">)</span></code></pre>
 <p>Data generated with package functions can be be saved and reloaded in a dedicated directory much the same as the <code>spatialDataDir</code> used above:</p>
-<pre><code><a href="https://github.com/MazamaScience/RAWSmet">library(RAWSmet)
-dir.create('~/Data/RAWS', recursive = TRUE)
-setRawsDataDir('~/Data/RAWS')</a></code></pre>
+<pre><code><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/RAWSmet" class="external-link">RAWSmet</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="st">'~/Data/RAWS'</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="reference/setRawsDataDir.html">setRawsDataDir</a></span><span class="op">(</span><span class="st">'~/Data/RAWS'</span><span class="op">)</span></code></pre>
 <hr>
-<p>This R package was created by <a href="http://mazamascience.com">Mazama Science</a> and is being funded by the USFS <a href="https://airfire.org">AirFire Research Team</a>.</p>
+<p>This R package was created by <a href="http://mazamascience.com" class="external-link">Mazama Science</a> and is being funded by the USFS <a href="https://airfire.org" class="external-link">AirFire Research Team</a>.</p>
 </div>
 </div>
 
@@ -149,46 +148,57 @@ setRawsDataDir('~/Data/RAWS')</a></code></pre>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/MazamaScience/RAWSmet/">https://​github.com/​MazamaScience/​RAWSmet/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/MazamaScience/RAWSmet/issues">https://​github.com/​MazamaScience/​RAWSmet/​issues</a>
-</li>
+<li><a href="https://github.com/MazamaScience/RAWSmet/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/MazamaScience/RAWSmet/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>
+<li><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing RAWSmet</a></li>
+</ul>
+</div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Jonathan Callahan <br><small class="roles"> Author, maintainer </small>  </li>
 <li>Eli Grosman <br><small class="roles"> Author </small>  </li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://cran.r-project.org/package=RAWSmet"><img src="http://www.r-pkg.org/badges/version/RAWSmet" alt="CRAN_Status_Badge"></a></li>
-<li><a href="https://cran.r-project.org/package=RAWSmet"><img src="http://cranlogs.r-pkg.org/badges/RAWSmet" alt="Downloads"></a></li>
-<li><a href="https://travis-ci.org/MazamaScience/RAWSmet"><img src="https://travis-ci.org/MazamaScience/RAWSmet.svg?branch=master" alt="Build Status"></a></li>
+<li><a href="https://cran.r-project.org/package=RAWSmet" class="external-link"><img src="http://www.r-pkg.org/badges/version/RAWSmet" alt="CRAN_Status_Badge"></a></li>
+<li><a href="https://cran.r-project.org/package=RAWSmet" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/RAWSmet" alt="Downloads"></a></li>
+<li><a href="https://travis-ci.org/MazamaScience/RAWSmet" class="external-link"><img src="https://travis-ci.org/MazamaScience/RAWSmet.svg?branch=master" alt="Build Status"></a></li>
 </ul>
 </div>
-</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Jonathan Callahan, Eli Grosman.</p>
+  <p></p>
+<p>Developed by Jonathan Callahan, Eli Grosman.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -196,6 +206,8 @@ setRawsDataDir('~/Data/RAWS')</a></code></pre>
 
   
 
+
+  
 
   </body>
 </html>

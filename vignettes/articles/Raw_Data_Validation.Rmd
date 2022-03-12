@@ -1,0 +1,121 @@
+---
+title: "Raw Data Validation"
+author: "Jonathan Callahan"
+date: "3/12/2022"
+output: html_document
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+unitBreaks <- function(x) { return(ceiling(max(x, na.rm = TRUE) - min(x, na.rm = TRUE))) }
+```
+
+In ths document, we will examine raw data obtained from 
+https://cefa.dri.edu/raws/fw13/ and do some basic exploratory statitics to 
+better understand any data quality issues that might exist.
+
+----
+
+# Download and Parse NWSID 040203
+
+Here, we use the **RAWSmet** package to download and parse data for a single
+location. No cleanup or QC is performed. We are only bringing the data into 
+memory in R so we can analyze it.
+
+```{r download_parse, message = FALSE}
+library(dplyr)
+library(RAWSmet)
+setRawsDataDir("~/Data/RAWS")
+
+
+# Load data for NWSID 040203 -- "BLUE RIDGE (KNF)"
+tbl <-
+  cefa_downloadData(nwsID = "040203") %>%
+  cefa_parseData()
+
+# Show variables
+names(tbl)
+```
+
+In order to plot data, we need a valid `POSIXct` time axis. We create one here
+for a station in California reporting in local time.
+
+```{r time_axis}
+datetime <- 
+  paste0(tbl$observationDate, tbl$observationTime) %>%
+  MazamaCoreUtils::parseDatetime(timezone = "America/Los_Angeles")
+```
+
+# Dry-bulb Temeprature
+
+## Time series plot
+
+The first thing to do with any variable is simply look at it. We plot it here
+with different values for partial opacity to better see overplotted values.
+
+```{r temp_timeseries, fig.height = 10, results = "hold"}
+layout(matrix(seq(2)))
+plot(datetime, tbl$dryBulbTemp, pch = 15, cex = 0.4, col = adjustcolor("black", 0.1))
+plot(datetime, tbl$dryBulbTemp, pch = 15, cex = 0.4, col = adjustcolor("black", 0.004))
+layout(1)
+```
+
+In the upper plot, our eyes notice a few lone outliers
+and a an outbreak of outliers in the winter of 2014.
+
+In the lower plot, we can see a _'line'_ of overplotted values near 32 F.
+
+## Distribution of values
+
+Every atmospheric measurement has reasonable physical limits to its range. 
+Temperature in the continental US has rarely, if ever exceeded -50 F to +130 F.
+
+Now let use a histogram and box plot to better see the distribution of values.
+
+```{r distribution_of_values, results = "hold"}
+layout(matrix(seq(2)))
+hist(tbl$dryBulbTemp, n = unitBreaks)
+boxplot(tbl$dryBulbTemp, horizontal = TRUE)
+layout(1)
+```
+
+So far, so good. We have a reasonably smooth distribution of values with a few
+outliers and an expected spike in readings near the freezing point of water. Temperature
+should be expected to hover briefly near this phase change point, as latent heat
+associated with freezing or melting water is not measured by the dry-bulb temperature.
+
+## Rate of change
+
+Every atmospheric variable also has bounds on its rate of change. We can examine
+that distribution a well.
+
+```{R rate_of_change, results = "hold"}
+layout(matrix(seq(2)))
+x <- diff(tbl$dryBulbTemp)
+hist(x, n = unitBreaks)
+boxplot(x, horizontal = TRUE)
+layout(1)
+```
+
+This distribution looks reasonable even if some of values (> 50F/hr) seem
+questionable.
+
+# Zero = missing value flag
+
+The question was raised as to whether zero was used as a missing value flag in
+for some variables. Lets find out how many times the temperature was exactly
+zero:
+
+```{r count_zeroes}
+length(which(tbl$dryBulbTemp == 0))
+```
+
+For temperature, this does not seem to be an issue.
+
+# Summary
+
+Except for a few individual outliers and a couple of outlier outbreaks, the
+values found for "Dry-bulb temperature" appear reasonable.
+
+
