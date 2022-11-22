@@ -131,7 +131,7 @@ wrcc_createRawsObject <- function(
   # * Convert datetime to UTC ----
 
   UTC_offset <-
-    MazamaSpatialUtils::SimpleTimezones@data %>%
+    MazamaSpatialUtils::SimpleTimezones %>%
     dplyr::filter(.data$timezone == meta$timezone) %>%
     dplyr::pull("UTC_offset")
 

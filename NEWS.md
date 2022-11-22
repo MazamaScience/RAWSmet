@@ -1,3 +1,9 @@
+# RAWSmet 0.5.0
+
+Version 0.5.x is a refactoring to accommodate **MazamaSpatialUtils** 0.8 which
+is based on the **sf** package rather than **sp**. As much as
+possible, the suite of functions and arguments will remain the same.
+
 # RAWSmet 0.4.0
 
 Version 0.4 utilizes the **MazamaTimeSeries** package to provide a lot of core

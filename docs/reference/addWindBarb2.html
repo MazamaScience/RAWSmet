@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.0</span>
       </span>
     </div>
 
@@ -29,19 +29,13 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
       <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
-    </li>
-    <li>
-      <a href="../articles/Oregon_2020_LaborDay.html">September 2020 Oregon Wildfires</a>
-    </li>
-    <li>
-      <a href="../articles/RAWSmet_usage.html">RAWSmet usage</a>
     </li>
     <li>
       <a href="../articles/Raw_Data_Validation.html">Raw Data Validation</a>
@@ -78,39 +72,56 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">addWindBarb2</span><span class="op">(</span>
-  <span class="va">x</span>,
-  <span class="va">y</span>,
-  <span class="va">speed</span>,
-  <span class="va">dir</span>,
-  extraBarbLength <span class="op">=</span> <span class="fl">0</span>,
-  barbSize <span class="op">=</span> <span class="fl">1</span>,
-  barbColor <span class="op">=</span> <span class="st">"blue"</span>,
-  barbLocation <span class="op">=</span> <span class="st">"zero"</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">addWindBarb2</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">y</span>,</span>
+<span>  <span class="va">speed</span>,</span>
+<span>  <span class="va">dir</span>,</span>
+<span>  extraBarbLength <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  barbSize <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  barbColor <span class="op">=</span> <span class="st">"blue"</span>,</span>
+<span>  barbLocation <span class="op">=</span> <span class="st">"zero"</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>x-axis position</p></dd>
+
+
 <dt>y</dt>
 <dd><p>y-axis position</p></dd>
+
+
 <dt>speed</dt>
 <dd><p>wind speed in knots</p></dd>
+
+
 <dt>dir</dt>
 <dd><p>wind direction in degrees clockwise from north</p></dd>
+
+
 <dt>extraBarbLength</dt>
 <dd><p>add length to barbs</p></dd>
+
+
 <dt>barbSize</dt>
 <dd><p>size of the barb</p></dd>
+
+
 <dt>barbColor</dt>
 <dd><p>color of the barbs</p></dd>
+
+
 <dt>barbLocation</dt>
 <dd><p>starting location for the barb. Currently accepts 'point' or 'zero'</p></dd>
+
+
 <dt>...</dt>
 <dd><p>additional arguments to be passed to <code>arrows</code></p></dd>
+
 </dl></div>
     <div id="references">
     <h2>References</h2>
@@ -129,7 +140,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

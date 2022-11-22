@@ -21,7 +21,7 @@ are dropped."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/lib
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.0</span>
       </span>
     </div>
 
@@ -33,19 +33,13 @@ are dropped."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/lib
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
       <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
-    </li>
-    <li>
-      <a href="../articles/Oregon_2020_LaborDay.html">September 2020 Oregon Wildfires</a>
-    </li>
-    <li>
-      <a href="../articles/RAWSmet_usage.html">RAWSmet usage</a>
     </li>
     <li>
       <a href="../articles/Raw_Data_Validation.html">Raw Data Validation</a>
@@ -86,20 +80,25 @@ are dropped.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">rawsList_filter</span><span class="op">(</span>rawsList <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rawsList_filter</span><span class="op">(</span>rawsList <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>rawsList</dt>
 <dd><p>List of <em>raws_timeseries</em> objects.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Logical predicates defined in terms of the variables in the
 <code>rawsObject$data</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list of subsets of the elements of the given list of
+    
+
+<p>A list of subsets of the elements of the given list of
 <em>raws_timeseries</em> objects.</p>
     </div>
     <div id="see-also">
@@ -109,14 +108,14 @@ are dropped.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/RAWSmet" class="external-link">RAWSmet</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">daytimeList</span> <span class="op">&lt;-</span></span>
-<span class="r-in">  <span class="va">example_cefaList</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">rawsList_filter</span><span class="op">(</span><span class="va">solarRadiation</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/RAWSmet" class="external-link">RAWSmet</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">daytimeList</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="va">example_cefaList</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">rawsList_filter</span><span class="op">(</span><span class="va">solarRadiation</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -131,7 +130,7 @@ are dropped.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

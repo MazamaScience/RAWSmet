@@ -26,7 +26,7 @@ standardized names
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.0</span>
       </span>
     </div>
 
@@ -38,19 +38,13 @@ standardized names
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
       <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
-    </li>
-    <li>
-      <a href="../articles/Oregon_2020_LaborDay.html">September 2020 Oregon Wildfires</a>
-    </li>
-    <li>
-      <a href="../articles/RAWSmet_usage.html">RAWSmet usage</a>
     </li>
     <li>
       <a href="../articles/Raw_Data_Validation.html">Raw Data Validation</a>
@@ -93,37 +87,52 @@ ready for use with all <code>raw_~</code> functions.</p>
 </ol></div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">wrcc_createRawsObject</span><span class="op">(</span>
-  wrccID <span class="op">=</span> <span class="cn">NULL</span>,
-  meta <span class="op">=</span> <span class="cn">NULL</span>,
-  startdate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/strptime.html" class="external-link">strftime</a></span><span class="op">(</span><span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/now.html" class="external-link">now</a></span><span class="op">(</span>tzone <span class="op">=</span> <span class="st">"UTC"</span><span class="op">)</span>, <span class="st">"%Y%m0101"</span>, tz <span class="op">=</span> <span class="st">"UTC"</span><span class="op">)</span>,
-  enddate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/strptime.html" class="external-link">strftime</a></span><span class="op">(</span><span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/now.html" class="external-link">now</a></span><span class="op">(</span>tzone <span class="op">=</span> <span class="st">"UTC"</span><span class="op">)</span>, <span class="st">"%Y%m%d23"</span>, tz <span class="op">=</span> <span class="st">"UTC"</span><span class="op">)</span>,
-  password <span class="op">=</span> <span class="cn">NULL</span>,
-  baseUrl <span class="op">=</span> <span class="st">"https://wrcc.dri.edu/cgi-bin/wea_list2.pl"</span>,
-  verbose <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">wrcc_createRawsObject</span><span class="op">(</span></span>
+<span>  wrccID <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  meta <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  startdate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/strptime.html" class="external-link">strftime</a></span><span class="op">(</span><span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/now.html" class="external-link">now</a></span><span class="op">(</span>tzone <span class="op">=</span> <span class="st">"UTC"</span><span class="op">)</span>, <span class="st">"%Y%m0101"</span>, tz <span class="op">=</span> <span class="st">"UTC"</span><span class="op">)</span>,</span>
+<span>  enddate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/strptime.html" class="external-link">strftime</a></span><span class="op">(</span><span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/now.html" class="external-link">now</a></span><span class="op">(</span>tzone <span class="op">=</span> <span class="st">"UTC"</span><span class="op">)</span>, <span class="st">"%Y%m%d23"</span>, tz <span class="op">=</span> <span class="st">"UTC"</span><span class="op">)</span>,</span>
+<span>  password <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  baseUrl <span class="op">=</span> <span class="st">"https://wrcc.dri.edu/cgi-bin/wea_list2.pl"</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>wrccID</dt>
 <dd><p>Station identifier found in 'meta'.</p></dd>
+
+
 <dt>meta</dt>
 <dd><p>Tibble of RAWS metadata containing <code>wrccID</code>.</p></dd>
+
+
 <dt>startdate</dt>
 <dd><p>Desired start date (integer or character representing YYYYMMDD[HH]).</p></dd>
+
+
 <dt>enddate</dt>
 <dd><p>Desired end date (integer or character representing YYYYMMDD[HH]).</p></dd>
+
+
 <dt>password</dt>
 <dd><p>Password required for access to archival data.</p></dd>
+
+
 <dt>baseUrl</dt>
 <dd><p>Base URL for data queries.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Logical flag controlling detailed progress statements.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Timeseries object with 'meta' and 'data'.</p>
+    
+
+<p>Timeseries object with 'meta' and 'data'.</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -137,14 +146,14 @@ ready for use with all <code>raw_~</code> functions.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/RAWSmet" class="external-link">RAWSmet</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">waWALD</span> <span class="op">&lt;-</span></span>
-<span class="r-in">  <span class="fu">wrcc_createRawsObject</span><span class="op">(</span>wrccID <span class="op">=</span> <span class="st">'waWALD'</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/RAWSmet" class="external-link">RAWSmet</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">waWALD</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="fu">wrcc_createRawsObject</span><span class="op">(</span>wrccID <span class="op">=</span> <span class="st">'waWALD'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -159,7 +168,7 @@ ready for use with all <code>raw_~</code> functions.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

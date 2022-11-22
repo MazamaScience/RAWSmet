@@ -25,7 +25,7 @@ including either of the following recommended formats:
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.0</span>
       </span>
     </div>
 
@@ -37,19 +37,13 @@ including either of the following recommended formats:
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
       <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
-    </li>
-    <li>
-      <a href="../articles/Oregon_2020_LaborDay.html">September 2020 Oregon Wildfires</a>
-    </li>
-    <li>
-      <a href="../articles/RAWSmet_usage.html">RAWSmet usage</a>
     </li>
     <li>
       <a href="../articles/Raw_Data_Validation.html">Raw Data Validation</a>
@@ -91,34 +85,47 @@ including either of the following recommended formats:</p>
 </ul></div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">rawsList_filterDate</span><span class="op">(</span>
-  rawsList <span class="op">=</span> <span class="cn">NULL</span>,
-  startdate <span class="op">=</span> <span class="cn">NULL</span>,
-  enddate <span class="op">=</span> <span class="cn">NULL</span>,
-  days <span class="op">=</span> <span class="cn">NULL</span>,
-  weeks <span class="op">=</span> <span class="cn">NULL</span>,
-  timezone <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rawsList_filterDate</span><span class="op">(</span></span>
+<span>  rawsList <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  startdate <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  enddate <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  days <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  weeks <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  timezone <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>rawsList</dt>
 <dd><p>list of <em>raws_timeseries</em> object.</p></dd>
+
+
 <dt>startdate</dt>
 <dd><p>Desired start datetime (ISO 8601).</p></dd>
+
+
 <dt>enddate</dt>
 <dd><p>Desired end datetime (ISO 8601).</p></dd>
+
+
 <dt>days</dt>
 <dd><p>Number of days to include in the filterDate interval.</p></dd>
+
+
 <dt>weeks</dt>
 <dd><p>Number of weeks to include in the filterDate interval.</p></dd>
+
+
 <dt>timezone</dt>
 <dd><p>Olson timezone used to interpret dates.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list of subsets of the elements of the given list of
+    
+
+<p>A list of subsets of the elements of the given list of
 <em>raws_timeseries</em> objects filtered by date.</p>
     </div>
     <div id="note">
@@ -135,44 +142,47 @@ with <code>enddate</code> will be returned.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/RAWSmet" class="external-link">RAWSmet</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">september_week1</span> <span class="op">&lt;-</span></span>
-<span class="r-in">  <span class="va">example_cefaList</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">rawsList_filterDate</span><span class="op">(</span></span>
-<span class="r-in">    startdate <span class="op">=</span> <span class="fl">20170901</span>,</span>
-<span class="r-in">    enddate <span class="op">=</span> <span class="fl">20170908</span>,</span>
-<span class="r-in">    timezone <span class="op">=</span> <span class="st">"America/Los_Angeles"</span></span>
-<span class="r-in">  <span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">september_week1</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/RAWSmet" class="external-link">RAWSmet</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">september_week1</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="va">example_cefaList</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">rawsList_filterDate</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    startdate <span class="op">=</span> <span class="fl">20170901</span>,</span></span>
+<span class="r-in"><span>    enddate <span class="op">=</span> <span class="fl">20170908</span>,</span></span>
+<span class="r-in"><span>    timezone <span class="op">=</span> <span class="st">"America/Los_Angeles"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">september_week1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`452701`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $meta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 14</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   deviceDeploymen… deviceID locationID locationName longitude latitude elevation</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 84a66be3fc5b535… 452701   84a66be3f… SADDLE MOUN…     -<span style="color: #BB0000;">120.</span>     46.7       650</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 7 more variables: countryCode &lt;chr&gt;, stateCode &lt;chr&gt;, timezone &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   nwsID &lt;chr&gt;, wrccID &lt;chr&gt;, nessID &lt;chr&gt;, agencyName &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   deviceDeploy…¹ devic…² locat…³ locat…⁴ longi…⁵ latit…⁶ eleva…⁷ count…⁸ state…⁹</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 84a66be3fc5b5… 452701  84a66b… SADDLE…   -<span style="color: #BB0000;">120.</span>    46.7     650 US      WA     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 5 more variables: timezone &lt;chr&gt;, nwsID &lt;chr&gt;, wrccID &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   nessID &lt;chr&gt;, agencyName &lt;chr&gt;, and abbreviated variable names</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ¹​deviceDeploymentID, ²​deviceID, ³​locationID, ⁴​locationName, ⁵​longitude,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁶​latitude, ⁷​elevation, ⁸​countryCode, ⁹​stateCode</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $data</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 168 × 12</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    datetime            temperature humidity windSpeed windDirection maxGustSpeed</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2017-09-01 <span style="color: #949494;">07:00:00</span>        21.7     40       2.68            244         6.71</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 2017-09-01 <span style="color: #949494;">08:00:00</span>        20.6     40       0.894           302         4.92</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 2017-09-01 <span style="color: #949494;">09:00:00</span>        17.8     40       2.68            258         4.47</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 2017-09-01 <span style="color: #949494;">10:00:00</span>        16.7     40       3.13            254         3.58</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 2017-09-01 <span style="color: #949494;">11:00:00</span>        15       41.5     1.34            247         3.13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 2017-09-01 <span style="color: #949494;">12:00:00</span>        14.4     41.5     0.894           112         3.13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 2017-09-01 <span style="color: #949494;">13:00:00</span>        11.1     46.5     0.447           316         2.24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2017-09-01 <span style="color: #949494;">14:00:00</span>        10.6     46.5     1.34            244         2.24</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2017-09-01 <span style="color: #949494;">15:00:00</span>        15       46.5     1.34            276         1.79</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2017-09-01 <span style="color: #949494;">16:00:00</span>        21.1     46.5     0.447           319         1.34</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 158 more rows, and 6 more variables: maxGustDirection &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   precipitation &lt;dbl&gt;, solarRadiation &lt;dbl&gt;, fuelMoisture &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   fuelTemperature &lt;chr&gt;, monitorType &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    datetime            tempera…¹ humid…² windS…³ windD…⁴ maxGu…⁵ maxGu…⁶ preci…⁷</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2017-09-01 <span style="color: #949494;">07:00:00</span>      21.7    40     2.68      244    6.71     246       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 2017-09-01 <span style="color: #949494;">08:00:00</span>      20.6    40     0.894     302    4.92     224       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 2017-09-01 <span style="color: #949494;">09:00:00</span>      17.8    40     2.68      258    4.47     244       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 2017-09-01 <span style="color: #949494;">10:00:00</span>      16.7    40     3.13      254    3.58     263       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 2017-09-01 <span style="color: #949494;">11:00:00</span>      15      41.5   1.34      247    3.13     334       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 2017-09-01 <span style="color: #949494;">12:00:00</span>      14.4    41.5   0.894     112    3.13     280       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 2017-09-01 <span style="color: #949494;">13:00:00</span>      11.1    46.5   0.447     316    2.24     299       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2017-09-01 <span style="color: #949494;">14:00:00</span>      10.6    46.5   1.34      244    2.24     242       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2017-09-01 <span style="color: #949494;">15:00:00</span>      15      46.5   1.34      276    1.79     270       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2017-09-01 <span style="color: #949494;">16:00:00</span>      21.1    46.5   0.447     319    1.34     257       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 158 more rows, 4 more variables: solarRadiation &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   fuelMoisture &lt;dbl&gt;, fuelTemperature &lt;chr&gt;, monitorType &lt;chr&gt;, and</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   abbreviated variable names ¹​temperature, ²​humidity, ³​windSpeed,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁴​windDirection, ⁵​maxGustSpeed, ⁶​maxGustDirection, ⁷​precipitation</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "raws_timeseries" "sts"             "list"           </span>
@@ -180,35 +190,38 @@ with <code>enddate</code> will be returned.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $`452918`</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $meta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 1 × 14</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   deviceDeploymen… deviceID locationID locationName longitude latitude elevation</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 6459d6d61050ae9… 452918   6459d6d61… WELLPINIT        -<span style="color: #BB0000;">118.</span>     47.9      <span style="text-decoration: underline;">2</span>240</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 7 more variables: countryCode &lt;chr&gt;, stateCode &lt;chr&gt;, timezone &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   nwsID &lt;chr&gt;, wrccID &lt;chr&gt;, nessID &lt;chr&gt;, agencyName &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   deviceDeploy…¹ devic…² locat…³ locat…⁴ longi…⁵ latit…⁶ eleva…⁷ count…⁸ state…⁹</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 6459d6d61050a… 452918  6459d6… WELLPI…   -<span style="color: #BB0000;">118.</span>    47.9    <span style="text-decoration: underline;">2</span>240 US      WA     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 5 more variables: timezone &lt;chr&gt;, nwsID &lt;chr&gt;, wrccID &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   nessID &lt;chr&gt;, agencyName &lt;chr&gt;, and abbreviated variable names</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ¹​deviceDeploymentID, ²​deviceID, ³​locationID, ⁴​locationName, ⁵​longitude,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁶​latitude, ⁷​elevation, ⁸​countryCode, ⁹​stateCode</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $data</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 168 × 12</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    datetime            temperature humidity windSpeed windDirection maxGustSpeed</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2017-09-01 <span style="color: #949494;">07:00:00</span>        20       40       1.34            129        2.24 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 2017-09-01 <span style="color: #949494;">08:00:00</span>        18.3     40       2.24            117        2.68 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 2017-09-01 <span style="color: #949494;">09:00:00</span>        17.2     40       1.34            108        2.24 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 2017-09-01 <span style="color: #949494;">10:00:00</span>        15.6     40       0.447            84        1.79 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 2017-09-01 <span style="color: #949494;">11:00:00</span>        14.4     40       0                43        1.79 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 2017-09-01 <span style="color: #949494;">12:00:00</span>        13.3     41       0               123        0.894</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 2017-09-01 <span style="color: #949494;">13:00:00</span>        12.8     42.5     0.447            68        1.34 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2017-09-01 <span style="color: #949494;">14:00:00</span>        13.3     42.5     0               290        0    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2017-09-01 <span style="color: #949494;">15:00:00</span>        17.8     42.5     0               221        0.894</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2017-09-01 <span style="color: #949494;">16:00:00</span>        19.4     42.5     0.894           237        1.79 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 158 more rows, and 6 more variables: maxGustDirection &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   precipitation &lt;dbl&gt;, solarRadiation &lt;dbl&gt;, fuelMoisture &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   fuelTemperature &lt;chr&gt;, monitorType &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    datetime            tempera…¹ humid…² windS…³ windD…⁴ maxGu…⁵ maxGu…⁶ preci…⁷</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2017-09-01 <span style="color: #949494;">07:00:00</span>      20      40     1.34      129   2.24      126       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 2017-09-01 <span style="color: #949494;">08:00:00</span>      18.3    40     2.24      117   2.68      112       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 2017-09-01 <span style="color: #949494;">09:00:00</span>      17.2    40     1.34      108   2.24      112       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 2017-09-01 <span style="color: #949494;">10:00:00</span>      15.6    40     0.447      84   1.79      111       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 2017-09-01 <span style="color: #949494;">11:00:00</span>      14.4    40     0          43   1.79      105       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 2017-09-01 <span style="color: #949494;">12:00:00</span>      13.3    41     0         123   0.894     118       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 2017-09-01 <span style="color: #949494;">13:00:00</span>      12.8    42.5   0.447      68   1.34       89       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2017-09-01 <span style="color: #949494;">14:00:00</span>      13.3    42.5   0         290   0          48       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2017-09-01 <span style="color: #949494;">15:00:00</span>      17.8    42.5   0         221   0.894     135       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2017-09-01 <span style="color: #949494;">16:00:00</span>      19.4    42.5   0.894     237   1.79      232       0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 158 more rows, 4 more variables: solarRadiation &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   fuelMoisture &lt;dbl&gt;, fuelTemperature &lt;chr&gt;, monitorType &lt;chr&gt;, and</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   abbreviated variable names ¹​temperature, ²​humidity, ³​windSpeed,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁴​windDirection, ⁵​maxGustSpeed, ⁶​maxGustDirection, ⁷​precipitation</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "raws_timeseries" "sts"             "list"           </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -223,7 +236,7 @@ with <code>enddate</code> will be returned.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

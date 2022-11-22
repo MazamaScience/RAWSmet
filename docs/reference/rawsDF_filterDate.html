@@ -25,7 +25,7 @@ including either of the following recommended formats:
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.0</span>
       </span>
     </div>
 
@@ -37,19 +37,13 @@ including either of the following recommended formats:
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
       <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
-    </li>
-    <li>
-      <a href="../articles/Oregon_2020_LaborDay.html">September 2020 Oregon Wildfires</a>
-    </li>
-    <li>
-      <a href="../articles/RAWSmet_usage.html">RAWSmet usage</a>
     </li>
     <li>
       <a href="../articles/Raw_Data_Validation.html">Raw Data Validation</a>
@@ -91,34 +85,47 @@ including either of the following recommended formats:</p>
 </ul></div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">rawsDF_filterDate</span><span class="op">(</span>
-  rawsDF <span class="op">=</span> <span class="cn">NULL</span>,
-  startdate <span class="op">=</span> <span class="cn">NULL</span>,
-  enddate <span class="op">=</span> <span class="cn">NULL</span>,
-  days <span class="op">=</span> <span class="cn">NULL</span>,
-  weeks <span class="op">=</span> <span class="cn">NULL</span>,
-  timezone <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">rawsDF_filterDate</span><span class="op">(</span></span>
+<span>  rawsDF <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  startdate <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  enddate <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  days <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  weeks <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  timezone <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>rawsDF</dt>
 <dd><p><em>raws_timeseries</em> object.</p></dd>
+
+
 <dt>startdate</dt>
 <dd><p>Desired start datetime (ISO 8601).</p></dd>
+
+
 <dt>enddate</dt>
 <dd><p>Desired end datetime (ISO 8601).</p></dd>
+
+
 <dt>days</dt>
 <dd><p>Number of days to include in the filterDate interval.</p></dd>
+
+
 <dt>weeks</dt>
 <dd><p>Number of weeks to include in the filterDate interval.</p></dd>
+
+
 <dt>timezone</dt>
 <dd><p>Olson timezone used to interpret dates.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A subset of the given <em>rawsDF</em> object.</p>
+    
+
+<p>A subset of the given <em>rawsDF</em> object.</p>
     </div>
     <div id="note">
     <h2>Note</h2>
@@ -133,21 +140,21 @@ with <code>enddate</code> will be returned.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># \donttest{</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/RAWSmet" class="external-link">RAWSmet</a></span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">rawsObject</span> <span class="op">&lt;-</span> <span class="va">example_cefa_Saddle_Mountain</span></span>
-<span class="r-in"><span class="va">rawsDF</span> <span class="op">&lt;-</span> <span class="va">rawsObject</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="raws_toRawsDF.html">raws_toRawsDF</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">data201708</span> <span class="op">&lt;-</span></span>
-<span class="r-in">  <span class="va">rawsDF</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">rawsDF_filterDate</span><span class="op">(</span><span class="fl">20170801</span>, <span class="fl">20170901</span>, timezone <span class="op">=</span> <span class="st">"America/Los_Angeles"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">data201708</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/RAWSmet" class="external-link">RAWSmet</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">rawsObject</span> <span class="op">&lt;-</span> <span class="va">example_cefa_Saddle_Mountain</span></span></span>
+<span class="r-in"><span><span class="va">rawsDF</span> <span class="op">&lt;-</span> <span class="va">rawsObject</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu"><a href="raws_toRawsDF.html">raws_toRawsDF</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">data201708</span> <span class="op">&lt;-</span></span></span>
+<span class="r-in"><span>  <span class="va">rawsDF</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">rawsDF_filterDate</span><span class="op">(</span><span class="fl">20170801</span>, <span class="fl">20170901</span>, timezone <span class="op">=</span> <span class="st">"America/Los_Angeles"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">data201708</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Unknown or uninitialised column: `data`.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-in"><span class="co"># }</span></span>
-<span class="r-in"></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -162,7 +169,7 @@ with <code>enddate</code> will be returned.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

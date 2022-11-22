@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.0</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -88,7 +88,8 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Raw Data Validation</h1>
-                        <h4 data-toc-skip class="author">Jonathan Callahan</h4>
+                        <h4 data-toc-skip class="author">Jonathan
+Callahan</h4>
             
             <h4 data-toc-skip class="date">3/12/2022</h4>
       
@@ -99,39 +100,45 @@
 
     
     
-<p>In ths document, we will examine raw data obtained from <a href="https://cefa.dri.edu/raws/fw13/" class="external-link uri">https://cefa.dri.edu/raws/fw13/</a> and do some basic exploratory statitics to better understand any data quality issues that might exist.</p>
+<p>In ths document, we will examine raw data obtained from <a href="https://cefa.dri.edu/raws/fw13/" class="external-link uri">https://cefa.dri.edu/raws/fw13/</a> and do some basic
+exploratory statitics to better understand any data quality issues that
+might exist.</p>
 <hr>
 <div class="section level2">
 <h2 id="download-and-parse-nwsid-040203">Download and Parse NWSID 040203<a class="anchor" aria-label="anchor" href="#download-and-parse-nwsid-040203"></a>
 </h2>
-<p>Here, we use the <strong>RAWSmet</strong> package to download and parse data for a single location. No cleanup or QC is performed. We are only bringing the data into memory in R so we can analyze it.</p>
+<p>Here, we use the <strong>RAWSmet</strong> package to download and
+parse data for a single location. No cleanup or QC is performed. We are
+only bringing the data into memory in R so we can analyze it.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/RAWSmet" class="external-link">RAWSmet</a></span><span class="op">)</span>
-<span class="fu"><a href="../reference/setRawsDataDir.html">setRawsDataDir</a></span><span class="op">(</span><span class="st">"~/Data/RAWS"</span><span class="op">)</span>
-
-
-<span class="co"># Load data for NWSID 040203 -- "BLUE RIDGE (KNF)"</span>
-<span class="va">tbl</span> <span class="op">&lt;-</span>
-  <span class="fu"><a href="../reference/cefa_downloadData.html">cefa_downloadData</a></span><span class="op">(</span>nwsID <span class="op">=</span> <span class="st">"040203"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/cefa_parseData.html">cefa_parseData</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="co"># Show variables</span>
-<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">tbl</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##  [1] "recordType"          "nwsID"               "observationDate"    </span>
-<span class="co">##  [4] "observationTime"     "observationType"     "weatherCode"        </span>
-<span class="co">##  [7] "dryBulbTemp"         "atmosMoisture"       "windDirection"      </span>
-<span class="co">## [10] "avWindSpeed"         "fuelMoisture"        "maxTemp"            </span>
-<span class="co">## [13] "minTemp"             "maxRelHumidity"      "minRelHumidity"     </span>
-<span class="co">## [16] "precipDuration"      "precipAmount"        "wetFlag"            </span>
-<span class="co">## [19] "herbaceousGreenness" "shrubGreenness"      "moistureType"       </span>
-<span class="co">## [22] "measurementType"     "seasonCode"          "solarRadiation"     </span>
-<span class="co">## [25] "maxGustDirection"    "maxGustSpeed"        "snowFlag"</span></code></pre>
-<p>In order to plot data, we need a valid <code>POSIXct</code> time axis. We create one here for a station in California reporting in local time.</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/RAWSmet" class="external-link">RAWSmet</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/setRawsDataDir.html">setRawsDataDir</a></span><span class="op">(</span><span class="st">"~/Data/RAWS"</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Load data for NWSID 040203 -- "BLUE RIDGE (KNF)"</span></span>
+<span><span class="va">tbl</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu"><a href="../reference/cefa_downloadData.html">cefa_downloadData</a></span><span class="op">(</span>nwsID <span class="op">=</span> <span class="st">"040203"</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/cefa_parseData.html">cefa_parseData</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Show variables</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">tbl</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##  [1] "recordType"          "nwsID"               "observationDate"    </span></span>
+<span><span class="co">##  [4] "observationTime"     "observationType"     "weatherCode"        </span></span>
+<span><span class="co">##  [7] "dryBulbTemp"         "atmosMoisture"       "windDirection"      </span></span>
+<span><span class="co">## [10] "avWindSpeed"         "fuelMoisture"        "maxTemp"            </span></span>
+<span><span class="co">## [13] "minTemp"             "maxRelHumidity"      "minRelHumidity"     </span></span>
+<span><span class="co">## [16] "precipDuration"      "precipAmount"        "wetFlag"            </span></span>
+<span><span class="co">## [19] "herbaceousGreenness" "shrubGreenness"      "moistureType"       </span></span>
+<span><span class="co">## [22] "measurementType"     "seasonCode"          "solarRadiation"     </span></span>
+<span><span class="co">## [25] "maxGustDirection"    "maxGustSpeed"        "snowFlag"</span></span></code></pre>
+<p>In order to plot data, we need a valid <code>POSIXct</code> time
+axis. We create one here for a station in California reporting in local
+time.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">datetime</span> <span class="op">&lt;-</span> 
-  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">tbl</span><span class="op">$</span><span class="va">observationDate</span>, <span class="va">tbl</span><span class="op">$</span><span class="va">observationTime</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu">MazamaCoreUtils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MazamaCoreUtils/man/parseDatetime.html" class="external-link">parseDatetime</a></span><span class="op">(</span>timezone <span class="op">=</span> <span class="st">"America/Los_Angeles"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">datetime</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">tbl</span><span class="op">$</span><span class="va">observationDate</span>, <span class="va">tbl</span><span class="op">$</span><span class="va">observationTime</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">MazamaCoreUtils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MazamaCoreUtils/man/parseDatetime.html" class="external-link">parseDatetime</a></span><span class="op">(</span>timezone <span class="op">=</span> <span class="st">"America/Los_Angeles"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="dry-bulb-temeprature">Dry-bulb Temeprature<a class="anchor" aria-label="anchor" href="#dry-bulb-temeprature"></a>
@@ -139,59 +146,76 @@
 <div class="section level3">
 <h3 id="time-series-plot">Time series plot<a class="anchor" aria-label="anchor" href="#time-series-plot"></a>
 </h3>
-<p>The first thing to do with any variable is simply look at it. We plot it here with different values for partial opacity to better see overplotted values.</p>
+<p>The first thing to do with any variable is simply look at it. We plot
+it here with different values for partial opacity to better see
+overplotted values.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/layout.html" class="external-link">layout</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">datetime</span>, <span class="va">tbl</span><span class="op">$</span><span class="va">dryBulbTemp</span>, pch <span class="op">=</span> <span class="fl">15</span>, cex <span class="op">=</span> <span class="fl">0.4</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/adjustcolor.html" class="external-link">adjustcolor</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">datetime</span>, <span class="va">tbl</span><span class="op">$</span><span class="va">dryBulbTemp</span>, pch <span class="op">=</span> <span class="fl">15</span>, cex <span class="op">=</span> <span class="fl">0.4</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/adjustcolor.html" class="external-link">adjustcolor</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="fl">0.004</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/layout.html" class="external-link">layout</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">datetime</span>, <span class="va">tbl</span><span class="op">$</span><span class="va">dryBulbTemp</span>, pch <span class="op">=</span> <span class="fl">15</span>, cex <span class="op">=</span> <span class="fl">0.4</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/adjustcolor.html" class="external-link">adjustcolor</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">datetime</span>, <span class="va">tbl</span><span class="op">$</span><span class="va">dryBulbTemp</span>, pch <span class="op">=</span> <span class="fl">15</span>, cex <span class="op">=</span> <span class="fl">0.4</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/adjustcolor.html" class="external-link">adjustcolor</a></span><span class="op">(</span><span class="st">"black"</span>, <span class="fl">0.004</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Raw_Data_Validation_files/figure-html/temp_timeseries-1.png" width="700"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/layout.html" class="external-link">layout</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
-<p>In the upper plot, our eyes notice a few lone outliers and a an outbreak of outliers in the winter of 2014.</p>
-<p>In the lower plot, we can see a <em>‘line’</em> of overplotted values near 32 F.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/layout.html" class="external-link">layout</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<p>In the upper plot, our eyes notice a few lone outliers and a an
+outbreak of outliers in the winter of 2014.</p>
+<p>In the lower plot, we can see a <em>‘line’</em> of overplotted values
+near 32 F.</p>
 </div>
 <div class="section level3">
 <h3 id="distribution-of-values">Distribution of values<a class="anchor" aria-label="anchor" href="#distribution-of-values"></a>
 </h3>
-<p>Every atmospheric measurement has reasonable physical limits to its range. Temperature in the continental US has rarely, if ever exceeded -50 F to +130 F.</p>
-<p>Now let use a histogram and box plot to better see the distribution of values.</p>
+<p>Every atmospheric measurement has reasonable physical limits to its
+range. Temperature in the continental US has rarely, if ever exceeded
+-50 F to +130 F.</p>
+<p>Now let use a histogram and box plot to better see the distribution
+of values.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/layout.html" class="external-link">layout</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">tbl</span><span class="op">$</span><span class="va">dryBulbTemp</span>, n <span class="op">=</span> <span class="va">unitBreaks</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">tbl</span><span class="op">$</span><span class="va">dryBulbTemp</span>, horizontal <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/layout.html" class="external-link">layout</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">tbl</span><span class="op">$</span><span class="va">dryBulbTemp</span>, n <span class="op">=</span> <span class="va">unitBreaks</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">tbl</span><span class="op">$</span><span class="va">dryBulbTemp</span>, horizontal <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Raw_Data_Validation_files/figure-html/distribution_of_values-1.png" width="700"></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/layout.html" class="external-link">layout</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
-<p>So far, so good. We have a reasonably smooth distribution of values with a few outliers and an expected spike in readings near the freezing point of water. Temperature should be expected to hover briefly near this phase change point, as latent heat associated with freezing or melting water is not measured by the dry-bulb temperature.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/layout.html" class="external-link">layout</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<p>So far, so good. We have a reasonably smooth distribution of values
+with a few outliers and an expected spike in readings near the freezing
+point of water. Temperature should be expected to hover briefly near
+this phase change point, as latent heat associated with freezing or
+melting water is not measured by the dry-bulb temperature.</p>
 </div>
 <div class="section level3">
 <h3 id="rate-of-change">Rate of change<a class="anchor" aria-label="anchor" href="#rate-of-change"></a>
 </h3>
-<p>Every atmospheric variable also has bounds on its rate of change. We can examine that distribution a well.</p>
+<p>Every atmospheric variable also has bounds on its rate of change. We
+can examine that distribution a well.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/layout.html" class="external-link">layout</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="va">tbl</span><span class="op">$</span><span class="va">dryBulbTemp</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">x</span>, n <span class="op">=</span> <span class="va">unitBreaks</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">x</span>, horizontal <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/layout.html" class="external-link">layout</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="va">tbl</span><span class="op">$</span><span class="va">dryBulbTemp</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">x</span>, n <span class="op">=</span> <span class="va">unitBreaks</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/boxplot.html" class="external-link">boxplot</a></span><span class="op">(</span><span class="va">x</span>, horizontal <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Raw_Data_Validation_files/figure-html/rate_of_change-1.png" width="700"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/layout.html" class="external-link">layout</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
-<p>This distribution looks reasonable even if some of values (&gt; 50F/hr) seem questionable.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/layout.html" class="external-link">layout</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+<p>This distribution looks reasonable even if some of values (&gt;
+50F/hr) seem questionable.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="zero-missing-value-flag">Zero = missing value flag<a class="anchor" aria-label="anchor" href="#zero-missing-value-flag"></a>
 </h2>
-<p>The question was raised as to whether zero was used as a missing value flag in for some variables. Lets find out how many times the temperature was exactly zero:</p>
+<p>The question was raised as to whether zero was used as a missing
+value flag in for some variables. Lets find out how many times the
+temperature was exactly zero:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">tbl</span><span class="op">$</span><span class="va">dryBulbTemp</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## [1] 0</span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">tbl</span><span class="op">$</span><span class="va">dryBulbTemp</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 0</span></span></code></pre>
 <p>For temperature, this does not seem to be an issue.</p>
 </div>
 <div class="section level2">
 <h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
 </h2>
-<p>Except for a few individual outliers and a couple of outlier outbreaks, the values found for “Dry-bulb temperature” appear reasonable.</p>
+<p>Except for a few individual outliers and a couple of outlier
+outbreaks, the values found for “Dry-bulb temperature” appear
+reasonable.</p>
 </div>
   </div>
 
@@ -212,7 +236,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

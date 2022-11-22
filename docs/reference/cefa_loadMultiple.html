@@ -18,7 +18,7 @@ data is not in this directory, this will download and save the data."><!-- mathj
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.0</span>
       </span>
     </div>
 
@@ -30,19 +30,13 @@ data is not in this directory, this will download and save the data."><!-- mathj
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
       <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
-    </li>
-    <li>
-      <a href="../articles/Oregon_2020_LaborDay.html">September 2020 Oregon Wildfires</a>
-    </li>
-    <li>
-      <a href="../articles/RAWSmet_usage.html">RAWSmet usage</a>
     </li>
     <li>
       <a href="../articles/Raw_Data_Validation.html">Raw Data Validation</a>
@@ -80,31 +74,42 @@ data is not in this directory, this will download and save the data.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">cefa_loadMultiple</span><span class="op">(</span>
-  nwsIDs <span class="op">=</span> <span class="cn">NULL</span>,
-  meta <span class="op">=</span> <span class="cn">NULL</span>,
-  newDownload <span class="op">=</span> <span class="cn">NA</span>,
-  baseUrl <span class="op">=</span> <span class="st">"https://cefa.dri.edu/raws/fw13/"</span>,
-  verbose <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">cefa_loadMultiple</span><span class="op">(</span></span>
+<span>  nwsIDs <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  meta <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  newDownload <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  baseUrl <span class="op">=</span> <span class="st">"https://cefa.dri.edu/raws/fw13/"</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>nwsIDs</dt>
 <dd><p>Vector of NWS RAWS station identifiers.</p></dd>
+
+
 <dt>meta</dt>
 <dd><p>Tibble of FW13 station metadata.</p></dd>
+
+
 <dt>newDownload</dt>
 <dd><p>Logical flag stating whether or not to download and override existing data.</p></dd>
+
+
 <dt>baseUrl</dt>
 <dd><p>Base URL for data queries.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Logical flag controlling detailed progress statements.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>List of timeseries objects each containing 'meta' and 'data'.</p>
+    
+
+<p>List of timeseries objects each containing 'meta' and 'data'.</p>
     </div>
     <div id="note">
     <h2>Note</h2>
@@ -128,27 +133,27 @@ data for stations which have no data over a particular time period.</p></li>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># Fail gracefully if any resources are not available</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="op">{</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/MazamaSpatialUtils" class="external-link">MazamaSpatialUtils</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/MazamaSpatialUtils/man/setSpatialDataDir.html" class="external-link">setSpatialDataDir</a></span><span class="op">(</span><span class="st">"~/Data/Spatial"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/MazamaSpatialUtils/man/loadSpatialData.html" class="external-link">loadSpatialData</a></span><span class="op">(</span><span class="st">"NaturalEarthAdm1"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/RAWSmet" class="external-link">RAWSmet</a></span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="setRawsDataDir.html">setRawsDataDir</a></span><span class="op">(</span><span class="st">"~/Data/RAWS"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">stationMeta</span> <span class="op">&lt;-</span> <span class="fu"><a href="cefa_loadMeta.html">cefa_loadMeta</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">nwsIDs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"021503"</span>, <span class="st">"500726"</span>, <span class="st">"020401"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">stationData</span> <span class="op">&lt;-</span> <span class="fu">cefa_loadMultiple</span><span class="op">(</span>nwsIDs <span class="op">=</span> <span class="va">nwsIDs</span>, meta <span class="op">=</span> <span class="va">stationMeta</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">stationData</span>, width <span class="op">=</span> <span class="fl">75</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="op">}</span>, silent <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># Fail gracefully if any resources are not available</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="op">{</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/MazamaSpatialUtils" class="external-link">MazamaSpatialUtils</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/MazamaSpatialUtils/man/setSpatialDataDir.html" class="external-link">setSpatialDataDir</a></span><span class="op">(</span><span class="st">"~/Data/Spatial"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/MazamaSpatialUtils/man/loadSpatialData.html" class="external-link">loadSpatialData</a></span><span class="op">(</span><span class="st">"NaturalEarthAdm1"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/RAWSmet" class="external-link">RAWSmet</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="setRawsDataDir.html">setRawsDataDir</a></span><span class="op">(</span><span class="st">"~/Data/RAWS"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">stationMeta</span> <span class="op">&lt;-</span> <span class="fu"><a href="cefa_loadMeta.html">cefa_loadMeta</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">nwsIDs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"021503"</span>, <span class="st">"500726"</span>, <span class="st">"020401"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">stationData</span> <span class="op">&lt;-</span> <span class="fu">cefa_loadMultiple</span><span class="op">(</span>nwsIDs <span class="op">=</span> <span class="va">nwsIDs</span>, meta <span class="op">=</span> <span class="va">stationMeta</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://pillar.r-lib.org/reference/glimpse.html" class="external-link">glimpse</a></span><span class="op">(</span><span class="va">stationData</span>, width <span class="op">=</span> <span class="fl">75</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">}</span>, silent <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -163,7 +168,7 @@ data for stations which have no data over a particular time period.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

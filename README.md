@@ -57,10 +57,14 @@ will require installation of required spatial datasets. To get these datasets
 you should type the following at the RStudio console:
 
 ```
+# Install spatial datasets for assigning country, state, timezone and county
 library(MazamaSpatialUtils)
 dir.create('~/Data/Spatial', recursive = TRUE)
 setSpatialDataDir('~/Data/Spatial')
-installSpatialData()
+installSpatialData("EEZCountries")
+installSpatialData("NaturalEarthAdm1")
+installSpatialData("OSMTimezones")
+installSpatialData("USCensusCounties")
 ```
 
 Data generated with package functions can be be saved and reloaded in a

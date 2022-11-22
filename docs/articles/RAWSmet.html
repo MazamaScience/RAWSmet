@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.0</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -54,12 +54,6 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
-    </li>
-    <li>
-      <a href="../articles/Oregon_2020_LaborDay.html">September 2020 Oregon Wildfires</a>
-    </li>
-    <li>
-      <a href="../articles/RAWSmet_usage.html">RAWSmet usage</a>
     </li>
     <li>
       <a href="../articles/Raw_Data_Validation.html">Raw Data Validation</a>
@@ -94,7 +88,8 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to RAWSmet</h1>
-                        <h4 data-toc-skip class="author">Mazama Science</h4>
+                        <h4 data-toc-skip class="author">Mazama
+Science</h4>
             
             <h4 data-toc-skip class="date">Jan 30, 2022</h4>
       
@@ -105,20 +100,27 @@
 
     
     
-<p>The <strong>RAWSmet</strong> R package is being developed for the USFS AirFire group to help modelers and scientists more easily work with weather data from RAWS stations across North America.</p>
-<p>The package makes it easier to obtain data, perform analyses and generate reports. It includes functionality to:</p>
+<p>The <strong>RAWSmet</strong> R package is being developed for the
+USFS AirFire group to help modelers and scientists more easily work with
+weather data from RAWS stations across North America.</p>
+<p>The package makes it easier to obtain data, perform analyses and
+generate reports. It includes functionality to:</p>
 <ul>
 <li>Access metadata and archival timeseries data from <a href="https://cefa.dri.edu/raws" class="external-link uri">https://cefa.dri.edu/raws</a>
 </li>
 <li>Access metadata and latest month timeseries data from <a href="https://raws.dri.edu" class="external-link uri">https://raws.dri.edu</a>
 </li>
-<li>Save and reload .rda versions of these in a <code>rawsDataDir</code>
+<li>Save and reload .rda versions of these in a
+<code>rawsDataDir</code>
 </li>
-<li>Determine which locations obtained from metadata are too close to be considered “unique” locations</li>
+<li>Determine which locations obtained from metadata are too close to be
+considered “unique” locations</li>
 <li>Convert between UTC and local timezones</li>
-<li>Apply various algorithms to the data 5rolling means, aggregation, <em>etc.</em>
+<li>Apply various algorithms to the data 5rolling means, aggregation,
+<em>etc.</em>
 </li>
-<li>Provide interactive timeseries and maps through RStudio’s Viewer pane</li>
+<li>Provide interactive timeseries and maps through RStudio’s Viewer
+pane</li>
 <li>Create a variety of publication ready maps and timeseries plots</li>
 </ul>
 </div>
@@ -138,7 +140,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

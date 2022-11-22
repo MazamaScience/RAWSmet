@@ -31,7 +31,7 @@ save(example_wrcc_meta, file = "data/example_wrcc_meta.rda")
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.0</span>
       </span>
     </div>
 
@@ -43,19 +43,13 @@ save(example_wrcc_meta, file = "data/example_wrcc_meta.rda")
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
       <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
-    </li>
-    <li>
-      <a href="../articles/Oregon_2020_LaborDay.html">September 2020 Oregon Wildfires</a>
-    </li>
-    <li>
-      <a href="../articles/RAWSmet_usage.html">RAWSmet usage</a>
     </li>
     <li>
       <a href="../articles/Raw_Data_Validation.html">Raw Data Validation</a>
@@ -91,20 +85,21 @@ save(example_wrcc_meta, file = "data/example_wrcc_meta.rda")
     <p>The <code>example_wrcc_meta</code> dataset provides a small subset of
 WRCC station metadata containing only stations in Washington state.</p>
 <p>This dataset was generated on 2020-09-06 by running:</p>
-<div class="sourceCode"><pre><code><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/RAWSmet" class="external-link">RAWSmet</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/MazamaSpatialUtils" class="external-link">MazamaSpatialUtils</a></span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/pkg/MazamaSpatialUtils/man/setSpatialDataDir.html" class="external-link">setSpatialDataDir</a></span><span class="op">(</span><span class="st">"~/Data/Spatial"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/MazamaSpatialUtils/man/loadSpatialData.html" class="external-link">loadSpatialData</a></span><span class="op">(</span><span class="st">"NaturalEarthAdm1"</span><span class="op">)</span>
-
-<span class="va">example_wrcc_meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wrcc_createMeta.html">wrcc_createMeta</a></span><span class="op">(</span>stateCode <span class="op">=</span> <span class="st">"WA"</span><span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/save.html" class="external-link">save</a></span><span class="op">(</span><span class="va">example_wrcc_meta</span>, file <span class="op">=</span> <span class="st">"data/example_wrcc_meta.rda"</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode"><pre><code><span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/RAWSmet" class="external-link">RAWSmet</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/MazamaSpatialUtils" class="external-link">MazamaSpatialUtils</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/MazamaSpatialUtils/man/setSpatialDataDir.html" class="external-link">setSpatialDataDir</a></span><span class="op">(</span><span class="st">"~/Data/Spatial"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/MazamaSpatialUtils/man/loadSpatialData.html" class="external-link">loadSpatialData</a></span><span class="op">(</span><span class="st">"NaturalEarthAdm1"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">example_wrcc_meta</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/wrcc_createMeta.html">wrcc_createMeta</a></span><span class="op">(</span>stateCode <span class="op">=</span> <span class="st">"WA"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/save.html" class="external-link">save</a></span><span class="op">(</span><span class="va">example_wrcc_meta</span>, file <span class="op">=</span> <span class="st">"data/example_wrcc_meta.rda"</span><span class="op">)</span></span></code></pre></div>
 
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="va">example_wrcc_meta</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="va">example_wrcc_meta</span></span></code></pre></div>
     </div>
 
     <div id="format">
@@ -124,7 +119,7 @@ WRCC station metadata containing only stations in Washington state.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
