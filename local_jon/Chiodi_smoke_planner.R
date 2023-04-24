@@ -35,23 +35,23 @@ setRawsDataDir("~/Data/RAWS")
 meta <- cefa_loadMeta(verbose = TRUE)
 
 # # See what stations are available
-# meta %>%
-#   dplyr::filter(stateCode %in% c("OR", "WA", "ID", "MT")) %>%
-#   meta_leaflet()
+meta %>%
+  dplyr::filter(stateCode %in% c("WA")) %>%
+  meta_leaflet()
 
 # Use a nwsID to download historical data
-Tumalo_Ridge <- cefa_load("352621", meta)
+Fire_Academy <- cefa_load("451721", meta)
 
-# > dim(Tumalo_Ridge$data)
+# > dim(Fire_Academy$data)
 # [1] 113746     12
 #
-# > range(Tumalo_Ridge$data$datetime)
+# > range(Fire_Academy$data$datetime)
 # [1] "2004-11-15 19:00:00 UTC" "2018-01-01 07:00:00 UTC"
 #
-# > pryr::object_size(Tumalo_Ridge)
+# > pryr::object_size(Fire_Academy)
 # 14,566,296 B
 
-raws <- Tumalo_Ridge
+raws <- Fire_Academy
 
 # ----- Find day/night daily averages ------------------------------------------
 
@@ -122,7 +122,7 @@ dailyMin <-
     minCount = 3
   ) %>%
   sts_extractData() %>%
-  dplyr::mutate(across(where(is.numeric), round, 1))
+  dplyr::mutate(across(where(is.numeric), \(x) round(x, 1)))
 
 dailyMax <-
   raws %>%
@@ -133,7 +133,7 @@ dailyMax <-
     minCount = 3
   ) %>%
   sts_extractData() %>%
-  dplyr::mutate(across(where(is.numeric), round, 1))
+  dplyr::mutate(across(where(is.numeric), \(x) round(x, 1)))
 
 # ----- Calculate daytime mean -------------------------------------------------
 
@@ -146,7 +146,7 @@ dailyMax <-
 #     minCount = 3
 #   ) %>%
 #   sts_extractData() %>%
-#   dplyr::mutate(across(where(is.numeric), round, 1))
+#   dplyr::mutate(across(where(is.numeric), \(x) round(x, 1)))
 
 dayMean <-
   raws_day %>%
@@ -157,7 +157,7 @@ dayMean <-
     minCount = 3
   ) %>%
   sts_extractData() %>%
-  dplyr::mutate(across(where(is.numeric), round, 1))
+  dplyr::mutate(across(where(is.numeric), \(x) round(x, 1)))
 
 # dayMax <-
 #   raws_day %>%
@@ -168,7 +168,7 @@ dayMean <-
 #     minCount = 3
 #   ) %>%
 #   sts_extractData() %>%
-#   dplyr::mutate(across(where(is.numeric), round, 1))
+#   dplyr::mutate(across(where(is.numeric), \(x) round(x, 1)))
 
 dayStd <-
   raws_day %>%
@@ -179,7 +179,7 @@ dayStd <-
     minCount = 3
   ) %>%
   sts_extractData() %>%
-  dplyr::mutate(across(where(is.numeric), round, 1))
+  dplyr::mutate(across(where(is.numeric), \(x) round(x, 1)))
 
 # ----- Calculate nighttime mean -----------------------------------------------
 
@@ -192,7 +192,7 @@ dayStd <-
 #     minCount = 3
 #   ) %>%
 #   sts_extractData() %>%
-#   dplyr::mutate(across(where(is.numeric), round, 1))
+#   dplyr::mutate(across(where(is.numeric), \(x) round(x, 1)))
 
 nightMean <-
   raws_night %>%
@@ -203,7 +203,7 @@ nightMean <-
     minCount = 3
   ) %>%
   sts_extractData() %>%
-  dplyr::mutate(across(where(is.numeric), round, 1))
+  dplyr::mutate(across(where(is.numeric), \(x) round(x, 1)))
 
 # nightMax <-
 #   raws_night %>%
@@ -214,7 +214,7 @@ nightMean <-
 #     minCount = 3
 #   ) %>%
 #   sts_extractData() %>%
-#   dplyr::mutate(across(where(is.numeric), round, 1))
+#   dplyr::mutate(across(where(is.numeric), \(x) round(x, 1)))
 
 # ----- Regular time axis ------------------------------------------------------
 

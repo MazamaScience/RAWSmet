@@ -232,20 +232,20 @@ cefa_createRawsObject <- function(
 
   # ----- Convert datetime to UTC ----------------------------------------------
 
-  UTC_offset <-
+  UTC_STD_offset <-
     MazamaSpatialUtils::SimpleTimezones %>%
     dplyr::filter(.data$timezone == meta$timezone) %>%
-    dplyr::pull("UTC_offset")
+    dplyr::pull("UTC_STD_offset")
 
   # NOTE:  The 'datetime' column is "local standard time all-year-round" for
   # NOTE:  which no timezone exists. So we have to convert it first to UTC
-  # NOTE:  and then shift it by the UTC offset.
-  # NOTE:  When we subtract a UTC_offset of, e.g. -8 (PST), we will get the
+  # NOTE:  and then shift it by the UTC_STD_offset.
+  # NOTE:  When we subtract a UTC_STD_offset of, e.g. -8 (PST), we will get the
   # NOTE:  correct UTC time that is 8 hours later than the US West Coast clock time.
 
   UTC_time <-
     MazamaCoreUtils::parseDatetime(data$datetime, timezone = "UTC") -
-    lubridate::dhours(UTC_offset)
+    lubridate::dhours(UTC_STD_offset)
 
   data$datetime <- UTC_time
 

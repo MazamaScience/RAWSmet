@@ -28,7 +28,7 @@ reports. It includes functionality to:
 
 * access metadata and timeseries data from https://cefa.dri.edu/raws
 * access metadata and timeseries data from https://raws.dri.edu
-* save and reload .RData versions of these in a rawsDataDir
+* save and reload .rda versions of these in a rawsDataDir
 * determine which locations obtained from metadata are too close to be 
 considered “unique” locations
 * convert between UTC and local timezones

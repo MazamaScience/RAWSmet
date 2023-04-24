@@ -1,3 +1,8 @@
+# RAWSmet 0.5.1
+
+* Fixed `cefa_createRawsObject()` to work with **MazamaSpatialUtils** 0.8.5
+timezone dataset.
+
 # RAWSmet 0.5.0
 
 Version 0.5.x is a refactoring to accommodate **MazamaSpatialUtils** 0.8 which
