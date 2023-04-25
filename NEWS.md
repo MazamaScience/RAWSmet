@@ -2,6 +2,7 @@
 
 * Fixed `cefa_createRawsObject()` to work with **MazamaSpatialUtils** 0.8.5
 timezone dataset.
+* Using appropriate rounding during data conversions in `cefa_createRawsObject()`.
 
 # RAWSmet 0.5.0
 

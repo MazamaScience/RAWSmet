@@ -1,10 +1,10 @@
-pandoc: '2.18'
-pkgdown: 2.0.6
+pandoc: 2.19.2
+pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   RAWSmet: RAWSmet.html
   Developer_Style_Guide: Developer_Style_Guide.html
   Raw_Data_Validation: Raw_Data_Validation.html
   Working_with_openair: Working_with_openair.html
-last_built: 2022-11-22T16:48Z
+last_built: 2023-04-25T19:38Z
 

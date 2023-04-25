@@ -40,14 +40,14 @@ Steps involved include:
 The columns of the 'data' dataframe include:
 
 \itemize{
- \item{datetime: date and time of observation}
+ \item{datetime: UTC datetime of observation}
  \item{temperature: temperature (°C)}
  \item{humidity: average relative humidity (\%)}
  \item{windSpeed: average wind speed (m/s)}
  \item{windDirection: average wind direction (°)}
  \item{maxGustSpeed: max gust speed (m/s)}
  \item{maxGustDirection: max gust direction (°)}
- \item{precipitation: precipitation}
+ \item{precipitation: precipitation (mm/hr)}
  \item{solarRadiation: solar radiation (W/m^2)}
  \item{fuelMoisture: 10-hour time lag fuel moisture}
  \item{fuelTemperature: NA for FW13 data}

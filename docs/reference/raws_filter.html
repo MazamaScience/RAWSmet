@@ -21,7 +21,7 @@ are dropped."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/lib
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">RAWSmet</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.5.1</span>
       </span>
     </div>
 
@@ -115,18 +115,17 @@ are dropped.</p>
 <span class="r-in"><span><span class="va">daytime</span> <span class="op">&lt;-</span> <span class="fu">raws_filter</span><span class="op">(</span><span class="va">rawsObject</span>, <span class="va">solarRadiation</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">daytime</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 6 × 12</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   datetime            temperat…¹ humid…² windS…³ windD…⁴ maxGu…⁵ maxGu…⁶ preci…⁷</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2017-01-01 <span style="color: #949494;">17:00:00</span>      -<span style="color: #BB0000;">5</span>         97   0.894     127    1.79     105       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2017-01-01 <span style="color: #949494;">18:00:00</span>      -<span style="color: #BB0000;">4.44</span>      99   0.894     293    1.34     328       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2017-01-01 <span style="color: #949494;">19:00:00</span>      -<span style="color: #BB0000;">2.78</span>      99   1.79      273    2.24     285       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2017-01-01 <span style="color: #949494;">20:00:00</span>      -<span style="color: #BB0000;">2.22</span>      99   0.894     252    2.24     272       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2017-01-01 <span style="color: #949494;">21:00:00</span>      -<span style="color: #BB0000;">2.22</span>      99   0.894     212    1.34     216       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2017-01-01 <span style="color: #949494;">22:00:00</span>      -<span style="color: #BB0000;">1.67</span>      99   0.894     325    1.34     237       0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 4 more variables: solarRadiation &lt;dbl&gt;, fuelMoisture &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   fuelTemperature &lt;chr&gt;, monitorType &lt;chr&gt;, and abbreviated variable names</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ¹​temperature, ²​humidity, ³​windSpeed, ⁴​windDirection, ⁵​maxGustSpeed,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   ⁶​maxGustDirection, ⁷​precipitation</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   datetime            temperature humidity windSpeed windDirection maxGustSpeed</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 2017-01-01 <span style="color: #949494;">17:00:00</span>       -<span style="color: #BB0000;">5</span>          97     0.894           127         1.79</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 2017-01-01 <span style="color: #949494;">18:00:00</span>       -<span style="color: #BB0000;">4.44</span>       99     0.894           293         1.34</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 2017-01-01 <span style="color: #949494;">19:00:00</span>       -<span style="color: #BB0000;">2.78</span>       99     1.79            273         2.24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 2017-01-01 <span style="color: #949494;">20:00:00</span>       -<span style="color: #BB0000;">2.22</span>       99     0.894           252         2.24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 2017-01-01 <span style="color: #949494;">21:00:00</span>       -<span style="color: #BB0000;">2.22</span>       99     0.894           212         1.34</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">6</span> 2017-01-01 <span style="color: #949494;">22:00:00</span>       -<span style="color: #BB0000;">1.67</span>       99     0.894           325         1.34</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 6 more variables: maxGustDirection &lt;dbl&gt;, precipitation &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   solarRadiation &lt;dbl&gt;, fuelMoisture &lt;dbl&gt;, fuelTemperature &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   monitorType &lt;chr&gt;</span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
@@ -143,7 +142,7 @@ are dropped.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

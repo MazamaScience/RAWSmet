@@ -28,14 +28,14 @@
 #' The columns of the 'data' dataframe include:
 #'
 #' \itemize{
-#'  \item{datetime: date and time of observation}
+#'  \item{datetime: UTC datetime of observation}
 #'  \item{temperature: temperature (°C)}
 #'  \item{humidity: average relative humidity (\%)}
 #'  \item{windSpeed: average wind speed (m/s)}
 #'  \item{windDirection: average wind direction (°)}
 #'  \item{maxGustSpeed: max gust speed (m/s)}
 #'  \item{maxGustDirection: max gust direction (°)}
-#'  \item{precipitation: precipitation}
+#'  \item{precipitation: precipitation (mm/hr)}
 #'  \item{solarRadiation: solar radiation (W/m^2)}
 #'  \item{fuelMoisture: 10-hour time lag fuel moisture}
 #'  \item{fuelTemperature: NA for FW13 data}
@@ -147,7 +147,9 @@ cefa_createRawsObject <- function(
       return(temp)
   }
 
-  temperature <- mapply(tempConvert, tbl$measurementType, tbl$dryBulbTemp)
+  temperature <-
+    mapply(tempConvert, tbl$measurementType, tbl$dryBulbTemp) %>%
+    round(1)
 
   # Convert wind speeds from miles-per-hour to meters-per-second
   #
@@ -164,8 +166,13 @@ cefa_createRawsObject <- function(
       return(speed)
   }
 
-  windSpeed <- mapply(speedConvert, tbl$measurementType, tbl$avWindSpeed)
-  mxGustSpeed <- mapply(speedConvert, tbl$measurementType, tbl$maxGustSpeed)
+  windSpeed <-
+    mapply(speedConvert, tbl$measurementType, tbl$avWindSpeed) %>%
+    round(1)
+
+  mxGustSpeed <-
+    mapply(speedConvert, tbl$measurementType, tbl$maxGustSpeed) %>%
+    round(1)
 
   # Convert precipitation to millimeters per hour
   #
@@ -181,7 +188,9 @@ cefa_createRawsObject <- function(
       return(amount)
   }
 
-  precipHourly <- c(NA, diff(tbl$precipAmount))
+  precipHourly <-
+    c(NA, diff(tbl$precipAmount)) %>%
+    round(1)
 
   # Handle daily precip reset.
   # NOTE: On the first hour of each LST day, precipHourly will be negative
@@ -197,7 +206,10 @@ cefa_createRawsObject <- function(
   bop <- precipHourly + dplyr::lag(tbl$precipAmount)
   precipHourly[precipHourly < 0 & !is.na(precipHourly)] <- bop[precipHourly < 0 & !is.na(precipHourly)]
 
-  precipitation <- mapply(precipConvert, tbl$measurementType, precipHourly)
+  precipitation <-
+    mapply(precipConvert, tbl$measurementType, precipHourly) %>%
+    round(1)
+
   precipitation[is.nan(precipitation)] <- 0
 
   # ----- Harmonize names ------------------------------------------------------
@@ -225,7 +237,7 @@ cefa_createRawsObject <- function(
       "precipitation" = precipitation,
       "solarRadiation" = .data$solarRadiation,
       "fuelMoisture" = .data$fuelMoisture,
-      "fuelTemperature" = as.character(NA),
+      "fuelTemperature" = as.numeric(NA),
       "monitorType" = "FW13"
     ) %>%
     dplyr::select(all_of(standardDataVars))
