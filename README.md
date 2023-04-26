@@ -1,6 +1,7 @@
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/RAWSmet)](https://cran.r-project.org/package=RAWSmet)
 [![Downloads](http://cranlogs.r-pkg.org/badges/RAWSmet)](https://cran.r-project.org/package=RAWSmet)
-[![Build Status](https://travis-ci.org/MazamaScience/RAWSmet.svg?branch=master)](https://travis-ci.org/MazamaScience/RAWSmet)
+
+A dedicated Slack channel has been created for announcements, support and to help build a community of practice around this open source package. You may request an invitation to join from jonathan.callahan@dri.com.
 
 # RAWSmet R Package 
 
